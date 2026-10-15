@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ЖК На Некрасова — Ferro Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+ <style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { 
+    background-color: #faf9f7; 
+    color: #0d0d0d; 
+    font-family: 'Inter', sans-serif; 
+    -webkit-font-smoothing: antialiased; 
+    line-height: 1.5; 
+    font-size: 14px; /* Базовый размер №3 */
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; width: 100%; height: auto; object-fit: contain; }
+
+  /* ------------------------------------------------------------
+     ШАПКА
+  ------------------------------------------------------------ */
+  .project-header { height: 88px; padding: 0 48px; }
+    .brand-logo { display: flex; align-items: center; height: 52px; }
+    .brand-logo img { height: 100%; width: auto; max-height: 52px; object-fit: contain; }
+    .project-intro { padding: 140px 48px 50px; }
+
+  /* ------------------------------------------------------------
+     ШАПКА КЕЙСА
+  ------------------------------------------------------------ */
+  .project-intro { padding: 130px 48px 50px; max-width: 1400px; margin: 0 auto; }
+  
+  /* Изначальная матовая плашка/кнопка */
+  .matte-capsule, .glass-capsule {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #edebe6;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 8px 18px; border-radius: 9999px;
+    font-size: 14px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;
+    color: #444; margin-bottom: 24px;
+    box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
+  }
+
+  /* РАЗМЕР №1: Крупный заголовок */
+  .project-title { 
+    font-size: clamp(32px, 5vw, 56px); 
+    font-weight: 300; 
+    letter-spacing: -0.02em; 
+    line-height: 1.15; 
+    margin-bottom: 36px; 
+    color: #0a0a0a; 
+  }
+
+  /* Панель параметров (все шрифты строго 14px) */
+  .project-specs-panel {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    border-top: 1px solid rgba(13, 13, 13, 0.08); border-bottom: 1px solid rgba(13, 13, 13, 0.08); 
+    padding: 24px 0;
+  }
+  .spec-label { font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: #888; display: block; margin-bottom: 6px; }
+  .spec-value { font-size: 14px; font-weight: 500; color: #111; }
+
+  /* ------------------------------------------------------------
+     ЛЕНТА РЕНДЕРОВ
+  ------------------------------------------------------------ */
+  .project-body { padding: 40px 48px 120px; max-width: 1400px; margin: 0 auto; }
+  .media-block { margin-bottom: 90px; }
+  figcaption { font-size: 14px; color: #888; letter-spacing: 0.01em; margin-top: 14px; text-align: right; }
+
+  .js-tilt {
+    position: relative; overflow: hidden; border-radius: 12px; background-color: #f2f1ee;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04); transform-style: preserve-3d; will-change: transform;
+  }
+  .js-tilt img { max-height: 88vh; }
+
+  .diptych-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 90px; }
+  .triptych-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 90px; }
+  .offset-frame { margin-top: 0; }
+
+  /* РАЗМЕР №2: Манифест и цитаты */
+  .statement-block { max-width: 780px; margin: 100px auto; text-align: center; }
+  .statement-tag { font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: #888; display: block; margin-bottom: 18px; }
+  .statement-text { font-size: 20px; font-weight: 300; line-height: 1.6; color: #222; }
+
+  blockquote { font-size: 20px; font-weight: 300; line-height: 1.5; font-style: italic; border-left: 2px solid #0d0d0d; padding-left: 24px; color: #222; }
+
+  /* ------------------------------------------------------------
+     ПЕРЕХОД К СЛЕДУЮЩЕМУ КЕЙСУ
+  ------------------------------------------------------------ */
+  .next-case-bar { border-top: 1px solid rgba(13,13,13,0.08); padding: 80px 0 20px; text-align: center; }
+  .next-sub { display: block; font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 12px; }
+  .next-title { font-size: clamp(32px, 5vw, 56px); font-weight: 300; transition: opacity 0.2s; }
+  .next-title:hover { opacity: 0.5; }
+
+  /* Футер */
+  .project-footer { border-top: 1px solid rgba(13,13,13,0.08); padding: 36px 48px; display: flex; justify-content: space-between; font-size: 14px; color: #777; }
+
+  @media (max-width: 860px) {
+    .project-header { padding: 0 20px; }
+    .project-intro, .project-body, .project-footer { padding-left: 20px; padding-right: 20px; }
+    .project-specs-panel { grid-template-columns: repeat(2, 1fr); }
+    .diptych-grid, .triptych-grid { grid-template-columns: 1fr; gap: 24px; }
+    .offset-frame { margin-top: 0; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Меню -->
+  <header class="project-header">
+  <a href="index.html" class="brand-logo">
+    <img src="images/logo.png" alt="FERRO DESIGN">
+  </a>
+  <div class="nav-actions">
+    <a href="projects.html" class="back-btn">Все проекты</a>
+    <a href="index.html" class="back-btn">← На главную</a>
+  </div>
+</header>
+
+  <!-- Интро проекта -->
+  <section class="project-intro">
+    <div class="glass-capsule">Жилой интерьер · Екатеринбург</div>
+    <h1 class="project-title">ЖК «На Некрасова»</h1>
+
+    <div class="project-specs-panel">
+      <div><span class="spec-label">Локация</span><span class="spec-value">Екатеринбург</span></div>
+      <div><span class="spec-label">Направление</span><span class="spec-value">Интерьер квартиры</span></div>
+      <div><span class="spec-label">Визуализация</span><span class="spec-value">Ferro Design</span></div>
+      <div><span class="spec-label">Статус</span><span class="spec-value">Реализован</span></div>
+    </div>
+  </section>
+
+  <!-- Лента рендеров -->
+  <main class="project-body">
+
+    <!-- 1. Панорама гостиной и кухни -->
+    <figure class="media-block">
+      <div class="js-tilt">
+        <img src="images/NA_NEKRASOVA/22.jpg" alt="ЖК На Некрасова — Гостиная">
+      </div>
+      <figcaption>Гостиная зона и остров из натурального изумрудного камня</figcaption>
+    </figure>
+
+    <!-- 2. Диптих зоны кухни и биокамина -->
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/NA_NEKRASOVA/25.jpg" alt="Остров вид сверху">
+        </div>
+        <figcaption>Фактура зеленого мрамора кухонного острова</figcaption>
+      </figure>
+      <figure class="offset-frame">
+        <div class="js-tilt">
+          <img src="images/NA_NEKRASOVA/23.jpg" alt="ТВ зона и камин">
+        </div>
+        <figcaption>ТВ-группа с биокамином и подсветкой</figcaption>
+      </figure>
+    </div>
+
+    <!-- Манифест концепции -->
+    <div class="statement-block">
+      <span class="statement-tag">Глубина фактур</span>
+      <p class="statement-text">
+        В интерьере объединены глубокий изумрудный оникс, шпон теплого ореха и сдержанный светлый текстиль, создающие спокойную, но выразительную архитектурную среду.
+      </p>
+    </div>
+
+    <!-- 3. Кухонные модули и столовая группа -->
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/NA_NEKRASOVA/28.jpg" alt="Стеклянные витрины">
+        </div>
+        <figcaption>Стеклянные витрины со скрытой теплой подсветкой</figcaption>
+      </figure>
+      <figure class="offset-frame">
+        <div class="js-tilt">
+          <img src="images/NA_NEKRASOVA/27.jpg" alt="Встроенная техника">
+        </div>
+        <figcaption>Встроенные кухонные колонны</figcaption>
+      </figure>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/NA_NEKRASOVA/30.jpg" alt="Обеденная группа">
+        </div>
+        <figcaption>Обеденный стол на фоне кухни</figcaption>
+      </figure>
+      <figure class="offset-frame">
+        <div class="js-tilt">
+          <img src="images/NA_NEKRASOVA/31.jpg" alt="Стол ракурс">
+        </div>
+        <figcaption>Остров и дизайнерская люстра</figcaption>
+      </figure>
+    </div>
+
+    <!-- 4. Домашний кинотеатр и зона отдыха -->
+    <figure class="media-block">
+      <div class="js-tilt">
+        <img src="images/NA_NEKRASOVA/41.jpg" alt="Домашний кинотеатр">
+      </div>
+      <figcaption>Зона домашнего кинотеатра с широкоформатным проектором</figcaption>
+    </figure>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/NA_NEKRASOVA/40.jpg" alt="Диван">
+        </div>
+        <figcaption>Мягкая зона с белым модульным диваном</figcaption>
+      </figure>
+      <figure class="offset-frame">
+        <div class="js-tilt">
+          <img src="images/NA_NEKRASOVA/39.jpg" alt="Рабочее место">
+        </div>
+        <figcaption>Интегрированное рабочее место у окна</figcaption>
+      </figure>
+    </div>
+
+    <!-- 5. Мастер-спальня -->
+    <figure class="media-block">
+      <div class="js-tilt">
+        <img src="images/NA_NEKRASOVA/56.jpg" alt="Мастер-спальня">
+      </div>
+      <figcaption>Мастер-спальня с акцентным терракотовым изголовьем</figcaption>
+    </figure>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/NA_NEKRASOVA/58.jpg" alt="Спальня ракурс">
+        </div>
+        <figcaption>Латунные подвесы и рельефные стеновые панели</figcaption>
+      </figure>
+      <figure class="offset-frame">
+        <div class="js-tilt">
+          <img src="images/NA_NEKRASOVA/59.jpg" alt="Окно в спальне">
+        </div>
+        <figcaption>Естественный свет и плотные шторы</figcaption>
+      </figure>
+    </div>
+
+    <!-- 6. Детская комната -->
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/NA_NEKRASOVA/61.jpg" alt="Детская комната">
+        </div>
+        <figcaption>Детская комната в нежной пудровой палитре</figcaption>
+      </figure>
+      <figure class="offset-frame">
+        <div class="js-tilt">
+          <img src="images/NA_NEKRASOVA/62.jpg" alt="Уголок в детской">
+        </div>
+        <figcaption>Шведская стенка и диванная зона</figcaption>
+      </figure>
+    </div>
+
+    <!-- 7. Ванная комната с синей фреской и санузел -->
+    <div class="quote-media-grid">
+      <div class="quote-content">
+        <blockquote>«Синяя фреска в ванной комнате придает пространству ощущение средиземноморской свежести.»</blockquote>
+      </div>
+      <figure>
+        <div class="js-tilt">
+          <img src="images/NA_NEKRASOVA/36.jpg" alt="Ванная комната">
+        </div>
+        <figcaption>Ванная с авторской акцентной плиткой</figcaption>
+      </figure>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/NA_NEKRASOVA/34.jpg" alt="Раковина и зеркало">
+        </div>
+        <figcaption>Зеркало с контурной LED-подсветкой</figcaption>
+      </figure>
+      <figure class="offset-frame">
+        <div class="js-tilt">
+          <img src="images/NA_NEKRASOVA/37.jpg" alt="Санузел">
+        </div>
+        <figcaption>Санузел в светлом мраморе</figcaption>
+      </figure>
+    </div>
+
+    <!-- 8. Холл -->
+    <figure class="media-block">
+      <div class="js-tilt">
+        <img src="images/NA_NEKRASOVA/33.jpg" alt="Холл">
+      </div>
+      <figcaption>Входной холл с зеркалом в полный рост</figcaption>
+    </figure>
+
+    <!-- Замыкаем круг: переход к Проекту №1 (ЖК Макаровский) -->
+    <div class="next-case-bar">
+      <span class="next-sub">Следующий проект</span>
+      <a href="project-makarovsky.html" class="next-title">ЖК «Макаровский» →</a>
+    </div>
+
+  </main>
+
+  <footer class="project-footer">
+    <span>FERRO DESIGN · 2026</span>
+    <span>Екатеринбург · Нижний Тагил</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

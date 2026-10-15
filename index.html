@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FERRO DESIGN - Студия интерьерного дизайна Екатеринбург</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800;900&family=Manrope:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Яндекс Карты API 2.1 (работает в РФ без блокировок) -->
+  <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+  <link rel="stylesheet" href="style.css">
+  <!-- Тег для динамического фавикона -->
+  <link rel="icon" id="dynamicFavicon" type="image/png" href="">
+</head>
+<body>
+
+  <!-- ============================================================
+       ФИКСИРОВАННАЯ ШАПКА САЙТА (ДИЗАЙН И СТРУКТУРА НЕ МЕНЯЛИСЬ)
+  ============================================================ -->
+  <header class="glass-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-link">
+        <img src="images/logo.png" alt="FERRO DESIGN" class="header-logo-img" onerror="this.style.display='none'; document.getElementById('txt-logo').style.display='block';">
+        <span id="txt-logo" class="logo-brand-text" style="display: none;">FERRO DESIGN</span>
+      </a>
+
+      <nav class="desktop-nav">
+        <a href="projects.html" class="nav-link">Проекты</a>
+        <a href="#services" class="nav-link">Услуги</a>
+        <a href="#about" class="nav-link">О нас</a>
+        <a href="#contact" class="nav-link">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+<!-- ============================================================
+       HERO: ПЕРВЫЙ ЭКРАН (ЦЕЛЬНОЕ ФОТО 100vh + СТЕКЛЯННАЯ ПОДЛОЖКА)
+  ============================================================ -->
+  <section class="hero-section hero-fullscreen-photo">
+<!-- Цельная фоновая фотография на весь экран (плавная смена из папки COVER_MAIN) -->
+    <div class="hero-bg-media">
+      <img src="images/COVER_MAIN/cover_main_makarovski.jpg" alt="Интерьер ЖК «Макаровский»" class="hero-bg-slide active" onerror="this.onerror=null; this.src='images/cover_main.jpg';">
+      <img src="" alt="Интерьер ЖК «На Некрасова»" class="hero-bg-slide">
+    </div>
+
+    <!-- Прямоугольная стеклянная подложка со скруглёнными углами (в стиле шапки) -->
+    <div class="hero-glass-card">
+      <div class="hero-content">
+        <!-- Левая колонка: Заголовок в 1 строку + анимированная подпись -->
+        <div class="hero-title-container">
+          <h1 class="hero-main-title">
+            <span class="hero-title-line">
+              <span class="hero-title-word">FERRO DESIGN</span>
+            </span>
+          </h1>
+          <div class="hero-signature-wrap">
+            <img src="images/podpis.png" alt="FERRO Signature" class="hero-signature-img">
+          </div>
+        </div>
+
+        <!-- Правая колонка: Текст описания и кнопка заявки -->
+        <div class="hero-right-col">
+          <p class="hero-description">
+            Разрабатываем современный дизайн жилых и коммерческих помещений в Екатеринбурге
+          </p>
+          <div class="btn-wrapper">
+            <a href="#contact" class="btn-outline-minimal">Оставить заявку</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       СЕКЦИЯ: НАШИ ПРОЕКТЫ
+  ============================================================ -->
+  <section class="featured-projects" id="projects">
+    <div class="section-header">
+      <h2 class="section-title">Наши проекты</h2>
+    </div>
+
+    <!-- 1. ПЕРВЫЕ 4 ПРОЕКТА С ВСПЛЫВАЮЩИМИ ПЛАШКАМИ -->
+    <div class="projects-grid">
+
+      <!-- 1. Некрасова -->
+      <a href="project-nekrasova.html" class="project-card">
+        <div class="card-media-wrap">
+          <img src="images/NA_NEKRASOVA/22.jpg" alt="ЖК На Некрасова" onerror="this.onerror=null; this.src='images/NA_NEKRASOVA/cover.jpg';">
+          <span class="glass-badge">Жилая квартира</span>
+        </div>
+        <div class="card-desc">
+          <h3 class="card-project-title">ЖК «На Некрасова»</h3>
+          <span class="card-project-meta">Екатеринбург · 120 м²</span>
+        </div>
+      </a>
+
+      <!-- 2. Макаровский -->
+      <a href="project-makarovsky.html" class="project-card">
+        <div class="card-media-wrap">
+          <img src="images/MAKAROVSKI_PORTUGALIA/1.jpg" alt="ЖК Макаровский" onerror="this.onerror=null; this.src='images/MAKAROVSKI_PORTUGALIA/cover.jpg';">
+          <span class="glass-badge">Жилая квартира</span>
+        </div>
+        <div class="card-desc">
+          <h3 class="card-project-title">ЖК «Макаровский»</h3>
+          <span class="card-project-meta">Екатеринбург · 140 м²</span>
+        </div>
+      </a>
+
+      <!-- 3. Отель Номерной фонд -->
+      <a href="project-nomer-otel.html" class="project-card">
+        <div class="card-media-wrap">
+          <img src="images/NOMER_OTEL/cover.jpg" alt="Отель Номерной фонд" onerror="this.onerror=null; this.src='images/NOMER_OTEL/1.jpg';">
+          <span class="glass-badge">Коммерческое</span>
+        </div>
+        <div class="card-desc">
+          <h3 class="card-project-title">Отель «Номерной фонд»</h3>
+          <span class="card-project-meta">Екатеринбург · 45 м²</span>
+        </div>
+      </a>
+
+      <!-- 4. A-Frames -->
+      <a href="project-a-frames.html" class="project-card">
+        <div class="card-media-wrap">
+          <img src="images/A_FRAMES/cover.jpg" alt="Комплекс A-Frame домов" onerror="this.onerror=null; this.src='images/A_FRAMES/1.jpg';">
+          <span class="glass-badge">Загородный дом</span>
+        </div>
+        <div class="card-desc">
+          <h3 class="card-project-title">Комплекс A-Frame домов</h3>
+          <span class="card-project-meta">Свердловская обл. · 180 м²</span>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- 2. СРЕЗАННЫЙ РЯД (БЕЗ ЛИШНИХ КНОПОК ПОВЕРХ КАРТИНОК) -->
+    <div class="peek-row-container">
+      <div class="projects-grid">
+
+        <!-- 5. ХМАО -->
+        <div class="project-card">
+          <div class="card-media-wrap">
+            <img src="images/HMAO/cover.jpg" alt="Частная резиденция ХМАО" onerror="this.onerror=null; this.src='images/HMAO/1.jpg';">
+          </div>
+          <div class="card-desc">
+            <h3 class="card-project-title">Частная резиденция ХМАО</h3>
+            <span class="card-project-meta">ХМАО · 340 м²</span>
+          </div>
+        </div>
+
+        <!-- 6. Паб в Тагиле -->
+        <div class="project-card">
+          <div class="card-media-wrap">
+            <img src="images/PUB_TAGIL/cover.jpg" alt="Гастропаб в Тагиле" onerror="this.onerror=null; this.src='images/PUB_TAGIL/1.jpg';">
+          </div>
+          <div class="card-desc">
+            <h3 class="card-project-title">Гастропаб в Тагиле</h3>
+            <span class="card-project-meta">Нижний Тагил · 210 м²</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Градиент растворения -->
+      <div class="peek-fade-overlay"></div>
+    </div>
+
+    <!-- КНОПКА ПО РЕФЕРЕНСУ (ТЕКСТ + СПОКОЙНАЯ ПОЛОСКА, БЕЗ ОВАЛА) -->
+    <div class="projects-cta-wrap">
+      <a href="projects.html" class="ref-projects-btn">
+        <span class="ref-projects-btn-text">Все проекты</span>
+        <span class="ref-projects-btn-line"></span>
+      </a>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       СЕКЦИЯ: УСЛУГИ
+  ============================================================ -->
+  <section id="services" class="services-section">
+    <div class="services-container">
+      <div class="section-title-wrap">
+        <h2 class="services-section-title">Услуги</h2>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <span class="service-num">01</span>
+          <h3 class="service-name">Полный дизайн-проект</h3>
+          <p class="service-desc">
+            Полный пакет чертежей для строителей, фотореалистичная 3D-визуализация каждого помещения, подробная ведомость отделочных материалов и заказной мебели.
+          </p>
+          <div class="service-price">от 3 500 ₽ / м²</div>
+        </div>
+
+        <div class="service-card">
+          <span class="service-num">02</span>
+          <h3 class="service-name">Планировочное решение</h3>
+          <p class="service-desc">
+            Разработка эргономичного плана расстановки мебели, зонирования и демонтажа/монтажа перегородок с учетом строительных норм и инженерии.
+          </p>
+          <div class="service-price">от 1 200 ₽ / м²</div>
+        </div>
+
+        <div class="service-card">
+          <span class="service-num">03</span>
+          <h3 class="service-name">Авторский надзор и комплектация</h3>
+          <p class="service-desc">
+            Регулярный выезд на объект, контроль соответствия строительных работ проекту, подбор поставщиков, текстиля, декора и освещения под ключ.
+          </p>
+          <div class="service-price">от 35 000 ₽ / мес</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       СЕКЦИЯ: О НАС
+  ============================================================ -->
+  <section id="about" class="about-section">
+    <div class="about-container">
+      <div class="about-grid">
+        <div class="about-col-left">
+          <h2 class="about-section-title">О нас</h2>
+          <p class="about-manifesto">
+            Ferro Design — студия интерьерной архитектуры и 3D-визуализации. Мы проектируем пространства, где чистые архитектурные пропорции соединяются с тактильными природными фактурами.
+          </p>
+        </div>
+
+        <div class="about-col-right">
+          <div class="about-stats-grid">
+            <div class="stat-item">
+              <span class="stat-number" data-target="500" data-suffix="+">500+</span>
+              <span class="stat-label">Реализованных проектов</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" data-target="25" data-suffix=" лет">25 лет</span>
+              <span class="stat-label">Профессионального опыта</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" data-target="100000" data-suffix="+" data-format="space">100 000+</span>
+              <span class="stat-label">Квадратных метров спроектировано</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" data-target="2" data-suffix=" месяца">2 месяца</span>
+              <span class="stat-label">Среднее время разработки дизайн-проекта</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       СЕКЦИЯ: ГЕОГРАФИЯ ПРОЕКТОВ (ПОДВИЖНАЯ КАРТА)
+  ============================================================ -->
+  <section class="geo-section">
+    <div class="geo-container">
+      <div class="section-title-wrap">
+        <h2 class="geo-title">География проектов</h2>
+      </div>
+
+      <div class="map-container">
+        <div id="interactiveMap"></div>
+        <div class="map-legend-pill">Перетаскивайте карту и нажимайте на точки для перехода к проектам</div>
+
+        <div id="mapPopupCard" class="map-popup-card">
+          <div class="map-popup-img-wrap">
+            <img id="mapCardImg" src="" alt="Превью проекта">
+          </div>
+          <div class="map-popup-body">
+            <div class="map-popup-city" id="mapCardCity">Город</div>
+            <div class="map-popup-title" id="mapCardTitle">Название проекта</div>
+            <div class="map-popup-meta">
+              <span id="mapCardType">Тип</span> · <span id="mapCardArea">Площадь</span>
+            </div>
+            <div class="map-popup-link-hint">Нажмите карточку, чтобы открыть проект →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       СЕКЦИЯ: КОНТАКТЫ
+  ============================================================ -->
+  <section id="contact" class="contact-section">
+    <div class="contact-container">
+      <div class="contact-grid">
+        <div class="contact-col-info">
+          <h2 class="contact-title">Контакты</h2>
+          <p class="contact-intro">
+            Готовы обсудить ваш проект? Оставьте заявку или свяжитесь с нами удобным способом.
+          </p>
+
+          <div class="contact-details">
+            <div class="contact-detail-row">
+              <span class="detail-label">Локация</span>
+              <span class="detail-val">Екатеринбург, ул. Карла Маркса, 22</span>
+            </div>
+            <div class="contact-detail-row">
+              <span class="detail-label">Телефон</span>
+              <span class="detail-val">+7 (963) 442-61-92</span>
+            </div>
+            <div class="contact-detail-row">
+              <span class="detail-label">Email</span>
+              <span class="detail-val">info@ferro-design.ru</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-col-form">
+          <form class="contact-form" onsubmit="event.preventDefault(); alert('Спасибо! Заявка отправлена. Мы свяжемся с вами в течение рабочего дня.');">
+            <div class="form-group">
+              <label class="form-label">Ваше имя</label>
+              <input type="text" class="form-input" placeholder="Егор" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Телефон или Telegram</label>
+              <input type="tel" id="userPhone" class="form-input" placeholder="+7 (___) ___-__-__" required>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label">Город</label>
+                <input type="text" class="form-input" placeholder="Екатеринбург">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Площадь (м²)</label>
+                <input type="number" class="form-input" placeholder="120">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Комментарий к проекту</label>
+              <textarea class="form-input form-textarea" rows="3" placeholder="Расскажите о планировке, сроках и пожеланиях..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Отправить заявку</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ПОДВАЛ В СТИЛЕ YODEZEEN
+  ============================================================ -->
+  <!-- ============================================================
+       ПОДВАЛ В СТИЛЕ YODEZEEN
+  ============================================================ -->
+  <footer class="site-footer">
+    <!-- 1. Иконки соцсетей (по центру) -->
+    <div class="footer-socials">
+      <!-- YouTube -->
+      <a href="https://youtube.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="YouTube">
+        <img src="images/LOGO_SOCIALS/youtube.svg" alt="YouTube" onerror="this.src='images/LOGO_SOCIALS/youtube.png';">
+      </a>
+      <!-- Pinterest -->
+      <a href="https://pinterest.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Pinterest">
+        <img src="images/LOGO_SOCIALS/pinterest.svg" alt="Pinterest" onerror="this.src='images/LOGO_SOCIALS/pinterest.png';">
+      </a>
+      <!-- Instagram -->
+      <a href="https://instagram.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Instagram">
+        <img src="images/LOGO_SOCIALS/instagram.svg" alt="Instagram" onerror="this.src='images/LOGO_SOCIALS/instagram.png';">
+      </a>
+    </div>
+
+    <!-- Монументальная выдвигающаяся надпись FERRO DESIGN на всю ширину страницы -->
+    <div class="footer-brand-banner">
+      <div class="footer-brand-title" id="footerBrandTitle">FERRO DESIGN</div>
+    </div>
+
+    <!-- 2. Нижняя строка: копирайт, центрированное меню и авторство -->
+    <div class="footer-bottom-bar">
+      <div class="footer-copy">© 2026 FERRO DESIGN. ALL RIGHTS RESERVED.</div>
+      <ul class="footer-links">
+        <li><a href="projects.html">ПРОЕКТЫ</a></li>
+        <li><a href="#services">УСЛУГИ</a></li>
+        <li><a href="#about">О СТУДИИ</a></li>
+        <li><a href="#contact">КОНТАКТЫ</a></li>
+      </ul>
+      <div class="footer-credits">MADE BY FERRO DESIGN</div>
+    </div>
+  </footer>
+
+  <!-- СКРИПТ ПОДВИЖНОЙ КАРТЫ ЯНДЕКС С ИНТЕРАКТИВНЫМИ ТОЧКАМИ -->
+  <script>
+    ymaps.ready(initMap);
+
+    function initMap() {
+      const map = new ymaps.Map('interactiveMap', {
+        center: [56.8389, 60.6057], // Екатеринбург по центру
+        zoom: 5,
+        controls: ['zoomControl', 'fullscreenControl']
+      });
+
+      // Отключаем приближение колесом мыши, чтобы страница свободно скроллилась
+      map.behaviors.disable('scrollZoom');
+
+      // Масштабирование карты колесиком мыши при зажатой клавише Ctrl (без зума самой страницы браузером)
+      const mapEl = document.getElementById('interactiveMap');
+      if (mapEl) {
+        mapEl.addEventListener('wheel', (e) => {
+          if (e.ctrlKey || e.metaKey) {
+            e.preventDefault();
+            const zoomDelta = e.deltaY < 0 ? 1 : -1;
+            map.setZoom(map.getZoom() + zoomDelta, { duration: 200 });
+          }
+        }, { passive: false });
+      }
+
+      const projects = [
+        {
+          id: 'ekb',
+          coords: [56.8389, 60.6057],
+          city: 'Екатеринбург',
+          title: 'ЖК «На Некрасова»',
+          type: 'Жилая квартира',
+          area: '120 м²',
+          img: 'images/NA_NEKRASOVA/22.jpg',
+          link: 'project-nekrasova.html'
+        },
+        {
+          id: 'tagil',
+          coords: [57.9194, 59.9650],
+          city: 'Нижний Тагил',
+          title: 'Паб в Тагиле',
+          type: 'Коммерческий интерьер',
+          area: '240 м²',
+          img: 'images/PUB_TAGIL/cover.jpg',
+          link: 'project-pub-tagil.html'
+        },
+        {
+          id: 'hmao',
+          coords: [61.2540, 73.3962],
+          city: 'Сургут / ХМАО',
+          title: 'Квартира в ХМАО',
+          type: 'Жилой интерьер',
+          area: '160 м²',
+          img: 'images/HMAO/cover.jpg',
+          link: 'project-hmao.html'
+        },
+        {
+          id: 'sochi',
+          coords: [43.5855, 39.7231],
+          city: 'Сочи',
+          title: 'Квартира в Сочи',
+          type: 'Апартаменты у моря',
+          area: '90 м²',
+          img: 'images/SOCHI_KVARTIRA/cover.jpg',
+          link: 'project-sochi-kvartira.html'
+        }
+      ];
+
+      const popupCard = document.getElementById('mapPopupCard');
+      const cardImg = document.getElementById('mapCardImg');
+      const cardCity = document.getElementById('mapCardCity');
+      const cardTitle = document.getElementById('mapCardTitle');
+      const cardType = document.getElementById('mapCardType');
+      const cardArea = document.getElementById('mapCardArea');
+
+      let activeProjectId = null;
+
+      projects.forEach(p => {
+        // Создаем золотисто-янтарную метку с подписью города
+        const placemark = new ymaps.Placemark(p.coords, {
+          hintContent: p.city + ' — ' + p.title
+        }, {
+          preset: 'islands#circleIconWithCaption',
+          iconColor: '#ecbe26',
+          iconCaption: p.city
+        });
+
+        placemark.events.add('click', (e) => {
+          // Если карточка уже открыта и пользователь нажимает повторно — переход на проект
+          if (activeProjectId === p.id) {
+            window.location.href = p.link;
+            return;
+          }
+
+          activeProjectId = p.id;
+          cardImg.src = p.img;
+          cardCity.textContent = p.city;
+          cardTitle.textContent = p.title;
+          cardType.textContent = p.type;
+          cardArea.textContent = p.area;
+
+          popupCard.onclick = () => {
+            window.location.href = p.link;
+          };
+
+          popupCard.classList.add('visible');
+        });
+
+        map.geoObjects.add(placemark);
+      });
+
+      // Клик по пустой области карты скрывает всплывающую карточку
+      map.events.add('click', () => {
+        popupCard.classList.remove('visible');
+        activeProjectId = null;
+      });
+    }
+  </script>
+
+  <!-- Подключение основного скрипта сайта (динамический фавикон и интерактив) -->
+  <script src="script.js"></script>
+</body>
+</html>

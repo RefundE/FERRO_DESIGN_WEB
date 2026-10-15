@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ЖК «Екатерининский парк» — Ferro Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      background-color: #faf9f7; color: #0d0d0d; font-family: 'Inter', sans-serif; 
+      -webkit-font-smoothing: antialiased; line-height: 1.5; font-size: 14px; 
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; height: auto; object-fit: contain; }
+
+    /* Шапка: логотип слева, кнопки строго справа */
+    .project-header {
+      position: fixed; top: 0; left: 0; width: 100%; height: 96px; padding: 0 48px;
+      display: flex !important; justify-content: space-between !important; align-items: center !important;
+      background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.85); box-shadow: 0 4px 20px rgba(0,0,0,0.03); z-index: 1000;
+    }
+    .brand-logo { display: inline-flex; align-items: center; height: 68px; }
+    .brand-logo img { height: 68px !important; width: auto !important; max-height: 68px !important; object-fit: contain !important; }
+    
+    .nav-actions { display: flex !important; gap: 28px !important; align-items: center !important; }
+    .back-btn { font-size: 14px; color: #666; transition: color 0.2s; white-space: nowrap; }
+    .back-btn:hover { color: #000; }
+
+    .project-intro { padding: 150px 48px 50px; max-width: 1400px; margin: 0 auto; }
+    .matte-capsule {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #edebe6; border: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 8px 18px; border-radius: 9999px;
+      font-size: 14px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: #444; margin-bottom: 24px;
+    }
+    .project-title { font-size: clamp(32px, 5vw, 56px); font-weight: 300; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 36px; color: #0a0a0a; }
+
+    .project-specs-panel {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+      border-top: 1px solid rgba(13, 13, 13, 0.08); border-bottom: 1px solid rgba(13, 13, 13, 0.08); padding: 24px 0;
+    }
+    .spec-label { font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: #888; display: block; margin-bottom: 6px; }
+    .spec-value { font-size: 14px; font-weight: 500; color: #111; }
+
+    .project-body { padding: 40px 48px 120px; max-width: 1400px; margin: 0 auto; }
+    .media-block { margin-bottom: 90px; }
+    figcaption { font-size: 14px; color: #888; letter-spacing: 0.01em; margin-top: 14px; text-align: right; }
+
+    .js-tilt { position: relative; overflow: hidden; border-radius: 12px; background-color: #f2f1ee; box-shadow: 0 10px 30px rgba(0,0,0,0.04); }
+    .js-tilt img { max-height: 88vh; }
+
+    .diptych-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; margin-bottom: 90px; }
+    .offset-frame { margin-top: 0; }
+
+    .statement-block { max-width: 780px; margin: 100px auto; text-align: center; }
+    .statement-tag { font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: #888; display: block; margin-bottom: 18px; }
+    .statement-text { font-size: 20px; font-weight: 300; line-height: 1.6; color: #222; }
+
+    .next-case-bar { border-top: 1px solid rgba(13,13,13,0.08); padding: 80px 0 20px; text-align: center; }
+    .next-sub { display: block; font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 12px; }
+    .next-title { font-size: clamp(32px, 5vw, 56px); font-weight: 300; transition: opacity 0.2s; }
+    .next-title:hover { opacity: 0.5; }
+
+    .project-footer { border-top: 1px solid rgba(13,13,13,0.08); padding: 36px 48px; display: flex; justify-content: space-between; font-size: 14px; color: #777; }
+
+    @media (max-width: 860px) {
+      .project-header { padding: 0 20px; height: 80px; }
+      .brand-logo { height: 48px; }
+      .brand-logo img { height: 48px !important; max-height: 48px !important; }
+      .project-intro, .project-body, .project-footer { padding-left: 20px; padding-right: 20px; }
+      .project-specs-panel { grid-template-columns: repeat(2, 1fr); }
+      .diptych-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="project-header">
+    <a href="index.html" class="brand-logo">
+      <img src="images/logo.png" alt="FERRO DESIGN">
+    </a>
+    <div class="nav-actions">
+      <a href="projects.html" class="back-btn">Все проекты</a>
+      <a href="index.html" class="back-btn">← На главную</a>
+    </div>
+  </header>
+
+  <section class="project-intro">
+    <div class="matte-capsule">Жилая квартира · Екатеринбург</div>
+    <h1 class="project-title">ЖК «Екатерининский парк»</h1>
+
+    <div class="project-specs-panel">
+      <div><span class="spec-label">Локация</span><span class="spec-value">Екатеринбург</span></div>
+      <div><span class="spec-label">Направление</span><span class="spec-value">Интерьер квартиры</span></div>
+      <div><span class="spec-label">Визуализация</span><span class="spec-value">Ferro Design</span></div>
+      <div><span class="spec-label">Статус</span><span class="spec-value">Реализован</span></div>
+    </div>
+  </section>
+
+  <main class="project-body">
+    <figure class="media-block">
+      <div class="js-tilt">
+        <img src="images/EKATER_PARK/cover.jpg" alt="ЖК Екатерининский парк">
+      </div>
+      <figcaption>Гостиная и столовая зона</figcaption>
+    </figure>
+
+    <div class="statement-block">
+      <span class="statement-tag">Архитектурная концепция</span>
+      <p class="statement-text">Чистые архитектурные объемы, скрытые световые линии и гармоничный баланс натурального дерева и светлых тактильных фактур.</p>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt"><img src="images/EKATER_PARK/2.jpg" alt="Кухня"></div>
+        <figcaption>Кухонный гарнитур и обеденная группа</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt"><img src="images/EKATER_PARK/3.jpg" alt="Зона отдыха"></div>
+        <figcaption>Диванная группа и декоративное озеленение</figcaption>
+      </figure>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt"><img src="images/EKATER_PARK/4.jpg" alt="Холл"></div>
+        <figcaption>Входная группа со встроенными шкафами</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt"><img src="images/EKATER_PARK/5.jpg" alt="Подсветка пола"></div>
+        <figcaption>Парящие шкафы с теплой нижней подсветкой</figcaption>
+      </figure>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt"><img src="images/EKATER_PARK/6.jpg" alt="Коридор"></div>
+        <figcaption>Приватный коридор</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt"><img src="images/EKATER_PARK/7.jpg" alt="Спальня"></div>
+        <figcaption>Мастер-спальня с реечной панелью</figcaption>
+      </figure>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt"><img src="images/EKATER_PARK/8.jpg" alt="Спальня ракурс"></div>
+        <figcaption>Второй ракурс мастер-спальни</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt"><img src="images/EKATER_PARK/9.jpg" alt="Санузел"></div>
+        <figcaption>Санузел с отделкой под дерево и камень</figcaption>
+      </figure>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt"><img src="images/EKATER_PARK/10.jpg" alt="Ванная ракурс"></div>
+        <figcaption>Зона раковины с круглым зеркалом</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt"><img src="images/EKATER_PARK/11.jpg" alt="Инсталляция"></div>
+        <figcaption>Подвесная сантехника и подсветка ниши</figcaption>
+      </figure>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt"><img src="images/EKATER_PARK/12.jpg" alt="Зеленая плитка"></div>
+        <figcaption>Акцентная изумрудная плитка в санузле</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt"><img src="images/EKATER_PARK/13.jpg" alt="Санузел"></div>
+        <figcaption>Комбинация крупноформатного керамогранита</figcaption>
+      </figure>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt"><img src="images/EKATER_PARK/14.jpg" alt="Кабинет"></div>
+        <figcaption>Рабочее место и диванная зона</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt"><img src="images/EKATER_PARK/15.jpg" alt="Рабочий стол"></div>
+        <figcaption>Эргономичная система хранения и письменный стол</figcaption>
+      </figure>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt"><img src="images/EKATER_PARK/16.jpg" alt="Диван"></div>
+        <figcaption>Синий акцентный диван и открытый стеллаж</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt"><img src="images/EKATER_PARK/17.jpg" alt="ТВ зона"></div>
+        <figcaption>ТВ-панель со скрытой дверью</figcaption>
+      </figure>
+    </div>
+
+    <div class="next-case-bar">
+      <span class="next-sub">Следующий проект</span>
+      <a href="project-nomer-otel.html" class="next-title">Отель «Номерной фонд» →</a>
+    </div>
+  </main>
+
+  <footer class="project-footer">
+    <span>FERRO DESIGN · 2026</span>
+    <span>Екатеринбург · Нижний Тагил</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

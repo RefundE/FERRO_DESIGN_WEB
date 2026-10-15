@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Все проекты — FERRO DESIGN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800;900&family=Manrope:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       ФИКСИРОВАННАЯ ШАПКА САЙТА (ИДЕНТИЧНА ГЛАВНОЙ СТРАНИЦЕ)
+  ============================================================ -->
+  <header class="glass-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-link">
+        <img src="images/logo.png" alt="FERRO DESIGN" class="header-logo-img" onerror="this.style.display='none'; document.getElementById('txt-logo').style.display='block';">
+        <span id="txt-logo" class="logo-brand-text" style="display: none;">FERRO DESIGN</span>
+      </a>
+
+      <nav class="desktop-nav">
+        <a href="projects.html" class="nav-link active" style="color: #000;">Проекты</a>
+        <a href="index.html#services" class="nav-link">Услуги</a>
+        <a href="index.html#about" class="nav-link">О нас</a>
+        <a href="index.html#contact" class="nav-link">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       СЕКЦИЯ: ВСЕ ПРОЕКТЫ
+  ============================================================ -->
+  <main class="projects-page-section">
+    <div class="projects-page-container">
+      
+      <!-- Заголовок страницы в строгой стилистике 2 ТИПА как на главной -->
+      <div class="section-header projects-header-row">
+        <h1 class="section-title" id="hwTitle">Все проекты</h1>
+        
+        <!-- Категории-фильтры (архитектурные кнопки-табы) -->
+        <div class="projects-filter-tabs">
+          <button class="filter-tab-btn hw-tab-btn active" data-filter="all" data-title="Все проекты">Все</button>
+          <button class="filter-tab-btn hw-tab-btn" data-filter="flats" data-title="Квартиры">Квартиры</button>
+          <button class="filter-tab-btn hw-tab-btn" data-filter="houses" data-title="Загородные дома">Дома</button>
+          <button class="filter-tab-btn hw-tab-btn" data-filter="commercial" data-title="Коммерческие">Коммерческие</button>
+        </div>
+      </div>
+
+      <!-- Сетка проектов: ровно 2 колонки, карточки 1 в 1 как на главной -->
+      <div class="projects-grid">
+
+        <!-- 1. ЖК «На Некрасова» -->
+        <a href="project-nekrasova.html" class="project-card hw-card" data-category="flats">
+          <div class="card-media-wrap">
+            <img src="images/NA_NEKRASOVA/22.jpg" alt="ЖК «На Некрасова»" onerror="this.onerror=null; this.src='images/NA_NEKRASOVA/cover.jpg';">
+            <span class="glass-badge">Жилая квартира</span>
+          </div>
+          <div class="card-desc">
+            <h3 class="card-project-title">ЖК «На Некрасова»</h3>
+            <span class="card-project-meta">Екатеринбург · 120 м²</span>
+          </div>
+        </a>
+
+        <!-- 2. ЖК «Макаровский» -->
+        <a href="project-makarovsky.html" class="project-card hw-card" data-category="flats">
+          <div class="card-media-wrap">
+            <img src="images/MAKAROVSKI_PORTUGALIA/1.jpg" alt="ЖК «Макаровский»" onerror="this.onerror=null; this.src='images/MAKAROVSKI_PORTUGALIA/cover.jpg';">
+            <span class="glass-badge">Жилая квартира</span>
+          </div>
+          <div class="card-desc">
+            <h3 class="card-project-title">ЖК «Макаровский»</h3>
+            <span class="card-project-meta">Екатеринбург · 140 м²</span>
+          </div>
+        </a>
+
+        <!-- 3. ЖК «Екатерининский парк» -->
+        <a href="project-ekater-park.html" class="project-card hw-card" data-category="flats">
+          <div class="card-media-wrap">
+            <img src="images/EKATER_PARK/1.jpg" alt="ЖК «Екатерининский парк»" onerror="this.onerror=null; this.src='images/EKATER_PARK/cover.jpg';">
+            <span class="glass-badge">Жилая квартира</span>
+          </div>
+          <div class="card-desc">
+            <h3 class="card-project-title">ЖК «Екатерининский парк»</h3>
+            <span class="card-project-meta">Екатеринбург · 110 м²</span>
+          </div>
+        </a>
+
+        <!-- 4. ЖК «Suomen Ranta» -->
+        <a href="project-suomen.html" class="project-card hw-card" data-category="flats">
+          <div class="card-media-wrap">
+            <img src="images/SUOMEN/1.jpg" alt="ЖК «Suomen Ranta»" onerror="this.onerror=null; this.src='images/SUOMEN/cover.jpg';">
+            <span class="glass-badge">Жилая квартира</span>
+          </div>
+          <div class="card-desc">
+            <h3 class="card-project-title">ЖК «Suomen Ranta»</h3>
+            <span class="card-project-meta">Екатеринбург · 85 м²</span>
+          </div>
+        </a>
+
+        <!-- 5. Отель «Номерной фонд» -->
+        <a href="project-nomer-otel.html" class="project-card hw-card" data-category="commercial">
+          <div class="card-media-wrap">
+            <img src="images/NOMER_OTEL/1.jpg" alt="Отель «Номерной фонд»" onerror="this.onerror=null; this.src='images/NOMER_OTEL/cover.jpg';">
+            <span class="glass-badge">Коммерческое · HoReCa</span>
+          </div>
+          <div class="card-desc">
+            <h3 class="card-project-title">Отель «Номерной фонд»</h3>
+            <span class="card-project-meta">Екатеринбург · 45 м²</span>
+          </div>
+        </a>
+
+        <!-- 6. Гастропаб в Нижнем Тагиле -->
+        <a href="project-pub-tagil.html" class="project-card hw-card" data-category="commercial">
+          <div class="card-media-wrap">
+            <img src="images/PUB_TAGIL/1.jpg" alt="Гастропаб в Нижнем Тагиле" onerror="this.onerror=null; this.src='images/PUB_TAGIL/cover.jpg';">
+            <span class="glass-badge">Общественный интерьер</span>
+          </div>
+          <div class="card-desc">
+            <h3 class="card-project-title">Гастропаб в Нижнем Тагиле</h3>
+            <span class="card-project-meta">Нижний Тагил · 210 м²</span>
+          </div>
+        </a>
+
+        <!-- 7. Комплекс A-Frame домов -->
+        <a href="project-a-frames.html" class="project-card hw-card" data-category="houses">
+          <div class="card-media-wrap">
+            <img src="images/A_FRAMES/1.jpg" alt="Комплекс A-Frame домов" onerror="this.onerror=null; this.src='images/A_FRAMES/cover.jpg';">
+            <span class="glass-badge">Загородный дом</span>
+          </div>
+          <div class="card-desc">
+            <h3 class="card-project-title">Комплекс A-Frame домов</h3>
+            <span class="card-project-meta">Свердловская обл. · 180 м²</span>
+          </div>
+        </a>
+
+        <!-- 8. Частная резиденция ХМАО -->
+        <a href="project-hmao.html" class="project-card hw-card" data-category="houses">
+          <div class="card-media-wrap">
+            <img src="images/HMAO/1.jpg" alt="Частная резиденция ХМАО" onerror="this.onerror=null; this.src='images/HMAO/cover.jpg';">
+            <span class="glass-badge">Частная резиденция</span>
+          </div>
+          <div class="card-desc">
+            <h3 class="card-project-title">Частная резиденция ХМАО</h3>
+            <span class="card-project-meta">ХМАО · 340 м²</span>
+          </div>
+        </a>
+
+        <!-- 9. Апартаменты в Сочи -->
+        <a href="project-sochi-kvartira.html" class="project-card hw-card" data-category="flats">
+          <div class="card-media-wrap">
+            <img src="images/SOCHI_KVARTIRA/1.jpg" alt="Апартаменты в Сочи" onerror="this.onerror=null; this.src='images/SOCHI_KVARTIRA/cover.jpg';">
+            <span class="glass-badge">Курортные апартаменты</span>
+          </div>
+          <div class="card-desc">
+            <h3 class="card-project-title">Апартаменты в Сочи</h3>
+            <span class="card-project-meta">Сочи · 90 м²</span>
+          </div>
+        </a>
+
+        <!-- 10. Коттедж в Фатеево -->
+        <a href="project-andr-fateevo.html" class="project-card hw-card" data-category="houses">
+          <div class="card-media-wrap">
+            <img src="images/ANDR_FATEEVO/1.jpg" alt="Коттедж в Фатеево" onerror="this.onerror=null; this.src='images/ANDR_FATEEVO/cover.jpg';">
+            <span class="glass-badge">Коттедж</span>
+          </div>
+          <div class="card-desc">
+            <h3 class="card-project-title">Коттедж в Фатеево</h3>
+            <span class="card-project-meta">Свердловская обл. · 260 м²</span>
+          </div>
+        </a>
+
+        <!-- 11. Дом в Горбуново -->
+        <a href="project-gorbunovo-2fl.html" class="project-card hw-card" data-category="houses">
+          <div class="card-media-wrap">
+            <img src="images/GORBUNOVO_2FL/1.jpg" alt="Дом в Горбуново" onerror="this.onerror=null; this.src='images/GORBUNOVO_2FL/cover.jpg';">
+            <span class="glass-badge">Двухэтажный дом</span>
+          </div>
+          <div class="card-desc">
+            <h3 class="card-project-title">Дом в Горбуново</h3>
+            <span class="card-project-meta">Горбуново · 220 м²</span>
+          </div>
+        </a>
+
+        <!-- 12. Апартаменты ArtU 40 м² -->
+        <a href="project-artu-40m2.html" class="project-card hw-card" data-category="flats">
+          <div class="card-media-wrap">
+            <img src="images/ARTU_40M2/1.jpg" alt="Апартаменты ArtU 40 м²" onerror="this.onerror=null; this.src='images/ARTU_40M2/cover.jpg';">
+            <span class="glass-badge">Компактный интерьер</span>
+          </div>
+          <div class="card-desc">
+            <h3 class="card-project-title">Апартаменты ArtU 40 м²</h3>
+            <span class="card-project-meta">Екатеринбург · 40 м²</span>
+          </div>
+        </a>
+
+        <!-- 13. Квартира на ГГМ -->
+        <a href="project-kris-ggm.html" class="project-card hw-card" data-category="flats">
+          <div class="card-media-wrap">
+            <img src="images/KRIS_GGM/1.jpg" alt="Квартира на ГГМ" onerror="this.onerror=null; this.src='images/KRIS_GGM/cover.jpg';">
+            <span class="glass-badge">Жилая квартира</span>
+          </div>
+          <div class="card-desc">
+            <h3 class="card-project-title">Квартира на ГГМ</h3>
+            <span class="card-project-meta">Нижний Тагил · 78 м²</span>
+          </div>
+        </a>
+
+        <!-- 14. Банный СПА-комплекс -->
+        <a href="project-banniy-kompl.html" class="project-card hw-card" data-category="commercial">
+          <div class="card-media-wrap">
+            <img src="images/BANNIY_KOMPL/1.jpg" alt="Банный СПА-комплекс" onerror="this.onerror=null; this.src='images/BANNIY_KOMPL/cover.jpg';">
+            <span class="glass-badge">СПА и Wellness</span>
+          </div>
+          <div class="card-desc">
+            <h3 class="card-project-title">Банный СПА-комплекс</h3>
+            <span class="card-project-meta">Свердловская обл. · 190 м²</span>
+          </div>
+        </a>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ============================================================
+       СЕКЦИЯ: КОНТАКТЫ
+  ============================================================ -->
+  <section id="contact" class="contact-section">
+    <div class="contact-container">
+      <div class="contact-grid">
+        <div class="contact-col-info">
+          <h2 class="contact-title">Контакты</h2>
+          <p class="contact-intro">
+            Готовы обсудить ваш проект? Оставьте заявку или свяжитесь с нами удобным способом.
+          </p>
+
+          <div class="contact-details">
+            <div class="contact-detail-row">
+              <span class="detail-label">Локация</span>
+              <span class="detail-val">Екатеринбург, ул. Карла Маркса, 22</span>
+            </div>
+            <div class="contact-detail-row">
+              <span class="detail-label">Телефон</span>
+              <span class="detail-val">+7 (963) 442-61-92</span>
+            </div>
+            <div class="contact-detail-row">
+              <span class="detail-label">Email</span>
+              <span class="detail-val">info@ferro-design.ru</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-col-form">
+          <form class="contact-form" onsubmit="event.preventDefault(); alert('Спасибо! Заявка отправлена. Мы свяжемся с вами в течение рабочего дня.');">
+            <div class="form-group">
+              <label class="form-label">Ваше имя</label>
+              <input type="text" class="form-input" placeholder="Егор" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Телефон или Telegram</label>
+              <input type="tel" id="userPhone" class="form-input" placeholder="+7 (___) ___-__-__" required>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label">Город</label>
+                <input type="text" class="form-input" placeholder="Екатеринбург">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Площадь (м²)</label>
+                <input type="number" class="form-input" placeholder="120">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Комментарий к проекту</label>
+              <textarea class="form-input form-textarea" rows="3" placeholder="Расскажите о планировке, сроках и пожеланиях..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Отправить заявку</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- ============================================================
+       ПОДВАЛ В СТИЛЕ YODEZEEN
+  ============================================================ -->
+  <footer class="site-footer">
+    <!-- 1. Иконки соцсетей (по центру) -->
+    <div class="footer-socials">
+      <!-- YouTube -->
+      <a href="https://youtube.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="YouTube">
+        <img src="images/LOGO_SOCIALS/youtube.svg" alt="YouTube" onerror="this.src='images/LOGO_SOCIALS/youtube.png';">
+      </a>
+      <!-- Pinterest -->
+      <a href="https://pinterest.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Pinterest">
+        <img src="images/LOGO_SOCIALS/pinterest.svg" alt="Pinterest" onerror="this.src='images/LOGO_SOCIALS/pinterest.png';">
+      </a>
+      <!-- Instagram -->
+      <a href="https://instagram.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Instagram">
+        <img src="images/LOGO_SOCIALS/instagram.svg" alt="Instagram" onerror="this.src='images/LOGO_SOCIALS/instagram.png';">
+      </a>
+    </div>
+
+    <!-- 2. Нижняя строка: копирайт, центрированное меню и авторство -->
+    <div class="footer-bottom-bar">
+      <div class="footer-copy">© 2026 FERRO DESIGN. ALL RIGHTS RESERVED.</div>
+      <ul class="footer-links">
+        <li><a href="projects.html">ПРОЕКТЫ</a></li>
+        <li><a href="index.html#services">УСЛУГИ</a></li>
+        <li><a href="index.html#about">О СТУДИИ</a></li>
+        <li><a href="index.html#contact">КОНТАКТЫ</a></li>
+      </ul>
+      <div class="footer-credits">MADE BY FERRO DESIGN</div>
+    </div>
+  </footer>
+
+  <!-- Основной скрипт сайта (фильтрация категорий, tilt, lightbox) -->
+  <script src="script.js"></script>
+</body>
+</html>

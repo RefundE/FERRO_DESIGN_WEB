@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ЖК «Макаровский» — Ferro Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800;900&family=Manrope:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       ФИКСИРОВАННАЯ ШАПКА С МАТОВОЙ ЗЕРНИСТОСТЬЮ И УВЕЛИЧЕННЫМ ЛОГОТИПОМ
+  ============================================================ -->
+  <header class="glass-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-link">
+        <img src="images/logo.png" alt="FERRO DESIGN" class="header-logo-img" onerror="this.style.display='none'; document.getElementById('txt-logo').style.display='block';">
+        <span id="txt-logo" class="logo-brand-text" style="display: none;">FERRO DESIGN</span>
+      </a>
+
+      <nav class="desktop-nav">
+        <a href="projects.html" class="nav-link">Все проекты</a>
+        <a href="index.html" class="nav-link">← На главную</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       ИНТРО КЕЙСА: ФОНОВЫЙ КАВЕР НА ВСЮ ВЫСОТУ (100vh) + БЕЛЫЙ ТЕКСТ
+  ============================================================ -->
+  <section class="project-intro">
+    <!-- Фоновый первый кавер ЖК «Макаровский» на всю высоту экрана (100vh) + слой небольшого затемнения -->
+    <div class="project-intro-bg">
+      <img src="images/COVER_MAIN/cover_main_makarovski.jpg" alt="ЖК «Макаровский»" onerror="this.onerror=null; this.src='images/MAKAROVSKI_PORTUGALIA/cover.jpg';">
+      <div class="project-intro-overlay"></div>
+    </div>
+
+    <div class="project-intro-container">
+      <!-- 1 ТИП: САМЫЙ БОЛЬШОЙ ШРИФТ В СТИЛЕ ГЛАВНОГО ЗАГОЛОВКА САЙТА -->
+      <h1 class="project-title">ЖК «Макаровский»</h1>
+
+      <!-- БЛОК ХАРАКТЕРИСТИК (2 КОЛОНКИ, БЕЛЫЙ ТЕКСТ) -->
+      <div class="project-yodezeen-specs">
+        <!-- Левая колонка -->
+        <div class="specs-col specs-col-left">
+          <div class="specs-group">
+            <span class="specs-label">Город</span>
+            <span class="specs-val">Екатеринбург</span>
+          </div>
+          <div class="specs-group">
+            <span class="specs-label">Площадь</span>
+            <span class="specs-val">140 м²</span>
+          </div>
+        </div>
+
+        <!-- Правая колонка -->
+        <div class="specs-col specs-col-right">
+          <div class="specs-group">
+            <span class="specs-label">Категория</span>
+            <span class="specs-val">Квартира</span>
+          </div>
+          <div class="specs-group">
+            <span class="specs-label">Год реализации</span>
+            <span class="specs-val">2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="project-body">
+
+    <!-- ==========================================
+         ГОСТИНАЯ (cover, 1, 2, 3, 4)
+    ========================================== -->
+    <div class="room-header" id="room-living">
+      <h2 class="room-name">ГОСТИНАЯ</h2>
+    </div>
+
+    <figure class="media-block">
+      <div class="js-tilt">
+        <img src="images/MAKAROVSKI_PORTUGALIA/cover.jpg" alt="Гостиная — Кухня-гостиная с островом" onerror="this.onerror=null; this.src='images/MAKAROVSKI_PORTUGALIA/cover.JPG';">
+      </div>
+      <figcaption>Кухня-гостиная с кухонным островом и обеденной зоной</figcaption>
+    </figure>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/1.jpg" alt="Гостиная — ТВ-зона и диванная группа">
+        </div>
+        <figcaption>ТВ-зона и диванная группа</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/2.jpg" alt="Гостиная — Встроенный книжный стеллаж">
+        </div>
+        <figcaption>Встроенный книжный стеллаж и сценарий освещения</figcaption>
+      </figure>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/3.jpg" alt="Гостиная — Лаунж-зона у панорамных окон">
+        </div>
+        <figcaption>Лаунж-зона с мягкой группой у панорамных окон</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/4.jpg" alt="Гостиная — Стеклянная витрина и зонирование">
+        </div>
+        <figcaption>Стеклянная витрина и зонирование пространства</figcaption>
+      </figure>
+    </div>
+
+    <!-- ==========================================
+         ПРИХОЖАЯ (6, 8 — без 5 и 7)
+    ========================================== -->
+    <div class="room-header" id="room-hallway">
+      <h2 class="room-name">ПРИХОЖАЯ</h2>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/6.jpg" alt="Прихожая — Консольный столик и зеркало">
+        </div>
+        <figcaption>Консольный столик, круглое зеркало и декоративная композиция</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/8.jpg" alt="Прихожая — Архитектурный портал">
+        </div>
+        <figcaption>Архитектурный портал и двери скрытого монтажа</figcaption>
+      </figure>
+    </div>
+
+    <!-- ==========================================
+         ГОСТЕВОЙ САНУЗЕЛ (9, 10, 11, 12)
+    ========================================== -->
+    <div class="room-header" id="room-guest-bath">
+      <h2 class="room-name">ГОСТЕВОЙ САНУЗЕЛ</h2>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/9.jpg" alt="Гостевой санузел — Зона раковины">
+        </div>
+        <figcaption>Зона раковины и подвесная тумба</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/10.jpg" alt="Гостевой санузел — Душевой отсек">
+        </div>
+        <figcaption>Душевой отсек со стеклянной перегородкой</figcaption>
+      </figure>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/11.jpg" alt="Гостевой санузел — Акцентная отделка">
+        </div>
+        <figcaption>Акцентная солнечная отделка и зеркало с подсветкой</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/12.jpg" alt="Гостевой санузел — Перспектива">
+        </div>
+        <figcaption>Ракурс на душевую зону и подвесную сантехнику</figcaption>
+      </figure>
+    </div>
+
+    <!-- ==========================================
+         ВАННАЯ КОМНАТА ПРИ СПАЛЬНЕ ХОЗЯИНА (13, 14, 15, 16)
+    ========================================== -->
+    <div class="room-header" id="room-master-bath">
+      <h2 class="room-name">ВАННАЯ КОМНАТА ПРИ СПАЛЬНЕ ХОЗЯИНА</h2>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/13.jpg" alt="Мастер-ванная — Умывальник и орнамент">
+        </div>
+        <figcaption>Раковина и напольная плитка с геометрическим орнаментом</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/14.jpg" alt="Мастер-ванная — Системы хранения">
+        </div>
+        <figcaption>Встроенные системы хранения из шпона и инсталляция</figcaption>
+      </figure>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/15.jpg" alt="Мастер-ванная — Зона ванны">
+        </div>
+        <figcaption>Зона ванны в изумрудной глянцевой плитке</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/16.jpg" alt="Мастер-ванная — Круглое зеркало">
+        </div>
+        <figcaption>Круглое зеркало и контрастная отделка керамогранитом</figcaption>
+      </figure>
+    </div>
+
+    <!-- ==========================================
+         СПАЛЬНЯ ГЛАВНАЯ (17, 18, 19)
+    ========================================== -->
+    <div class="room-header" id="room-master-bed">
+      <h2 class="room-name">СПАЛЬНЯ ГЛАВНАЯ</h2>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/17.jpg" alt="Спальня главная — Вечерний сценарий">
+        </div>
+        <figcaption>Камерный вечерний сценарий освещения</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/18.jpg" alt="Спальня главная — Прикроватная зона">
+        </div>
+        <figcaption>Прикроватная зона и гардеробный модуль</figcaption>
+      </figure>
+    </div>
+
+    <figure class="media-block">
+      <div class="js-tilt">
+        <img src="images/MAKAROVSKI_PORTUGALIA/19.jpg" alt="Спальня главная — Фронтальный ракурс">
+      </div>
+      <figcaption>Фронтальный ракурс мастер-спальни с фактурным изголовьем</figcaption>
+    </figure>
+
+    <!-- ==========================================
+         ДЕТСКАЯ КОМНАТА (20, 21, 22)
+    ========================================== -->
+    <div class="room-header" id="room-kids">
+      <h2 class="room-name">ДЕТСКАЯ КОМНАТА</h2>
+    </div>
+
+    <figure class="media-block">
+      <div class="js-tilt">
+        <img src="images/MAKAROVSKI_PORTUGALIA/20.jpg" alt="Детская комната — Общий вид">
+      </div>
+      <figcaption>Общий вид детской комнаты с акцентной спальной нишей</figcaption>
+    </figure>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/21.jpg" alt="Детская комната — Рабочая и игровая зона">
+        </div>
+        <figcaption>Рабочая и игровая зона детской</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt">
+          <img src="images/MAKAROVSKI_PORTUGALIA/22.jpg" alt="Детская комната — Перфорированная перегородка">
+        </div>
+        <figcaption>Перфорированная архитектурная перегородка и спальное место</figcaption>
+      </figure>
+    </div>
+
+    <!-- Плавающая нижняя навигация по помещениям в стиле Hot Walls -->
+    <nav class="hw-room-nav" id="hwRoomNav" aria-label="Навигация по помещениям">
+      <a href="#room-living" class="hw-room-link active">Гостиная</a>
+      <a href="#room-hallway" class="hw-room-link">Прихожая</a>
+      <a href="#room-guest-bath" class="hw-room-link">Гостевой санузел</a>
+      <a href="#room-master-bath" class="hw-room-link">Ванная</a>
+      <a href="#room-master-bed" class="hw-room-link">Спальня</a>
+      <a href="#room-kids" class="hw-room-link">Детская</a>
+    </nav>
+
+    <!-- Следующий проект -->
+    <div class="next-case-bar">
+      <span class="next-sub">Следующий проект</span>
+      <a href="project-nekrasova.html" class="next-title">ЖК «На Некрасова» →</a>
+    </div>
+
+  </main>
+
+  <!-- ============================================================
+       СЕКЦИЯ: КОНТАКТЫ
+  ============================================================ -->
+  <section id="contact" class="contact-section">
+    <div class="contact-container">
+      <div class="contact-grid">
+        <div class="contact-col-info">
+          <h2 class="contact-title">Контакты</h2>
+          <p class="contact-intro">
+            Готовы обсудить ваш проект? Оставьте заявку или свяжитесь с нами удобным способом.
+          </p>
+
+          <div class="contact-details">
+            <div class="contact-detail-row">
+              <span class="detail-label">Локация</span>
+              <span class="detail-val">Екатеринбург, ул. Карла Маркса, 22</span>
+            </div>
+            <div class="contact-detail-row">
+              <span class="detail-label">Телефон</span>
+              <span class="detail-val">+7 (963) 442-61-92</span>
+            </div>
+            <div class="contact-detail-row">
+              <span class="detail-label">Email</span>
+              <span class="detail-val">info@ferro-design.ru</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-col-form">
+          <form class="contact-form" onsubmit="event.preventDefault(); alert('Спасибо! Заявка отправлена. Мы свяжемся с вами в течение рабочего дня.');">
+            <div class="form-group">
+              <label class="form-label">Ваше имя</label>
+              <input type="text" class="form-input" placeholder="Егор" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Телефон или Telegram</label>
+              <input type="tel" id="userPhone" class="form-input" placeholder="+7 (___) ___-__-__" required>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label">Город</label>
+                <input type="text" class="form-input" placeholder="Екатеринбург">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Площадь (м²)</label>
+                <input type="number" class="form-input" placeholder="120">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Комментарий к проекту</label>
+              <textarea class="form-input form-textarea" rows="3" placeholder="Расскажите о планировке, сроках и пожеланиях..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Отправить заявку</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- ============================================================
+       ПОДВАЛ В СТИЛЕ YODEZEEN: 3 КРУГЛЫЕ СОЦСЕТИ + МЕНЮ
+  ============================================================ -->
+  <footer class="site-footer">
+    <!-- 1. Иконки соцсетей (по центру) -->
+    <div class="footer-socials">
+      <a href="https://youtube.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="YouTube">
+        <img src="images/LOGO_SOCIALS/youtube.svg" alt="YouTube" onerror="this.src='images/LOGO_SOCIALS/youtube.png';">
+      </a>
+      <a href="https://pinterest.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Pinterest">
+        <img src="images/LOGO_SOCIALS/pinterest.svg" alt="Pinterest" onerror="this.src='images/LOGO_SOCIALS/pinterest.png';">
+      </a>
+      <a href="https://instagram.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Instagram">
+        <img src="images/LOGO_SOCIALS/instagram.svg" alt="Instagram" onerror="this.src='images/LOGO_SOCIALS/instagram.png';">
+      </a>
+    </div>
+
+    <!-- Монументальная выдвигающаяся надпись FERRO DESIGN на всю ширину страницы -->
+    <div class="footer-brand-banner">
+      <div class="footer-brand-title" id="footerBrandTitle">FERRO DESIGN</div>
+    </div>
+
+    <!-- 2. Нижняя строка: копирайт, центрированное меню и авторство -->
+    <div class="footer-bottom-bar">
+      <div class="footer-copy">© 2026 FERRO DESIGN. ALL RIGHTS RESERVED.</div>
+      <ul class="footer-links">
+        <li><a href="projects.html">ПРОЕКТЫ</a></li>
+        <li><a href="index.html#services">УСЛУГИ</a></li>
+        <li><a href="index.html#about">О СТУДИИ</a></li>
+        <li><a href="index.html#contact">КОНТАКТЫ</a></li>
+      </ul>
+      <div class="footer-credits">MADE BY FERRO DESIGN</div>
+    </div>
+  </footer>
+
+  <!-- Скрипт сайта (интерактивный Lightbox галереи) -->
+  <script src="script.js"></script>
+</body>
+</html>

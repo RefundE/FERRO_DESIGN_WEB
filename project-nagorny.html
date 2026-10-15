@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ЖК Нагорный — Ferro Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+ <style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { 
+    background-color: #faf9f7; 
+    color: #0d0d0d; 
+    font-family: 'Inter', sans-serif; 
+    -webkit-font-smoothing: antialiased; 
+    line-height: 1.5; 
+    font-size: 14px; /* Базовый размер №3 */
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; width: 100%; height: auto; object-fit: contain; }
+
+  /* ------------------------------------------------------------
+     ШАПКА
+  ------------------------------------------------------------ */
+  .project-header { height: 88px; padding: 0 48px; }
+    .brand-logo { display: flex; align-items: center; height: 52px; }
+    .brand-logo img { height: 100%; width: auto; max-height: 52px; object-fit: contain; }
+    .project-intro { padding: 140px 48px 50px; }
+
+  /* ------------------------------------------------------------
+     ШАПКА КЕЙСА
+  ------------------------------------------------------------ */
+  .project-intro { padding: 130px 48px 50px; max-width: 1400px; margin: 0 auto; }
+  
+  /* Изначальная матовая плашка/кнопка */
+  .matte-capsule, .glass-capsule {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #edebe6;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 8px 18px; border-radius: 9999px;
+    font-size: 14px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;
+    color: #444; margin-bottom: 24px;
+    box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
+  }
+
+  /* РАЗМЕР №1: Крупный заголовок */
+  .project-title { 
+    font-size: clamp(32px, 5vw, 56px); 
+    font-weight: 300; 
+    letter-spacing: -0.02em; 
+    line-height: 1.15; 
+    margin-bottom: 36px; 
+    color: #0a0a0a; 
+  }
+
+  /* Панель параметров (все шрифты строго 14px) */
+  .project-specs-panel {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    border-top: 1px solid rgba(13, 13, 13, 0.08); border-bottom: 1px solid rgba(13, 13, 13, 0.08); 
+    padding: 24px 0;
+  }
+  .spec-label { font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: #888; display: block; margin-bottom: 6px; }
+  .spec-value { font-size: 14px; font-weight: 500; color: #111; }
+
+  /* ------------------------------------------------------------
+     ЛЕНТА РЕНДЕРОВ
+  ------------------------------------------------------------ */
+  .project-body { padding: 40px 48px 120px; max-width: 1400px; margin: 0 auto; }
+  .media-block { margin-bottom: 90px; }
+  figcaption { font-size: 14px; color: #888; letter-spacing: 0.01em; margin-top: 14px; text-align: right; }
+
+  .js-tilt {
+    position: relative; overflow: hidden; border-radius: 12px; background-color: #f2f1ee;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04); transform-style: preserve-3d; will-change: transform;
+  }
+  .js-tilt img { max-height: 88vh; }
+
+  .diptych-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 90px; }
+  .triptych-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 90px; }
+  .offset-frame { margin-top: 0; }
+
+  /* РАЗМЕР №2: Манифест и цитаты */
+  .statement-block { max-width: 780px; margin: 100px auto; text-align: center; }
+  .statement-tag { font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: #888; display: block; margin-bottom: 18px; }
+  .statement-text { font-size: 20px; font-weight: 300; line-height: 1.6; color: #222; }
+
+  blockquote { font-size: 20px; font-weight: 300; line-height: 1.5; font-style: italic; border-left: 2px solid #0d0d0d; padding-left: 24px; color: #222; }
+
+  /* ------------------------------------------------------------
+     ПЕРЕХОД К СЛЕДУЮЩЕМУ КЕЙСУ
+  ------------------------------------------------------------ */
+  .next-case-bar { border-top: 1px solid rgba(13,13,13,0.08); padding: 80px 0 20px; text-align: center; }
+  .next-sub { display: block; font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 12px; }
+  .next-title { font-size: clamp(32px, 5vw, 56px); font-weight: 300; transition: opacity 0.2s; }
+  .next-title:hover { opacity: 0.5; }
+
+  /* Футер */
+  .project-footer { border-top: 1px solid rgba(13,13,13,0.08); padding: 36px 48px; display: flex; justify-content: space-between; font-size: 14px; color: #777; }
+
+  @media (max-width: 860px) {
+    .project-header { padding: 0 20px; }
+    .project-intro, .project-body, .project-footer { padding-left: 20px; padding-right: 20px; }
+    .project-specs-panel { grid-template-columns: repeat(2, 1fr); }
+    .diptych-grid, .triptych-grid { grid-template-columns: 1fr; gap: 24px; }
+    .offset-frame { margin-top: 0; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Меню -->
+  <header class="project-header">
+  <a href="index.html" class="brand-logo">
+    <img src="images/logo.png" alt="FERRO DESIGN">
+  </a>
+  <div class="nav-actions">
+    <a href="projects.html" class="back-btn">Все проекты</a>
+    <a href="index.html" class="back-btn">← На главную</a>
+  </div>
+</header>
+
+  <!-- Интро проекта -->
+  <section class="project-intro">
+    <div class="glass-capsule">Жилой интерьер · Екатеринбург</div>
+    <h1 class="project-title">ЖК «Нагорный»</h1>
+
+    <div class="project-specs-panel">
+      <div><span class="spec-label">Локация</span><span class="spec-value">Екатеринбург</span></div>
+      <div><span class="spec-label">Направление</span><span class="spec-value">Интерьер квартиры</span></div>
+      <div><span class="spec-label">Визуализация</span><span class="spec-value">Ferro Design</span></div>
+      <div><span class="spec-label">Статус</span><span class="spec-value">Реализован</span></div>
+    </div>
+  </section>
+
+  <!-- Лента всех рендеров проекта -->
+  <main class="project-body">
+
+    <!-- 1. Главная панорама гостиной -->
+    <figure class="media-block">
+      <div class="js-tilt">
+        <img src="images/DANIL_NAGORNIY/3.jpg" alt="ЖК Нагорный — Гостиная">
+      </div>
+      <figcaption>Гостиная зона с камином и ТВ-группой</figcaption>
+    </figure>
+
+    <!-- 2. Диптих: кухня и обеденный стол -->
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/4.jpg" alt="Столовая группа">
+        </div>
+        <figcaption>Обеденная зона</figcaption>
+      </figure>
+      <figure class="offset-frame">
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/8.jpg" alt="Кухонный фронт">
+        </div>
+        <figcaption>Остров кухни и барная стойка</figcaption>
+      </figure>
+    </div>
+
+    <!-- Текстовый манифест -->
+    <div class="statement-block">
+      <span class="statement-tag">Архитектура света и материалов</span>
+      <p class="statement-text">
+        Монохромная сдержанность, подчеркнутая теплыми световыми сценариями. Текстуры темного камня, натурального шпона и скрытые системы хранения формируют целостный визуальный объем.
+      </p>
+    </div>
+
+    <!-- 3. Широкие ракурсы гостиной -->
+    <figure class="media-block">
+      <div class="js-tilt">
+        <img src="images/DANIL_NAGORNIY/9.jpg" alt="Диванная зона">
+      </div>
+      <figcaption>Зона отдыха с панорамным остеклением</figcaption>
+    </figure>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/10.jpg" alt="Кабинетная зона">
+        </div>
+        <figcaption>Фрагмент рабочей зоны</figcaption>
+      </figure>
+      <figure class="offset-frame">
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/11.jpg" alt="Коридор">
+        </div>
+        <figcaption>Холл и световые линии</figcaption>
+      </figure>
+    </div>
+
+    <!-- 4. Прихожая и холл (Триптих вертикальных кадров 5, 6, 7) -->
+    <div class="triptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/5.jpg" alt="Входная зона">
+        </div>
+        <figcaption>Прихожая</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/6.jpg" alt="Шкаф в прихожей">
+        </div>
+        <figcaption>Скрытые гардеробные фасады</figcaption>
+      </figure>
+      <figure>
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/7.jpg" alt="Зеркало">
+        </div>
+        <figcaption>Зона зеркала</figcaption>
+      </figure>
+    </div>
+
+    <!-- 5. Приватный блок: Спальня (кадры 16, 17, 18) -->
+    <figure class="media-block">
+      <div class="js-tilt">
+        <img src="images/DANIL_NAGORNIY/16.jpg" alt="Мастер-спальня">
+      </div>
+      <figcaption>Мастер-спальня. Общий объем комнаты</figcaption>
+    </figure>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/17.jpg" alt="Прикроватная зона">
+        </div>
+        <figcaption>Фактурное изголовье и акцентный подвес</figcaption>
+      </figure>
+      <figure class="offset-frame">
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/18.jpg" alt="Кровать деталь">
+        </div>
+        <figcaption>Текстиль и мягкий свет</figcaption>
+      </figure>
+    </div>
+
+    <!-- 6. Санузлы (вертикальные кадры 12, 13, 14, 15) -->
+    <div class="quote-media-grid">
+      <div class="quote-content">
+        <blockquote>«Каждая деталь интерьера подчинена эргономике и чистоте линий.»</blockquote>
+      </div>
+      <figure>
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/14.jpg" alt="Раковина в санузле">
+        </div>
+        <figcaption>Раковина из керамогранита</figcaption>
+      </figure>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/12.jpg" alt="Душевая">
+        </div>
+        <figcaption>Душевая зона</figcaption>
+      </figure>
+      <figure class="offset-frame">
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/13.jpg" alt="Стеклянная перегородка">
+        </div>
+        <figcaption>Тонированное стекло перегородки</figcaption>
+      </figure>
+    </div>
+
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/15.jpg" alt="Санузел общий">
+        </div>
+        <figcaption>Основной санузел</figcaption>
+      </figure>
+      <figure class="offset-frame">
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/21.jpg" alt="Гостевой санузел">
+        </div>
+        <figcaption>Гостевой санузел</figcaption>
+      </figure>
+    </div>
+
+    <!-- 7. Ванная и акцентное круглое зеркало (кадры 22, 23) -->
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/22.jpg" alt="Ванная чаша">
+        </div>
+        <figcaption>Отдельностоящая ванна</figcaption>
+      </figure>
+      <figure class="offset-frame">
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/23.jpg" alt="Круглое зеркало">
+        </div>
+        <figcaption>Круглое зеркало с контурным светом</figcaption>
+      </figure>
+    </div>
+
+    <!-- 8. Постирочная и двери (кадры 19, 20) -->
+    <div class="diptych-grid">
+      <figure>
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/19.jpg" alt="Постирочная">
+        </div>
+        <figcaption>Хозяйственный блок / постирочная</figcaption>
+      </figure>
+      <figure class="offset-frame">
+        <div class="js-tilt">
+          <img src="images/DANIL_NAGORNIY/20.jpg" alt="Скрытые двери">
+        </div>
+        <figcaption>Двери скрытого монтажа в потолок</figcaption>
+      </figure>
+    </div>
+
+   <!-- Переход к следующему проекту -->
+    <div class="next-case-bar">
+      <span class="next-sub">Следующий проект</span>
+      <a href="project-makarovsky.html" class="next-title">ЖК «Макаровский» →</a>
+    </div>
+
+  </main>
+
+  <footer class="project-footer">
+    <span>FERRO DESIGN · 2026</span>
+    <span>Екатеринбург · Нижний Тагил</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
