@@ -522,7 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateFooterBrandPosition();
   }
 
-  // 10. Плавающая навигация по помещениям в стиле Hot Walls (подсветка текущей зоны при скролле)
+  // 10. Плавающая навигация по помещениям в стиле Hot Walls (скрывается перед «Следующий проект»)
   const roomNav = document.getElementById('hwRoomNav');
   const roomHeaders = Array.from(document.querySelectorAll('.room-header[id]'));
   const roomLinks = Array.from(document.querySelectorAll('.hw-room-link'));
@@ -530,13 +530,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (roomNav && roomHeaders.length > 0 && projectBody) {
     function updateRoomNav() {
       const bodyRect = projectBody.getBoundingClientRect();
+      const nextBar = document.querySelector('.next-case-bar');
+      const bottomLimit = nextBar ? nextBar.getBoundingClientRect().top : bodyRect.bottom;
       const windowH = window.innerHeight;
 
-      // Показываем капсулу только пока пользователь листает саму ленту рендеров (.project-body)
-      const isInsideGallery = bodyRect.top < windowH * 0.65 && bodyRect.bottom > windowH * 0.35;
+      const isInsideGallery = bodyRect.top < windowH * 0.65 && bottomLimit > windowH * 0.80;
       roomNav.classList.toggle('is-visible', isInsideGallery);
 
-      // Определяем активное помещение
       let currentRoomId = roomHeaders[0].id;
       roomHeaders.forEach(header => {
         const rect = header.getBoundingClientRect();
@@ -553,4 +553,33 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', updateRoomNav, { passive: true });
     updateRoomNav();
   }
+
+  // 11. Автоматическое выравнивание высоты парных рендеров в одном ряду (.diptych-grid)
+  const diptychGrids = document.querySelectorAll('.diptych-grid');
+  diptychGrids.forEach(grid => {
+    const imgs = Array.from(grid.querySelectorAll('img'));
+    if (imgs.length < 2) return;
+
+    function syncRowAspect() {
+      const r1 = (imgs[0].naturalWidth && imgs[0].naturalHeight)
+        ? (imgs[0].naturalWidth / imgs[0].naturalHeight)
+        : 0;
+      const r2 = (imgs[1].naturalWidth && imgs[1].naturalHeight)
+        ? (imgs[1].naturalWidth / imgs[1].naturalHeight)
+        : 0;
+
+      if (r1 > 0 && r2 > 0) {
+        const targetRatio = Math.max(r1, r2);
+        grid.style.setProperty('--row-aspect', targetRatio.toFixed(4));
+      }
+    }
+
+    imgs.forEach(img => {
+      if (img.complete) {
+        syncRowAspect();
+      } else {
+        img.addEventListener('load', syncRowAspect);
+      }
+    });
+  });
 });

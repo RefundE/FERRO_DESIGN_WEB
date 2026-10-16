@@ -32,15 +32,6 @@ body {
   overflow-x: hidden;
 }
 
-body {
-  background-color: #faf9f7;
-  color: #0d0d0d;
-  font-family: 'Manrope', 'Inter', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  line-height: 1.5;
-  font-size: 14px; /* 3 ТИП */
-  overflow-x: hidden;
-}
 
 a { color: inherit; text-decoration: none; }
 img { display: block; width: 100%; height: auto; object-fit: cover; }
@@ -62,7 +53,8 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 /* 1. Эффект матовой зернистости для шапки (НЕ ТРОГАЕМ — здесь всё настроено) */
 .glass-header::before,
 .project-header::before,
-.hero-glass-card::before {
+.hero-glass-card::before,
+.hw-room-nav::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -344,70 +336,6 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   align-items: center;
 }
 
-/* Кнопка-обводка (3 ТИП: 14px) */
-.btn-outline-minimal,
-.btn-outline-custom {
-  position: relative;
-  overflow: hidden; /* Удерживает световой блик строго внутри формы овала */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 13px 32px;
-  font-size: 14px; /* 3 ТИП */
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #464646;
-  background: transparent;
-  border: 1px solid #464646;
-  border-radius: 9999px;
-  transition: all 0.25s ease;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-/* Зацикленная архитектурная анимация поблескивания (мягкий скользящий блик) */
-.btn-outline-minimal::after {
-  content: '';
-  position: absolute;
-  top: -60%;
-  left: -130%;
-  width: 50%;
-  height: 220%;
-  background: linear-gradient(
-    115deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.08) 20%,
-    rgba(255, 255, 255, 0.85) 50%,
-    rgba(255, 255, 255, 0.08) 80%,
-    transparent 100%
-  );
-  transform: rotate(25deg);
-  pointer-events: none;
-  animation: btnGleamLoop 3.8s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
-}
-
-@keyframes btnGleamLoop {
-  0% {
-    left: -130%;
-    opacity: 0;
-  }
-  6% {
-    opacity: 1;
-  }
-  28% {
-    left: 170%;
-    opacity: 1;
-  }
-  33% {
-    left: 170%;
-    opacity: 0;
-  }
-  100% {
-    left: 170%;
-    opacity: 0;
-  }
-}
 
 /* ============================================================
    КНОПКА «ОСТАВИТЬ ЗАЯВКУ»: МАТОВОЕ СТЕКЛО (GLASSMORPHISM)
@@ -1247,12 +1175,11 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 .site-footer {
   background-color: #faf9f7;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
-  /* 64px сверху, 48px по бокам, 32px снизу — аккуратный компактный отступ в самом низу */
   padding: 64px 48px 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
+  gap: 0;
   font-size: 14px;
   color: #1a1a1a;
   width: 100%;
@@ -1298,25 +1225,24 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   transform: scale(1.08);
 }
 
-/* Монументальная выдвигающаяся надпись в подвале во всю ширину */
 .footer-brand-banner {
   width: 100%;
-  overflow: hidden; /* Защита от появления горизонтальной полосы прокрутки */
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 12px 0;
-  padding: 12px 0;
+  /* 52px сверху до иконок и 42px снизу (+10px базовой линии шрифта = ровно 52px визуально с обеих сторон) */
+  margin: 52px 0 42px;
+  padding: 4px 0 0;
   user-select: none;
   pointer-events: none;
 }
 
-/* Шрифт в стиле главных заголовков сайта, размер на всю ширину страницы */
 .footer-brand-title {
   font-family: 'Unbounded', sans-serif;
   font-size: clamp(38px, 8.4vw, 154px);
   font-weight: 800;
-  line-height: 0.95;
+  line-height: 0.82;
   letter-spacing: -0.02em;
   text-transform: uppercase;
   color: #464646;
@@ -1568,30 +1494,46 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   width: 100%;
 }
 
-.project-body img,
-.js-tilt img { 
+.media-block .js-tilt img { 
   width: 100%; 
   height: auto; 
-  max-height: 92vh; 
   object-fit: cover; 
   display: block;
 }
 
-/* ДИПТИХ: СЕТКА РОВНО ПО 2 РЕНДЕРА В РЯД */
+/* ДИПТИХ: КАДРЫ В ОДНОМ РЯДУ СТРОГО ОДНОГО РАЗМЕРА И ВЫСОТЫ */
 .diptych-grid { 
   display: grid; 
-  grid-template-columns: 1fr 1fr; /* Ровно 2 колонки одинаковой ширины */
-  gap: 40px; 
-  align-items: start; 
+  grid-template-columns: 1fr 1fr;
+  gap: 32px; 
+  align-items: stretch; 
   margin-bottom: 40px; 
 }
 
 .diptych-grid figure {
   margin: 0;
   width: 100%;
+  height: 100%;
+  display: flex;
 }
 
-/* ЦЕНТРАЛЬНЫЙ БЛОК МАНИФЕСТА (ЦЕНТРОВКА И СТИЛЬ НАДПИСЕЙ) */
+.diptych-grid .js-tilt {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: var(--row-aspect, 4 / 3);
+  overflow: hidden;
+}
+
+.diptych-grid .js-tilt img {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+
+/* ЦЕНТРАЛЬНЫЙ БЛОК МАНИФЕСТА */
 .statement-block { 
   max-width: 780px; 
   margin: 100px auto; 
@@ -1614,7 +1556,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   color: #222222; 
 }
 
-/* ПАНЕЛЬ ПЕРЕХОДА К СЛЕДУЮЩЕМУ КЕЙСУ */
+/* ПАНЕЛЬ ПЕРЕХОДА К СЛЕДУЮЩЕМУ КЕЙСУ (1 ТИП ШРИФТА + КАСТОМНАЯ SVG-СТРЕЛКА) */
 .next-case-bar { 
   border-top: 1px solid rgba(13, 13, 13, 0.08); 
   padding: 80px 0 20px; 
@@ -1624,22 +1566,42 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 .next-sub { 
   display: block; 
   font-size: 14px; 
+  font-weight: 600;
   text-transform: uppercase; 
   letter-spacing: 0.08em; 
   color: #888888; 
-  margin-bottom: 12px; 
+  margin-bottom: 18px; 
 }
 
 .next-title { 
-  font-size: clamp(32px, 5vw, 56px); 
-  font-weight: 300; 
-  transition: opacity 0.2s; 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(34px, 4.8vw, 62px);
+  font-weight: 700; 
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  text-transform: uppercase;
   text-decoration: none;
-  color: #0d0d0d;
+  color: #424242;
+  transition: color 0.3s ease; 
+}
+
+.next-arrow-svg {
+  width: clamp(38px, 4.2vw, 56px);
+  height: auto;
+  flex-shrink: 0;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .next-title:hover { 
-  opacity: 0.5; 
+  color: #0d0d0d; 
+}
+
+.next-title:hover .next-arrow-svg {
+  transform: translateX(12px);
 }
 
 /* ============================================================
@@ -1756,6 +1718,14 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
     grid-template-columns: 1fr; 
     gap: 24px; 
   }
+  .diptych-grid .js-tilt {
+    aspect-ratio: auto;
+    height: auto;
+  }
+  .diptych-grid .js-tilt img {
+    height: auto;
+    object-fit: contain;
+  }
 
   /* 7. Подвал сайта на смартфонах */
   .site-footer { 
@@ -1858,7 +1828,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   text-align: center;
 }
 
-/* ПЛАВАЮЩАЯ НИЖНЯЯ НАВИГАЦИЯ ПО КОМНАТАМ */
+/* ПЛАВАЮЩАЯ НИЖНЯЯ НАВИГАЦИЯ ПО КОМНАТАМ (СТЕКЛО С ЗЕРНОМ КАК ШАПКА САЙТА) */
 .hw-room-nav {
   position: fixed;
   bottom: 28px;
@@ -1869,18 +1839,17 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   align-items: center;
   gap: 6px;
   padding: 6px 8px;
-  background: rgba(26, 26, 26, 0.82);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.92);
   border-radius: 9999px;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.9);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
   max-width: calc(100vw - 32px);
-  overflow-x: auto;
-  scrollbar-width: none;
+  overflow: hidden;
 }
 
 .hw-room-nav.is-visible {
@@ -1890,24 +1859,26 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 }
 
 .hw-room-link {
+  position: relative;
+  z-index: 1;
   padding: 8px 16px;
   border-radius: 9999px;
-  font-size: 14px; /* 3 ТИП */
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.72);
+  font-size: 14px;
+  font-weight: 600;
+  color: #444444;
   white-space: nowrap;
   transition: all 0.25s ease;
   text-decoration: none;
 }
 
 .hw-room-link:hover {
-  color: #ffffff;
+  color: #000000;
 }
 
 .hw-room-link.active {
-  background: #ffffff;
-  color: #0d0d0d;
-  font-weight: 600;
+  background: #424242;
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
 }
 
 @media (max-width: 960px) {
