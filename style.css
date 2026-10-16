@@ -1569,14 +1569,9 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   z-index: 2;
 }
 
-/* Переключение в ночной режим освещения */
+/* Переключение в ночной режим освещения (чистый фотореалистичный кроссфейд) */
 .project-intro.is-night-mode .hero-bg-night {
   opacity: 1;
-}
-
-/* Мягкая фолбэк-тонировка под вечерний свет, если ночной рендер ещё рендерится */
-.project-intro.is-night-mode .hero-bg-day {
-  filter: brightness(0.68) contrast(1.1) saturate(0.9);
 }
 
 /* Линейное затемнение поверх фонового рендера: сверху светло (0.06), снизу темно (0.76) */
