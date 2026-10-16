@@ -4,11 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FERRO DESIGN - Студия интерьерного дизайна Екатеринбург</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800;900&family=Manrope:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Яндекс Карты API 2.1 (работает в РФ без блокировок) -->
-  <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
   <link rel="stylesheet" href="style.css?v=2">
   <!-- Тег для динамического фавикона -->
   <link rel="icon" id="dynamicFavicon" type="image/png" href="">
@@ -387,9 +382,45 @@
     </div>
   </footer>
 
-  <!-- СКРИПТ ПОДВИЖНОЙ КАРТЫ ЯНДЕКС С ИНТЕРАКТИВНЫМИ ТОЧКАМИ -->
+  <!-- СКРИПТ ПОДВИЖНОЙ КАРТЫ ЯНДЕКС С ИНТЕРАКТИВНЫМИ ТОЧКАМИ (ЛЕНИВАЯ ЗАГРУЗКА 450PX) -->
   <script>
-    ymaps.ready(initMap);
+    (function setupLazyYandexMap() {
+      const mapContainer = document.getElementById('interactiveMap');
+      if (!mapContainer) return;
+
+      let isLoaded = false;
+      function loadYandexMapScript() {
+        if (isLoaded) return;
+        isLoaded = true;
+
+        const script = document.createElement('script');
+        script.src = 'https://api-maps.yandex.ru/2.1/?lang=ru_RU';
+        script.async = true;
+        script.onload = () => {
+          if (window.ymaps) {
+            window.ymaps.ready(initMap);
+          }
+        };
+        document.head.appendChild(script);
+      }
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              obs.disconnect(); // Навсегда отключаем наблюдатель: карта инициализируется 1 раз и никогда не сбрасывается
+              loadYandexMapScript();
+            }
+          });
+        }, {
+          rootMargin: '450px 0px', // Упреждающая подгрузка за 450px до зоны видимости
+          threshold: 0.01
+        });
+        observer.observe(mapContainer);
+      } else {
+        loadYandexMapScript();
+      }
+    })();
 
     function initMap() {
       const map = new ymaps.Map('interactiveMap', {
