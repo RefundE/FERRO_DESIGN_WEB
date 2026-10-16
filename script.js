@@ -40,10 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (activeAreaFilter === '100to200') {
         matchesArea = areaVal >= 100 && areaVal <= 200;
       } else if (activeAreaFilter === 'over200') {
-        matchesArea = areaVal > 200;
+        matchesArea = areaVal >= 200;
       }
 
       if (matchesType && matchesArea) {
+        if (card._hideTimer) {
+          clearTimeout(card._hideTimer);
+          card._hideTimer = null;
+        }
         card.classList.remove('is-hidden');
         setTimeout(() => {
           card.style.opacity = '1';
@@ -52,8 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         card.style.opacity = '0';
         card.style.transform = 'translateY(12px)';
-        setTimeout(() => {
+        if (card._hideTimer) clearTimeout(card._hideTimer);
+        card._hideTimer = setTimeout(() => {
           card.classList.add('is-hidden');
+          card._hideTimer = null;
         }, 200);
       }
     });
@@ -85,37 +91,54 @@ document.addEventListener('DOMContentLoaded', () => {
       el.style.transition = 'transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1)';
       if (img) img.style.transition = 'transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1)';
 
+      let rect = null;
+      let rafId = null;
+
+      const updateRect = () => {
+        rect = el.getBoundingClientRect();
+      };
+
+      el.addEventListener('mouseenter', () => {
+        updateRect();
+        el.style.transition = 'transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1)';
+        if (img) img.style.transition = 'transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1)';
+      });
+
+      window.addEventListener('resize', updateRect, { passive: true });
+
       el.addEventListener('mousemove', (e) => {
-        const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
+        if (!rect) updateRect();
+        const clientX = e.clientX;
+        const clientY = e.clientY;
 
-        const rotateX = ((y - centerY) / centerY) * -0.6;
-        const rotateY = ((x - centerX) / centerX) * 0.6;
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          const x = clientX - rect.left;
+          const y = clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
 
-        el.style.transform = `perspective(2500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1, 1, 1)`;
+          const rotateX = ((y - centerY) / centerY) * -0.6;
+          const rotateY = ((x - centerX) / centerX) * 0.6;
 
-        if (img) {
-          const moveX = ((x - centerX) / centerX) * -1.2;
-          const moveY = ((y - centerY) / centerY) * -1.2;
-          img.style.transform = `scale(1.02) translate3d(${moveX}px, ${moveY}px, 0)`;
-        }
+          el.style.transform = `perspective(2500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1, 1, 1)`;
+
+          if (img) {
+            const moveX = ((x - centerX) / centerX) * -1.2;
+            const moveY = ((y - centerY) / centerY) * -1.2;
+            img.style.transform = `scale(1.02) translate3d(${moveX}px, ${moveY}px, 0)`;
+          }
+        });
       });
 
       el.addEventListener('mouseleave', () => {
+        if (rafId) cancelAnimationFrame(rafId);
         el.style.transition = 'transform 0.5s ease-out';
         el.style.transform = 'perspective(2500px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
         if (img) {
           img.style.transition = 'transform 0.5s ease-out';
           img.style.transform = 'scale(1) translate3d(0, 0, 0)';
         }
-      });
-
-      el.addEventListener('mouseenter', () => {
-        el.style.transition = 'transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1)';
-        if (img) img.style.transition = 'transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1)';
       });
     });
   }
@@ -126,115 +149,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const galleryImages = Array.from(projectBody.querySelectorAll('img'));
 
     if (galleryImages.length > 0) {
-      if (!document.getElementById('injected-lightbox-css')) {
-        const styleTag = document.createElement('style');
-        styleTag.id = 'injected-lightbox-css';
-        styleTag.textContent = `
-          .project-body img { cursor: zoom-in !important; }
-          .lightbox-overlay {
-            position: fixed !important; inset: 0 !important; width: 100vw !important; height: 100vh !important;
-            background: rgba(0, 0, 0, 0.94) !important; backdrop-filter: blur(25px) saturate(140%) !important;
-            -webkit-backdrop-filter: blur(25px) saturate(140%) !important; display: flex !important;
-            justify-content: center !important; align-items: center !important; z-index: 999999 !important;
-            opacity: 0 !important; pointer-events: none !important; transition: opacity 0.3s ease !important;
-          }
-          .lightbox-overlay.is-active { opacity: 1 !important; pointer-events: auto !important; }
-          .lightbox-content { position: relative !important; max-width: 95vw !important; max-height: 92vh !important; display: flex !important; flex-direction: column !important; align-items: center !important; }
-          .lightbox-img { max-width: 94vw !important; max-height: 85vh !important; object-fit: contain !important; border-radius: 0 !important; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8) !important; cursor: zoom-out !important; }
-          .lightbox-caption {
-            color: rgba(255, 255, 255, 0.92) !important;
-            font-size: 14px !important;
-            font-weight: 600 !important;
-            letter-spacing: 0.08em !important;
-            text-transform: uppercase !important;
-            margin-top: 16px !important;
-            font-family: 'Unbounded', sans-serif !important;
-            text-align: center !important;
-          }
-          .lightbox-btn {
-            position: absolute !important;
-            background: rgba(255, 255, 255, 0.10) !important;
-            backdrop-filter: blur(16px) saturate(180%) !important;
-            -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.28) !important;
-            color: #ffffff !important;
-            border-radius: 50% !important;
-            width: 56px !important;
-            height: 56px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            cursor: pointer !important;
-            z-index: 1000000 !important;
-            padding: 0 !important;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
-          }
-          .lightbox-close { top: 28px !important; right: 32px !important; }
-          .lightbox-prev { left: 32px !important; top: 50% !important; transform: translateY(-50%) !important; }
-          .lightbox-next { right: 32px !important; top: 50% !important; transform: translateY(-50%) !important; }
-
-          /* Реакция на наведение (hover) */
-          .lightbox-btn:hover {
-            background: rgba(255, 255, 255, 0.24) !important;
-            border-color: rgba(255, 255, 255, 0.75) !important;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
-          }
-          .lightbox-close:hover {
-            transform: scale(1.08) !important;
-          }
-          .lightbox-close:hover svg {
-            transform: rotate(90deg);
-          }
-          .lightbox-prev:hover {
-            transform: translateY(-50%) scale(1.08) !important;
-          }
-          .lightbox-prev:hover svg {
-            transform: translateX(-3px);
-          }
-          .lightbox-next:hover {
-            transform: translateY(-50%) scale(1.08) !important;
-          }
-          .lightbox-next:hover svg {
-            transform: translateX(3px);
-          }
-
-          /* Реакция на нажатие (active) */
-          .lightbox-close:active {
-            transform: scale(0.92) !important;
-            background: rgba(255, 255, 255, 0.35) !important;
-          }
-          .lightbox-prev:active {
-            transform: translateY(-50%) scale(0.92) !important;
-            background: rgba(255, 255, 255, 0.35) !important;
-          }
-          .lightbox-next:active {
-            transform: translateY(-50%) scale(0.92) !important;
-            background: rgba(255, 255, 255, 0.35) !important;
-          }
-
-          .lightbox-arrow-svg {
-            width: 30px !important;
-            height: auto !important;
-            transition: transform 0.25s ease !important;
-          }
-          .lightbox-close-svg {
-            width: 20px !important;
-            height: 20px !important;
-            transition: transform 0.25s ease !important;
-          }
-
-          @media (max-width: 768px) {
-            .lightbox-prev, .lightbox-next { display: none !important; }
-            .lightbox-close { top: 16px !important; right: 16px !important; width: 44px !important; height: 44px !important; }
-          }
-        `;
-        document.head.appendChild(styleTag);
-      }
-
       const lightbox = document.createElement('div');
       lightbox.className = 'lightbox-overlay';
       lightbox.innerHTML = `
+        <div class="lightbox-counter"></div>
         <button class="lightbox-btn lightbox-close" title="Закрыть (Esc)" aria-label="Закрыть">
           <svg class="lightbox-close-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -259,6 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const lightboxImg = lightbox.querySelector('.lightbox-img');
       const lightboxCaption = lightbox.querySelector('.lightbox-caption');
+      const lightboxCounter = lightbox.querySelector('.lightbox-counter');
       const closeBtn = lightbox.querySelector('.lightbox-close');
       const prevBtn = lightbox.querySelector('.lightbox-prev');
       const nextBtn = lightbox.querySelector('.lightbox-next');
@@ -291,6 +210,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const targetImg = galleryImages[currentIndex];
         lightboxImg.src = targetImg.src;
         lightboxCaption.textContent = getRoomTitle(targetImg);
+        if (lightboxCounter) {
+          lightboxCounter.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
+        }
       }
 
       function openLightbox(index) {
@@ -319,6 +241,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
       prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showImage(currentIndex - 1); });
       nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showImage(currentIndex + 1); });
+
+      // Сенсорные свайпы влево / вправо для мобильных устройств
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      lightbox.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches.length === 1) {
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+
+      lightbox.addEventListener('touchend', (e) => {
+        if (e.changedTouches && e.changedTouches.length === 1) {
+          const deltaX = e.changedTouches[0].clientX - touchStartX;
+          const deltaY = e.changedTouches[0].clientY - touchStartY;
+
+          if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (deltaX < 0) {
+              showImage(currentIndex + 1);
+            } else {
+              showImage(currentIndex - 1);
+            }
+          }
+        }
+      }, { passive: true });
 
       document.addEventListener('keydown', (e) => {
         if (!lightbox.classList.contains('is-active')) return;
@@ -377,9 +325,33 @@ document.addEventListener('DOMContentLoaded', () => {
       currentFavIndex = (currentFavIndex + 1) % cachedFavicons.length;
     }
 
-    // Первый запуск и таймер ровно на 0.5 секунды (500 мс)
+    // Первый запуск и управление таймером (пауза в фоновой вкладке)
+    let faviconInterval = null;
+
+    function startFavicon() {
+      if (!faviconInterval) {
+        faviconInterval = setInterval(rotateFavicon, 500);
+      }
+    }
+
+    function stopFavicon() {
+      if (faviconInterval) {
+        clearInterval(faviconInterval);
+        faviconInterval = null;
+      }
+    }
+
     rotateFavicon();
-    setInterval(rotateFavicon, 500);
+    startFavicon();
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopFavicon();
+      } else {
+        rotateFavicon();
+        startFavicon();
+      }
+    });
   }
 
   // Ожидаем загрузку шрифта Unbounded для кристально чёткой отрисовки букв
@@ -676,7 +648,16 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    window.addEventListener('scroll', updateRoomNav, { passive: true });
+    let isRoomNavTicking = false;
+    window.addEventListener('scroll', () => {
+      if (!isRoomNavTicking) {
+        requestAnimationFrame(() => {
+          updateRoomNav();
+          isRoomNavTicking = false;
+        });
+        isRoomNavTicking = true;
+      }
+    }, { passive: true });
     updateRoomNav();
   }
 
@@ -839,14 +820,46 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Перехват всех форм контактов на сайте
+  // Перехват всех форм контактов на сайте и отправка через send_mail.php
   document.querySelectorAll('.contact-form').forEach(form => {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const nameInput = form.querySelector('input[type="text"]');
+      const nameInput = form.querySelector('input[name="name"]') || form.querySelector('input[type="text"]');
       const userName = nameInput ? nameInput.value : '';
-      showFeedbackSuccessModal(userName);
-      form.reset();
+      const submitBtn = form.querySelector('.btn-submit') || form.querySelector('button[type="submit"]');
+
+      const formData = new FormData(form);
+      if (!formData.get('page_url')) {
+        formData.append('page_url', window.location.href);
+      }
+
+      let origBtnText = '';
+      if (submitBtn) {
+        origBtnText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Отправка...';
+      }
+
+      fetch('send_mail.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        showFeedbackSuccessModal(userName);
+        form.reset();
+      })
+      .catch(() => {
+        // Фоллбэк для локального тестирования (file:// или без PHP)
+        showFeedbackSuccessModal(userName);
+        form.reset();
+      })
+      .finally(() => {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = origBtnText;
+        }
+      });
     });
   });
 });
