@@ -784,4 +784,69 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   }
+
+  // 14. Премиальное модальное окно успешной отправки заявки (Glassmorphic Modal)
+  function showFeedbackSuccessModal(userName) {
+    let modal = document.getElementById('feedbackModal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.className = 'feedback-modal-overlay';
+      modal.id = 'feedbackModal';
+      modal.setAttribute('role', 'dialog');
+      modal.setAttribute('aria-modal', 'true');
+      modal.innerHTML = `
+        <div class="feedback-modal-card">
+          <button type="button" class="feedback-modal-close" id="feedbackModalClose" aria-label="Закрыть">&times;</button>
+          <div class="feedback-modal-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <h3 class="feedback-modal-title">ЗАЯВКА ПРИНЯТА</h3>
+          <p class="feedback-modal-text" id="feedbackModalMsg">Спасибо за обращение! Мы свяжемся с вами в течение 30 минут для обсуждения деталей вашего проекта.</p>
+          <button type="button" class="feedback-modal-btn" id="feedbackModalOk">ОТЛИЧНО</button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+
+      const closeModal = () => {
+        modal.classList.remove('is-active');
+      };
+
+      modal.querySelector('#feedbackModalClose').addEventListener('click', closeModal);
+      modal.querySelector('#feedbackModalOk').addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('is-active')) closeModal();
+      });
+    }
+
+    const msgEl = modal.querySelector('#feedbackModalMsg');
+    if (msgEl) {
+      const cleanName = (userName || '').trim();
+      if (cleanName) {
+        msgEl.textContent = `Спасибо, ${cleanName}! Мы свяжемся с вами в течение 30 минут для обсуждения деталей вашего проекта.`;
+      } else {
+        msgEl.textContent = `Спасибо за обращение! Мы свяжемся с вами в течение 30 минут для обсуждения деталей вашего проекта.`;
+      }
+    }
+
+    requestAnimationFrame(() => {
+      modal.classList.add('is-active');
+    });
+  }
+
+  // Перехват всех форм контактов на сайте
+  document.querySelectorAll('.contact-form').forEach(form => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nameInput = form.querySelector('input[type="text"]');
+      const userName = nameInput ? nameInput.value : '';
+      showFeedbackSuccessModal(userName);
+      form.reset();
+    });
+  });
 });
