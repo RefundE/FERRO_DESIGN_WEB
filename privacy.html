@@ -18,14 +18,18 @@
   <!-- ============================================================
        ШАПКА (ФИКСИРОВАННАЯ, РАЗМЫТИЕ GLASSMORPHISM)
   ============================================================ -->
-  <header class="project-header">
-    <div class="project-header-inner">
-      <a href="index.html" class="brand-logo">
-        <img src="images/LOGO_SVG/LOGO_FERRO.svg" alt="FERRO DESIGN" onerror="this.onerror=null; this.src='images/LOGO_SVG/LOGO_FERRO.png';">
+  <header class="glass-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-link">
+        <img src="images/logo.png" alt="FERRO DESIGN" class="header-logo-img" onerror="this.style.display='none'; document.getElementById('txt-logo').style.display='block';">
+        <span id="txt-logo" class="logo-brand-text" style="display: none;">FERRO DESIGN</span>
       </a>
-      <nav class="nav-actions">
-        <a href="projects.html" class="nav-link">Все проекты</a>
-        <a href="index.html" class="nav-link">← На главную</a>
+
+      <nav class="desktop-nav">
+        <a href="projects.html" class="nav-link">Проекты</a>
+        <a href="index.html#services" class="nav-link">Услуги</a>
+        <a href="index.html#about" class="nav-link">О нас</a>
+        <a href="index.html#contact" class="nav-link">Контакты</a>
       </nav>
     </div>
   </header>

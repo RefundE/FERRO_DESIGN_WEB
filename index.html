@@ -40,8 +40,8 @@
   <section class="hero-section hero-fullscreen-photo">
 <!-- Цельная фоновая фотография на весь экран (плавная смена из папки COVER_MAIN) -->
     <div class="hero-bg-media">
-      <img src="images/COVER_MAIN/cover_main_makarovski.jpg" alt="Интерьер ЖК «Макаровский»" class="hero-bg-slide active" onerror="this.onerror=null; this.src='images/cover_main.jpg';">
-      <img src="images/COVER_MAIN/cover_main_nekrasova.jpg" alt="Интерьер ЖК «На Некрасова»" class="hero-bg-slide">
+      <img src="images/COVER_MAIN/cover_main_makarovski.webp" alt="Интерьер ЖК «Макаровский»" class="hero-bg-slide active" onerror="this.onerror=null; this.src='images/cover_main.webp';">
+      <img src="images/COVER_MAIN/cover_main_nekrasova.webp" alt="Интерьер ЖК «На Некрасова»" class="hero-bg-slide">
     </div>
 
     <!-- Прямоугольная стеклянная подложка со скруглёнными углами (в стиле шапки) -->
@@ -86,7 +86,7 @@
       <!-- 1. Некрасова -->
       <a href="project-nekrasova.html" class="project-card">
         <div class="card-media-wrap">
-          <img src="images/NA_NEKRASOVA/22.jpg" alt="ЖК На Некрасова" onerror="this.onerror=null; this.src='images/NA_NEKRASOVA/cover.jpg';">
+          <img src="images/NA_NEKRASOVA/22.webp" alt="ЖК На Некрасова" onerror="this.onerror=null; this.src='images/NA_NEKRASOVA/cover.webp';">
           <span class="glass-badge">Жилая квартира</span>
         </div>
         <div class="card-desc">
@@ -98,7 +98,7 @@
       <!-- 2. Макаровский -->
       <a href="project-makarovsky.html" class="project-card">
         <div class="card-media-wrap">
-          <img src="images/MAKAROVSKI_PORTUGALIA/1.jpg" alt="ЖК Макаровский" onerror="this.onerror=null; this.src='images/MAKAROVSKI_PORTUGALIA/cover.jpg';">
+          <img src="images/MAKAROVSKI_PORTUGALIA/1.webp" alt="ЖК Макаровский" onerror="this.onerror=null; this.src='images/MAKAROVSKI_PORTUGALIA/cover.webp';">
           <span class="glass-badge">Жилая квартира</span>
         </div>
         <div class="card-desc">
@@ -110,8 +110,8 @@
       <!-- 3. Отель Номерной фонд -->
       <a href="project-nomer-otel.html" class="project-card">
         <div class="card-media-wrap">
-          <img src="images/NOMER_OTEL/cover.jpg" alt="Отель Номерной фонд" onerror="this.onerror=null; this.src='images/NOMER_OTEL/1.jpg';">
-          <span class="glass-badge">Коммерческое</span>
+          <img src="images/NOMER_OTEL/cover.webp" alt="Отель Номерной фонд" onerror="this.onerror=null; this.src='images/NOMER_OTEL/1.webp';">
+          <span class="glass-badge">Коммерческий объект</span>
         </div>
         <div class="card-desc">
           <h3 class="card-project-title">Отель «Номерной фонд»</h3>
@@ -122,7 +122,7 @@
       <!-- 4. A-Frames -->
       <a href="project-a-frames.html" class="project-card">
         <div class="card-media-wrap">
-          <img src="images/A_FRAMES/cover.jpg" alt="Комплекс A-Frame домов" onerror="this.onerror=null; this.src='images/A_FRAMES/1.jpg';">
+          <img src="images/A_FRAMES/cover.webp" alt="Комплекс A-Frame домов" onerror="this.onerror=null; this.src='images/A_FRAMES/1.webp';">
           <span class="glass-badge">Загородный дом</span>
         </div>
         <div class="card-desc">
@@ -140,7 +140,7 @@
         <!-- 5. ХМАО -->
         <div class="project-card">
           <div class="card-media-wrap">
-            <img src="images/HMAO/cover.jpg" alt="Частная резиденция ХМАО" onerror="this.onerror=null; this.src='images/HMAO/1.jpg';">
+            <img src="images/HMAO/cover.webp" alt="Частная резиденция ХМАО" onerror="this.onerror=null; this.src='images/HMAO/1.webp';">
           </div>
           <div class="card-desc">
             <h3 class="card-project-title">Частная резиденция ХМАО</h3>
@@ -151,7 +151,7 @@
         <!-- 6. Паб в Тагиле -->
         <div class="project-card">
           <div class="card-media-wrap">
-            <img src="images/PUB_TAGIL/cover.jpg" alt="Гастропаб в Тагиле" onerror="this.onerror=null; this.src='images/PUB_TAGIL/1.jpg';">
+            <img src="images/PUB_TAGIL/cover.webp" alt="Гастропаб в Тагиле" onerror="this.onerror=null; this.src='images/PUB_TAGIL/1.webp';">
           </div>
           <div class="card-desc">
             <h3 class="card-project-title">Гастропаб в Тагиле</h3>
@@ -415,43 +415,143 @@
 
       const projects = [
         {
-          id: 'ekb',
-          coords: [56.8389, 60.6057],
+          id: 'nekrasova',
+          coords: [56.8498, 60.5982],
           city: 'Екатеринбург',
           title: 'ЖК «На Некрасова»',
           type: 'Жилая квартира',
           area: '120 м²',
-          img: 'images/NA_NEKRASOVA/22.jpg',
+          img: 'images/NA_NEKRASOVA/22.webp',
           link: 'project-nekrasova.html'
         },
         {
-          id: 'tagil',
-          coords: [57.9194, 59.9650],
+          id: 'makarovsky',
+          coords: [56.8445, 60.5915],
+          city: 'Екатеринбург',
+          title: 'ЖК «Макаровский»',
+          type: 'Жилая квартира',
+          area: '140 м²',
+          img: 'images/MAKAROVSKI_PORTUGALIA/cover.webp',
+          link: 'project-makarovsky.html'
+        },
+        {
+          id: 'ekater-park',
+          coords: [56.8532, 60.6065],
+          city: 'Екатеринбург',
+          title: 'ЖК «Екатерининский парк»',
+          type: 'Жилая квартира',
+          area: '110 м²',
+          img: 'images/EKATER_PARK/cover.webp',
+          link: 'project-ekater-park.html'
+        },
+        {
+          id: 'suomen',
+          coords: [56.8085, 60.6310],
+          city: 'Екатеринбург',
+          title: 'ЖК «Suomen Ranta»',
+          type: 'Жилая квартира',
+          area: '85 м²',
+          img: 'images/SUOMEN/cover.webp',
+          link: 'project-suomen.html'
+        },
+        {
+          id: 'nomer-otel',
+          coords: [56.8335, 60.6120],
+          city: 'Екатеринбург',
+          title: 'Отель «Номерной фонд»',
+          type: 'Коммерческий объект',
+          area: '45 м²',
+          img: 'images/NOMER_OTEL/cover.webp',
+          link: 'project-nomer-otel.html'
+        },
+        {
+          id: 'artu-40m2',
+          coords: [56.7950, 60.5920],
+          city: 'Екатеринбург',
+          title: 'Апартаменты ArtU 40 м²',
+          type: 'Жилая квартира',
+          area: '40 м²',
+          img: 'images/ARTU_40M2/cover.webp',
+          link: 'project-artu-40m2.html'
+        },
+        {
+          id: 'pub-tagil',
+          coords: [57.9105, 59.9680],
           city: 'Нижний Тагил',
-          title: 'Паб в Тагиле',
-          type: 'Коммерческий интерьер',
-          area: '240 м²',
-          img: 'images/PUB_TAGIL/cover.jpg',
+          title: 'Гастропаб в Нижнем Тагиле',
+          type: 'Коммерческий объект',
+          area: '210 м²',
+          img: 'images/PUB_TAGIL/cover.webp',
           link: 'project-pub-tagil.html'
+        },
+        {
+          id: 'kris-ggm',
+          coords: [57.8820, 59.9450],
+          city: 'Нижний Тагил',
+          title: 'Квартира на ГГМ',
+          type: 'Жилая квартира',
+          area: '78 м²',
+          img: 'images/KRIS_GGM/cover.webp',
+          link: 'project-kris-ggm.html'
+        },
+        {
+          id: 'andr-fateevo',
+          coords: [57.9650, 60.0350],
+          city: 'Свердловская обл.',
+          title: 'Коттедж в Фатеево',
+          type: 'Загородный дом',
+          area: '260 м²',
+          img: 'images/ANDR_FATEEVO/cover.webp',
+          link: 'project-andr-fateevo.html'
+        },
+        {
+          id: 'gorbunovo',
+          coords: [57.8610, 59.8950],
+          city: 'Горбуново',
+          title: 'Дом в Горбуново',
+          type: 'Загородный дом',
+          area: '220 м²',
+          img: 'images/GORBUNOVO_2FL/cover.webp',
+          link: 'project-gorbunovo-2fl.html'
+        },
+        {
+          id: 'a-frames',
+          coords: [57.2500, 60.1500],
+          city: 'Свердловская обл.',
+          title: 'Комплекс A-Frame домов',
+          type: 'Загородный дом',
+          area: '180 м²',
+          img: 'images/A_FRAMES/cover.webp',
+          link: 'project-a-frames.html'
+        },
+        {
+          id: 'banniy-kompl',
+          coords: [56.9800, 60.3800],
+          city: 'Свердловская обл.',
+          title: 'Банный СПА-комплекс',
+          type: 'Коммерческий объект',
+          area: '190 м²',
+          img: 'images/BANNIY_KOMPL/cover.webp',
+          link: 'project-banniy-kompl.html'
         },
         {
           id: 'hmao',
           coords: [61.2540, 73.3962],
           city: 'Сургут / ХМАО',
-          title: 'Квартира в ХМАО',
-          type: 'Жилой интерьер',
-          area: '160 м²',
-          img: 'images/HMAO/cover.jpg',
+          title: 'Частная резиденция ХМАО',
+          type: 'Загородный дом',
+          area: '340 м²',
+          img: 'images/HMAO/cover.webp',
           link: 'project-hmao.html'
         },
         {
           id: 'sochi',
           coords: [43.5855, 39.7231],
           city: 'Сочи',
-          title: 'Квартира в Сочи',
-          type: 'Апартаменты у моря',
+          title: 'Апартаменты в Сочи',
+          type: 'Жилая квартира',
           area: '90 м²',
-          img: 'images/SOCHI_KVARTIRA/cover.jpg',
+          img: 'images/SOCHI_KVARTIRA/cover.webp',
           link: 'project-sochi-kvartira.html'
         }
       ];

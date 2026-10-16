@@ -40,12 +40,22 @@
       <div class="section-header projects-header-row">
         <h1 class="section-title" id="hwTitle">Все проекты</h1>
         
-        <!-- Категории-фильтры (архитектурные кнопки-табы) -->
-        <div class="projects-filter-tabs">
-          <button class="filter-tab-btn hw-tab-btn active" data-filter="all" data-title="Все проекты">Все</button>
-          <button class="filter-tab-btn hw-tab-btn" data-filter="flats" data-title="Квартиры">Квартиры</button>
-          <button class="filter-tab-btn hw-tab-btn" data-filter="houses" data-title="Загородные дома">Дома</button>
-          <button class="filter-tab-btn hw-tab-btn" data-filter="commercial" data-title="Коммерческие">Коммерческие</button>
+        <div class="projects-filters-bar">
+          <!-- Фильтр 1: Тип объекта (стеклянная капсула с зерном как в Макаровском) -->
+          <div class="projects-filter-tabs" role="group" aria-label="Тип объекта">
+            <button class="filter-tab-btn js-type-filter active" data-filter-type="all" data-title="Все проекты">Все</button>
+            <button class="filter-tab-btn js-type-filter" data-filter-type="flats" data-title="Жилые квартиры">Жилые квартиры</button>
+            <button class="filter-tab-btn js-type-filter" data-filter-type="houses" data-title="Загородные дома">Загородные дома</button>
+            <button class="filter-tab-btn js-type-filter" data-filter-type="commercial" data-title="Коммерческие объекты">Коммерческие объекты</button>
+          </div>
+
+          <!-- Фильтр 2: Площадь (стеклянная капсула с зерном как в Макаровском) -->
+          <div class="projects-filter-tabs" role="group" aria-label="Площадь объекта">
+            <button class="filter-tab-btn js-area-filter active" data-filter-area="all">Любая площадь</button>
+            <button class="filter-tab-btn js-area-filter" data-filter-area="under100">До 100 м²</button>
+            <button class="filter-tab-btn js-area-filter" data-filter-area="100to200">100–200 м²</button>
+            <button class="filter-tab-btn js-area-filter" data-filter-area="over200">От 200 м²</button>
+          </div>
         </div>
       </div>
 
@@ -53,9 +63,9 @@
       <div class="projects-grid">
 
         <!-- 1. ЖК «На Некрасова» -->
-        <a href="project-nekrasova.html" class="project-card hw-card" data-category="flats">
+        <a href="project-nekrasova.html" class="project-card hw-card" data-category="flats" data-area="120">
           <div class="card-media-wrap">
-            <img src="images/NA_NEKRASOVA/22.jpg" alt="ЖК «На Некрасова»" onerror="this.onerror=null; this.src='images/NA_NEKRASOVA/cover.jpg';">
+            <img src="images/NA_NEKRASOVA/22.webp" alt="ЖК «На Некрасова»" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='images/NA_NEKRASOVA/cover.webp';">
             <span class="glass-badge">Жилая квартира</span>
           </div>
           <div class="card-desc">
@@ -65,9 +75,9 @@
         </a>
 
         <!-- 2. ЖК «Макаровский» -->
-        <a href="project-makarovsky.html" class="project-card hw-card" data-category="flats">
+        <a href="project-makarovsky.html" class="project-card hw-card" data-category="flats" data-area="140">
           <div class="card-media-wrap">
-            <img src="images/MAKAROVSKI_PORTUGALIA/1.jpg" alt="ЖК «Макаровский»" onerror="this.onerror=null; this.src='images/MAKAROVSKI_PORTUGALIA/cover.jpg';">
+            <img src="images/MAKAROVSKI_PORTUGALIA/1.webp" alt="ЖК «Макаровский»" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='images/MAKAROVSKI_PORTUGALIA/cover.webp';">
             <span class="glass-badge">Жилая квартира</span>
           </div>
           <div class="card-desc">
@@ -77,9 +87,9 @@
         </a>
 
         <!-- 3. ЖК «Екатерининский парк» -->
-        <a href="project-ekater-park.html" class="project-card hw-card" data-category="flats">
+        <a href="project-ekater-park.html" class="project-card hw-card" data-category="flats" data-area="110">
           <div class="card-media-wrap">
-            <img src="images/EKATER_PARK/1.jpg" alt="ЖК «Екатерининский парк»" onerror="this.onerror=null; this.src='images/EKATER_PARK/cover.jpg';">
+            <img src="images/EKATER_PARK/1.webp" alt="ЖК «Екатерининский парк»" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='images/EKATER_PARK/cover.webp';">
             <span class="glass-badge">Жилая квартира</span>
           </div>
           <div class="card-desc">
@@ -89,9 +99,9 @@
         </a>
 
         <!-- 4. ЖК «Suomen Ranta» -->
-        <a href="project-suomen.html" class="project-card hw-card" data-category="flats">
+        <a href="project-suomen.html" class="project-card hw-card" data-category="flats" data-area="85">
           <div class="card-media-wrap">
-            <img src="images/SUOMEN/1.jpg" alt="ЖК «Suomen Ranta»" onerror="this.onerror=null; this.src='images/SUOMEN/cover.jpg';">
+            <img src="images/SUOMEN/1.webp" alt="ЖК «Suomen Ranta»" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='images/SUOMEN/cover.webp';">
             <span class="glass-badge">Жилая квартира</span>
           </div>
           <div class="card-desc">
@@ -101,10 +111,10 @@
         </a>
 
         <!-- 5. Отель «Номерной фонд» -->
-        <a href="project-nomer-otel.html" class="project-card hw-card" data-category="commercial">
+        <a href="project-nomer-otel.html" class="project-card hw-card" data-category="commercial" data-area="45">
           <div class="card-media-wrap">
-            <img src="images/NOMER_OTEL/1.jpg" alt="Отель «Номерной фонд»" onerror="this.onerror=null; this.src='images/NOMER_OTEL/cover.jpg';">
-            <span class="glass-badge">Коммерческое · HoReCa</span>
+            <img src="images/NOMER_OTEL/1.webp" alt="Отель «Номерной фонд»" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='images/NOMER_OTEL/cover.webp';">
+            <span class="glass-badge">Коммерческий объект</span>
           </div>
           <div class="card-desc">
             <h3 class="card-project-title">Отель «Номерной фонд»</h3>
@@ -113,10 +123,10 @@
         </a>
 
         <!-- 6. Гастропаб в Нижнем Тагиле -->
-        <a href="project-pub-tagil.html" class="project-card hw-card" data-category="commercial">
+        <a href="project-pub-tagil.html" class="project-card hw-card" data-category="commercial" data-area="210">
           <div class="card-media-wrap">
-            <img src="images/PUB_TAGIL/1.jpg" alt="Гастропаб в Нижнем Тагиле" onerror="this.onerror=null; this.src='images/PUB_TAGIL/cover.jpg';">
-            <span class="glass-badge">Общественный интерьер</span>
+            <img src="images/PUB_TAGIL/1.webp" alt="Гастропаб в Нижнем Тагиле" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='images/PUB_TAGIL/cover.webp';">
+            <span class="glass-badge">Коммерческий объект</span>
           </div>
           <div class="card-desc">
             <h3 class="card-project-title">Гастропаб в Нижнем Тагиле</h3>
@@ -125,9 +135,9 @@
         </a>
 
         <!-- 7. Комплекс A-Frame домов -->
-        <a href="project-a-frames.html" class="project-card hw-card" data-category="houses">
+        <a href="project-a-frames.html" class="project-card hw-card" data-category="houses" data-area="180">
           <div class="card-media-wrap">
-            <img src="images/A_FRAMES/1.jpg" alt="Комплекс A-Frame домов" onerror="this.onerror=null; this.src='images/A_FRAMES/cover.jpg';">
+            <img src="images/A_FRAMES/1.webp" alt="Комплекс A-Frame домов" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='images/A_FRAMES/cover.webp';">
             <span class="glass-badge">Загородный дом</span>
           </div>
           <div class="card-desc">
@@ -137,10 +147,10 @@
         </a>
 
         <!-- 8. Частная резиденция ХМАО -->
-        <a href="project-hmao.html" class="project-card hw-card" data-category="houses">
+        <a href="project-hmao.html" class="project-card hw-card" data-category="houses" data-area="340">
           <div class="card-media-wrap">
-            <img src="images/HMAO/1.jpg" alt="Частная резиденция ХМАО" onerror="this.onerror=null; this.src='images/HMAO/cover.jpg';">
-            <span class="glass-badge">Частная резиденция</span>
+            <img src="images/HMAO/1.webp" alt="Частная резиденция ХМАО" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='images/HMAO/cover.webp';">
+            <span class="glass-badge">Загородный дом</span>
           </div>
           <div class="card-desc">
             <h3 class="card-project-title">Частная резиденция ХМАО</h3>
@@ -149,10 +159,10 @@
         </a>
 
         <!-- 9. Апартаменты в Сочи -->
-        <a href="project-sochi-kvartira.html" class="project-card hw-card" data-category="flats">
+        <a href="project-sochi-kvartira.html" class="project-card hw-card" data-category="flats" data-area="90">
           <div class="card-media-wrap">
-            <img src="images/SOCHI_KVARTIRA/1.jpg" alt="Апартаменты в Сочи" onerror="this.onerror=null; this.src='images/SOCHI_KVARTIRA/cover.jpg';">
-            <span class="glass-badge">Курортные апартаменты</span>
+            <img src="images/SOCHI_KVARTIRA/1.webp" alt="Апартаменты в Сочи" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='images/SOCHI_KVARTIRA/cover.webp';">
+            <span class="glass-badge">Жилая квартира</span>
           </div>
           <div class="card-desc">
             <h3 class="card-project-title">Апартаменты в Сочи</h3>
@@ -161,10 +171,10 @@
         </a>
 
         <!-- 10. Коттедж в Фатеево -->
-        <a href="project-andr-fateevo.html" class="project-card hw-card" data-category="houses">
+        <a href="project-andr-fateevo.html" class="project-card hw-card" data-category="houses" data-area="260">
           <div class="card-media-wrap">
-            <img src="images/ANDR_FATEEVO/1.jpg" alt="Коттедж в Фатеево" onerror="this.onerror=null; this.src='images/ANDR_FATEEVO/cover.jpg';">
-            <span class="glass-badge">Коттедж</span>
+            <img src="images/ANDR_FATEEVO/1.webp" alt="Коттедж в Фатеево" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='images/ANDR_FATEEVO/cover.webp';">
+            <span class="glass-badge">Загородный дом</span>
           </div>
           <div class="card-desc">
             <h3 class="card-project-title">Коттедж в Фатеево</h3>
@@ -173,10 +183,10 @@
         </a>
 
         <!-- 11. Дом в Горбуново -->
-        <a href="project-gorbunovo-2fl.html" class="project-card hw-card" data-category="houses">
+        <a href="project-gorbunovo-2fl.html" class="project-card hw-card" data-category="houses" data-area="220">
           <div class="card-media-wrap">
-            <img src="images/GORBUNOVO_2FL/1.jpg" alt="Дом в Горбуново" onerror="this.onerror=null; this.src='images/GORBUNOVO_2FL/cover.jpg';">
-            <span class="glass-badge">Двухэтажный дом</span>
+            <img src="images/GORBUNOVO_2FL/1.webp" alt="Дом в Горбуново" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='images/GORBUNOVO_2FL/cover.webp';">
+            <span class="glass-badge">Загородный дом</span>
           </div>
           <div class="card-desc">
             <h3 class="card-project-title">Дом в Горбуново</h3>
@@ -185,10 +195,10 @@
         </a>
 
         <!-- 12. Апартаменты ArtU 40 м² -->
-        <a href="project-artu-40m2.html" class="project-card hw-card" data-category="flats">
+        <a href="project-artu-40m2.html" class="project-card hw-card" data-category="flats" data-area="40">
           <div class="card-media-wrap">
-            <img src="images/ARTU_40M2/1.jpg" alt="Апартаменты ArtU 40 м²" onerror="this.onerror=null; this.src='images/ARTU_40M2/cover.jpg';">
-            <span class="glass-badge">Компактный интерьер</span>
+            <img src="images/ARTU_40M2/1.webp" alt="Апартаменты ArtU 40 м²" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='images/ARTU_40M2/cover.webp';">
+            <span class="glass-badge">Жилая квартира</span>
           </div>
           <div class="card-desc">
             <h3 class="card-project-title">Апартаменты ArtU 40 м²</h3>
@@ -197,9 +207,9 @@
         </a>
 
         <!-- 13. Квартира на ГГМ -->
-        <a href="project-kris-ggm.html" class="project-card hw-card" data-category="flats">
+        <a href="project-kris-ggm.html" class="project-card hw-card" data-category="flats" data-area="78">
           <div class="card-media-wrap">
-            <img src="images/KRIS_GGM/1.jpg" alt="Квартира на ГГМ" onerror="this.onerror=null; this.src='images/KRIS_GGM/cover.jpg';">
+            <img src="images/KRIS_GGM/1.webp" alt="Квартира на ГГМ" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='images/KRIS_GGM/cover.webp';">
             <span class="glass-badge">Жилая квартира</span>
           </div>
           <div class="card-desc">
@@ -209,10 +219,10 @@
         </a>
 
         <!-- 14. Банный СПА-комплекс -->
-        <a href="project-banniy-kompl.html" class="project-card hw-card" data-category="commercial">
+        <a href="project-banniy-kompl.html" class="project-card hw-card" data-category="commercial" data-area="190">
           <div class="card-media-wrap">
-            <img src="images/BANNIY_KOMPL/1.jpg" alt="Банный СПА-комплекс" onerror="this.onerror=null; this.src='images/BANNIY_KOMPL/cover.jpg';">
-            <span class="glass-badge">СПА и Wellness</span>
+            <img src="images/BANNIY_KOMPL/1.webp" alt="Банный СПА-комплекс" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='images/BANNIY_KOMPL/cover.webp';">
+            <span class="glass-badge">Коммерческий объект</span>
           </div>
           <div class="card-desc">
             <h3 class="card-project-title">Банный СПА-комплекс</h3>
@@ -282,6 +292,9 @@
             </div>
 
             <button type="submit" class="btn-submit">Отправить заявку</button>
+            <div class="form-privacy-note">
+              Нажимая кнопку «Отправить заявку», вы соглашаетесь с условиями <a href="privacy.html" target="_blank">Политики конфиденциальности</a> и даете согласие на обработку персональных данных.
+            </div>
           </form>
         </div>
       </div>

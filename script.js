@@ -12,12 +12,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 2. Переключение 4 вкладок: Квартиры / Дома / Коммерческие / Все проекты
-  function setCategory(filterValue, titleText) {
+  // 2. Двойная фильтрация на странице «Все проекты»: по типу объекта и по площади
+  const typeButtons = document.querySelectorAll('.js-type-filter, .hw-tab-btn');
+  const areaButtons = document.querySelectorAll('.js-area-filter');
+  let activeTypeFilter = 'all';
+  let activeAreaFilter = 'all';
+
+  function applyProjectsFilter(titleText) {
     if (hwTitle && titleText && hwTitle.textContent !== titleText) {
       hwTitle.style.opacity = '0';
       hwTitle.style.transform = 'translateY(-8px)';
-
       setTimeout(() => {
         hwTitle.textContent = titleText;
         hwTitle.style.opacity = '1';
@@ -25,13 +29,21 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 180);
     }
 
-    tabButtons.forEach(btn => {
-      btn.classList.toggle('active', btn.getAttribute('data-filter') === filterValue);
-    });
-
     projectCards.forEach(card => {
-      const category = card.getAttribute('data-category');
-      if (filterValue === 'all' || category === filterValue) {
+      const category = card.getAttribute('data-category') || '';
+      const areaVal = parseFloat(card.getAttribute('data-area') || '0');
+
+      const matchesType = (activeTypeFilter === 'all' || category === activeTypeFilter);
+      let matchesArea = true;
+      if (activeAreaFilter === 'under100') {
+        matchesArea = areaVal > 0 && areaVal < 100;
+      } else if (activeAreaFilter === '100to200') {
+        matchesArea = areaVal >= 100 && areaVal <= 200;
+      } else if (activeAreaFilter === 'over200') {
+        matchesArea = areaVal > 200;
+      }
+
+      if (matchesType && matchesArea) {
         card.classList.remove('is-hidden');
         setTimeout(() => {
           card.style.opacity = '1';
@@ -47,9 +59,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  tabButtons.forEach(btn => {
+  typeButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-      setCategory(btn.getAttribute('data-filter'), btn.getAttribute('data-title'));
+      activeTypeFilter = btn.getAttribute('data-filter-type') || btn.getAttribute('data-filter') || 'all';
+      typeButtons.forEach(b => b.classList.toggle('active', b === btn));
+      applyProjectsFilter(btn.getAttribute('data-title'));
+    });
+  });
+
+  areaButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeAreaFilter = btn.getAttribute('data-filter-area') || 'all';
+      areaButtons.forEach(b => b.classList.toggle('active', b === btn));
+      applyProjectsFilter(null);
     });
   });
 
@@ -526,9 +548,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Список фотографий из папки COVER_MAIN для плавного переключения
       const candidateImages = [
-        'images/COVER_MAIN/cover_main_makarovski.jpg',
-        'images/COVER_MAIN/cover_main_nekrasova.jpg',
-        'images/COVER_MAIN/cover_main_uralets.jpg'
+        'images/COVER_MAIN/cover_main_makarovski.webp',
+        'images/COVER_MAIN/cover_main_nekrasova.webp',
+        'images/COVER_MAIN/cover_main_uralets.webp'
       ];
 
       // Фильтруем только те файлы, которые реально присутствуют в папке
@@ -583,27 +605,31 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  // 9. Выдвигающаяся надпись FERRO DESIGN в подвале при скролле от контактов
+  // 9. Выдвигающаяся надпись FERRO DESIGN в подвале (приходит в конечную точку строго в самом низу сайта)
   const brandTitle = document.getElementById('footerBrandTitle');
   if (brandTitle) {
     let isTicking = false;
 
     function updateFooterBrandPosition() {
-      const rect = brandTitle.getBoundingClientRect();
       const windowH = window.innerHeight;
+      const scrollY = window.scrollY || window.pageYOffset;
+      const docHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight
+      );
 
-      // Стартовая точка: когда заголовок подходит снизу
-      const startPoint = windowH + 40;
-      // Финишная точка: заголовок полностью занимает место и достигает 100% плотности
-      const endPoint = windowH * 0.90;
+      // Конечная точка — самый низ сайта (максимальный возможный scrollY)
+      const maxScrollY = Math.max(1, docHeight - windowH);
+      // Дистанция анимации перед самым низом страницы (около 380px прокрутки по футеру)
+      const animRange = Math.min(380, windowH * 0.55);
+      const startScrollY = Math.max(0, maxScrollY - animRange);
 
-      const rawProgress = (startPoint - rect.top) / (startPoint - endPoint);
+      const rawProgress = (scrollY - startScrollY) / Math.max(1, maxScrollY - startScrollY);
       const progress = Math.max(0, Math.min(1, rawProgress));
 
-      // Движение слева направо: от -180px до 0px
+      // Движение слева направо: достигает 0px строго в самом низу страницы (при progress === 1)
       const currentTranslateX = (1 - progress) * -180;
-      // Плотная непрозрачность: мгновенно достигает ровно 1.0 (без просвечивания белого фона)
-      const currentOpacity = Math.min(1, progress * 1.35);
+      const currentOpacity = progress;
 
       brandTitle.style.transform = `translate3d(${currentTranslateX}px, 0, 0)`;
       brandTitle.style.opacity = currentOpacity;
@@ -618,7 +644,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, { passive: true });
 
-    // Инициализация при загрузке страницы
+    window.addEventListener('resize', updateFooterBrandPosition, { passive: true });
     updateFooterBrandPosition();
   }
 

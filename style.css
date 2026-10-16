@@ -54,7 +54,8 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 .glass-header::before,
 .project-header::before,
 .hero-glass-card::before,
-.hw-room-nav::before {
+.hw-room-nav::before,
+.projects-filter-tabs::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -471,46 +472,68 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 
 .projects-header-row {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 24px;
   margin-bottom: 48px;
 }
 
-/* Фильтры-табы категорий в архитектурном стиле */
-.projects-filter-tabs {
+.projects-filters-bar {
   display: flex;
-  align-items: center;
-  gap: 10px;
   flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+/* Стеклянная капсула с зерном (1-в-1 как переключатель помещений в Макаровском) */
+.projects-filter-tabs {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  border-radius: 9999px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.projects-filter-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .filter-tab-btn {
+  position: relative;
+  z-index: 1;
   background: transparent;
-  border: 1px solid rgba(13, 13, 13, 0.15);
+  border: none;
   border-radius: 9999px;
-  padding: 8px 20px;
+  padding: 8px 16px;
   font-family: inherit;
-  font-size: 14px; /* 3 ТИП: строго 14px */
+  font-size: 14px; /* 3 ТИП */
   font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #666666;
+  color: #434242;
+  white-space: nowrap;
   cursor: pointer;
   transition: all 0.25s ease;
   user-select: none;
 }
 
 .filter-tab-btn:hover {
-  border-color: #0d0d0d;
-  color: #0d0d0d;
+  color: #000000;
 }
 
 .filter-tab-btn.active {
-  background: #0d0d0d;
-  border-color: #0d0d0d;
-  color: #ffffff;
+  background: #434242;
+  color: #EBECEC;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
 }
 
 /* Плавная фильтрация карточек */
@@ -717,7 +740,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   /* Мягкое полупрозрачное затемнение 42% + интерьерное фото 13 (Некрасова) */
   background-image: 
     linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), 
-    url('images/NA_NEKRASOVA/13.jpg');
+    url('images/NA_NEKRASOVA/13.webp');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -734,7 +757,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 
 /* Белый заголовок секции «Услуги» поверх тёмного фона (2 ТИП: 20px) */
 .services-section .services-section-title {
-  color: #ffffff !important;
+  color: #EBECEC !important;
 }
 
 .services-grid {
@@ -1029,7 +1052,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   /* Затемнение 40% + фоновое фото обложки отеля «Номерной фонд» */
   background-image: 
     linear-gradient(rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.40)), 
-    url('images/NOMER_OTEL/cover.jpg');
+    url('images/NOMER_OTEL/cover.webp');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -1053,13 +1076,13 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 
 /* Белый заголовок «Контакты» (2 ТИП: 20px, Unbounded bold) */
 .contact-section .contact-title {
-  color: #ffffff !important;
+  color: #EBECEC !important;
 }
 
 /* Белый поясняющий текст интро (3 ТИП: 14px) */
 .contact-intro {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.88);
+  color: #EBECEC;
   line-height: 1.6;
   margin-top: 16px;
   margin-bottom: 40px;
@@ -1082,7 +1105,8 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.65);
+  color: #EBECEC;
+  opacity: 0.8;
   margin-bottom: 6px;
 }
 
@@ -1090,7 +1114,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 .detail-val {
   font-size: 20px;
   font-weight: 500;
-  color: #ffffff;
+  color: #EBECEC;
 }
 
 /* Правая колонка: стеклянная форма лежит прямо поверх полноэкранного фона */
@@ -1155,7 +1179,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   margin-top: 8px;
   padding: 16px;
   background: #434242;
-  color: #ffffff;
+  color: #EBECEC;
   border: none;
   border-radius: 10px;
   font-size: 14px;
@@ -1163,10 +1187,11 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   letter-spacing: 0.06em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: opacity 0.2s ease;
+  transition: background-color 0.25s ease, transform 0.2s ease;
 }
 .btn-submit:hover {
-  opacity: 0.88;
+  background: #636161; /* При наведении кнопка становится светлее */
+  color: #EBECEC;
 }
 
 .form-privacy-note {
@@ -1191,14 +1216,14 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 ============================================================ */
 .site-footer {
   background-color: #faf9f7;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-  padding: 64px 48px 32px;
+  border-top: 1px solid #EBECEC;
+  padding: 64px 48px 64px; /* Ровно по 64px сверху над иконками и снизу под футером */
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0;
   font-size: 14px;
-  color: #1a1a1a;
+  color: #434242;
   width: 100%;
   box-sizing: border-box;
 }
@@ -1407,7 +1432,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
    СТИЛИ СТРАНИЦЫ ПОЛИТИКИ КОНФИДЕНЦИАЛЬНОСТИ (PRIVACY.HTML)
 ============================================================ */
 .privacy-page-body {
-  background-color: #f7f7f7;
+  background-color: #EBECEC;
   color: #434242;
   min-height: 100vh;
   display: flex;
@@ -1417,7 +1442,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 
 .privacy-container {
   max-width: 880px;
-  margin: 140px auto 90px;
+  margin: 164px auto 90px;
   padding: 0 32px;
   width: 100%;
   box-sizing: border-box;
@@ -1426,7 +1451,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 .privacy-header-wrap {
   margin-bottom: 48px;
   padding-bottom: 32px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(67, 66, 66, 0.2);
 }
 
 .privacy-title {
@@ -1441,10 +1466,11 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 }
 
 .privacy-subtitle {
-  font-size: 13px;
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #888888;
+  color: #434242;
+  opacity: 0.75;
   margin: 0;
 }
 
@@ -1454,31 +1480,25 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 
 .privacy-content h2 {
   font-family: 'Unbounded', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   color: #434242;
   margin: 0 0 14px;
 }
 
-.privacy-content p {
-  font-size: 15px;
+.privacy-content p,
+.privacy-content li {
+  font-size: 14px;
   line-height: 1.7;
-  color: #555555;
-  margin: 0 0 14px;
+  color: #434242;
+  margin: 0 0 12px;
 }
 
 .privacy-content ul {
   padding-left: 20px;
   margin: 0 0 16px;
-}
-
-.privacy-content li {
-  font-size: 15px;
-  line-height: 1.7;
-  color: #555555;
-  margin-bottom: 8px;
 }
 
 .privacy-content a {
@@ -1488,8 +1508,9 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 }
 
 .privacy-requisites-card {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(67, 66, 66, 0.2);
   border-radius: 16px;
   padding: 24px 28px;
   margin-top: 20px;
@@ -1523,14 +1544,15 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   position: relative;
   width: 100%;
   max-width: 100%;
-  height: 100vh; /* Рендер ровно на всю высоту экрана (100%) при первом входе */
+  height: 100vh;
   min-height: 700px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin: 0;
-  padding: 136px 48px 64px; /* 136px сверху под шапку 100px (для заголовка наверху), 64px снизу */
-  color: #ffffff;
+  /* 100px шапка + 64px отступ сверху = 164px (ровно как 64px под нижней полосой) */
+  padding: 164px 48px 64px;
+  color: #EBECEC;
   overflow: hidden;
   box-sizing: border-box;
   background-color: #1a1a1a;
@@ -1601,7 +1623,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 /* Внутренний контейнер интро: заголовок ЖК «Макаровский» наверху, характеристики внизу */
 .project-intro-container {
   position: relative;
-  z-index: 2;
+  z-index: 4; /* Строго поверх слоя затемнения .project-intro-overlay (z-index: 3) */
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
@@ -1614,7 +1636,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 /* 1 ТИП: САМЫЙ БОЛЬШОЙ ШРИФТ ДЛЯ СТРАНИЦЫ ПРОЕКТА (НАВЕРХУ ЭКРАНА) */
 .project-title { 
   position: relative;
-  z-index: 2;
+  z-index: 4;
   font-family: 'Unbounded', sans-serif;
   font-size: clamp(34px, 4.8vw, 62px); 
   font-weight: 700; 
@@ -1622,40 +1644,40 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   line-height: 1.08; 
   text-transform: uppercase;
   margin: 0; 
-  color: #ffffff; 
+  color: #EBECEC; 
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.28);
 }
 
 /* Блок характеристик проекта (внизу первого экрана на темной части градиента) */
 .project-yodezeen-specs {
   position: relative;
-  z-index: 2;
+  z-index: 4;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: start;
   gap: 40px;
-  border-top: 1px solid rgba(255, 255, 255, 0.24);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+  border-top: 1px solid #EBECEC;
+  border-bottom: 1px solid #EBECEC;
   padding: 32px 0;
   margin-bottom: 0;
 }
 .specs-col-left { display: flex; flex-direction: column; gap: 24px; text-align: left; }
 .specs-col-right { display: flex; flex-direction: column; gap: 24px; text-align: right; }
 .specs-group { display: flex; flex-direction: column; }
-.specs-label { font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255, 255, 255, 0.70); margin-bottom: 6px; }
-.specs-val { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #ffffff; }
+.specs-label { font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: #EBECEC; margin-bottom: 6px; }
+.specs-val { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #EBECEC; }
 
 /* Обёртка нижней части первого экрана */
 .project-intro-bottom {
   position: relative;
-  z-index: 2;
+  z-index: 4;
   width: 100%;
 }
 
 /* Переключатель сценариев освещения (ДЕНЬ / НОЧЬ) в стиле премиального глассморфизма */
 .lighting-controls-wrap {
   position: relative;
-  z-index: 2;
+  z-index: 4;
   display: flex;
   justify-content: flex-end;
   margin-bottom: 22px;
@@ -1874,7 +1896,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 
 /* ПАНЕЛЬ ПЕРЕХОДА К СЛЕДУЮЩЕМУ КЕЙСУ (1 ТИП ШРИФТА + КАСТОМНАЯ SVG-СТРЕЛКА) */
 .next-case-bar { 
-  border-top: 1px solid rgba(13, 13, 13, 0.08); 
+  border-top: 1px solid #EBECEC; 
   padding: 80px 0 20px; 
   text-align: center; 
 }
@@ -1885,7 +1907,8 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   font-weight: 600;
   text-transform: uppercase; 
   letter-spacing: 0.08em; 
-  color: #888888; 
+  color: #434242;
+  opacity: 0.7;
   margin-bottom: 18px; 
 }
 
@@ -1901,7 +1924,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   line-height: 1.08;
   text-transform: uppercase;
   text-decoration: none;
-  color: #434242;
+  color: #434242; /* Изначально темная */
   transition: color 0.3s ease; 
 }
 
@@ -1913,7 +1936,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 }
 
 .next-title:hover { 
-  color: #0d0d0d; 
+  color: #7a7878; /* При наведении становится светлее */
 }
 
 .next-title:hover .next-arrow-svg {
@@ -2049,7 +2072,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 
   /* 7. Подвал сайта на смартфонах */
   .site-footer { 
-    padding: 48px 24px 32px; /* Компактный отступ снизу под футером на смартфонах */
+    padding: 48px 24px 48px;
     gap: 28px; 
   }
   .footer-brand-banner {
@@ -2228,7 +2251,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 
 .hw-room-link.active {
   background: #434242;
-  color: #ffffff;
+  color: #EBECEC;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
 }
 
