@@ -3,7 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ЖК «Макаровский» — Ferro Design</title>
+
+  <!-- ============================================================
+       [ШАБЛОН КЕЙСА: 1. МЕТА-ТЕГИ И КАРТОЧКА OPEN GRAPH]
+       При создании нового проекта замените:
+       1) Title и Description
+       2) og:title, og:description, og:image (ссылка на главный рендер)
+  ============================================================ -->
+  <title>ЖК «Макаровский» — Студия дизайна FERRO DESIGN</title>
+  <meta name="description" content="Дизайн-проект интерьера квартиры 140 м² в ЖК «Макаровский», Екатеринбург от студии FERRO DESIGN.">
+
+  <!-- Open Graph / Карточка для Telegram, WhatsApp, ВКонтакте -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="ЖК «Макаровский» — FERRO DESIGN">
+  <meta property="og:description" content="Дизайн интерьера квартиры 140 м² в Екатеринбурге. Премиальные планировочные и световые решения.">
+  <meta property="og:image" content="images/COVER_MAIN/cover_main_makarovski.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ЖК «Макаровский» — FERRO DESIGN">
+  <meta name="twitter:description" content="Дизайн интерьера квартиры 140 м² в Екатеринбурге от студии FERRO DESIGN.">
+  <meta name="twitter:image" content="images/COVER_MAIN/cover_main_makarovski.jpg">
+
+  <!-- Динамический анимированный фавикон F-E-R-R-O (генерируется script.js) -->
+  <link rel="icon" id="dynamicFavicon" type="image/png" href="">
+
+  <!-- Шрифты Google Fonts: Unbounded (акцентные заголовки) и Manrope (основной текст) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800;900&family=Manrope:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,7 +35,8 @@
 <body>
 
   <!-- ============================================================
-       ФИКСИРОВАННАЯ ШАПКА С МАТОВОЙ ЗЕРНИСТОСТЬЮ И УВЕЛИЧЕННЫМ ЛОГОТИПОМ
+       [ШАБЛОН КЕЙСА: 2. ФИКСИРОВАННАЯ ШАПКА]
+       (Общая для всех кейсов, менять ничего не требуется)
   ============================================================ -->
   <header class="glass-header">
     <div class="header-inner">
@@ -29,12 +53,17 @@
   </header>
 
   <!-- ============================================================
-       ИНТРО КЕЙСА: ФОНОВЫЙ КАВЕР НА ВСЮ ВЫСОТУ (100vh) + БЕЛЫЙ ТЕКСТ
+       [ШАБЛОН КЕЙСА: 3. ГЛАВНЫЙ ЭКРАН (HERO 100vh)]
+       При создании нового проекта замените:
+       1) Пути к каверам (Дневной и Ночной) в .project-intro-bg
+       2) Название в h1.project-title
+       3) Характеристики (Город, Площадь, Категория, Год)
   ============================================================ -->
   <section class="project-intro">
-    <!-- Фоновый первый кавер ЖК «Макаровский» на всю высоту экрана (100vh) + слой небольшого затемнения -->
+    <!-- Фоновый первый кавер на всю высоту экрана (100vh) + сценарии освещения (День / Ночь) -->
     <div class="project-intro-bg">
-      <img src="images/COVER_MAIN/cover_main_makarovski.jpg" alt="ЖК «Макаровский»" onerror="this.onerror=null; this.src='images/MAKAROVSKI_PORTUGALIA/cover.jpg';">
+      <img src="images/COVER_MAIN/cover_main_makarovski.jpg" alt="ЖК «Макаровский» — Дневной сценарий" class="hero-bg-layer hero-bg-day" onerror="this.onerror=null; this.src='images/MAKAROVSKI_PORTUGALIA/cover.jpg';">
+      <img src="images/MAKAROVSKI_PORTUGALIA/cover_night.jpg" alt="ЖК «Макаровский» — Вечерний сценарий" class="hero-bg-layer hero-bg-night" onerror="this.onerror=null; this.src='images/COVER_MAIN/cover_main_makarovski_night.jpg';">
       <div class="project-intro-overlay"></div>
     </div>
 
@@ -42,29 +71,57 @@
       <!-- 1 ТИП: САМЫЙ БОЛЬШОЙ ШРИФТ В СТИЛЕ ГЛАВНОГО ЗАГОЛОВКА САЙТА -->
       <h1 class="project-title">ЖК «Макаровский»</h1>
 
-      <!-- БЛОК ХАРАКТЕРИСТИК (2 КОЛОНКИ, БЕЛЫЙ ТЕКСТ) -->
-      <div class="project-yodezeen-specs">
-        <!-- Левая колонка -->
-        <div class="specs-col specs-col-left">
-          <div class="specs-group">
-            <span class="specs-label">Город</span>
-            <span class="specs-val">Екатеринбург</span>
-          </div>
-          <div class="specs-group">
-            <span class="specs-label">Площадь</span>
-            <span class="specs-val">140 м²</span>
+      <!-- НИЖНЯЯ ЧАСТЬ ИНТРО: ПЕРЕКЛЮЧАТЕЛЬ ДЕНЬ / НОЧЬ + ХАРАКТЕРИСТИКИ -->
+      <div class="project-intro-bottom">
+        <div class="lighting-controls-wrap">
+          <div class="lighting-mode-switch" role="group" aria-label="Сценарий освещения">
+            <button type="button" class="lighting-mode-btn is-active" data-mode="day" aria-pressed="true" title="Дневной свет">
+              <svg class="lighting-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+              <span>ДЕНЬ</span>
+            </button>
+            <button type="button" class="lighting-mode-btn" data-mode="night" aria-pressed="false" title="Вечерний свет">
+              <svg class="lighting-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+              <span>НОЧЬ</span>
+            </button>
           </div>
         </div>
 
-        <!-- Правая колонка -->
-        <div class="specs-col specs-col-right">
-          <div class="specs-group">
-            <span class="specs-label">Категория</span>
-            <span class="specs-val">Квартира</span>
+        <!-- БЛОК ХАРАКТЕРИСТИК (2 КОЛОНКИ, БЕЛЫЙ ТЕКСТ) -->
+        <div class="project-yodezeen-specs">
+          <!-- Левая колонка -->
+          <div class="specs-col specs-col-left">
+            <div class="specs-group">
+              <span class="specs-label">Город</span>
+              <span class="specs-val">Екатеринбург</span>
+            </div>
+            <div class="specs-group">
+              <span class="specs-label">Площадь</span>
+              <span class="specs-val">140 м²</span>
+            </div>
           </div>
-          <div class="specs-group">
-            <span class="specs-label">Год реализации</span>
-            <span class="specs-val">2026</span>
+
+          <!-- Правая колонка -->
+          <div class="specs-col specs-col-right">
+            <div class="specs-group">
+              <span class="specs-label">Категория</span>
+              <span class="specs-val">Квартира</span>
+            </div>
+            <div class="specs-group">
+              <span class="specs-label">Год реализации</span>
+              <span class="specs-val">2026</span>
+            </div>
           </div>
         </div>
       </div>
@@ -72,6 +129,13 @@
   </section>
 
   <main class="project-body">
+
+    <!-- ============================================================
+         [ШАБЛОН КЕЙСА: 4. СЕКЦИИ ПОМЕЩЕНИЙ И ГАЛЕРЕЯ]
+         При создании нового проекта замените:
+         1) Названия и id помещений в .room-header (.room-name и id="room-...")
+         2) Пути к изображениям в тегах <img> (чередуйте .media-block и .diptych-grid)
+    ============================================================ -->
 
     <!-- ==========================================
          ГОСТИНАЯ (cover, 1, 2, 3, 4)
@@ -271,7 +335,13 @@
       </figure>
     </div>
 
-    <!-- Плавающая нижняя навигация по помещениям в стиле Hot Walls -->
+    <!-- ============================================================
+         [ШАБЛОН КЕЙСА: 5. ПЛАВАЮЩЕЕ МЕНЮ НАВИГАЦИИ ПО КОМНАТАМ]
+         При создании нового проекта замените:
+         1) Ссылки href="#room-..." на id комнат этого проекта
+         2) Названия комнат в тексте ссылок
+         (На смартфонах автоматически работает мягкий свайп-скролл)
+    ============================================================ -->
     <nav class="hw-room-nav" id="hwRoomNav" aria-label="Навигация по помещениям">
       <a href="#room-living" class="hw-room-link active">Гостиная</a>
       <a href="#room-hallway" class="hw-room-link">Прихожая</a>
@@ -281,7 +351,12 @@
       <a href="#room-kids" class="hw-room-link">Детская</a>
     </nav>
 
-    <!-- Следующий проект (1 ТИП шрифта + кастомная векторная стрелка) -->
+    <!-- ============================================================
+         [ШАБЛОН КЕЙСА: 6. ССЫЛКА НА СЛЕДУЮЩИЙ ПРОЕКТ]
+         При создании нового проекта замените:
+         1) Ссылку href на файл следующего кейса (например project-nekrasova.html)
+         2) Название проекта в span
+    ============================================================ -->
     <div class="next-case-bar">
       <span class="next-sub">Следующий проект</span>
       <a href="project-nekrasova.html" class="next-title">
@@ -295,7 +370,8 @@
   </main>
 
   <!-- ============================================================
-       СЕКЦИЯ: КОНТАКТЫ
+       [ШАБЛОН КЕЙСА: 7. СЕКЦИЯ КОНТАКТОВ И ФОРМА ЗАЯВКИ]
+       (Общая для всех кейсов: авто-маска +7, отправка и ссылка на политику)
   ============================================================ -->
   <section id="contact" class="contact-section">
     <div class="contact-container">
@@ -351,6 +427,9 @@
             </div>
 
             <button type="submit" class="btn-submit">Отправить заявку</button>
+            <div class="form-privacy-note">
+              Нажимая кнопку «Отправить заявку», вы соглашаетесь с условиями <a href="privacy.html" target="_blank">Политики конфиденциальности</a> и даете согласие на обработку персональных данных.
+            </div>
           </form>
         </div>
       </div>
@@ -358,19 +437,23 @@
   </section>
   
   <!-- ============================================================
-       ПОДВАЛ В СТИЛЕ YODEZEEN: 3 КРУГЛЫЕ СОЦСЕТИ + МЕНЮ
+       [ШАБЛОН КЕЙСА: 8. ПОДВАЛ И СОЦИАЛЬНЫЕ СЕТИ]
+       (Общий для всех кейсов: соцсети студии, бегущая строка, ИП и отказ от оферты)
   ============================================================ -->
   <footer class="site-footer">
-    <!-- 1. Иконки соцсетей (по центру) -->
+    <!-- 1. Иконки соцсетей студии (YouTube, Pinterest, Telegram) -->
     <div class="footer-socials">
-      <a href="https://youtube.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="YouTube">
-        <img src="images/LOGO_SOCIALS/youtube.svg" alt="YouTube" onerror="this.src='images/LOGO_SOCIALS/youtube.png';">
+      <!-- YouTube -->
+      <a href="https://www.youtube.com/@ferrodesign7446/featured" target="_blank" rel="noopener" class="footer-social-btn" aria-label="YouTube">
+        <img src="images/LOGO_SOCIALS/youtube.png" alt="YouTube">
       </a>
-      <a href="https://pinterest.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Pinterest">
-        <img src="images/LOGO_SOCIALS/pinterest.svg" alt="Pinterest" onerror="this.src='images/LOGO_SOCIALS/pinterest.png';">
+      <!-- Pinterest -->
+      <a href="https://ru.pinterest.com/ferro_design_ekb/" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Pinterest">
+        <img src="images/LOGO_SOCIALS/pinterest.png" alt="Pinterest">
       </a>
-      <a href="https://instagram.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Instagram">
-        <img src="images/LOGO_SOCIALS/instagram.svg" alt="Instagram" onerror="this.src='images/LOGO_SOCIALS/instagram.png';">
+      <!-- Telegram -->
+      <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Telegram">
+        <img src="images/LOGO_SOCIALS/telegram.png" alt="Telegram">
       </a>
     </div>
 
@@ -379,16 +462,17 @@
       <div class="footer-brand-title" id="footerBrandTitle">FERRO DESIGN</div>
     </div>
 
-    <!-- 2. Нижняя строка: копирайт, центрированное меню и авторство -->
+    <!-- 2. Нижняя строка: копирайт с ИП, центрированное меню и юридический статус -->
     <div class="footer-bottom-bar">
-      <div class="footer-copy">© 2026 FERRO DESIGN. ALL RIGHTS RESERVED.</div>
+      <div class="footer-copy">© 2026 FERRO DESIGN. ИП СОКОЛОВА Н.В.</div>
       <ul class="footer-links">
         <li><a href="projects.html">ПРОЕКТЫ</a></li>
         <li><a href="index.html#services">УСЛУГИ</a></li>
         <li><a href="index.html#about">О СТУДИИ</a></li>
+        <li><a href="privacy.html">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</a></li>
         <li><a href="index.html#contact">КОНТАКТЫ</a></li>
       </ul>
-      <div class="footer-credits">MADE BY FERRO DESIGN</div>
+      <div class="footer-credits">НЕ ЯВЛЯЕТСЯ ПУБЛИЧНОЙ ОФЕРТОЙ</div>
     </div>
   </footer>
 

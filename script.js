@@ -118,20 +118,93 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           .lightbox-overlay.is-active { opacity: 1 !important; pointer-events: auto !important; }
           .lightbox-content { position: relative !important; max-width: 95vw !important; max-height: 92vh !important; display: flex !important; flex-direction: column !important; align-items: center !important; }
-          .lightbox-img { max-width: 94vw !important; max-height: 85vh !important; object-fit: contain !important; border-radius: 8px !important; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8) !important; cursor: zoom-out !important; }
-          .lightbox-caption { color: rgba(255, 255, 255, 0.8) !important; font-size: 13px !important; margin-top: 14px !important; font-family: 'Inter', sans-serif !important; }
-          .lightbox-btn {
-            position: absolute !important; background: rgba(255, 255, 255, 0.12) !important; backdrop-filter: blur(16px) !important;
-            border: 1px solid rgba(255, 255, 255, 0.35) !important; color: #ffffff !important; border-radius: 50% !important;
-            width: 52px !important; height: 52px !important; display: flex !important; align-items: center !important; justify-content: center !important;
-            font-size: 20px !important; cursor: pointer !important; z-index: 1000000 !important;
+          .lightbox-img { max-width: 94vw !important; max-height: 85vh !important; object-fit: contain !important; border-radius: 0 !important; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8) !important; cursor: zoom-out !important; }
+          .lightbox-caption {
+            color: rgba(255, 255, 255, 0.92) !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.08em !important;
+            text-transform: uppercase !important;
+            margin-top: 16px !important;
+            font-family: 'Unbounded', sans-serif !important;
+            text-align: center !important;
           }
-          .lightbox-close { top: 24px !important; right: 28px !important; }
-          .lightbox-prev { left: 28px !important; top: 50% !important; transform: translateY(-50%) !important; }
-          .lightbox-next { right: 28px !important; top: 50% !important; transform: translateY(-50%) !important; }
+          .lightbox-btn {
+            position: absolute !important;
+            background: rgba(255, 255, 255, 0.10) !important;
+            backdrop-filter: blur(16px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.28) !important;
+            color: #ffffff !important;
+            border-radius: 50% !important;
+            width: 56px !important;
+            height: 56px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer !important;
+            z-index: 1000000 !important;
+            padding: 0 !important;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+          }
+          .lightbox-close { top: 28px !important; right: 32px !important; }
+          .lightbox-prev { left: 32px !important; top: 50% !important; transform: translateY(-50%) !important; }
+          .lightbox-next { right: 32px !important; top: 50% !important; transform: translateY(-50%) !important; }
+
+          /* Реакция на наведение (hover) */
+          .lightbox-btn:hover {
+            background: rgba(255, 255, 255, 0.24) !important;
+            border-color: rgba(255, 255, 255, 0.75) !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+          }
+          .lightbox-close:hover {
+            transform: scale(1.08) !important;
+          }
+          .lightbox-close:hover svg {
+            transform: rotate(90deg);
+          }
+          .lightbox-prev:hover {
+            transform: translateY(-50%) scale(1.08) !important;
+          }
+          .lightbox-prev:hover svg {
+            transform: translateX(-3px);
+          }
+          .lightbox-next:hover {
+            transform: translateY(-50%) scale(1.08) !important;
+          }
+          .lightbox-next:hover svg {
+            transform: translateX(3px);
+          }
+
+          /* Реакция на нажатие (active) */
+          .lightbox-close:active {
+            transform: scale(0.92) !important;
+            background: rgba(255, 255, 255, 0.35) !important;
+          }
+          .lightbox-prev:active {
+            transform: translateY(-50%) scale(0.92) !important;
+            background: rgba(255, 255, 255, 0.35) !important;
+          }
+          .lightbox-next:active {
+            transform: translateY(-50%) scale(0.92) !important;
+            background: rgba(255, 255, 255, 0.35) !important;
+          }
+
+          .lightbox-arrow-svg {
+            width: 30px !important;
+            height: auto !important;
+            transition: transform 0.25s ease !important;
+          }
+          .lightbox-close-svg {
+            width: 20px !important;
+            height: 20px !important;
+            transition: transform 0.25s ease !important;
+          }
+
           @media (max-width: 768px) {
             .lightbox-prev, .lightbox-next { display: none !important; }
-            .lightbox-close { top: 16px !important; right: 16px !important; width: 42px !important; height: 42px !important; }
+            .lightbox-close { top: 16px !important; right: 16px !important; width: 44px !important; height: 44px !important; }
           }
         `;
         document.head.appendChild(styleTag);
@@ -140,9 +213,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const lightbox = document.createElement('div');
       lightbox.className = 'lightbox-overlay';
       lightbox.innerHTML = `
-        <button class="lightbox-btn lightbox-close" title="Закрыть (Esc)">✕</button>
-        <button class="lightbox-btn lightbox-prev" title="Назад (←)">←</button>
-        <button class="lightbox-btn lightbox-next" title="Вперед (→)">→</button>
+        <button class="lightbox-btn lightbox-close" title="Закрыть (Esc)" aria-label="Закрыть">
+          <svg class="lightbox-close-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="lightbox-btn lightbox-prev" title="Назад (←)" aria-label="Предыдущий кадр">
+          <svg class="lightbox-arrow-svg" viewBox="0 0 56 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M54 12H4M4 12L15 2M4 12L15 22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="lightbox-btn lightbox-next" title="Вперед (→)" aria-label="Следующий кадр">
+          <svg class="lightbox-arrow-svg" viewBox="0 0 56 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 12H52M52 12L41 2M52 12L41 22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
         <div class="lightbox-content">
           <img src="" alt="Fullscreen Render" class="lightbox-img">
           <div class="lightbox-caption"></div>
@@ -158,6 +243,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let currentIndex = 0;
 
+      function getRoomTitle(img) {
+        const headers = Array.from(projectBody.querySelectorAll('.room-header'));
+        let foundRoom = '';
+        for (const header of headers) {
+          if (header.compareDocumentPosition(img) & Node.DOCUMENT_POSITION_FOLLOWING) {
+            const nameEl = header.querySelector('.room-name');
+            if (nameEl && nameEl.textContent.trim()) {
+              foundRoom = nameEl.textContent.trim();
+            }
+          }
+        }
+        if (foundRoom) return foundRoom;
+
+        const alt = img.getAttribute('alt') || '';
+        if (alt.includes('—')) return alt.split('—')[0].trim();
+        return alt || '';
+      }
+
       function showImage(index) {
         if (index < 0) index = galleryImages.length - 1;
         if (index >= galleryImages.length) index = 0;
@@ -165,10 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const targetImg = galleryImages[currentIndex];
         lightboxImg.src = targetImg.src;
-
-        const parentFigure = targetImg.closest('figure');
-        const caption = parentFigure ? parentFigure.querySelector('figcaption') : null;
-        lightboxCaption.textContent = caption ? caption.textContent : targetImg.alt || '';
+        lightboxCaption.textContent = getRoomTitle(targetImg);
       }
 
       function openLightbox(index) {
@@ -492,18 +592,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const rect = brandTitle.getBoundingClientRect();
       const windowH = window.innerHeight;
 
-      // Стартовая точка: когда заголовок подходит снизу после блока контактов
-      const startPoint = windowH + 60;
-      // Финишная точка: когда заголовок занял комфортное место в подвале
-      const endPoint = windowH * 0.70;
+      // Стартовая точка: когда заголовок подходит снизу
+      const startPoint = windowH + 40;
+      // Финишная точка: заголовок полностью занимает место и достигает 100% плотности
+      const endPoint = windowH * 0.90;
 
       const rawProgress = (startPoint - rect.top) / (startPoint - endPoint);
       const progress = Math.max(0, Math.min(1, rawProgress));
 
-      // Движение слева направо: от -180px до 0px (и обратно при скролле наверх)
+      // Движение слева направо: от -180px до 0px
       const currentTranslateX = (1 - progress) * -180;
-      // Прозрачность: от 0 до 1 (и обратно в прозрачность при скролле наверх)
-      const currentOpacity = progress;
+      // Плотная непрозрачность: мгновенно достигает ровно 1.0 (без просвечивания белого фона)
+      const currentOpacity = Math.min(1, progress * 1.35);
 
       brandTitle.style.transform = `translate3d(${currentTranslateX}px, 0, 0)`;
       brandTitle.style.opacity = currentOpacity;
@@ -582,4 +682,80 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // 12. Интерактивный переключатель сценариев освещения (ДЕНЬ / НОЧЬ)
+  const heroLightingSwitch = document.querySelector('.lighting-mode-switch');
+  const projectIntro = document.querySelector('.project-intro');
+
+  if (heroLightingSwitch && projectIntro) {
+    const modeBtns = heroLightingSwitch.querySelectorAll('.lighting-mode-btn');
+
+    modeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetMode = btn.getAttribute('data-mode');
+        if (btn.classList.contains('is-active')) return;
+
+        modeBtns.forEach(b => {
+          b.classList.remove('is-active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-pressed', 'true');
+
+        if (targetMode === 'night') {
+          projectIntro.classList.add('is-night-mode');
+        } else {
+          projectIntro.classList.remove('is-night-mode');
+        }
+      });
+    });
+  }
+
+  // 13. Баннер согласия на использование файлов cookie (152-ФЗ РФ)
+  const COOKIE_STORAGE_KEY = 'ferro_cookies_consent';
+  let hasAcceptedCookies = false;
+  try {
+    hasAcceptedCookies = localStorage.getItem(COOKIE_STORAGE_KEY);
+  } catch (e) {
+    hasAcceptedCookies = false;
+  }
+
+  if (!hasAcceptedCookies) {
+    const banner = document.createElement('div');
+    banner.className = 'cookie-banner';
+    banner.id = 'cookieBanner';
+    banner.setAttribute('role', 'dialog');
+    banner.setAttribute('aria-live', 'polite');
+    banner.setAttribute('aria-label', 'Уведомление об использовании cookie');
+    banner.innerHTML = `
+      <div class="cookie-content">
+        <div class="cookie-text">
+          Мы используем файлы cookie и сервисы сбора технических данных для персонализации и корректной работы сайта. Оставаясь на сайте, вы соглашаетесь с условиями <a href="privacy.html">Политики конфиденциальности</a>.
+        </div>
+        <div class="cookie-actions">
+          <button type="button" class="cookie-accept-btn" id="cookieAcceptBtn">Принять</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(banner);
+
+    // Плавное появление через 800мс
+    setTimeout(() => {
+      banner.classList.add('is-visible');
+    }, 800);
+
+    const acceptBtn = banner.querySelector('#cookieAcceptBtn');
+    if (acceptBtn) {
+      acceptBtn.addEventListener('click', () => {
+        try {
+          localStorage.setItem(COOKIE_STORAGE_KEY, 'accepted');
+        } catch (e) {}
+        banner.classList.remove('is-visible');
+        setTimeout(() => {
+          banner.remove();
+        }, 500);
+      });
+    }
+  }
 });
