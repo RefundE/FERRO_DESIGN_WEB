@@ -1655,6 +1655,11 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   font-size: 20px;
   font-weight: 500;
   color: #EBECEC;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+a.detail-val:hover {
+  opacity: 0.75;
 }
 
 /* Правая колонка: стеклянная форма лежит прямо поверх полноэкранного фона */

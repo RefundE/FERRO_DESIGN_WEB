@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Страница не найдена — FERRO DESIGN</title>
+  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" id="dynamicFavicon" type="image/png" href="favicon.png">
+  <style>
+    .notfound-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 120px 24px 60px;
+      text-align: center;
+      position: relative;
+      background: #fbfbfb;
+      overflow: hidden;
+    }
+    .notfound-code {
+      font-family: 'Unbounded', sans-serif;
+      font-size: clamp(80px, 15vw, 180px);
+      font-weight: 900;
+      line-height: 1;
+      color: rgba(67, 66, 66, 0.08);
+      user-select: none;
+      margin-bottom: -30px;
+    }
+    .notfound-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 700;
+      color: #434242;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .notfound-desc {
+      font-size: 16px;
+      color: #666666;
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+    .notfound-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 36px;
+      background: #111111;
+      color: #ffffff;
+      border-radius: 9999px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    }
+    .notfound-btn:hover {
+      background: #333333;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    }
+  </style>
+</head>
+<body class="privacy-page-body">
+  <header class="glass-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-link">
+        <img src="images/logo.png" alt="FERRO DESIGN" class="header-logo-img" onerror="this.style.display='none'; document.getElementById('txt-logo').style.display='block';">
+        <span id="txt-logo" class="logo-brand-text" style="display: none;">FERRO DESIGN</span>
+      </a>
+      <nav class="desktop-nav">
+        <a href="projects.html" class="nav-link">Проекты</a>
+        <a href="index.html#services" class="nav-link">Услуги</a>
+        <a href="index.html#about" class="nav-link">О нас</a>
+        <a href="index.html#contact" class="nav-link">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="notfound-wrapper">
+    <div class="notfound-code">404</div>
+    <h1 class="notfound-title">Страница не найдена</h1>
+    <p class="notfound-desc">
+      Возможно, адрес был введен с ошибкой или страница была перемещена. Перейдите в портфолио или на главную страницу студии.
+    </p>
+    <a href="index.html" class="notfound-btn">На главную страницу</a>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-bottom-bar">
+      <div class="footer-copy">© 2026 FERRO DESIGN. ИП СОКОЛОВА Н.В.</div>
+      <ul class="footer-links">
+        <li><a href="projects.html">ПРОЕКТЫ</a></li>
+        <li><a href="index.html#services">УСЛУГИ</a></li>
+        <li><a href="index.html#about">О СТУДИИ</a></li>
+        <li><a href="privacy.html">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</a></li>
+        <li><a href="index.html#contact">КОНТАКТЫ</a></li>
+      </ul>
+      <div class="footer-credits">НЕ ЯВЛЯЕТСЯ ПУБЛИЧНОЙ ОФЕРТОЙ</div>
+    </div>
+  </footer>
+
+  <script src="script.js?v=2"></script>
+</body>
+</html>
