@@ -277,22 +277,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 // ============================================================
-  // ДИНАМИЧЕСКИЙ ФАВИКОН В СТИЛЕ YODEZEEN (F - E - R - R - O каждые 0.3s)
+  // ============================================================
+  // ДИНАМИЧЕСКИЙ ФАВИКОН В СТИЛЕ YODEZEEN (F - E - R - R - O каждые 0.5s)
   // ============================================================
   const faviconLetters = ['F', 'E', 'R', 'R', 'O'];
   const favSize = 64; // Высокое разрешение для Retina/HiDPI вкладок
   const cachedFavicons = [];
   let currentFavIndex = 0;
+  let faviconInterval = null;
 
-  // Находим или создаём тег favicon в <head>
-  let faviconLink = document.querySelector("link[rel*='icon']");
-  if (!faviconLink) {
-    faviconLink = document.createElement('link');
-    faviconLink.rel = 'icon';
-    document.head.appendChild(faviconLink);
-  }
-
-  function initDynamicFavicon() {
+  function generateFaviconFrames() {
+    cachedFavicons.length = 0;
     const canvas = document.createElement('canvas');
     canvas.width = favSize;
     canvas.height = favSize;
@@ -306,9 +301,9 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, favSize, favSize);
 
-      // Чёрная буква шрифтом 1 ТИПА (Unbounded, Black 900)
+      // Чёрная буква шрифтом 1 ТИПА (Unbounded, 900)
       ctx.fillStyle = '#111111';
-      ctx.font = '900 42px "Unbounded", sans-serif';
+      ctx.font = '900 42px "Unbounded", "Arial Black", sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
@@ -317,53 +312,70 @@ document.addEventListener('DOMContentLoaded', () => {
 
       cachedFavicons.push(canvas.toDataURL('image/png'));
     });
+  }
 
-    // 2. Функция ротации кадров
-    function rotateFavicon() {
-      if (cachedFavicons.length === 0) return;
-      faviconLink.href = cachedFavicons[currentFavIndex];
-      currentFavIndex = (currentFavIndex + 1) % cachedFavicons.length;
-    }
+  // 2. Функция ротации кадров с заменой DOM-элемента для Chromium/Firefox
+  function rotateFavicon() {
+    if (cachedFavicons.length === 0) return;
 
-    // Первый запуск и управление таймером (пауза в фоновой вкладке)
-    let faviconInterval = null;
+    const newLink = document.createElement('link');
+    newLink.id = 'dynamicFavicon';
+    newLink.rel = 'icon';
+    newLink.type = 'image/png';
+    newLink.href = cachedFavicons[currentFavIndex];
 
-    function startFavicon() {
-      if (!faviconInterval) {
-        faviconInterval = setInterval(rotateFavicon, 500);
+    const allIcons = document.querySelectorAll("link[rel*='icon']");
+    if (allIcons.length > 0) {
+      allIcons[0].parentNode.replaceChild(newLink, allIcons[0]);
+      for (let i = 1; i < allIcons.length; i++) {
+        allIcons[i].remove();
       }
+    } else {
+      document.head.appendChild(newLink);
     }
 
-    function stopFavicon() {
-      if (faviconInterval) {
-        clearInterval(faviconInterval);
-        faviconInterval = null;
-      }
-    }
+    currentFavIndex = (currentFavIndex + 1) % cachedFavicons.length;
+  }
 
+  function startFavicon() {
+    if (!faviconInterval) {
+      faviconInterval = setInterval(rotateFavicon, 500);
+    }
+  }
+
+  function stopFavicon() {
+    if (faviconInterval) {
+      clearInterval(faviconInterval);
+      faviconInterval = null;
+    }
+  }
+
+  let isFaviconReady = false;
+  function initDynamicFavicon() {
+    if (isFaviconReady) return;
+    isFaviconReady = true;
+    generateFaviconFrames();
     rotateFavicon();
     startFavicon();
-
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        stopFavicon();
-      } else {
-        rotateFavicon();
-        startFavicon();
-      }
-    });
   }
 
-  // Ожидаем загрузку шрифта Unbounded для кристально чёткой отрисовки букв
-  if (document.fonts) {
-    document.fonts.load('900 42px "Unbounded"').then(() => {
-      initDynamicFavicon();
-    }).catch(() => {
+  // Ожидаем готовность шрифта Unbounded для кристально чёткой отрисовки букв
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => {
       initDynamicFavicon();
     });
+    setTimeout(initDynamicFavicon, 300);
   } else {
-    setTimeout(initDynamicFavicon, 200);
+    setTimeout(initDynamicFavicon, 100);
   }
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopFavicon();
+    } else {
+      startFavicon();
+    }
+  });
 
 // 6. Анимация увеличения цифр в блоке «О нас» при скролле от блока услуг
   const statsSection = document.querySelector('.about-stats-grid');
