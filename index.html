@@ -406,7 +406,7 @@
 
     <!-- Монументальная выдвигающаяся надпись FERRO DESIGN на всю ширину страницы -->
     <div class="footer-brand-banner">
-      <div class="footer-brand-title" id="footerBrandTitle">FERRO DESIGN™</div>
+      <div class="footer-brand-title" id="footerBrandTitle">FERRO DESIGN<span class="footer-brand-tm">™</span></div>
     </div>
 
     <!-- 2. Нижняя строка: копирайт с ИП, центрированное меню и юридический статус -->
@@ -465,8 +465,8 @@
 
     function initMap() {
       const map = new ymaps.Map('interactiveMap', {
-        center: [56.8389, 60.6057], // Екатеринбург по центру
-        zoom: 5,
+        center: [56.8330, 60.6050], // Центр Екатеринбурга по масштабу
+        zoom: 11,
         controls: ['zoomControl', 'fullscreenControl']
       });
 
@@ -561,7 +561,7 @@
           coords: [57.8820, 59.9450],
           city: 'Нижний Тагил',
           title: 'Дом на ГГМ',
-          type: 'Жилая квартира',
+          type: 'Загородный дом',
           area: '200 м²',
           img: 'images/KRIS_GGM/cover.webp',
           link: 'project-kris-ggm.html'
@@ -600,8 +600,8 @@
           id: 'banniy-kompl',
           coords: [56.9800, 60.3800],
           city: 'Свердловская обл.',
-          title: 'Банный СПА-комплекс',
-          type: 'Коммерческий объект',
+          title: 'Банный комплекс',
+          type: 'Загородный дом',
           area: '55 м²',
           img: 'images/BANNIY_KOMPL/cover.webp',
           link: 'project-banniy-kompl.html'

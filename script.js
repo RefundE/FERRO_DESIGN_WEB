@@ -155,17 +155,17 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="lightbox-counter"></div>
         <button class="lightbox-btn lightbox-close" title="Закрыть (Esc)" aria-label="Закрыть">
           <svg class="lightbox-close-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter"/>
           </svg>
         </button>
         <button class="lightbox-btn lightbox-prev" title="Назад (←)" aria-label="Предыдущий кадр">
-          <svg class="lightbox-arrow-svg" viewBox="0 0 56 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M54 12H4M4 12L15 2M4 12L15 22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg class="lightbox-arrow-svg" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 12H6M6 12L15 4M6 12L15 20" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter"/>
           </svg>
         </button>
         <button class="lightbox-btn lightbox-next" title="Вперед (→)" aria-label="Следующий кадр">
-          <svg class="lightbox-arrow-svg" viewBox="0 0 56 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2 12H52M52 12L41 2M52 12L41 22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg class="lightbox-arrow-svg" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 12H30M30 12L21 4M30 12L21 20" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter"/>
           </svg>
         </button>
         <div class="lightbox-content">
