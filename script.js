@@ -65,12 +65,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function scrollFilterPill(btn) {
+    const parent = btn.parentElement;
+    if (!parent) return;
+    const pRect = parent.getBoundingClientRect();
+    const bRect = btn.getBoundingClientRect();
+    const offset = (bRect.left + bRect.width / 2) - (pRect.left + pRect.width / 2);
+    parent.scrollBy({ left: offset, behavior: 'smooth' });
+  }
+
   typeButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       activeTypeFilter = btn.getAttribute('data-filter-type') || btn.getAttribute('data-filter') || 'all';
       typeButtons.forEach(b => b.classList.toggle('active', b === btn));
       applyProjectsFilter(btn.getAttribute('data-title'));
-      btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      scrollFilterPill(btn);
     });
   });
 
@@ -79,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
       activeAreaFilter = btn.getAttribute('data-filter-area') || 'all';
       areaButtons.forEach(b => b.classList.toggle('active', b === btn));
       applyProjectsFilter(null);
-      btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      scrollFilterPill(btn);
     });
   });
 
@@ -220,11 +229,13 @@ document.addEventListener('DOMContentLoaded', () => {
       function openLightbox(index) {
         showImage(index);
         lightbox.classList.add('is-active');
+        document.body.classList.add('has-lightbox-open');
         document.body.style.overflow = 'hidden';
       }
 
       function closeLightbox() {
         lightbox.classList.remove('is-active');
+        document.body.classList.remove('has-lightbox-open');
         document.body.style.overflow = '';
       }
 
@@ -525,11 +536,23 @@ document.addEventListener('DOMContentLoaded', () => {
       const slideA = slides[0];
       const slideB = slides[1];
 
-// Список фотографий из папки COVER_MAIN для плавного переключения
-      const candidateImages = [
+      // Список фотографий для плавного переключения (на телефонах: 3 вертикальных рендера гостиной Некрасова)
+      const desktopImages = [
         'images/COVER_MAIN/cover_main_makarovski.webp',
         'images/COVER_MAIN/cover_main_nekrasova.webp'
       ];
+      const mobileImages = [
+        'images/NA_NEKRASOVA/living_04.webp',
+        'images/NA_NEKRASOVA/living_05.webp',
+        'images/NA_NEKRASOVA/living_06.webp'
+      ];
+
+      const isMobile = window.matchMedia('(max-width: 960px)').matches;
+      const candidateImages = isMobile ? mobileImages : desktopImages;
+
+      if (isMobile) {
+        slideA.src = candidateImages[0];
+      }
 
       // Фильтруем только те файлы, которые реально присутствуют в папке
       const availableImages = [];
@@ -634,6 +657,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (roomNav && roomHeaders.length > 0 && projectBody) {
     let lastActiveRoomLink = null;
 
+    function scrollRoomNavToLink(link) {
+      if (!roomNav || !link) return;
+      const navRect = roomNav.getBoundingClientRect();
+      const linkRect = link.getBoundingClientRect();
+      const offset = (linkRect.left + linkRect.width / 2) - (navRect.left + navRect.width / 2);
+      roomNav.scrollBy({ left: offset, behavior: 'smooth' });
+    }
+
     function updateRoomNav() {
       const bodyRect = projectBody.getBoundingClientRect();
       const nextBar = document.querySelector('.next-case-bar');
@@ -660,13 +691,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (activeRoomLink && activeRoomLink !== lastActiveRoomLink) {
         lastActiveRoomLink = activeRoomLink;
-        activeRoomLink.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        scrollRoomNavToLink(activeRoomLink);
       }
     }
 
     roomLinks.forEach(link => {
       link.addEventListener('click', () => {
-        link.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        scrollRoomNavToLink(link);
       });
     });
 
@@ -963,4 +994,22 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   });
+
+  // 15. Мобильные вертикальные кавер-рендеры (только спальня, гостиная или кухня; без санузлов)
+  if (window.matchMedia('(max-width: 960px)').matches) {
+    const mobileCoverMap = {
+      'images/COVER_MAIN/cover_main_nekrasova.webp': 'images/NA_NEKRASOVA/living_04.webp',
+      'images/NA_NEKRASOVA/cover.webp': 'images/NA_NEKRASOVA/living_04.webp',
+      'images/ARTU_40M2/living_01.webp': 'images/ARTU_40M2/living_03.webp',
+      'images/HMAO/living_01.webp': 'images/HMAO/living_06.webp',
+      'images/SUOMEN/cover.webp': 'images/SUOMEN/kids_01.webp'
+    };
+
+    document.querySelectorAll('.hero-bg-layer, .card-media-wrap img, .hw-card-media img').forEach(img => {
+      const src = img.getAttribute('src');
+      if (src && mobileCoverMap[src]) {
+        img.src = mobileCoverMap[src];
+      }
+    });
+  }
 });
