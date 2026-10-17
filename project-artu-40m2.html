@@ -4,6 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Апартаменты ArtU 40 м² — Ferro Design</title>
+  <!-- Open Graph / Карточка для мессенджеров -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Апартаменты ArtU 40 м² — FERRO DESIGN">
+  <meta property="og:description" content="Дизайн интерьера от студии FERRO DESIGN.">
+  <meta property="og:image" content="https://ferro-design.ru/images/ARTU_40M2/cover.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Апартаменты ArtU 40 м² — FERRO DESIGN">
+  <meta name="twitter:description" content="Дизайн интерьера от студии FERRO DESIGN.">
+  <meta name="twitter:image" content="https://ferro-design.ru/images/ARTU_40M2/cover.webp">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { 
@@ -92,10 +101,6 @@
   /* ------------------------------------------------------------
      ПЕРЕХОД К СЛЕДУЮЩЕМУ КЕЙСУ
   ------------------------------------------------------------ */
-  .next-case-bar { border-top: 1px solid rgba(13,13,13,0.08); padding: 80px 0 20px; text-align: center; }
-  .next-sub { display: block; font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 12px; }
-  .next-title { font-size: clamp(32px, 5vw, 56px); font-weight: 300; transition: opacity 0.2s; }
-  .next-title:hover { opacity: 0.5; }
 
   /* Футер */
   .project-footer { border-top: 1px solid rgba(13,13,13,0.08); padding: 36px 48px; display: flex; justify-content: space-between; font-size: 14px; color: #777; }
@@ -261,11 +266,15 @@
     </figure>
                 
 
-    <div class="next-case-bar">
+        <div class="next-case-bar">
       <span class="next-sub">Следующий проект</span>
-      <a href="project-kris-ggm.html" class="next-title">Квартира на ГГМ →</a>
-    </div>
-  </main>
+      <a href="project-kris-ggm.html" class="next-title">
+        <span>Дом на ГГМ</span>
+        <svg class="next-arrow-svg" viewBox="0 0 56 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M2 12H52M52 12L41 2M52 12L41 22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div></main>
 
   <footer class="project-footer">
     <span>FERRO DESIGN™ · 2026</span>

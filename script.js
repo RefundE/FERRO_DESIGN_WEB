@@ -448,17 +448,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-// 7. Автоматическая маска телефона (+7) при вводе номера в форме заявки
-  const phoneInput = document.getElementById('userPhone') || document.querySelector('input[placeholder*="+7"]');
+// 7. Автоматическая маска телефона (+7) при вводе номера в форме заявки (поддержка Telegram)
+  const phoneInputs = document.querySelectorAll('#userPhone, input[name="contact"], input[placeholder*="+7"]');
 
-  if (phoneInput) {
-    // При клике на пустое поле сразу подставляем +7 (
-    phoneInput.addEventListener('focus', () => {
-      if (!phoneInput.value.trim()) {
-        phoneInput.value = '+7 (';
-      }
-    });
-
+  phoneInputs.forEach(phoneInput => {
     // Если ничего кроме префикса не ввели — при уходе очищаем поле
     phoneInput.addEventListener('blur', () => {
       const trimmed = phoneInput.value.trim();
@@ -478,8 +471,8 @@ document.addEventListener('DOMContentLoaded', () => {
     phoneInput.addEventListener('input', () => {
       const val = phoneInput.value;
 
-      // Если ввод начинается с @ или букв (ник Telegram), не мешаем
-      if (/^[@a-zA-Z]/.test(val.trim())) return;
+      // Если ввод содержит латинские буквы или @ (ник Telegram), не форматируем как телефон
+      if (/[a-zA-Z@]/.test(val)) return;
 
       const digits = val.replace(/\D/g, '');
       if (!digits) {
@@ -509,7 +502,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       phoneInput.value = formatted;
     });
-  }
+  });
 
 // 8. Плавная кроссфейд-ротация фоновых фотографий первого экрана из папки COVER_MAIN
   const heroMedia = document.querySelector('.hero-bg-media');
@@ -832,7 +825,54 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Перехват всех форм контактов на сайте и отправка через send_mail.php
+  function showFeedbackErrorModal(errorMsg) {
+    let modal = document.getElementById('feedbackErrorModal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'feedbackErrorModal';
+      modal.className = 'feedback-modal-overlay';
+      modal.innerHTML = `
+        <div class="feedback-modal-card">
+          <button type="button" class="feedback-modal-close" id="feedbackErrorModalClose" aria-label="Закрыть">&times;</button>
+          <div class="feedback-modal-icon" style="color: #c88f0a;">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <h3 class="feedback-modal-title">Не удалось отправить заявку</h3>
+          <p class="feedback-modal-text" id="feedbackErrorModalMsg">Пожалуйста, напишите нам напрямую в Telegram <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" style="color: #c88f0a; text-decoration: underline;">@ferrodesign_ekb</a> или на почту <a href="mailto:artem1-nt@mail.ru" style="color: #c88f0a; text-decoration: underline;">artem1-nt@mail.ru</a>.</p>
+          <button type="button" class="feedback-modal-btn" id="feedbackErrorModalOk">ПОНЯТНО</button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+
+      const closeModal = () => {
+        modal.classList.remove('is-active');
+      };
+
+      modal.querySelector('#feedbackErrorModalClose').addEventListener('click', closeModal);
+      modal.querySelector('#feedbackErrorModalOk').addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('is-active')) closeModal();
+      });
+    }
+
+    if (errorMsg) {
+      const msgEl = modal.querySelector('#feedbackErrorModalMsg');
+      if (msgEl) msgEl.innerHTML = errorMsg;
+    }
+
+    requestAnimationFrame(() => {
+      modal.classList.add('is-active');
+    });
+  }
+
+  // Перехват всех форм контактов на сайте и отправка через FormSubmit
   document.querySelectorAll('.contact-form').forEach(form => {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -841,8 +881,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const submitBtn = form.querySelector('.btn-submit') || form.querySelector('button[type="submit"]');
 
       const formData = new FormData(form);
-      if (!formData.get('page_url')) {
-        formData.append('page_url', window.location.href);
+
+      // Антиспам-проверка honeypot
+      if (formData.get('website')) {
+        return; // Спам-бот заполнил скрытое поле
       }
 
       let origBtnText = '';
@@ -852,19 +894,46 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.textContent = 'Отправка...';
       }
 
-      fetch('send_mail.php', {
+      const payload = {
+        _subject: 'Новая заявка с сайта FERRO DESIGN',
+        _template: 'table',
+        _captcha: 'false',
+        'Имя': formData.get('name') || '',
+        'Контакт': formData.get('contact') || formData.get('phone') || '',
+        'Город': formData.get('city') || '',
+        'Площадь': formData.get('area') || '',
+        'Комментарий': formData.get('comment') || formData.get('message') || '',
+        'Страница': window.location.href
+      };
+
+      fetch('https://formsubmit.co/ajax/artem1-nt@mail.ru', {
         method: 'POST',
-        body: formData
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
       })
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Network error: ' + res.status);
+        return res.json();
+      })
       .then(data => {
         showFeedbackSuccessModal(userName);
         form.reset();
       })
-      .catch(() => {
-        // Фоллбэк для локального тестирования (file:// или без PHP)
-        showFeedbackSuccessModal(userName);
-        form.reset();
+      .catch((err) => {
+        const isHttp = window.location.protocol === 'http:' || window.location.protocol === 'https:';
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isHttp && !isLocalhost) {
+          console.error('Ошибка отправки формы:', err);
+          showFeedbackErrorModal('Не удалось отправить заявку. Пожалуйста, напишите нам напрямую в Telegram <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" style="color: #c88f0a; text-decoration: underline;">@ferrodesign_ekb</a> или на почту <a href="mailto:artem1-nt@mail.ru" style="color: #c88f0a; text-decoration: underline;">artem1-nt@mail.ru</a>.');
+        } else {
+          // Локальное тестирование (file:// или localhost)
+          showFeedbackSuccessModal(userName);
+          form.reset();
+        }
       })
       .finally(() => {
         if (submitBtn) {

@@ -25,11 +25,11 @@ function clean_field(?string $value): string {
 }
 
 $name     = clean_field($_POST['name'] ?? '');
-$contact  = clean_field($_POST['contact'] ?? '');
+$contact  = clean_field($_POST['contact'] ?? $_POST['phone'] ?? '');
 $city     = clean_field($_POST['city'] ?? '');
 $area     = clean_field($_POST['area'] ?? '');
-$comment  = clean_field($_POST['comment'] ?? '');
-$pageUrl  = clean_field($_POST['page_url'] ?? '');
+$comment  = clean_field($_POST['comment'] ?? $_POST['message'] ?? '');
+$pageUrl  = clean_field($_POST['page_url'] ?? $_POST['page'] ?? '');
 
 // Если имя пустое, задаем значение по умолчанию
 $clientName = !empty($name) ? $name : 'Клиент';
