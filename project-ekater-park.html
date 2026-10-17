@@ -3,215 +3,297 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ЖК «Екатерининский парк» — Ferro Design</title>
-  <!-- Open Graph / Карточка для мессенджеров -->
+
+  <title>ЖК «Екатерининский парк» — Студия дизайна FERRO DESIGN</title>
+  <meta name="description" content="Дизайн-проект интерьера квартиры 78 м² в ЖК «Екатерининский парк», Екатеринбург от студии дизайна FERRO DESIGN™.">
+
+  <!-- Open Graph / Карточка для Telegram, WhatsApp, ВКонтакте -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="ЖК «Екатерининский парк» — FERRO DESIGN">
-  <meta property="og:description" content="Дизайн интерьера от студии FERRO DESIGN.">
+  <meta property="og:description" content="Дизайн-проект интерьера квартиры 78 м² в ЖК «Екатерининский парк», Екатеринбург от студии дизайна FERRO DESIGN™.">
   <meta property="og:image" content="https://ferro-design.ru/images/EKATER_PARK/cover.webp">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ЖК «Екатерининский парк» — FERRO DESIGN">
-  <meta name="twitter:description" content="Дизайн интерьера от студии FERRO DESIGN.">
+  <meta name="twitter:description" content="Дизайн-проект интерьера квартиры 78 м² в ЖК «Екатерининский парк», Екатеринбург от студии дизайна FERRO DESIGN™.">
   <meta name="twitter:image" content="https://ferro-design.ru/images/EKATER_PARK/cover.webp">
-<style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { 
-      background-color: #faf9f7; color: #0d0d0d; font-family: 'Inter', sans-serif; 
-      -webkit-font-smoothing: antialiased; line-height: 1.5; font-size: 14px; 
+
+  <!-- Динамический анимированный фавикон F-E-R-R-O (генерируется script.js) -->
+  <link rel="icon" id="dynamicFavicon" type="image/png" href="favicon.png">
+
+  <!-- Шрифты Google Fonts: Unbounded (акцентные заголовки) и Manrope (основной текст) -->
+  <link rel="stylesheet" href="style.css?v=2">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": "Дизайн интерьера ЖК «Екатерининский парк»",
+    "description": "Дизайн-проект интерьера квартиры 78 м² в ЖК «Екатерининский парк», Екатеринбург от студии дизайна FERRO DESIGN™.",
+    "creator": {
+      "@type": "HomeAndConstructionBusiness",
+      "name": "FERRO DESIGN™"
     }
-    a { color: inherit; text-decoration: none; }
-    img { display: block; width: 100%; height: auto; object-fit: contain; }
-
-    /* Шапка: логотип слева, кнопки строго справа */
-    .project-header {
-      position: fixed; top: 0; left: 0; width: 100%; height: 96px; padding: 0 48px;
-      display: flex !important; justify-content: space-between !important; align-items: center !important;
-      background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.85); box-shadow: 0 4px 20px rgba(0,0,0,0.03); z-index: 1000;
-    }
-    .brand-logo { display: inline-flex; align-items: center; height: 68px; }
-    .brand-logo img { height: 68px !important; width: auto !important; max-height: 68px !important; object-fit: contain !important; }
-    
-    .nav-actions { display: flex !important; gap: 28px !important; align-items: center !important; }
-    .back-btn { font-size: 14px; color: #666; transition: color 0.2s; white-space: nowrap; }
-    .back-btn:hover { color: #000; }
-
-    .project-intro { padding: 150px 48px 50px; max-width: 1400px; margin: 0 auto; }
-    .matte-capsule {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #edebe6; border: 1px solid rgba(0, 0, 0, 0.06);
-      padding: 8px 18px; border-radius: 9999px;
-      font-size: 14px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: #444; margin-bottom: 24px;
-    }
-    .project-title { font-size: clamp(32px, 5vw, 56px); font-weight: 300; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 36px; color: #0a0a0a; }
-
-    .project-specs-panel {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
-      border-top: 1px solid rgba(13, 13, 13, 0.08); border-bottom: 1px solid rgba(13, 13, 13, 0.08); padding: 24px 0;
-    }
-    .spec-label { font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: #888; display: block; margin-bottom: 6px; }
-    .spec-value { font-size: 14px; font-weight: 500; color: #111; }
-
-    .project-body { padding: 40px 48px 120px; max-width: 1400px; margin: 0 auto; }
-    .media-block { margin-bottom: 90px; }
-    figcaption { font-size: 14px; color: #888; letter-spacing: 0.01em; margin-top: 14px; text-align: right; }
-
-    .js-tilt { position: relative; overflow: hidden; border-radius: 12px; background-color: #f2f1ee; box-shadow: 0 10px 30px rgba(0,0,0,0.04); }
-    .js-tilt img { max-height: 88vh; }
-
-    .diptych-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; margin-bottom: 90px; }
-    .offset-frame { margin-top: 0; }
-
-    .statement-block { max-width: 780px; margin: 100px auto; text-align: center; }
-    .statement-tag { font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: #888; display: block; margin-bottom: 18px; }
-    .statement-text { font-size: 20px; font-weight: 300; line-height: 1.6; color: #222; }
-
-    .project-footer { border-top: 1px solid rgba(13,13,13,0.08); padding: 36px 48px; display: flex; justify-content: space-between; font-size: 14px; color: #777; }
-
-    @media (max-width: 860px) {
-      .project-header { padding: 0 20px; height: 80px; }
-      .brand-logo { height: 48px; }
-      .brand-logo img { height: 48px !important; max-height: 48px !important; }
-      .project-intro, .project-body, .project-footer { padding-left: 20px; padding-right: 20px; }
-      .project-specs-panel { grid-template-columns: repeat(2, 1fr); }
-      .diptych-grid { grid-template-columns: 1fr; gap: 24px; }
-    }
-  </style>
+  }
+  </script>
 </head>
 <body>
 
-  <header class="project-header">
-    <a href="index.html" class="brand-logo">
-      <img src="images/logo.png" alt="FERRO DESIGN™">
-    </a>
-    <div class="nav-actions">
-      <a href="projects.html" class="back-btn">Все проекты</a>
-      <a href="index.html" class="back-btn">На главную</a>
+  <!-- ============================================================
+       ФИКСИРОВАННАЯ ШАПКА С ЭФФЕКТОМ СТЕКЛА
+  ============================================================ -->
+  <header class="glass-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-link">
+        <img src="images/logo.png" alt="FERRO DESIGN" class="header-logo-img" onerror="this.style.display='none'; document.getElementById('txt-logo').style.display='block';">
+        <span id="txt-logo" class="logo-brand-text" style="display: none;">FERRO DESIGN™</span>
+      </a>
+
+      <nav class="desktop-nav">
+        <a href="projects.html" class="nav-link">Все проекты</a>
+        <a href="index.html" class="nav-link">На главную</a>
+      </nav>
     </div>
   </header>
 
+  <!-- ============================================================
+       ГЛАВНЫЙ ЭКРАН (HERO 100vh) В СТИЛЕ YODEZEEN
+  ============================================================ -->
   <section class="project-intro">
-    <div class="matte-capsule">Жилая квартира · Екатеринбург</div>
-    <h1 class="project-title">ЖК «Екатерининский парк»</h1>
+    <div class="project-intro-bg">
+      <img src="images/EKATER_PARK/cover.webp" alt="ЖК «Екатерининский парк»" class="hero-bg-layer hero-bg-day is-active" fetchpriority="high">
+      <div class="project-intro-overlay"></div>
+    </div>
 
-    <div class="project-specs-panel">
-      <div><span class="spec-label">Локация</span><span class="spec-value">Екатеринбург</span></div>
-      <div><span class="spec-label">Направление</span><span class="spec-value">Интерьер квартиры</span></div>
-      <div><span class="spec-label">Визуализация</span><span class="spec-value">Ferro Design™</span></div>
-      <div><span class="spec-label">Статус</span><span class="spec-value">Реализован</span></div>
+    <div class="project-intro-container">
+      <h1 class="project-title">ЖК «Екатерининский парк»</h1>
+
+      <div class="project-intro-bottom">
+        <div class="project-yodezeen-specs">
+          <!-- Левая колонка -->
+          <div class="specs-col specs-col-left">
+            <div class="specs-group">
+              <span class="specs-label">Город</span>
+              <span class="specs-val">Екатеринбург</span>
+            </div>
+            <div class="specs-group">
+              <span class="specs-label">Площадь</span>
+              <span class="specs-val">78 м²</span>
+            </div>
+          </div>
+
+          <!-- Правая колонка -->
+          <div class="specs-col specs-col-right">
+            <div class="specs-group">
+              <span class="specs-label">Категория</span>
+              <span class="specs-val">Квартира</span>
+            </div>
+            <div class="specs-group">
+              <span class="specs-label">Год реализации</span>
+              <span class="specs-val">2026</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
+  <!-- ============================================================
+       СЕКЦИИ ПОМЕЩЕНИЙ И ГАЛЕРЕЯ РЕНДЕРОВ
+  ============================================================ -->
   <main class="project-body">
+
+    <!-- ==========================================
+         ГОСТИНАЯ (#room-living)
+    ========================================== -->
+    <div class="room-header" id="room-living">
+      <h2 class="room-name">ГОСТИНАЯ</h2>
+    </div>
+
     <figure class="media-block">
       <div class="js-tilt">
-        <img src="images/EKATER_PARK/cover.webp" alt="ЖК Екатерининский парк">
+        <img src="images/EKATER_PARK/cover.webp" alt="ГОСТИНАЯ — Гостиная и столовая зона" loading="lazy" decoding="async">
       </div>
       <figcaption>Гостиная и столовая зона</figcaption>
     </figure>
 
-    <div class="statement-block">
-      <span class="statement-tag">Архитектурная концепция</span>
-      <p class="statement-text">Чистые архитектурные объемы, скрытые световые линии и гармоничный баланс натурального дерева и светлых тактильных фактур.</p>
-    </div>
-
-    <!-- Диптих #1: Кухня-гостиная -->
     <div class="diptych-grid">
       <figure>
-        <div class="js-tilt"><img src="images/EKATER_PARK/living_01.webp" alt="Кухня-гостиная"></div>
+        <div class="js-tilt">
+          <img src="images/EKATER_PARK/living_01.webp" alt="ГОСТИНАЯ — Кухонный гарнитур и обеденная группа" loading="lazy" decoding="async">
+        </div>
         <figcaption>Кухонный гарнитур и обеденная группа</figcaption>
       </figure>
       <figure>
-        <div class="js-tilt"><img src="images/EKATER_PARK/living_02.webp" alt="Зона отдыха"></div>
+        <div class="js-tilt">
+          <img src="images/EKATER_PARK/living_02.webp" alt="ГОСТИНАЯ — Диванная группа и декоративное озеленение" loading="lazy" decoding="async">
+        </div>
         <figcaption>Диванная группа и декоративное озеленение</figcaption>
       </figure>
     </div>
 
-    <!-- Диптих #2: Гостиная и Вход -->
+    <!-- Манифест концепции -->
+    <div class="statement-block">
+      <span class="statement-tag">Архитектурная концепция</span>
+      <p class="statement-text">
+        Чистые архитектурные объемы, скрытые световые линии и гармоничный баланс натурального дерева и светлых тактильных фактур.
+      </p>
+    </div>
+
+    <figure class="media-block">
+      <div class="js-tilt">
+        <img src="images/EKATER_PARK/living_03.webp" alt="ГОСТИНАЯ — ТВ-панель со скрытыми системами хранения" loading="lazy" decoding="async">
+      </div>
+      <figcaption>ТВ-панель со скрытыми системами хранения</figcaption>
+    </figure>
+
+    <!-- ==========================================
+         ПРИХОЖАЯ (#room-hallway)
+    ========================================== -->
+    <div class="room-header" id="room-hallway">
+      <h2 class="room-name">ПРИХОЖАЯ</h2>
+    </div>
+
     <div class="diptych-grid">
       <figure>
-        <div class="js-tilt"><img src="images/EKATER_PARK/living_03.webp" alt="ТВ-зона"></div>
-        <figcaption>ТВ-панель со скрытыми системами хранения</figcaption>
-      </figure>
-      <figure>
-        <div class="js-tilt"><img src="images/EKATER_PARK/enter_01.webp" alt="Холл"></div>
+        <div class="js-tilt">
+          <img src="images/EKATER_PARK/enter_01.webp" alt="ПРИХОЖАЯ — Входная группа со встроенными шкафами" loading="lazy" decoding="async">
+        </div>
         <figcaption>Входная группа со встроенными шкафами</figcaption>
       </figure>
-    </div>
-
-    <!-- Диптих #3: Прихожая -->
-    <div class="diptych-grid">
       <figure>
-        <div class="js-tilt"><img src="images/EKATER_PARK/enter_02.webp" alt="Коридор"></div>
+        <div class="js-tilt">
+          <img src="images/EKATER_PARK/enter_02.webp" alt="ПРИХОЖАЯ — Парящие шкафы с теплой нижней подсветкой" loading="lazy" decoding="async">
+        </div>
         <figcaption>Парящие шкафы с теплой нижней подсветкой</figcaption>
       </figure>
-      <figure>
-        <div class="js-tilt"><img src="images/EKATER_PARK/enter_03.webp" alt="Входной холл"></div>
-        <figcaption>Приватный коридор</figcaption>
-      </figure>
     </div>
 
-    <!-- Диптих #4: Мастер-спальня -->
+    <figure class="media-block">
+      <div class="js-tilt">
+        <img src="images/EKATER_PARK/enter_03.webp" alt="ПРИХОЖАЯ — Приватный коридор" loading="lazy" decoding="async">
+      </div>
+      <figcaption>Приватный коридор</figcaption>
+    </figure>
+
+    <!-- ==========================================
+         СПАЛЬНЯ (#room-bedroom)
+    ========================================== -->
+    <div class="room-header" id="room-bedroom">
+      <h2 class="room-name">СПАЛЬНЯ</h2>
+    </div>
+
     <div class="diptych-grid">
       <figure>
-        <div class="js-tilt"><img src="images/EKATER_PARK/bedroom_01.webp" alt="Спальня"></div>
+        <div class="js-tilt">
+          <img src="images/EKATER_PARK/bedroom_01.webp" alt="СПАЛЬНЯ — Мастер-спальня с реечной панелью" loading="lazy" decoding="async">
+        </div>
         <figcaption>Мастер-спальня с реечной панелью</figcaption>
       </figure>
       <figure>
-        <div class="js-tilt"><img src="images/EKATER_PARK/bedroom_02.webp" alt="Спальня ракурс"></div>
+        <div class="js-tilt">
+          <img src="images/EKATER_PARK/bedroom_02.webp" alt="СПАЛЬНЯ — Второй ракурс мастер-спальни" loading="lazy" decoding="async">
+        </div>
         <figcaption>Второй ракурс мастер-спальни</figcaption>
       </figure>
     </div>
 
-    <!-- Диптих #5: Детская комната -->
+    <!-- ==========================================
+         ДЕТСКАЯ (#room-kids)
+    ========================================== -->
+    <div class="room-header" id="room-kids">
+      <h2 class="room-name">ДЕТСКАЯ</h2>
+    </div>
+
     <div class="diptych-grid">
       <figure>
-        <div class="js-tilt"><img src="images/EKATER_PARK/kid_01.webp" alt="Детская комната"></div>
+        <div class="js-tilt">
+          <img src="images/EKATER_PARK/kid_01.webp" alt="ДЕТСКАЯ — Детская комната со встроенным рабочим местом" loading="lazy" decoding="async">
+        </div>
         <figcaption>Детская комната со встроенным рабочим местом</figcaption>
       </figure>
       <figure>
-        <div class="js-tilt"><img src="images/EKATER_PARK/kid_02.webp" alt="Детская деталь"></div>
+        <div class="js-tilt">
+          <img src="images/EKATER_PARK/kid_02.webp" alt="ДЕТСКАЯ — Игровая зона и спальное место" loading="lazy" decoding="async">
+        </div>
         <figcaption>Игровая зона и спальное место</figcaption>
       </figure>
     </div>
 
-    <!-- Диптих #6: Гостевая комната -->
+    <!-- ==========================================
+         ГОСТЕВАЯ (#room-guest)
+    ========================================== -->
+    <div class="room-header" id="room-guest">
+      <h2 class="room-name">ГОСТЕВАЯ</h2>
+    </div>
+
     <div class="diptych-grid">
       <figure>
-        <div class="js-tilt"><img src="images/EKATER_PARK/guest_01.webp" alt="Гостевая комната"></div>
+        <div class="js-tilt">
+          <img src="images/EKATER_PARK/guest_01.webp" alt="ГОСТЕВАЯ — Гостевая комната с диваном" loading="lazy" decoding="async">
+        </div>
         <figcaption>Гостевая комната с диваном</figcaption>
       </figure>
       <figure>
-        <div class="js-tilt"><img src="images/EKATER_PARK/guest_02.webp" alt="Рабочий стол"></div>
+        <div class="js-tilt">
+          <img src="images/EKATER_PARK/guest_02.webp" alt="ГОСТЕВАЯ — Эргономичная система хранения и письменный стол" loading="lazy" decoding="async">
+        </div>
         <figcaption>Эргономичная система хранения и письменный стол</figcaption>
       </figure>
     </div>
 
-    <!-- Диптих #7: Основная ванная -->
+    <!-- ==========================================
+         САНУЗЛЫ (#room-bath)
+    ========================================== -->
+    <div class="room-header" id="room-bath">
+      <h2 class="room-name">САНУЗЛЫ</h2>
+    </div>
+
     <div class="diptych-grid">
       <figure>
-        <div class="js-tilt"><img src="images/EKATER_PARK/bathroom_01.webp" alt="Ванная"></div>
+        <div class="js-tilt">
+          <img src="images/EKATER_PARK/bathroom_01.webp" alt="САНУЗЛЫ — Санузел с отделкой под дерево и камень" loading="lazy" decoding="async">
+        </div>
         <figcaption>Санузел с отделкой под дерево и камень</figcaption>
       </figure>
       <figure>
-        <div class="js-tilt"><img src="images/EKATER_PARK/bathroom_02.webp" alt="Ванная ракурс"></div>
+        <div class="js-tilt">
+          <img src="images/EKATER_PARK/bathroom_02.webp" alt="САНУЗЛЫ — Зона раковины с круглым зеркалом и подсветкой" loading="lazy" decoding="async">
+        </div>
         <figcaption>Зона раковины с круглым зеркалом и подсветкой</figcaption>
       </figure>
     </div>
 
-    <!-- Диптих #8: Малый санузел -->
     <div class="diptych-grid">
       <figure>
-        <div class="js-tilt"><img src="images/EKATER_PARK/small_bathroom_01.webp" alt="Малый санузел"></div>
+        <div class="js-tilt">
+          <img src="images/EKATER_PARK/small_bathroom_01.webp" alt="САНУЗЛЫ — Гостевой санузел в графитовой гамме" loading="lazy" decoding="async">
+        </div>
         <figcaption>Гостевой санузел в графитовой гамме</figcaption>
       </figure>
       <figure>
-        <div class="js-tilt"><img src="images/EKATER_PARK/small_bathroom_02.webp" alt="Санузел ракурс"></div>
+        <div class="js-tilt">
+          <img src="images/EKATER_PARK/small_bathroom_02.webp" alt="САНУЗЛЫ — Подвесная сантехника и скрытая подсветка" loading="lazy" decoding="async">
+        </div>
         <figcaption>Подвесная сантехника и скрытая подсветка</figcaption>
       </figure>
     </div>
 
-            <div class="next-case-bar">
+    <!-- ============================================================
+         ПЛАВАЮЩЕЕ МЕНЮ НАВИГАЦИИ ПО КОМНАТАМ
+    ============================================================ -->
+    <nav class="hw-room-nav" id="hwRoomNav" aria-label="Навигация по помещениям">
+      <a href="#room-living" class="hw-room-link active">Гостиная</a>
+      <a href="#room-hallway" class="hw-room-link">Прихожая</a>
+      <a href="#room-bedroom" class="hw-room-link">Спальня</a>
+      <a href="#room-kids" class="hw-room-link">Детская</a>
+      <a href="#room-guest" class="hw-room-link">Гостевая</a>
+      <a href="#room-bath" class="hw-room-link">Санузлы</a>
+    </nav>
+
+    <!-- ============================================================
+         ПЕРЕХОД К СЛЕДУЮЩЕМУ КЕЙСУ
+    ============================================================ -->
+    <div class="next-case-bar">
       <span class="next-sub">Следующий проект</span>
       <a href="project-suomen.html" class="next-title">
         <span>ЖК «Suomen Ranta»</span>
@@ -219,13 +301,116 @@
           <path d="M2 12H52M52 12L41 2M52 12L41 22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </a>
-    </div></main>
+    </div>
+  </main>
 
-  <footer class="project-footer">
-    <span>FERRO DESIGN™ · 2026</span>
-    <span>Екатеринбург · Нижний Тагил</span>
+  <!-- ============================================================
+       СЕКЦИЯ КОНТАКТОВ И ФОРМА ЗАЯВКИ
+  ============================================================ -->
+  <section id="contact" class="contact-section">
+    <div class="contact-container">
+      <div class="contact-grid">
+        <div class="contact-col-info">
+          <h2 class="contact-title">Контакты</h2>
+          <p class="contact-intro">
+            Готовы обсудить ваш проект? Оставьте заявку или свяжитесь с нами удобным способом.
+          </p>
+
+          <div class="contact-details">
+            <div class="contact-detail-row">
+              <span class="detail-label">Локация</span>
+              <span class="detail-val">Екатеринбург, ул. Розы Люксембург, 17</span>
+            </div>
+            <div class="contact-detail-row">
+              <span class="detail-label">Телефон</span>
+              <a href="tel:+79634426192" class="detail-val">+7 (963) 442-61-92</a>
+            </div>
+            <div class="contact-detail-row">
+              <span class="detail-label">Email</span>
+              <a href="mailto:artem1-nt@mail.ru" class="detail-val">artem1-nt@mail.ru</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-col-form">
+          <form class="contact-form">
+            <input type="text" name="website" style="display:none;" tabindex="-1" autocomplete="off">
+            <div class="form-group">
+              <label for="userName" class="form-label">Ваше имя</label>
+              <input type="text" id="userName" name="name" class="form-input" placeholder="Егор" required>
+            </div>
+
+            <div class="form-group">
+              <label for="userPhone" class="form-label">Телефон или Telegram</label>
+              <input type="tel" id="userPhone" name="contact" class="form-input" placeholder="+7 (___) ___-__-__" required>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="userCity" class="form-label">Город</label>
+                <input type="text" id="userCity" name="city" class="form-input" placeholder="Екатеринбург">
+              </div>
+              <div class="form-group">
+                <label for="userArea" class="form-label">Площадь (м²)</label>
+                <input type="number" id="userArea" name="area" class="form-input" placeholder="120">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="userComment" class="form-label">Комментарий к проекту</label>
+              <textarea id="userComment" name="comment" class="form-input form-textarea" rows="3" placeholder="Расскажите о планировке, сроках и пожеланиях..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Отправить заявку</button>
+            <div class="form-privacy-note">
+              Нажимая кнопку «Отправить заявку», вы соглашаетесь с условиями <a href="privacy.html" target="_blank">Политики конфиденциальности</a> и даете согласие на обработку персональных данных.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- ============================================================
+       ПОДВАЛ В СТИЛЕ YODEZEEN: СОЦСЕТИ, БРЕНД И ЮРИДИЧЕСКИЙ БЛОК
+  ============================================================ -->
+  <footer class="site-footer">
+    <!-- 1. Иконки соцсетей студии (YouTube, Pinterest, Telegram) -->
+    <div class="footer-socials">
+      <!-- YouTube -->
+      <a href="https://www.youtube.com/@ferrodesign7446/featured" target="_blank" rel="noopener" class="footer-social-btn" aria-label="YouTube">
+        <img src="images/LOGO_SOCIALS/youtube.png" alt="YouTube">
+      </a>
+      <!-- Pinterest -->
+      <a href="https://ru.pinterest.com/ferro_design_ekb/" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Pinterest">
+        <img src="images/LOGO_SOCIALS/pinterest.png" alt="Pinterest">
+      </a>
+      <!-- Telegram -->
+      <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Telegram">
+        <img src="images/LOGO_SOCIALS/telegram.png" alt="Telegram">
+      </a>
+    </div>
+
+    <!-- Монументальная выдвигающаяся надпись FERRO DESIGN на всю ширину страницы -->
+    <div class="footer-brand-banner">
+      <div class="footer-brand-title" id="footerBrandTitle">FERRO DESIGN<span class="footer-brand-tm">™</span></div>
+    </div>
+
+    <!-- 2. Нижняя строка: копирайт с ИП, центрированное меню и юридический статус -->
+    <div class="footer-bottom-bar">
+      <div class="footer-copy">© 2026 FERRO DESIGN™. ИП СОКОЛОВА Н.В.</div>
+      <ul class="footer-links">
+        <li><a href="projects.html">ПРОЕКТЫ</a></li>
+        <li><a href="index.html#services">УСЛУГИ</a></li>
+        <li><a href="about.html">О НАС</a></li>
+        <li><a href="privacy.html">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</a></li>
+        <li><a href="index.html#contact">КОНТАКТЫ</a></li>
+      </ul>
+      <div class="footer-credits">НЕ ЯВЛЯЕТСЯ ПУБЛИЧНОЙ ОФЕРТОЙ</div>
+    </div>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- Скрипт сайта (интерактивный Lightbox галереи, tilt, плавный скролл, форма) -->
+  <script src="script.js?v=2"></script>
 </body>
 </html>

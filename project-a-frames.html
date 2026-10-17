@@ -3,346 +3,327 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Комплекс A-Frame домов — Ferro Design</title>
-  <!-- Open Graph / Карточка для мессенджеров -->
+
+  <title>Комплекс A-Frame домов — Студия дизайна FERRO DESIGN</title>
+  <meta name="description" content="Дизайн-проект интерьеров комплекса загородных домов A-Frame 100 м² в Свердловской области от студии дизайна FERRO DESIGN™.">
+
+  <!-- Open Graph / Карточка для Telegram, WhatsApp, ВКонтакте -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="Комплекс A-Frame домов — FERRO DESIGN">
-  <meta property="og:description" content="Дизайн интерьера от студии FERRO DESIGN.">
+  <meta property="og:description" content="Дизайн-проект интерьеров комплекса загородных домов A-Frame 100 м² в Свердловской области от студии дизайна FERRO DESIGN™.">
   <meta property="og:image" content="https://ferro-design.ru/images/A_FRAMES/cover.webp">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Комплекс A-Frame домов — FERRO DESIGN">
-  <meta name="twitter:description" content="Дизайн интерьера от студии FERRO DESIGN.">
+  <meta name="twitter:description" content="Дизайн-проект интерьеров комплекса загородных домов A-Frame 100 м² в Свердловской области от студии дизайна FERRO DESIGN™.">
   <meta name="twitter:image" content="https://ferro-design.ru/images/A_FRAMES/cover.webp">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { 
-    background-color: #faf9f7; 
-    color: #0d0d0d; 
-    font-family: 'Inter', sans-serif; 
-    -webkit-font-smoothing: antialiased; 
-    line-height: 1.5; 
-    font-size: 14px; /* Базовый размер №3 */
+
+  <!-- Динамический анимированный фавикон F-E-R-R-O (генерируется script.js) -->
+  <link rel="icon" id="dynamicFavicon" type="image/png" href="favicon.png">
+
+  <!-- Шрифты Google Fonts: Unbounded (акцентные заголовки) и Manrope (основной текст) -->
+  <link rel="stylesheet" href="style.css?v=2">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": "Дизайн интерьера Комплекс A-Frame домов",
+    "description": "Дизайн-проект интерьеров комплекса загородных домов A-Frame 100 м² в Свердловской области от студии дизайна FERRO DESIGN™.",
+    "creator": {
+      "@type": "HomeAndConstructionBusiness",
+      "name": "FERRO DESIGN™"
+    }
   }
-  a { color: inherit; text-decoration: none; }
-  img { display: block; width: 100%; height: auto; object-fit: contain; }
-
-  /* ------------------------------------------------------------
-     ШАПКА
-  ------------------------------------------------------------ */
-  .project-header {
-    position: fixed; top: 0; left: 0; width: 100%; height: 72px; padding: 0 48px;
-    display: flex; justify-content: space-between; align-items: center;
-    background: rgba(250, 249, 247, 0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(13, 13, 13, 0.06); z-index: 1000;
-  }
-  .logo { font-size: 14px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
-  .back-btn { font-size: 14px; color: #666; letter-spacing: 0.02em; transition: color 0.2s; }
-  .back-btn:hover { color: #000; }
-
-  /* ------------------------------------------------------------
-     ШАПКА КЕЙСА
-  ------------------------------------------------------------ */
-  .project-intro { padding: 130px 48px 50px; max-width: 1400px; margin: 0 auto; }
-  
-  /* Изначальная матовая плашка/кнопка */
-  .matte-capsule, .glass-capsule {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: #edebe6;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    padding: 8px 18px; border-radius: 9999px;
-    font-size: 14px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;
-    color: #444; margin-bottom: 24px;
-    box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
-  }
-
-  /* РАЗМЕР №1: Крупный заголовок */
-  .project-title { 
-    font-size: clamp(32px, 5vw, 56px); 
-    font-weight: 300; 
-    letter-spacing: -0.02em; 
-    line-height: 1.15; 
-    margin-bottom: 36px; 
-    color: #0a0a0a; 
-  }
-
-  /* Панель параметров (все шрифты строго 14px) */
-  .project-specs-panel {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
-    border-top: 1px solid rgba(13, 13, 13, 0.08); border-bottom: 1px solid rgba(13, 13, 13, 0.08); 
-    padding: 24px 0;
-  }
-  .spec-label { font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: #888; display: block; margin-bottom: 6px; }
-  .spec-value { font-size: 14px; font-weight: 500; color: #111; }
-
-  /* ------------------------------------------------------------
-     ЛЕНТА РЕНДЕРОВ
-  ------------------------------------------------------------ */
-  .project-body { padding: 40px 48px 120px; max-width: 1400px; margin: 0 auto; }
-  .media-block { margin-bottom: 90px; }
-  figcaption { font-size: 14px; color: #888; letter-spacing: 0.01em; margin-top: 14px; text-align: right; }
-
-  .js-tilt {
-    position: relative; overflow: hidden; border-radius: 12px; background-color: #f2f1ee;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.04); transform-style: preserve-3d; will-change: transform;
-  }
-  .js-tilt img { max-height: 88vh; }
-
-  .diptych-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 90px; }
-  .triptych-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 90px; }
-  .offset-frame { margin-top: 0; }
-
-  /* РАЗМЕР №2: Манифест и цитаты */
-  .statement-block { max-width: 780px; margin: 100px auto; text-align: center; }
-  .statement-tag { font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: #888; display: block; margin-bottom: 18px; }
-  .statement-text { font-size: 20px; font-weight: 300; line-height: 1.6; color: #222; }
-
-  blockquote { font-size: 20px; font-weight: 300; line-height: 1.5; font-style: italic; border-left: 2px solid #0d0d0d; padding-left: 24px; color: #222; }
-
-  /* ------------------------------------------------------------
-     ПЕРЕХОД К СЛЕДУЮЩЕМУ КЕЙСУ
-  ------------------------------------------------------------ */
-
-  /* Футер */
-  .project-footer { border-top: 1px solid rgba(13,13,13,0.08); padding: 36px 48px; display: flex; justify-content: space-between; font-size: 14px; color: #777; }
-
-  @media (max-width: 860px) {
-    .project-header { padding: 0 20px; }
-    .project-intro, .project-body, .project-footer { padding-left: 20px; padding-right: 20px; }
-    .project-specs-panel { grid-template-columns: repeat(2, 1fr); }
-    .diptych-grid, .triptych-grid { grid-template-columns: 1fr; gap: 24px; }
-    .offset-frame { margin-top: 0; }
-  }
-</style>
+  </script>
 </head>
 <body>
 
-  <header class="project-header">
-  <a href="index.html" class="brand-logo">
-    <img src="images/logo.png" alt="FERRO DESIGN™">
-  </a>
-  <div class="nav-actions">
-    <a href="projects.html" class="back-btn">Все проекты</a>
-    <a href="index.html" class="back-btn">На главную</a>
-  </div>
-</header>
+  <!-- ============================================================
+       ФИКСИРОВАННАЯ ШАПКА С ЭФФЕКТОМ СТЕКЛА
+  ============================================================ -->
+  <header class="glass-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-link">
+        <img src="images/logo.png" alt="FERRO DESIGN" class="header-logo-img" onerror="this.style.display='none'; document.getElementById('txt-logo').style.display='block';">
+        <span id="txt-logo" class="logo-brand-text" style="display: none;">FERRO DESIGN™</span>
+      </a>
 
+      <nav class="desktop-nav">
+        <a href="projects.html" class="nav-link">Все проекты</a>
+        <a href="index.html" class="nav-link">На главную</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       ГЛАВНЫЙ ЭКРАН (HERO 100vh) В СТИЛЕ YODEZEEN
+  ============================================================ -->
   <section class="project-intro">
-    <div class="glass-capsule">Архитектура и интерьер · Глэмпинг</div>
-    <h1 class="project-title">Комплекс A-Frame домов</h1>
+    <div class="project-intro-bg">
+      <img src="images/A_FRAMES/cover.webp" alt="Комплекс A-Frame домов" class="hero-bg-layer hero-bg-day is-active" fetchpriority="high">
+      <div class="project-intro-overlay"></div>
+    </div>
 
-    <div class="project-specs-panel">
-      <div><span class="spec-label">Локация</span><span class="spec-value">Свердловская область</span></div>
-      <div><span class="spec-label">Направление</span><span class="spec-value">A-Frame коттеджи</span></div>
-      <div><span class="spec-label">Визуализация</span><span class="spec-value">Ferro Design™</span></div>
-      <div><span class="spec-label">Статус</span><span class="spec-value">Реализован</span></div>
+    <div class="project-intro-container">
+      <h1 class="project-title">Комплекс A-Frame домов</h1>
+
+      <div class="project-intro-bottom">
+        <div class="project-yodezeen-specs">
+          <!-- Левая колонка -->
+          <div class="specs-col specs-col-left">
+            <div class="specs-group">
+              <span class="specs-label">Город</span>
+              <span class="specs-val">Свердловская обл.</span>
+            </div>
+            <div class="specs-group">
+              <span class="specs-label">Площадь</span>
+              <span class="specs-val">100 м²</span>
+            </div>
+          </div>
+
+          <!-- Правая колонка -->
+          <div class="specs-col specs-col-right">
+            <div class="specs-group">
+              <span class="specs-label">Категория</span>
+              <span class="specs-val">Загородный дом</span>
+            </div>
+            <div class="specs-group">
+              <span class="specs-label">Год реализации</span>
+              <span class="specs-val">2026</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
+  <!-- ============================================================
+       СЕКЦИИ ПОМЕЩЕНИЙ И ГАЛЕРЕЯ РЕНДЕРОВ
+  ============================================================ -->
   <main class="project-body">
 
-    <!-- 1. Главный ракурс -->
+    <!-- ==========================================
+         СВЕТЛЫЙ ДОМ: ГОСТИНАЯ (#room-light-living)
+    ========================================== -->
+    <div class="room-header" id="room-light-living">
+      <h2 class="room-name">СВЕТЛЫЙ ДОМ: ГОСТИНАЯ</h2>
+    </div>
+
     <figure class="media-block">
       <div class="js-tilt">
-        <img src="images/A_FRAMES/cover.webp" alt="Комплекс A-Frame домов — Главный вид">
+        <img src="images/A_FRAMES/cover.webp" alt="СВЕТЛЫЙ ДОМ: ГОСТИНАЯ — Общий вид пространства" loading="lazy" decoding="async">
       </div>
       <figcaption>Общий вид пространства</figcaption>
     </figure>
 
-    <!-- Манифест концепции -->
-    <div class="statement-block">
-      <span class="statement-tag">Архитектурная концепция</span>
-      <p class="statement-text">Выразительный треугольный силуэт, открытый второй свет и уютное сочетание бруса, камня и панорамных видов.</p>
-    </div>
-        
-
-    <!-- Диптих ракурсов #1: Светлый дом - Гостиная -->
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/living_light_01.webp" alt="Светлый коттедж — Гостиная">
+          <img src="images/A_FRAMES/living_light_01.webp" alt="СВЕТЛЫЙ ДОМ: ГОСТИНАЯ — Гостиная зона со вторым светом" loading="lazy" decoding="async">
         </div>
         <figcaption>Гостиная зона со вторым светом</figcaption>
       </figure>
-      <figure class="offset-frame">
+      <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/living_light_02.webp" alt="Светлый коттедж — Кухня-гостиная">
+          <img src="images/A_FRAMES/living_light_02.webp" alt="СВЕТЛЫЙ ДОМ: ГОСТИНАЯ — Обеденная зона и кухонный фронт" loading="lazy" decoding="async">
         </div>
         <figcaption>Обеденная зона и кухонный фронт</figcaption>
       </figure>
     </div>
-                
 
-    <!-- Диптих ракурсов #2: Светлый дом - Гостиная детали -->
+    <!-- Манифест концепции -->
+    <div class="statement-block">
+      <span class="statement-tag">Архитектурная концепция</span>
+      <p class="statement-text">
+        Выразительный треугольный силуэт, открытый второй свет и уютное сочетание бруса, камня и панорамных видов.
+      </p>
+    </div>
+
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/living_light_03.webp" alt="Светлый коттедж — Камин">
+          <img src="images/A_FRAMES/living_light_03.webp" alt="СВЕТЛЫЙ ДОМ: ГОСТИНАЯ — Каминная группа и панорамное остекление" loading="lazy" decoding="async">
         </div>
         <figcaption>Каминная группа и панорамное остекление</figcaption>
       </figure>
-      <figure class="offset-frame">
+      <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/living_light_04.webp" alt="Светлый коттедж — Лестница">
+          <img src="images/A_FRAMES/living_light_04.webp" alt="СВЕТЛЫЙ ДОМ: ГОСТИНАЯ — Лестница на антресольный этаж" loading="lazy" decoding="async">
         </div>
         <figcaption>Лестница на антресольный этаж</figcaption>
       </figure>
     </div>
-                
 
-    <!-- Диптих ракурсов #3: Светлый дом - Гостиная ракурс -->
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/living_light_05.webp" alt="Светлый коттедж — Вид на террасу">
+          <img src="images/A_FRAMES/living_light_05.webp" alt="СВЕТЛЫЙ ДОМ: ГОСТИНАЯ — Связь интерьера с природным окружением" loading="lazy" decoding="async">
         </div>
         <figcaption>Связь интерьера с природным окружением</figcaption>
       </figure>
-      <figure class="offset-frame">
+      <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/living_light_06.webp" alt="Светлый коттедж — Лаунж зона">
+          <img src="images/A_FRAMES/living_light_06.webp" alt="СВЕТЛЫЙ ДОМ: ГОСТИНАЯ — Мягкая зона отдыха" loading="lazy" decoding="async">
         </div>
         <figcaption>Мягкая зона отдыха</figcaption>
       </figure>
     </div>
-                
 
-    <!-- Диптих ракурсов #4: Светлый дом - Спальня 1 этаж -->
+    <!-- ==========================================
+         СВЕТЛЫЙ ДОМ: ПРИВАТНАЯ ЗОНА (#room-light-private)
+    ========================================== -->
+    <div class="room-header" id="room-light-private">
+      <h2 class="room-name">СВЕТЛЫЙ ДОМ: ПРИВАТНАЯ ЗОНА</h2>
+    </div>
+
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/bedroom_light_1fl_01.webp" alt="Светлый коттедж — Спальня 1 этажа">
+          <img src="images/A_FRAMES/bedroom_light_1fl_01.webp" alt="СВЕТЛЫЙ ДОМ: ПРИВАТНАЯ ЗОНА — Спальня первого этажа" loading="lazy" decoding="async">
         </div>
         <figcaption>Спальня первого этажа</figcaption>
       </figure>
-      <figure class="offset-frame">
+      <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/bedroom_light_1fl_02.webp" alt="Светлый коттедж — Спальня деталь">
+          <img src="images/A_FRAMES/bedroom_light_1fl_02.webp" alt="СВЕТЛЫЙ ДОМ: ПРИВАТНАЯ ЗОНА — Прикроватные светильники и отделка брусом" loading="lazy" decoding="async">
         </div>
         <figcaption>Прикроватные светильники и отделка брусом</figcaption>
       </figure>
     </div>
-                
 
-    <!-- Диптих ракурсов #5: Светлый дом - Спальня 2 этаж -->
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/bedroom_light_2f_01.webp" alt="Светлый коттедж — Спальня под крышей">
+          <img src="images/A_FRAMES/bedroom_light_2f_01.webp" alt="СВЕТЛЫЙ ДОМ: ПРИВАТНАЯ ЗОНА — Уютная спальня под скатом крыши" loading="lazy" decoding="async">
         </div>
         <figcaption>Уютная спальня под скатом крыши</figcaption>
       </figure>
-      <figure class="offset-frame">
+      <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/bedroom_light_2f_02.webp" alt="Светлый коттедж — Вид с антресоли">
+          <img src="images/A_FRAMES/bedroom_light_2f_02.webp" alt="СВЕТЛЫЙ ДОМ: ПРИВАТНАЯ ЗОНА — Вид из мансардного окна" loading="lazy" decoding="async">
         </div>
         <figcaption>Вид из мансардного окна</figcaption>
       </figure>
     </div>
-                
 
-    <!-- Диптих ракурсов #6: Светлый дом - Санузел -->
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/bathroom_light_01.webp" alt="Светлый коттедж — Санузел">
+          <img src="images/A_FRAMES/bathroom_light_01.webp" alt="СВЕТЛЫЙ ДОМ: ПРИВАТНАЯ ЗОНА — Санузел в светлом микроцементе" loading="lazy" decoding="async">
         </div>
         <figcaption>Санузел в светлом микроцементе</figcaption>
       </figure>
-      <figure class="offset-frame">
+      <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/bathroom_light_02.webp" alt="Светлый коттедж — Душевая">
+          <img src="images/A_FRAMES/bathroom_light_02.webp" alt="СВЕТЛЫЙ ДОМ: ПРИВАТНАЯ ЗОНА — Душевой отсек с черной сантехникой" loading="lazy" decoding="async">
         </div>
         <figcaption>Душевой отсек с черной сантехникой</figcaption>
       </figure>
     </div>
-                
 
-    <!-- Диптих ракурсов #7: Темный дом - Гостиная -->
+    <!-- ==========================================
+         ТЕМНЫЙ ДОМ: ГОСТИНАЯ (#room-dark-living)
+    ========================================== -->
+    <div class="room-header" id="room-dark-living">
+      <h2 class="room-name">ТЕМНЫЙ ДОМ: ГОСТИНАЯ</h2>
+    </div>
+
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/living_dark_01.webp" alt="Темный коттедж — Гостиная">
+          <img src="images/A_FRAMES/living_dark_01.webp" alt="ТЕМНЫЙ ДОМ: ГОСТИНАЯ — Гостиная в графитовых оттенках" loading="lazy" decoding="async">
         </div>
         <figcaption>Гостиная в графитовых оттенках</figcaption>
       </figure>
-      <figure class="offset-frame">
+      <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/living_dark_02.webp" alt="Темный коттедж — Кухня">
+          <img src="images/A_FRAMES/living_dark_02.webp" alt="ТЕМНЫЙ ДОМ: ГОСТИНАЯ — Темная монохромная кухня" loading="lazy" decoding="async">
         </div>
         <figcaption>Темная монохромная кухня</figcaption>
       </figure>
     </div>
-                
 
-    <!-- Диптих ракурсов #8: Темный дом - Детали гостиной -->
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/living_dark_03.webp" alt="Темный коттедж — Зона отдыха">
+          <img src="images/A_FRAMES/living_dark_03.webp" alt="ТЕМНЫЙ ДОМ: ГОСТИНАЯ — Камерное вечернее освещение" loading="lazy" decoding="async">
         </div>
         <figcaption>Камерное вечернее освещение</figcaption>
       </figure>
-      <figure class="offset-frame">
+      <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/living_dark_04.webp" alt="Темный коттедж — Камин">
+          <img src="images/A_FRAMES/living_dark_04.webp" alt="ТЕМНЫЙ ДОМ: ГОСТИНАЯ — Чугунный камин на фоне черного металла" loading="lazy" decoding="async">
         </div>
         <figcaption>Чугунный камин на фоне черного металла</figcaption>
       </figure>
     </div>
-                
 
-    <!-- Диптих ракурсов #9: Темный дом - Спальня 1 этаж -->
+    <!-- ==========================================
+         ТЕМНЫЙ ДОМ: ПРИВАТНАЯ ЗОНА (#room-dark-private)
+    ========================================== -->
+    <div class="room-header" id="room-dark-private">
+      <h2 class="room-name">ТЕМНЫЙ ДОМ: ПРИВАТНАЯ ЗОНА</h2>
+    </div>
+
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/bedroom_dark_1fl_01.webp" alt="Темный коттедж — Спальня 1 этаж">
+          <img src="images/A_FRAMES/bedroom_dark_1fl_01.webp" alt="ТЕМНЫЙ ДОМ: ПРИВАТНАЯ ЗОНА — Спальня первого этажа" loading="lazy" decoding="async">
         </div>
         <figcaption>Спальня первого этажа</figcaption>
       </figure>
-      <figure class="offset-frame">
+      <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/bedroom_dark_1fl_02.webp" alt="Темный коттедж — Спальня деталь">
+          <img src="images/A_FRAMES/bedroom_dark_1fl_02.webp" alt="ТЕМНЫЙ ДОМ: ПРИВАТНАЯ ЗОНА — Фактура обожженного дерева" loading="lazy" decoding="async">
         </div>
         <figcaption>Фактура обожженного дерева</figcaption>
       </figure>
     </div>
-                
 
-    <!-- Диптих ракурсов #10: Темный дом - Спальня 2 этаж -->
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/bedroom_dark_2f_01.webp" alt="Темный коттедж — Спальня антресоль">
+          <img src="images/A_FRAMES/bedroom_dark_2f_01.webp" alt="ТЕМНЫЙ ДОМ: ПРИВАТНАЯ ЗОНА — Антресольная спальня" loading="lazy" decoding="async">
         </div>
         <figcaption>Антресольная спальня</figcaption>
       </figure>
-      <figure class="offset-frame">
+      <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/bedroom_dark_2f_02.webp" alt="Темный коттедж — Вид на второй свет">
+          <img src="images/A_FRAMES/bedroom_dark_2f_02.webp" alt="ТЕМНЫЙ ДОМ: ПРИВАТНАЯ ЗОНА — Вид на общее пространство" loading="lazy" decoding="async">
         </div>
         <figcaption>Вид на общее пространство</figcaption>
       </figure>
     </div>
-                
 
-    <!-- Диптих ракурсов #11: Темный дом - Санузел -->
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/bathroom_dark_01.webp" alt="Темный коттедж — Санузел">
+          <img src="images/A_FRAMES/bathroom_dark_01.webp" alt="ТЕМНЫЙ ДОМ: ПРИВАТНАЯ ЗОНА — Санузел в темном сланце" loading="lazy" decoding="async">
         </div>
         <figcaption>Санузел в темном сланце</figcaption>
       </figure>
-      <figure class="offset-frame">
+      <figure>
         <div class="js-tilt">
-          <img src="images/A_FRAMES/bathroom_dark_02.webp" alt="Темный коттедж — Душевая">
+          <img src="images/A_FRAMES/bathroom_dark_02.webp" alt="ТЕМНЫЙ ДОМ: ПРИВАТНАЯ ЗОНА — Раковина с латунным смесителем" loading="lazy" decoding="async">
         </div>
         <figcaption>Раковина с латунным смесителем</figcaption>
       </figure>
     </div>
-                
 
-            <div class="next-case-bar">
+    <!-- ============================================================
+         ПЛАВАЮЩЕЕ МЕНЮ НАВИГАЦИИ ПО КОМНАТАМ
+    ============================================================ -->
+    <nav class="hw-room-nav" id="hwRoomNav" aria-label="Навигация по помещениям">
+      <a href="#room-light-living" class="hw-room-link active">Светлый: Гостиная</a>
+      <a href="#room-light-private" class="hw-room-link">Светлый: Спальни</a>
+      <a href="#room-dark-living" class="hw-room-link">Темный: Гостиная</a>
+      <a href="#room-dark-private" class="hw-room-link">Темный: Спальни</a>
+    </nav>
+
+    <!-- ============================================================
+         ПЕРЕХОД К СЛЕДУЮЩЕМУ КЕЙСУ
+    ============================================================ -->
+    <div class="next-case-bar">
       <span class="next-sub">Следующий проект</span>
       <a href="project-hmao.html" class="next-title">
         <span>Частная резиденция ХМАО</span>
@@ -350,13 +331,116 @@
           <path d="M2 12H52M52 12L41 2M52 12L41 22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </a>
-    </div></main>
+    </div>
+  </main>
 
-  <footer class="project-footer">
-    <span>FERRO DESIGN™ · 2026</span>
-    <span>Екатеринбург · Нижний Тагил</span>
+  <!-- ============================================================
+       СЕКЦИЯ КОНТАКТОВ И ФОРМА ЗАЯВКИ
+  ============================================================ -->
+  <section id="contact" class="contact-section">
+    <div class="contact-container">
+      <div class="contact-grid">
+        <div class="contact-col-info">
+          <h2 class="contact-title">Контакты</h2>
+          <p class="contact-intro">
+            Готовы обсудить ваш проект? Оставьте заявку или свяжитесь с нами удобным способом.
+          </p>
+
+          <div class="contact-details">
+            <div class="contact-detail-row">
+              <span class="detail-label">Локация</span>
+              <span class="detail-val">Екатеринбург, ул. Розы Люксембург, 17</span>
+            </div>
+            <div class="contact-detail-row">
+              <span class="detail-label">Телефон</span>
+              <a href="tel:+79634426192" class="detail-val">+7 (963) 442-61-92</a>
+            </div>
+            <div class="contact-detail-row">
+              <span class="detail-label">Email</span>
+              <a href="mailto:artem1-nt@mail.ru" class="detail-val">artem1-nt@mail.ru</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-col-form">
+          <form class="contact-form">
+            <input type="text" name="website" style="display:none;" tabindex="-1" autocomplete="off">
+            <div class="form-group">
+              <label for="userName" class="form-label">Ваше имя</label>
+              <input type="text" id="userName" name="name" class="form-input" placeholder="Егор" required>
+            </div>
+
+            <div class="form-group">
+              <label for="userPhone" class="form-label">Телефон или Telegram</label>
+              <input type="tel" id="userPhone" name="contact" class="form-input" placeholder="+7 (___) ___-__-__" required>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="userCity" class="form-label">Город</label>
+                <input type="text" id="userCity" name="city" class="form-input" placeholder="Екатеринбург">
+              </div>
+              <div class="form-group">
+                <label for="userArea" class="form-label">Площадь (м²)</label>
+                <input type="number" id="userArea" name="area" class="form-input" placeholder="120">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="userComment" class="form-label">Комментарий к проекту</label>
+              <textarea id="userComment" name="comment" class="form-input form-textarea" rows="3" placeholder="Расскажите о планировке, сроках и пожеланиях..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Отправить заявку</button>
+            <div class="form-privacy-note">
+              Нажимая кнопку «Отправить заявку», вы соглашаетесь с условиями <a href="privacy.html" target="_blank">Политики конфиденциальности</a> и даете согласие на обработку персональных данных.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- ============================================================
+       ПОДВАЛ В СТИЛЕ YODEZEEN: СОЦСЕТИ, БРЕНД И ЮРИДИЧЕСКИЙ БЛОК
+  ============================================================ -->
+  <footer class="site-footer">
+    <!-- 1. Иконки соцсетей студии (YouTube, Pinterest, Telegram) -->
+    <div class="footer-socials">
+      <!-- YouTube -->
+      <a href="https://www.youtube.com/@ferrodesign7446/featured" target="_blank" rel="noopener" class="footer-social-btn" aria-label="YouTube">
+        <img src="images/LOGO_SOCIALS/youtube.png" alt="YouTube">
+      </a>
+      <!-- Pinterest -->
+      <a href="https://ru.pinterest.com/ferro_design_ekb/" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Pinterest">
+        <img src="images/LOGO_SOCIALS/pinterest.png" alt="Pinterest">
+      </a>
+      <!-- Telegram -->
+      <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Telegram">
+        <img src="images/LOGO_SOCIALS/telegram.png" alt="Telegram">
+      </a>
+    </div>
+
+    <!-- Монументальная выдвигающаяся надпись FERRO DESIGN на всю ширину страницы -->
+    <div class="footer-brand-banner">
+      <div class="footer-brand-title" id="footerBrandTitle">FERRO DESIGN<span class="footer-brand-tm">™</span></div>
+    </div>
+
+    <!-- 2. Нижняя строка: копирайт с ИП, центрированное меню и юридический статус -->
+    <div class="footer-bottom-bar">
+      <div class="footer-copy">© 2026 FERRO DESIGN™. ИП СОКОЛОВА Н.В.</div>
+      <ul class="footer-links">
+        <li><a href="projects.html">ПРОЕКТЫ</a></li>
+        <li><a href="index.html#services">УСЛУГИ</a></li>
+        <li><a href="about.html">О НАС</a></li>
+        <li><a href="privacy.html">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</a></li>
+        <li><a href="index.html#contact">КОНТАКТЫ</a></li>
+      </ul>
+      <div class="footer-credits">НЕ ЯВЛЯЕТСЯ ПУБЛИЧНОЙ ОФЕРТОЙ</div>
+    </div>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- Скрипт сайта (интерактивный Lightbox галереи, tilt, плавный скролл, форма) -->
+  <script src="script.js?v=2"></script>
 </body>
 </html>
