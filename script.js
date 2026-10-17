@@ -919,6 +919,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return res.json();
       })
       .then(data => {
+        if (data && (data.success === 'false' || data.success === false)) {
+          throw new Error(data.message || 'FormSubmit rejected submission');
+        }
         showFeedbackSuccessModal(userName);
         form.reset();
       })
