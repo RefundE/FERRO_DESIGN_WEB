@@ -471,8 +471,8 @@ document.addEventListener('DOMContentLoaded', () => {
     phoneInput.addEventListener('input', () => {
       const val = phoneInput.value;
 
-      // Если ввод содержит латинские буквы или @ (ник Telegram), не форматируем как телефон
-      if (/[a-zA-Z@]/.test(val)) return;
+      // Если ввод содержит буквы (латиница/кириллица) или @ (ник Telegram), не форматируем как телефон
+      if (/[a-zA-Zа-яА-ЯёЁ@]/.test(val)) return;
 
       const digits = val.replace(/\D/g, '');
       if (!digits) {
@@ -526,8 +526,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Список фотографий из папки COVER_MAIN для плавного переключения
       const candidateImages = [
         'images/COVER_MAIN/cover_main_makarovski.webp',
-        'images/COVER_MAIN/cover_main_nekrasova.webp',
-        'images/COVER_MAIN/cover_main_uralets.webp'
+        'images/COVER_MAIN/cover_main_nekrasova.webp'
       ];
 
       // Фильтруем только те файлы, которые реально присутствуют в папке
