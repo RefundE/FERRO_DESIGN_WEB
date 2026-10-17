@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
       activeTypeFilter = btn.getAttribute('data-filter-type') || btn.getAttribute('data-filter') || 'all';
       typeButtons.forEach(b => b.classList.toggle('active', b === btn));
       applyProjectsFilter(btn.getAttribute('data-title'));
+      btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     });
   });
 
@@ -78,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
       activeAreaFilter = btn.getAttribute('data-filter-area') || 'all';
       areaButtons.forEach(b => b.classList.toggle('active', b === btn));
       applyProjectsFilter(null);
+      btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     });
   });
 
@@ -630,6 +632,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const roomLinks = Array.from(document.querySelectorAll('.hw-room-link'));
 
   if (roomNav && roomHeaders.length > 0 && projectBody) {
+    let lastActiveRoomLink = null;
+
     function updateRoomNav() {
       const bodyRect = projectBody.getBoundingClientRect();
       const nextBar = document.querySelector('.next-case-bar');
@@ -647,10 +651,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
+      let activeRoomLink = null;
       roomLinks.forEach(link => {
-        link.classList.toggle('active', link.getAttribute('href') === '#' + currentRoomId);
+        const isActive = (link.getAttribute('href') === '#' + currentRoomId);
+        link.classList.toggle('active', isActive);
+        if (isActive) activeRoomLink = link;
       });
+
+      if (activeRoomLink && activeRoomLink !== lastActiveRoomLink) {
+        lastActiveRoomLink = activeRoomLink;
+        activeRoomLink.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
     }
+
+    roomLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        link.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      });
+    });
 
     let isRoomNavTicking = false;
     window.addEventListener('scroll', () => {

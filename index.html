@@ -309,6 +309,7 @@
         <div class="map-legend-pill">Перетаскивайте карту и нажимайте на точки для перехода к проектам</div>
 
         <div id="mapPopupCard" class="map-popup-card">
+          <button type="button" class="map-popup-close" id="mapPopupClose" aria-label="Закрыть карточку">&times;</button>
           <div class="map-popup-img-wrap">
             <img id="mapCardImg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="Превью проекта">
           </div>
@@ -318,7 +319,7 @@
             <div class="map-popup-meta">
               <span id="mapCardType">Тип</span> · <span id="mapCardArea">Площадь</span>
             </div>
-            <div class="map-popup-link-hint">Нажмите карточку, чтобы открыть проект →</div>
+            <div class="map-popup-link-hint">Открыть проект →</div>
           </div>
         </div>
       </div>
@@ -679,7 +680,8 @@
           cardType.textContent = p.type;
           cardArea.textContent = p.area;
 
-          popupCard.onclick = () => {
+          popupCard.onclick = (e) => {
+            if (e.target.closest('#mapPopupClose')) return;
             window.location.href = p.link;
           };
 
@@ -688,6 +690,15 @@
 
         map.geoObjects.add(placemark);
       });
+
+      const popupClose = document.getElementById('mapPopupClose');
+      if (popupClose) {
+        popupClose.addEventListener('click', (e) => {
+          e.stopPropagation();
+          popupCard.classList.remove('visible');
+          activeProjectId = null;
+        });
+      }
 
       // Клик по пустой области карты скрывает всплывающую карточку
       map.events.add('click', () => {

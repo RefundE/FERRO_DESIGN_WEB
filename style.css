@@ -1066,6 +1066,34 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   pointer-events: auto;
 }
 
+.map-popup-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.90);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  color: #111111;
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.map-popup-close:hover {
+  background: #ffffff;
+  color: #000000;
+  transform: scale(1.08);
+}
+
 .map-popup-img-wrap {
   width: 100%;
   height: 180px;
@@ -2662,18 +2690,27 @@ a.detail-val:hover {
 
   /* 1. Шапка сайта и страниц проектов */
   .glass-header { 
-    padding: 0 24px; 
-    height: 84px; 
+    padding: 0 16px; 
+    height: 72px; 
   }
   .project-header { 
-    padding: 0 20px; 
-    height: 84px; 
+    padding: 0 16px; 
+    height: 72px; 
+  }
+  .logo-link {
+    height: 56px;
+    flex-shrink: 0;
   }
   .header-logo-img { 
-    max-height: 84px; 
+    max-height: 56px; 
   }
   .desktop-nav { 
-    gap: 18px; 
+    gap: 12px; 
+  }
+  .nav-link {
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
   }
 
   /* 2. Первый экран (Полноэкранное фото + стеклянная карточка) */
@@ -2681,6 +2718,7 @@ a.detail-val:hover {
     padding: 110px 24px 40px;
     height: auto;
     min-height: 100vh;
+    min-height: 100dvh;
   }
   .hero-glass-card {
     padding: 32px 24px;
@@ -2695,6 +2733,36 @@ a.detail-val:hover {
   }
   .hero-signature-img {
     width: 130px; /* Умеренный размер подписи на смартфонах */
+  }
+
+  /* Отображение плашек категорий без ховера на тач-устройствах */
+  .glass-badge {
+    opacity: 1;
+    transform: translateY(0);
+    top: 12px;
+    left: 12px;
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+
+  /* Удобство фильтров в projects.html */
+  .projects-filters-bar {
+    gap: 10px;
+  }
+  .projects-filter-tabs {
+    width: 100%;
+    padding: 5px 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .filter-tab-btn {
+    padding: 7px 13px;
+    font-size: 12px;
+  }
+
+  /* Защита от авто-зума iOS Safari и улучшение тач-зон */
+  .form-input {
+    font-size: 16px;
+    padding: 14px 16px;
   }
 
   /* Отступы основных контентных секций */
@@ -2735,19 +2803,52 @@ a.detail-val:hover {
   }
 
   /* 5. Интерактивная карта проектов */
-  .map-popup-card { 
-    width: calc(100% - 48px); 
-    bottom: 16px; 
-    right: 24px; 
+  .map-container {
+    height: 400px;
   }
-  .map-legend-pill { 
-    display: none; 
+  .map-legend-pill {
+    display: flex;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    font-size: 11px;
+    padding: 6px 12px;
+    width: auto;
+    justify-content: center;
+  }
+  .map-popup-card { 
+    width: calc(100% - 32px); 
+    bottom: 12px; 
+    right: 16px; 
+    left: 16px;
+    margin: 0 auto;
+  }
+  .map-popup-img-wrap {
+    height: 120px;
+  }
+  .map-popup-body {
+    padding: 12px 14px;
+  }
+  .map-popup-title {
+    font-size: 17px;
+    margin-bottom: 4px;
+  }
+  .map-popup-city {
+    font-size: 12px;
+  }
+  .map-popup-meta {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+  .map-popup-link-hint {
+    font-size: 12px;
   }
 
   /* 6. Страницы кейсов (ЖК «Макаровский» и др.) */
   .project-intro {
     height: auto;
     min-height: 100vh;
+    min-height: 100dvh;
     padding: 120px 20px 48px;
   }
   .lighting-controls-wrap {
@@ -2860,6 +2961,11 @@ a.detail-val:hover {
   }
 
   /* Полноэкранный Lightbox на планшетах и смартфонах */
+  .lightbox-overlay {
+    height: 100dvh;
+    min-height: 100dvh;
+    touch-action: pan-y pinch-zoom;
+  }
   .lightbox-prev,
   .lightbox-next {
     display: none;
