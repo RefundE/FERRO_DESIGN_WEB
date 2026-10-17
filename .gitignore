@@ -23,6 +23,7 @@ ehthumbs_vista.db
 __pycache__/
 *.pyc
 *.txt
+!robots.txt
 *.xlsx
 *.xls
 
