@@ -1,7 +1,8 @@
 /**
  * FERRO DESIGN™ — ПОЛНЫЙ ДВИЖОК АДМИН-ПАНЕЛИ (ADMIN.JS)
  * Архитектурный минимализм, строгая валидация по 10 правилам verify_all_cases.py,
- * авто-конвертация рендеров в WebP, генерация HTML/XML и публикация через GitHub Git Trees API.
+ * авто-конвертация рендеров в WebP, точные канонические генераторы HTML/XML
+ * и публикация через GitHub Git Trees API.
  */
 
 // ============================================================
@@ -17,7 +18,6 @@ window.AdminState = {
   githubRepo: localStorage.getItem('ferro_gh_repo') || 'refunde/FERRO_DESIGN_WEB',
   githubBranch: localStorage.getItem('ferro_gh_branch') || 'main',
   publishLockUntil: parseInt(localStorage.getItem('ferro_publish_lock_until') || '0', 10),
-  // Локальный реестр вновь загруженных файлов: virtualPath -> { blob, dataUrl, base64 }
   newFilesMap: new Map()
 };
 
@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadSiteContent();
 });
 
-// Уведомления (Toasts)
 function showToast(message, type = 'info') {
   const container = document.getElementById('toastContainer');
   if (!container) return;
@@ -44,9 +43,6 @@ function showToast(message, type = 'info') {
   }, 3800);
 }
 
-// ------------------------------------------------------------
-// НАВИГАЦИЯ ПО ВКЛАДКАМ И СТРАНИЦАМ
-// ------------------------------------------------------------
 function initNavigation() {
   const tabBtns = document.querySelectorAll('.nav-tab-btn');
   tabBtns.forEach(btn => {
@@ -81,9 +77,6 @@ function initNavigation() {
   });
 }
 
-// ------------------------------------------------------------
-// МОДАЛЬНЫЕ ОКНА И НАСТРОЙКИ GITHUB
-// ------------------------------------------------------------
 function initModals() {
   document.getElementById('btnOpenGithubModal').addEventListener('click', () => openModal('modalGithub'));
   document.getElementById('btnOpenPreviewModal').addEventListener('click', () => {
@@ -112,7 +105,6 @@ function initModals() {
     });
   });
 
-  // Переключение устройств в предпросмотре
   const deviceBtns = document.querySelectorAll('.device-toggle-btn');
   const previewIframe = document.getElementById('previewIframe');
   deviceBtns.forEach(btn => {
@@ -134,7 +126,6 @@ function initModals() {
     });
   }
 
-  // GitHub Settings
   const tokenInput = document.getElementById('ghTokenInput');
   const repoInput = document.getElementById('ghRepoInput');
   const branchInput = document.getElementById('ghBranchInput');
@@ -195,7 +186,6 @@ function initModals() {
     }
   });
 
-  // Кнопка подтверждения публикации
   document.getElementById('btnConfirmPublishFinal').addEventListener('click', async () => {
     await handleSitePublication();
   });
@@ -223,9 +213,6 @@ function updateGithubStatusDot() {
   }
 }
 
-// ------------------------------------------------------------
-// 10-МИНУТНЫЙ ТАЙМЕР БЛОКИРОВКИ ПОВТОРНОЙ ПУБЛИКАЦИИ
-// ------------------------------------------------------------
 function isPublishLocked() {
   return window.AdminState.publishLockUntil > Date.now();
 }
@@ -266,11 +253,6 @@ function initPublishLockCountdown() {
 // 2. МОДУЛЬ АВТО-КОНВЕРТАЦИИ WEBP И ЗАГРУЗКИ ФАЙЛОВ
 // ============================================================
 
-/**
- * Сжимает изображение в браузере через <canvas> в формат WebP (качество 0.86, max side 2560px)
- * @param {File|Blob} file
- * @returns {Promise<{blob: Blob, dataUrl: string, base64: string, width: number, height: number}>}
- */
 async function compressAndConvertToWebP(file, maxSide = 2560, quality = 0.86) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -282,7 +264,6 @@ async function compressAndConvertToWebP(file, maxSide = 2560, quality = 0.86) {
         let width = img.width;
         let height = img.height;
 
-        // Масштабирование до maxSide
         if (width > maxSide || height > maxSide) {
           if (width > height) {
             height = Math.round((height * maxSide) / width);
@@ -307,7 +288,6 @@ async function compressAndConvertToWebP(file, maxSide = 2560, quality = 0.86) {
             return;
           }
           const dataUrl = canvas.toDataURL('image/webp', quality);
-          // Получаем чистый base64 без data:image/webp;base64,
           const base64 = dataUrl.split(',')[1];
           resolve({ blob, dataUrl, base64, width, height });
         }, 'image/webp', quality);
@@ -318,11 +298,7 @@ async function compressAndConvertToWebP(file, maxSide = 2560, quality = 0.86) {
   });
 }
 
-/**
- * Привязка дропзоны обложек и рендеров
- */
 function setupDropzonesForProject(proj) {
-  // 1. Дневная обложка
   const dayInput = document.getElementById('inputDayCoverFile');
   const dayZone = document.getElementById('dropzoneDayCover');
   if (dayInput && dayZone) {
@@ -343,7 +319,6 @@ function setupDropzonesForProject(proj) {
     };
   }
 
-  // 2. Ночная обложка
   const nightInput = document.getElementById('inputNightCoverFile');
   const nightZone = document.getElementById('dropzoneNightCover');
   if (nightInput && nightZone) {
@@ -411,15 +386,11 @@ async function handleNightCoverUpload(proj, file) {
   }
 }
 
-/**
- * Пакетная загрузка рендеров в помещение с именованием {prefix}_{NN}.webp
- */
 async function handleRoomRendersUpload(proj, room, files, gridContainer) {
   try {
     showToast(`Конвертация ${files.length} изображений в WebP...`, 'info');
     const prefix = (room.prefix || 'render').trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
 
-    // Определяем максимальный номер среди существующих кадров
     let maxIdx = 0;
     (room.items || []).forEach(it => {
       const paths = it.type === 'diptych' ? (it.items || []).map(p => p[0]) : [it.src];
@@ -440,7 +411,6 @@ async function handleRoomRendersUpload(proj, room, files, gridContainer) {
       const targetPath = `images/${proj.folder}/${filename}`;
       window.AdminState.newFilesMap.set(targetPath, result);
 
-      // Добавляем как новый одиночный кадр (auto раскладка)
       room.items = room.items || [];
       room.items.push({
         type: 'full',
@@ -460,7 +430,7 @@ async function handleRoomRendersUpload(proj, room, files, gridContainer) {
 
 
 // ============================================================
-// 3. ГЕНЕРАТОРЫ СТРАНИЦ САЙТА (100% ВАЛИДАЦИЯ VERIFY_ALL_CASES)
+// 3. КАНОНИЧЕСКИЕ ГЕНЕРАТОРЫ СТРАНИЦ САЙТА
 // ============================================================
 
 /**
@@ -468,10 +438,9 @@ async function handleRoomRendersUpload(proj, room, files, gridContainer) {
  */
 function generateProjectPageHTML(project, nextProject, contacts) {
   const titleText = `${project.title} — Студия дизайна интерьера FERRO DESIGN™`;
-  const metaDesc = project.metaDesc || `Дизайн-проект интерьера ${project.title}, ${project.city} от студии FERRO DESIGN.`;
+  const metaDesc = project.metaDesc || `Дизайн-проект интерьера квартиры ${project.area} м² в ${project.title}, ${project.city} от студии FERRO DESIGN.`;
   const absOgImage = project.heroDay.startsWith('http') ? project.heroDay : `https://ferro-design.ru/${project.heroDay}`;
 
-  // Генерация секций помещений
   let roomsHtml = '';
   (project.rooms || []).forEach(room => {
     roomsHtml += `\n    <!-- ==========================================\n         ${room.name.toUpperCase()} (${room.prefix})\n    ========================================== -->\n`;
@@ -480,7 +449,6 @@ function generateProjectPageHTML(project, nextProject, contacts) {
     roomsHtml += `    </div>\n\n`;
 
     const items = room.items || [];
-    // Поддержка раскладки
     items.forEach(it => {
       if (it.type === 'diptych' && it.items && it.items.length === 2) {
         roomsHtml += `    <div class="diptych-grid">\n`;
@@ -491,19 +459,16 @@ function generateProjectPageHTML(project, nextProject, contacts) {
       } else if (it.type === 'full_compact') {
         roomsHtml += `    <figure class="media-block" style="max-width: 800px; margin-left: auto; margin-right: auto;">\n      <div class="js-tilt">\n        <img src="${it.src}" alt="${escapeHtml(it.cap || '')}" loading="lazy" decoding="async">\n      </div>\n      <figcaption>${escapeHtml(it.cap || '')}</figcaption>\n    </figure>\n\n`;
       } else {
-        // Обычный full
         roomsHtml += `    <figure class="media-block">\n      <div class="js-tilt">\n        <img src="${it.src}" alt="${escapeHtml(it.cap || '')}" loading="lazy" decoding="async">\n      </div>\n      <figcaption>${escapeHtml(it.cap || '')}</figcaption>\n    </figure>\n\n`;
       }
     });
   });
 
-  // Нижняя навигация по комнатам: строго те же room.id что и в заголовках!
   let navLinksHtml = '';
   (project.rooms || []).forEach((room, idx) => {
     navLinksHtml += `      <a href="#${room.id}" class="hw-room-link${idx === 0 ? ' active' : ''}">${escapeHtml(room.nav)}</a>\n`;
   });
 
-  // Сценарий день/ночь в интро
   let lightingHtml = '';
   let heroNightImgHtml = '';
   if (project.heroNight) {
@@ -742,7 +707,7 @@ ${navLinksHtml}    </nav>
 }
 
 /**
- * 2. Генератор главной страницы index.html
+ * 2. Канонический генератор главной страницы index.html
  */
 function generateIndexHTML(siteContent) {
   const home = siteContent.home;
@@ -752,12 +717,13 @@ function generateIndexHTML(siteContent) {
 
   const homeOrder = siteContent.homeProjectsOrder;
 
-  // Основная сетка 4 проекта
+  // 1. Первые 4 проекта в основной сетке
   let mainGridCards = '';
   for (let i = 0; i < 4 && i < homeOrder.length; i++) {
     const p = projectsMap[homeOrder[i]];
     if (!p) continue;
     mainGridCards += `
+      <!-- ${i + 1}. ${p.title} -->
       <a href="${p.filename}" class="project-card">
         <div class="card-media-wrap">
           <img src="${p.cardImage || p.heroDay}" alt="${escapeHtml(p.title)}" loading="lazy" decoding="async">
@@ -770,12 +736,13 @@ function generateIndexHTML(siteContent) {
       </a>\n`;
   }
 
-  // Срезанный ряд 5-й и 6-й проекты
+  // 2. Срезанный ряд: 5-й и 6-й проекты
   let peekCards = '';
   for (let i = 4; i < 6 && i < homeOrder.length; i++) {
     const p = projectsMap[homeOrder[i]];
     if (!p) continue;
     peekCards += `
+        <!-- ${i + 1}. ${p.title} -->
         <a href="${p.filename}" class="project-card" tabindex="-1" aria-hidden="true">
           <div class="card-media-wrap">
             <img src="${p.cardImage || p.heroDay}" alt="${escapeHtml(p.title)}" loading="lazy" decoding="async">
@@ -787,7 +754,7 @@ function generateIndexHTML(siteContent) {
         </a>\n`;
   }
 
-  // Услуги
+  // 3. Услуги
   let servicesCards = '';
   (home.services || []).forEach(srv => {
     servicesCards += `
@@ -801,19 +768,17 @@ function generateIndexHTML(siteContent) {
         </div>\n`;
   });
 
-  // Статистика
+  // 4. Статистика
   let statsHtml = '';
   (home.aboutSection.stats || []).forEach(st => {
     statsHtml += `
-          <div class="stat-card">
-            <div class="stat-number-wrap">
-              <span class="stat-number" data-target="${st.target}" data-suffix="${st.suffix}" ${st.format ? `data-format="${st.format}"` : ''}>0</span>
-            </div>
-            <div class="stat-label">${escapeHtml(st.label)}</div>
-          </div>\n`;
+            <div class="stat-item">
+              <span class="stat-number" data-target="${st.target}" data-suffix="${st.suffix}"${st.format ? ` data-format="${st.format}"` : ''}>${st.target}${st.suffix}</span>
+              <span class="stat-label">${escapeHtml(st.label)}</span>
+            </div>\n`;
   });
 
-  // Массив проектов для Яндекс.Карты
+  // 5. Массив для Яндекс.Карты
   const mapProjectsJson = JSON.stringify(siteContent.projects.map(p => ({
     id: p.id,
     coords: p.coords,
@@ -825,43 +790,62 @@ function generateIndexHTML(siteContent) {
     link: p.filename
   })), null, 8);
 
+  const heroSlides = home.hero.slides && home.hero.slides.length >= 2
+    ? home.hero.slides
+    : ['images/COVER_MAIN/cover_main_makarovski.webp', 'images/COVER_MAIN/cover_main_nekrasova.webp'];
+
   return `<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FERRO DESIGN™ — Студия дизайна интерьера в Екатеринбурге</title>
-  <meta name="description" content="FERRO DESIGN — премиальная студия дизайна интерьера. Разработка дизайн-проектов жилых и коммерческих пространств, комплектация и авторский надзор по всей России.">
-  <link rel="icon" id="dynamicFavicon" type="image/png" href="favicon.png">
-
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="FERRO DESIGN™ — Студия дизайна интерьера в Екатеринбурге">
-  <meta property="og:description" content="Премиальный дизайн интерьеров квартир и загородных домов. От концепции до реализации под ключ.">
+  <title>FERRO DESIGN™ — Студия интерьерного дизайна в Екатеринбурге</title>
+  <meta name="description" content="Студия авторского интерьерного дизайна FERRO DESIGN под руководством Артема Марченко в Екатеринбурге. Разработка жилых и коммерческих пространств под ключ.">
+  <meta property="og:title" content="FERRO DESIGN™ — Студия интерьерного дизайна">
+  <meta property="og:description" content="Разработка авторских интерьеров жилых и коммерческих пространств в Екатеринбурге и по всей России.">
   <meta property="og:image" content="https://ferro-design.ru/images/COVER_MAIN/cover_main_makarovski.webp">
-
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ferro-design.ru/images/COVER_MAIN/cover_main_makarovski.webp">
+  <meta property="og:type" content="website">
   <link rel="stylesheet" href="style.css?v=2">
+  <link rel="icon" id="dynamicFavicon" type="image/png" href="favicon.png">
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
+    "additionalType": "https://schema.org/ProfessionalService",
     "name": "FERRO DESIGN™",
-    "description": "Студия дизайна интерьера премиум-класса в Екатеринбурге",
+    "alternateName": "Студия авторского интерьерного дизайна FERRO DESIGN",
     "url": "https://ferro-design.ru/",
-    "telephone": "${contacts.phone}",
-    "email": "${contacts.email}",
+    "logo": "https://ferro-design.ru/images/logo.png",
+    "image": "https://ferro-design.ru/images/COVER_MAIN/cover_main_makarovski.webp",
+    "founder": {
+      "@type": "Person",
+      "name": "Артем Марченко"
+    },
+    "legalName": "ИП Соколова Надежда Валентиновна",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "ул. Розы Люксембург, 17",
       "addressLocality": "Екатеринбург",
+      "addressRegion": "Свердловская область",
       "addressCountry": "RU"
-    }
+    },
+    "telephone": "${contacts.phone}",
+    "email": "${contacts.email}",
+    "priceRange": "$$",
+    "sameAs": [
+      "https://t.me/ferrodesign_ekb",
+      "https://www.youtube.com/@ferrodesign7446/featured",
+      "https://ru.pinterest.com/ferro_design_ekb/"
+    ]
   }
   </script>
 </head>
 <body>
 
-  <!-- ШАПКА -->
+  <!-- ФИКСИРОВАННАЯ ШАПКА -->
   <header class="glass-header">
     <div class="header-inner">
       <a href="index.html" class="logo-link">
@@ -878,35 +862,42 @@ function generateIndexHTML(siteContent) {
     </div>
   </header>
 
-  <!-- ПЕРВЫЙ ЭКРАН -->
-  <section class="hero-section">
+  <!-- HERO: ПЕРВЫЙ ЭКРАН (ЦЕЛЬНОЕ ФОТО 100vh + СТЕКЛЯННАЯ ПОДЛОЖКА) -->
+  <section class="hero-section hero-fullscreen-photo">
     <div class="hero-bg-media">
-      <img src="images/NA_NEKRASOVA/cover.webp" alt="FERRO DESIGN — Студия дизайна интерьера" class="hero-slide active" fetchpriority="high">
-      <img src="images/MAKAROVSKI_PORTUGALIA/cover.webp" alt="Интерьер FERRO DESIGN" class="hero-slide">
-      <div class="hero-bg-overlay"></div>
+      <img src="${heroSlides[0]}" alt="Интерьер ЖК «Макаровский»" class="hero-bg-slide active" fetchpriority="high">
+      <img src="${heroSlides[1]}" alt="Интерьер ЖК «На Некрасова»" class="hero-bg-slide" loading="lazy" decoding="async">
     </div>
 
-    <div class="hero-content">
-      <div class="hero-title-container">
-        <h1 class="hero-title-word">${escapeHtml(home.hero.title)}</h1>
-        <p class="hero-description">${escapeHtml(home.hero.description)}</p>
-      </div>
+    <div class="hero-glass-card">
+      <div class="hero-content">
+        <div class="hero-title-container">
+          <h1 class="hero-main-title">
+            <span class="hero-title-line">
+              <span class="hero-title-word">${escapeHtml(home.hero.title || 'FERRO DESIGN')}</span>
+            </span>
+          </h1>
+          <div class="hero-signature-wrap">
+            <img src="images/podpis.png" alt="FERRO Signature" class="hero-signature-img">
+          </div>
+        </div>
 
-      <div class="hero-actions">
-        <a href="projects.html" class="btn-outline-minimal">
-          <span>${escapeHtml(home.hero.buttonText || 'Смотреть проекты')}</span>
-          <svg class="btn-arrow-svg" viewBox="0 0 56 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M2 12H52M52 12L41 2M52 12L41 22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
+        <div class="hero-right-col">
+          <p class="hero-description">
+            ${escapeHtml(home.hero.description || '')}
+          </p>
+          <div class="btn-wrapper">
+            <a href="#contact" class="btn-outline-minimal">${escapeHtml(home.hero.btnText || home.hero.buttonText || 'Оставить заявку')}</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- СЕКЦИЯ ПРОЕКТОВ -->
-  <section id="projects" class="featured-projects">
-    <div class="section-title-wrap">
-      <h2 class="featured-title">Проекты</h2>
+  <!-- СЕКЦИЯ: НАШИ ПРОЕКТЫ -->
+  <section class="featured-projects" id="projects">
+    <div class="section-header">
+      <h2 class="section-title">Наши проекты</h2>
     </div>
 
     <div class="projects-grid">
@@ -926,7 +917,7 @@ ${peekCards}      </div>
     </div>
   </section>
 
-  <!-- СЕКЦИЯ УСЛУГ -->
+  <!-- СЕКЦИЯ: УСЛУГИ -->
   <section id="services" class="services-section">
     <div class="services-container">
       <div class="section-title-wrap">
@@ -938,48 +929,61 @@ ${servicesCards}      </div>
     </div>
   </section>
 
-  <!-- СЕКЦИЯ О НАС -->
+  <!-- СЕКЦИЯ: О НАС -->
   <section id="about" class="about-section">
     <div class="about-container">
-      <div class="about-title-row">
-        <h2 class="about-section-title">О нас</h2>
-      </div>
+      <div class="about-grid">
+        <div class="about-col-left">
+          <h2 class="about-section-title">О нас</h2>
+          <p class="about-manifesto">
+            ${escapeHtml(home.aboutSection.manifesto)}
+          </p>
+          <div style="margin-top: 28px;">
+            <a href="about.html" class="ref-projects-btn">
+              <span class="ref-projects-btn-text">Подробнее о студии</span>
+              <span class="ref-projects-btn-line"></span>
+            </a>
+          </div>
+        </div>
 
-      <div class="about-manifesto-row">
-        <p class="about-manifesto">
-          ${escapeHtml(home.aboutSection.manifesto)}
-        </p>
+        <div class="about-col-right">
+          <div class="about-stats-grid">
+${statsHtml}          </div>
+        </div>
       </div>
-
-      <div class="about-stats-grid">
-${statsHtml}      </div>
     </div>
   </section>
 
-  <!-- СЕКЦИЯ ГЕОГРАФИИ НА КАРТЕ -->
-  <section class="geography-section">
-    <div class="geography-container">
+  <!-- СЕКЦИЯ: ГЕОГРАФИЯ ПРОЕКТОВ (ПОДВИЖНАЯ КАРТА) -->
+  <section class="geo-section">
+    <div class="geo-container">
       <div class="section-title-wrap">
-        <h2 class="geography-title">География проектов</h2>
+        <h2 class="geo-title">География проектов</h2>
       </div>
-      <div class="geography-map-wrap">
-        <div id="yandexMap" class="yandex-map-container"></div>
+
+      <div class="map-container">
+        <div id="interactiveMap"></div>
+        <div class="map-legend-pill">Перетаскивайте карту и нажимайте на точки для перехода к проектам</div>
+
         <div id="mapPopupCard" class="map-popup-card">
-          <button id="mapPopupClose" class="map-popup-close" aria-label="Закрыть">×</button>
-          <img id="mapCardImg" src="" alt="Проект" class="map-card-thumb">
-          <div class="map-card-content">
-            <span id="mapCardCity" class="map-card-city"></span>
-            <h4 id="mapCardTitle" class="map-card-title"></h4>
-            <div class="map-card-meta">
-              <span id="mapCardType"></span> · <span id="mapCardArea"></span>
+          <button type="button" class="map-popup-close" id="mapPopupClose" aria-label="Закрыть карточку">&times;</button>
+          <div class="map-popup-img-wrap">
+            <img id="mapCardImg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="Превью проекта">
+          </div>
+          <div class="map-popup-body">
+            <div class="map-popup-city" id="mapCardCity">Город</div>
+            <div class="map-popup-title" id="mapCardTitle">Название проекта</div>
+            <div class="map-popup-meta">
+              <span id="mapCardType">Тип</span> · <span id="mapCardArea">Площадь</span>
             </div>
+            <div class="map-popup-link-hint">Открыть проект →</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- КОНТАКТЫ -->
+  <!-- СЕКЦИЯ: КОНТАКТЫ -->
   <section id="contact" class="contact-section">
     <div class="contact-container">
       <div class="contact-grid">
@@ -988,6 +992,7 @@ ${statsHtml}      </div>
           <p class="contact-intro">
             ${escapeHtml(contacts.intro)}
           </p>
+
           <div class="contact-details">
             <div class="contact-detail-row">
               <span class="detail-label">Локация</span>
@@ -1006,15 +1011,17 @@ ${statsHtml}      </div>
 
         <div class="contact-col-form">
           <form class="contact-form">
-            <input type="text" name="website" style="display:none;" tabindex="-1" autocomplete="off">
+            <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off">
             <div class="form-group">
               <label for="userName" class="form-label">Ваше имя</label>
               <input type="text" id="userName" name="name" class="form-input" placeholder="Егор" required>
             </div>
+
             <div class="form-group">
               <label for="userPhone" class="form-label">Телефон или Telegram</label>
               <input type="tel" id="userPhone" name="contact" class="form-input" placeholder="+7 (___) ___-__-__" required>
             </div>
+
             <div class="form-row-2">
               <div class="form-group">
                 <label for="userCity" class="form-label">Город</label>
@@ -1025,10 +1032,12 @@ ${statsHtml}      </div>
                 <input type="number" id="userArea" name="area" class="form-input" placeholder="120">
               </div>
             </div>
+
             <div class="form-group">
               <label for="userComment" class="form-label">Комментарий к проекту</label>
               <textarea id="userComment" name="comment" class="form-input form-textarea" rows="3" placeholder="Расскажите о планировке, сроках и пожеланиях..."></textarea>
             </div>
+
             <button type="submit" class="btn-submit">Отправить заявку</button>
             <div class="form-privacy-note">
               Нажимая кнопку «Отправить заявку», вы соглашаетесь с условиями <a href="privacy.html" target="_blank">Политики конфиденциальности</a> и даете согласие на обработку персональных данных.
@@ -1061,26 +1070,73 @@ ${statsHtml}      </div>
       <div class="footer-copy">© 2026 FERRO DESIGN™. ИП СОКОЛОВА Н.В.</div>
       <ul class="footer-links">
         <li><a href="projects.html">ПРОЕКТЫ</a></li>
-        <li><a href="index.html#services">УСЛУГИ</a></li>
+        <li><a href="#services">УСЛУГИ</a></li>
         <li><a href="about.html">О НАС</a></li>
         <li><a href="privacy.html">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</a></li>
-        <li><a href="index.html#contact">КОНТАКТЫ</a></li>
+        <li><a href="#contact">КОНТАКТЫ</a></li>
       </ul>
       <div class="footer-credits">НЕ ЯВЛЯЕТСЯ ПУБЛИЧНОЙ ОФЕРТОЙ</div>
     </div>
   </footer>
 
-  <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш_ключ_api&lang=ru_RU"></script>
   <script>
-    ymaps.ready(initMap);
+    (function setupLazyYandexMap() {
+      const mapContainer = document.getElementById('interactiveMap');
+      if (!mapContainer) return;
+
+      let isLoaded = false;
+      function loadYandexMapScript() {
+        if (isLoaded) return;
+        isLoaded = true;
+
+        const script = document.createElement('script');
+        script.src = 'https://api-maps.yandex.ru/2.1/?lang=ru_RU';
+        script.async = true;
+        script.onload = () => {
+          if (window.ymaps) {
+            window.ymaps.ready(initMap);
+          }
+        };
+        document.head.appendChild(script);
+      }
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              obs.disconnect();
+              loadYandexMapScript();
+            }
+          });
+        }, {
+          rootMargin: '450px 0px',
+          threshold: 0.01
+        });
+        observer.observe(mapContainer);
+      } else {
+        loadYandexMapScript();
+      }
+    })();
+
     function initMap() {
-      const map = new ymaps.Map('yandexMap', {
-        center: [57.2, 55.0],
-        zoom: 4,
-        controls: ['zoomControl']
-      }, {
-        suppressMapOpenBlock: true
+      const map = new ymaps.Map('interactiveMap', {
+        center: [56.8330, 60.6050],
+        zoom: 11,
+        controls: ['zoomControl', 'fullscreenControl']
       });
+
+      map.behaviors.disable('scrollZoom');
+
+      const mapEl = document.getElementById('interactiveMap');
+      if (mapEl) {
+        mapEl.addEventListener('wheel', (e) => {
+          if (e.ctrlKey || e.metaKey) {
+            e.preventDefault();
+            const zoomDelta = e.deltaY < 0 ? 1 : -1;
+            map.setZoom(map.getZoom() + zoomDelta, { duration: 200 });
+          }
+        }, { passive: false });
+      }
 
       const projects = ${mapProjectsJson};
 
@@ -1145,7 +1201,7 @@ ${statsHtml}      </div>
 }
 
 /**
- * 3. Генератор каталога projects.html
+ * 3. Канонический генератор каталога projects.html
  */
 function generateProjectsCatalogHTML(siteContent) {
   const contacts = siteContent.home.contacts;
@@ -1157,7 +1213,7 @@ function generateProjectsCatalogHTML(siteContent) {
     const p = projectsMap[fn];
     if (!p) return;
     cardsHtml += `
-        <!-- ${p.title} -->
+        <!-- ${escapeHtml(p.title)} -->
         <a href="${p.filename}" class="project-card hw-card" data-category="${p.filterCategory}" data-area="${p.area}">
           <div class="card-media-wrap">
             <img src="${p.cardImage || p.heroDay}" alt="${escapeHtml(p.title)}" loading="lazy" decoding="async">
@@ -1205,9 +1261,10 @@ function generateProjectsCatalogHTML(siteContent) {
     </div>
   </header>
 
-  <!-- СЕКЦИЯ КАТАЛОГА -->
+  <!-- СЕКЦИЯ: ВСЕ ПРОЕКТЫ -->
   <main class="projects-page-section">
     <div class="projects-page-container">
+      
       <div class="section-header projects-header-row">
         <h1 class="section-title" id="hwTitle">Все проекты</h1>
         
@@ -1233,7 +1290,7 @@ ${cardsHtml}      </div>
     </div>
   </main>
 
-  <!-- КОНТАКТЫ -->
+  <!-- СЕКЦИЯ: КОНТАКТЫ -->
   <section id="contact" class="contact-section">
     <div class="contact-container">
       <div class="contact-grid">
@@ -1242,6 +1299,7 @@ ${cardsHtml}      </div>
           <p class="contact-intro">
             ${escapeHtml(contacts.intro)}
           </p>
+
           <div class="contact-details">
             <div class="contact-detail-row">
               <span class="detail-label">Локация</span>
@@ -1260,15 +1318,17 @@ ${cardsHtml}      </div>
 
         <div class="contact-col-form">
           <form class="contact-form">
-            <input type="text" name="website" style="display:none;" tabindex="-1" autocomplete="off">
+            <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off">
             <div class="form-group">
               <label for="userName" class="form-label">Ваше имя</label>
               <input type="text" id="userName" name="name" class="form-input" placeholder="Егор" required>
             </div>
+
             <div class="form-group">
               <label for="userPhone" class="form-label">Телефон или Telegram</label>
               <input type="tel" id="userPhone" name="contact" class="form-input" placeholder="+7 (___) ___-__-__" required>
             </div>
+
             <div class="form-row-2">
               <div class="form-group">
                 <label for="userCity" class="form-label">Город</label>
@@ -1279,10 +1339,12 @@ ${cardsHtml}      </div>
                 <input type="number" id="userArea" name="area" class="form-input" placeholder="120">
               </div>
             </div>
+
             <div class="form-group">
               <label for="userComment" class="form-label">Комментарий к проекту</label>
               <textarea id="userComment" name="comment" class="form-input form-textarea" rows="3" placeholder="Расскажите о планировке, сроках и пожеланиях..."></textarea>
             </div>
+
             <button type="submit" class="btn-submit">Отправить заявку</button>
             <div class="form-privacy-note">
               Нажимая кнопку «Отправить заявку», вы соглашаетесь с условиями <a href="privacy.html" target="_blank">Политики конфиденциальности</a> и даете согласие на обработку персональных данных.
@@ -1318,7 +1380,7 @@ ${cardsHtml}      </div>
         <li><a href="index.html#services">УСЛУГИ</a></li>
         <li><a href="about.html">О НАС</a></li>
         <li><a href="privacy.html">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</a></li>
-        <li><a href="index.html#contact">КОНТАКТЫ</a></li>
+        <li><a href="#contact">КОНТАКТЫ</a></li>
       </ul>
       <div class="footer-credits">НЕ ЯВЛЯЕТСЯ ПУБЛИЧНОЙ ОФЕРТОЙ</div>
     </div>
@@ -1331,7 +1393,7 @@ ${cardsHtml}      </div>
 }
 
 /**
- * 4. Генератор страницы about.html
+ * 4. Канонический генератор страницы about.html
  */
 function generateAboutHTML(siteContent) {
   const about = siteContent.aboutPage;
@@ -1340,28 +1402,26 @@ function generateAboutHTML(siteContent) {
   let stepsHtml = '';
   (about.steps || []).forEach(step => {
     stepsHtml += `
-        <div class="design-step-card">
-          <span class="step-num">${step.num}</span>
-          <h3 class="step-title">${escapeHtml(step.title)}</h3>
-          <p class="step-desc">
-            ${escapeHtml(step.text)}
-          </p>
-        </div>\n`;
+          <!-- Карточка ${step.num} -->
+          <div class="design-step-card">
+            <span class="step-num">${step.num}</span>
+            <h3 class="step-title">${escapeHtml(step.title)}</h3>
+            <p class="step-text">
+              ${escapeHtml(step.text)}
+            </p>
+          </div>\n`;
   });
 
   let faqItemsHtml = '';
   let faqSchemaQuestions = [];
   (about.faq || []).forEach(f => {
     faqItemsHtml += `
-        <details class="faq-item">
-          <summary class="faq-question">
-            <span>${escapeHtml(f.question)}</span>
-            <span class="faq-icon" aria-hidden="true">+</span>
-          </summary>
-          <div class="faq-answer">
-            <p>${escapeHtml(f.answer)}</p>
-          </div>
-        </details>\n`;
+          <details class="faq-item">
+            <summary class="faq-question">${escapeHtml(f.question)}</summary>
+            <p class="faq-answer">
+              ${escapeHtml(f.answer)}
+            </p>
+          </details>\n`;
 
     faqSchemaQuestions.push({
       "@type": "Question",
@@ -1375,9 +1435,32 @@ function generateAboutHTML(siteContent) {
 
   const faqJsonLd = JSON.stringify({
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqSchemaQuestions
+    "@graph": [
+      {
+        "@type": "AboutPage",
+        "name": "О студии FERRO DESIGN™",
+        "description": "Информация о студии интерьерного дизайна FERRO DESIGN: этапы проектирования, авторский надзор, география и ответы на частые вопросы.",
+        "url": "https://ferro-design.ru/about.html",
+        "mainEntity": {
+          "@type": "HomeAndConstructionBusiness",
+          "name": "FERRO DESIGN™",
+          "founder": {
+            "@type": "Person",
+            "name": "Артем Марченко"
+          },
+          "telephone": "+7 (963) 442-61-92",
+          "email": "artem1-nt@mail.ru"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": faqSchemaQuestions
+      }
+    ]
   }, null, 2);
+
+  const badgeText = about.badge || about.chiefBadge || 'ГЛАВНЫЙ ДИЗАЙНЕР: АРТЕМ МАРЧЕНКО';
+  const cleanBadgeText = badgeText.replace(/^ГЛАВНЫЙ ДИЗАЙНЕР:\s*/i, '');
 
   return `<!DOCTYPE html>
 <html lang="ru">
@@ -1401,7 +1484,7 @@ ${faqJsonLd}
 </head>
 <body>
 
-  <!-- ШАПКА -->
+  <!-- ФИКСИРОВАННАЯ ШАПКА -->
   <header class="glass-header">
     <div class="header-inner">
       <a href="index.html" class="logo-link">
@@ -1418,110 +1501,122 @@ ${faqJsonLd}
     </div>
   </header>
 
-  <!-- ОСНОВНАЯ ЧАСТЬ О СТУДИИ -->
-  <main class="about-page-main">
-    <div class="about-page-container">
-      <div class="about-hero-block">
-        <span class="about-chief-badge">${escapeHtml(about.badge || 'Артем Марченко / Главный дизайнер')}</span>
-        <h1 class="about-page-title">${escapeHtml(about.title)}</h1>
-        <p class="about-lead">
-          ${escapeHtml(about.lead)}
-        </p>
-      </div>
+  <main>
+    <!-- ПЕРВЫЙ ЭКРАН -->
+    <section class="about-page-hero">
+      <h1 class="about-page-title">${escapeHtml(about.title)}</h1>
+      <p class="about-page-lead">
+        ${escapeHtml(about.lead)}
+      </p>
 
-      <!-- ЭТАПЫ РАБОТЫ -->
-      <section class="about-steps-section">
-        <div class="section-title-wrap">
-          <h2 class="about-block-title">Этапы создания дизайн-проекта</h2>
-        </div>
+      <div class="about-chief-badge">
+        <span>ГЛАВНЫЙ ДИЗАЙНЕР:</span> ${escapeHtml(cleanBadgeText.toUpperCase())}
+      </div>
+    </section>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <section class="about-content-section">
+      <!-- 1. ЧТО ВХОДИТ В ДИЗАЙН-ПРОЕКТ ПОД КЛЮЧ -->
+      <div class="about-content-block">
+        <h2 class="about-block-title">Что входит в полный дизайн-проект</h2>
+        
         <div class="design-steps-grid">
 ${stepsHtml}        </div>
-      </section>
+      </div>
 
-      <!-- АВТОРСКИЙ НАДЗОР -->
-      <section class="about-supervision-section">
-        <div class="supervision-card">
+      <!-- 2. АВТОРСКИЙ НАДЗОР И РЕАЛИЗАЦИЯ -->
+      <div class="about-content-block">
+        <h2 class="about-block-title">Авторский надзор и комплектация</h2>
+        
+        <div class="geo-info-card">
           ${about.supervisionHtml}
         </div>
-      </section>
+      </div>
 
-      <!-- ГЕОГРАФИЯ -->
-      <section class="about-geo-section">
-        <div class="geo-card">
+      <!-- 3. ГЕОГРАФИЯ РАБОТЫ -->
+      <div class="about-content-block">
+        <h2 class="about-block-title">География проектов</h2>
+        
+        <div class="geo-info-card">
           ${about.geoHtml}
         </div>
-      </section>
+      </div>
 
-      <!-- FAQ -->
-      <section class="about-faq-section">
-        <div class="section-title-wrap">
-          <h2 class="about-block-title">Часто задаваемые вопросы</h2>
-        </div>
-        <div class="faq-accordion-list">
+      <!-- 4. FAQ: ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ -->
+      <div class="about-content-block">
+        <h2 class="about-block-title">Часто задаваемые вопросы (FAQ)</h2>
+        
+        <div class="faq-list">
 ${faqItemsHtml}        </div>
-      </section>
-    </div>
-  </main>
+      </div>
+    </section>
 
-  <!-- КОНТАКТЫ -->
-  <section id="contact" class="contact-section">
-    <div class="contact-container">
-      <div class="contact-grid">
-        <div class="contact-col-info">
-          <h2 class="contact-title">Контакты</h2>
-          <p class="contact-intro">
-            ${escapeHtml(contacts.intro)}
-          </p>
-          <div class="contact-details">
-            <div class="contact-detail-row">
-              <span class="detail-label">Локация</span>
-              <span class="detail-val">${escapeHtml(contacts.location)}</span>
-            </div>
-            <div class="contact-detail-row">
-              <span class="detail-label">Телефон</span>
-              <a href="${contacts.phoneHref || ('tel:' + contacts.phone.replace(/[^0-9+]/g, ''))}" class="detail-val">${escapeHtml(contacts.phone)}</a>
-            </div>
-            <div class="contact-detail-row">
-              <span class="detail-label">Email</span>
-              <a href="mailto:${contacts.email}" class="detail-val">${escapeHtml(contacts.email)}</a>
+    <!-- СЕКЦИЯ КОНТАКТОВ -->
+    <section id="contact" class="contact-section">
+      <div class="contact-container">
+        <div class="contact-grid">
+          <div class="contact-col-info">
+            <h2 class="contact-title">Контакты</h2>
+            <p class="contact-intro">
+              ${escapeHtml(contacts.intro)}
+            </p>
+
+            <div class="contact-details">
+              <div class="contact-detail-row">
+                <span class="detail-label">Локация</span>
+                <span class="detail-val">${escapeHtml(contacts.location)}</span>
+              </div>
+              <div class="contact-detail-row">
+                <span class="detail-label">Телефон</span>
+                <a href="${contacts.phoneHref || ('tel:' + contacts.phone.replace(/[^0-9+]/g, ''))}" class="detail-val">${escapeHtml(contacts.phone)}</a>
+              </div>
+              <div class="contact-detail-row">
+                <span class="detail-label">Email</span>
+                <a href="mailto:${contacts.email}" class="detail-val">${escapeHtml(contacts.email)}</a>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="contact-col-form">
-          <form class="contact-form">
-            <input type="text" name="website" style="display:none;" tabindex="-1" autocomplete="off">
-            <div class="form-group">
-              <label for="userName" class="form-label">Ваше имя</label>
-              <input type="text" id="userName" name="name" class="form-input" placeholder="Егор" required>
-            </div>
-            <div class="form-group">
-              <label for="userPhone" class="form-label">Телефон или Telegram</label>
-              <input type="tel" id="userPhone" name="contact" class="form-input" placeholder="+7 (___) ___-__-__" required>
-            </div>
-            <div class="form-row-2">
+          <div class="contact-col-form">
+            <form class="contact-form">
+              <input type="text" name="website" class="form-honeypot" tabindex="-1" autocomplete="off" style="display:none !important;" aria-hidden="true">
+
               <div class="form-group">
-                <label for="userCity" class="form-label">Город</label>
-                <input type="text" id="userCity" name="city" class="form-input" placeholder="Екатеринбург">
+                <label for="userName" class="form-label">Ваше имя</label>
+                <input type="text" id="userName" name="name" class="form-input" placeholder="Егор" required>
               </div>
+
               <div class="form-group">
-                <label for="userArea" class="form-label">Площадь (м²)</label>
-                <input type="number" id="userArea" name="area" class="form-input" placeholder="120">
+                <label for="userPhone" class="form-label">Телефон или Telegram</label>
+                <input type="tel" id="userPhone" name="contact" class="form-input" placeholder="+7 (___) ___-__-__" required>
               </div>
-            </div>
-            <div class="form-group">
-              <label for="userComment" class="form-label">Комментарий к проекту</label>
-              <textarea id="userComment" name="comment" class="form-input form-textarea" rows="3" placeholder="Расскажите о планировке, сроках и пожеланиях..."></textarea>
-            </div>
-            <button type="submit" class="btn-submit">Отправить заявку</button>
-            <div class="form-privacy-note">
-              Нажимая кнопку «Отправить заявку», вы соглашаетесь с условиями <a href="privacy.html" target="_blank">Политики конфиденциальности</a> и даете согласие на обработку персональных данных.
-            </div>
-          </form>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="userCity" class="form-label">Город</label>
+                  <input type="text" id="userCity" name="city" class="form-input" placeholder="Екатеринбург">
+                </div>
+                <div class="form-group">
+                  <label for="userArea" class="form-label">Площадь (м²)</label>
+                  <input type="number" id="userArea" name="area" class="form-input" placeholder="120">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="userComment" class="form-label">Комментарий к проекту</label>
+                <textarea id="userComment" name="comment" class="form-input form-textarea" rows="3" placeholder="Расскажите о планировке, сроках и пожеланиях..."></textarea>
+              </div>
+
+              <button type="submit" class="btn-submit">Отправить заявку</button>
+              <div class="form-privacy-note">
+                Нажимая кнопку «Отправить заявку», вы соглашаетесь с условиями <a href="privacy.html" target="_blank">Политики конфиденциальности</a> и даете согласие на обработку персональных данных.
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <!-- ПОДВАЛ -->
   <footer class="site-footer">
@@ -1548,7 +1643,7 @@ ${faqItemsHtml}        </div>
         <li><a href="index.html#services">УСЛУГИ</a></li>
         <li><a href="about.html">О НАС</a></li>
         <li><a href="privacy.html">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</a></li>
-        <li><a href="index.html#contact">КОНТАКТЫ</a></li>
+        <li><a href="#contact">КОНТАКТЫ</a></li>
       </ul>
       <div class="footer-credits">НЕ ЯВЛЯЕТСЯ ПУБЛИЧНОЙ ОФЕРТОЙ</div>
     </div>
@@ -1598,7 +1693,6 @@ function openLivePreview(targetFilename) {
   } else if (targetFilename === 'about.html') {
     html = generateAboutHTML(data);
   } else {
-    // Страница кейса
     const projIdx = data.allProjectsOrder.indexOf(targetFilename);
     const curProj = data.projects.find(p => p.filename === targetFilename) || data.projects[0];
     const nextIdx = (projIdx + 1) % data.allProjectsOrder.length;
@@ -1607,13 +1701,11 @@ function openLivePreview(targetFilename) {
     html = generateProjectPageHTML(curProj, nextProj, data.home.contacts);
   }
 
-  // Подменяем пути на Blob URLs для только что загруженных файлов
   window.AdminState.newFilesMap.forEach((val, virtualPath) => {
     const rx = new RegExp(escapeRegex(virtualPath), 'g');
     html = html.replace(rx, val.dataUrl);
   });
 
-  // Внедряем <base href="../"> чтобы стили и изображения с диска грузились штатно
   html = html.replace('<head>', '<head>\n  <base href="../">\n');
 
   iframe.srcdoc = html;
@@ -1651,12 +1743,10 @@ function runClientSideValidation(siteContent) {
 
     const html = generateProjectPageHTML(curProj, nextProj, siteContent.home.contacts);
 
-    // 1. No inline <style> tags
     if (html.includes('<style>') || html.includes('<style ')) {
       errors.push(`${curFn}: найден запрещенный тег <style>`);
     }
 
-    // 2. Header
     if (!html.includes('class="glass-header"') || !html.includes('На главную') || !html.includes('Все проекты')) {
       errors.push(`${curFn}: повреждена шапка glass-header`);
     }
@@ -1665,12 +1755,10 @@ function runClientSideValidation(siteContent) {
       errors.push(`${curFn}: в glass-header обнаружены запрещенные стрелки/svg`);
     }
 
-    // 3. Specs
     if (!html.includes('project-yodezeen-specs')) {
       errors.push(`${curFn}: отсутствует блок характеристик project-yodezeen-specs`);
     }
 
-    // 4. Room IDs == Nav Hrefs
     const roomIds = Array.from(html.matchAll(/<div class="room-header"\s+id="([^"]+)">/g)).map(m => m[1]);
     const navHrefs = Array.from(html.matchAll(/<a href="#([^"]+)"\s+class="hw-room-link[^"]*">/g)).map(m => m[1]);
     if (roomIds.length === 0) {
@@ -1679,28 +1767,23 @@ function runClientSideValidation(siteContent) {
       errors.push(`${curFn}: ID помещений [${roomIds}] не совпадают с меню [${navHrefs}]`);
     }
 
-    // 5. Next case bar
     const nextMatch = html.match(/<div class="next-case-bar">[\s\S]*?<a href="([^"]+)"[\s\S]*?<span>(.*?)<\/span>/);
     if (!nextMatch || nextMatch[1].trim() !== nextFn) {
       errors.push(`${curFn}: неверная ссылка на следующий проект в next-case-bar`);
     }
 
-    // 6. Form fields
     ['name="website"', 'name="name"', 'name="contact"', 'name="city"', 'name="area"', 'name="comment"'].forEach(fld => {
       if (!html.includes(fld)) errors.push(`${curFn}: отсутствует обязательное поле формы ${fld}`);
     });
 
-    // 7. Footer
     ['site-footer', 'footer-socials', 'footer-brand-banner', 'footer-bottom-bar', 'FERRO DESIGN™'].forEach(elem => {
       if (!html.includes(elem)) errors.push(`${curFn}: отсутствует обязательный элемент подвала ${elem}`);
     });
 
-    // 8. Script and CSS
     if (!html.includes('style.css?v=2') || !html.includes('script.js?v=2')) {
       errors.push(`${curFn}: отсутствует style.css?v=2 или script.js?v=2`);
     }
 
-    // 9. OG image absolute
     const ogMatch = html.match(/<meta property="og:image" content="([^"]+)">/);
     if (!ogMatch || !ogMatch[1].startsWith('https://ferro-design.ru/')) {
       errors.push(`${curFn}: og:image не является абсолютным URL https://ferro-design.ru/...`);
@@ -1728,7 +1811,6 @@ async function handleSitePublication() {
   syncFormDataToState();
   const data = window.AdminState.data;
 
-  // 1. Клиентская валидация
   if (progressBox) progressBox.style.display = 'block';
   if (progressStep) progressStep.textContent = '1/5. Проверка целостности по 10 стандартам...';
 
@@ -1739,7 +1821,6 @@ async function handleSitePublication() {
     return;
   }
 
-  // Если нет токена — предлагаем скачать архив
   if (!token) {
     if (progressBox) progressBox.style.display = 'none';
     closeModal('modalPublishConfirm');
@@ -1753,7 +1834,6 @@ async function handleSitePublication() {
     confirmBtn.disabled = true;
     cancelBtn.disabled = true;
 
-    // 2. Получение текущего коммита
     if (progressStep) progressStep.textContent = '2/5. Подключение к репозиторию GitHub...';
     const refRes = await fetch(`https://api.github.com/repos/${repo}/git/refs/heads/${branch}`, {
       headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
@@ -1768,7 +1848,6 @@ async function handleSitePublication() {
     const commitData = await commitRes.json();
     const baseTreeSha = commitData.tree.sha;
 
-    // 3. Загрузка новых картинок как Git Blobs
     if (progressStep) progressStep.textContent = `3/5. Загрузка новых изображений WebP (${window.AdminState.newFilesMap.size} шт.)...`;
     const treeItems = [];
 
@@ -1788,10 +1867,8 @@ async function handleSitePublication() {
       });
     }
 
-    // 4. Генерация и добавление HTML/JSON/XML
     if (progressStep) progressStep.textContent = '4/5. Генерация HTML-страниц и каталога...';
 
-    // data/site-content.json
     treeItems.push({
       path: 'data/site-content.json',
       mode: '100644',
@@ -1799,7 +1876,6 @@ async function handleSitePublication() {
       content: JSON.stringify(data, null, 2)
     });
 
-    // index.html
     treeItems.push({
       path: 'index.html',
       mode: '100644',
@@ -1807,7 +1883,6 @@ async function handleSitePublication() {
       content: generateIndexHTML(data)
     });
 
-    // projects.html
     treeItems.push({
       path: 'projects.html',
       mode: '100644',
@@ -1815,7 +1890,6 @@ async function handleSitePublication() {
       content: generateProjectsCatalogHTML(data)
     });
 
-    // about.html
     treeItems.push({
       path: 'about.html',
       mode: '100644',
@@ -1823,7 +1897,6 @@ async function handleSitePublication() {
       content: generateAboutHTML(data)
     });
 
-    // sitemap.xml
     treeItems.push({
       path: 'sitemap.xml',
       mode: '100644',
@@ -1831,7 +1904,6 @@ async function handleSitePublication() {
       content: generateSitemapXML(data)
     });
 
-    // Кейсы проектов
     const projectsMap = {};
     data.projects.forEach(p => { projectsMap[p.filename] = p; });
     const order = data.allProjectsOrder;
@@ -1849,7 +1921,6 @@ async function handleSitePublication() {
       }
     }
 
-    // 5. Создание дерева и атомарного коммита
     if (progressStep) progressStep.textContent = '5/5. Атомарный коммит и обновление ветки main...';
     const treeRes = await fetch(`https://api.github.com/repos/${repo}/git/trees`, {
       method: 'POST',
@@ -1878,10 +1949,8 @@ async function handleSitePublication() {
     });
     if (!updateRefRes.ok) throw new Error('Ошибка обновления ветки main');
 
-    // Очищаем локальные блобы картинок (они уже на GitHub)
     window.AdminState.newFilesMap.clear();
 
-    // Запускаем 10-минутный таймер блокировки
     window.AdminState.publishLockUntil = Date.now() + 10 * 60 * 1000;
     localStorage.setItem('ferro_publish_lock_until', String(window.AdminState.publishLockUntil));
 
@@ -1907,9 +1976,6 @@ function initZipExport() {
   if (btn) btn.onclick = () => exportAllFilesZip();
 }
 
-/**
- * Создает и скачивает ZIP-архив со всеми файлами сайта (без внешних библиотек)
- */
 async function exportAllFilesZip() {
   syncFormDataToState();
   const data = window.AdminState.data;
@@ -1917,9 +1983,7 @@ async function exportAllFilesZip() {
 
   const files = [];
 
-  // JSON
   files.push({ name: 'data/site-content.json', content: JSON.stringify(data, null, 2) });
-  // HTML & XML
   files.push({ name: 'index.html', content: generateIndexHTML(data) });
   files.push({ name: 'projects.html', content: generateProjectsCatalogHTML(data) });
   files.push({ name: 'about.html', content: generateAboutHTML(data) });
@@ -1939,7 +2003,6 @@ async function exportAllFilesZip() {
     }
   }
 
-  // Добавляем новые изображения
   for (const [vPath, fData] of window.AdminState.newFilesMap.entries()) {
     files.push({ name: vPath, binary: fData.blob });
   }
@@ -1959,9 +2022,6 @@ async function exportAllFilesZip() {
   }
 }
 
-/**
- * Минималистичный сборщик ZIP (стандарт PKZip Store)
- */
 async function createZipBlob(files) {
   const parts = [];
   const centralDir = [];
@@ -1979,45 +2039,43 @@ async function createZipBlob(files) {
     const crc = crc32(fileBytes);
     const size = fileBytes.length;
 
-    // Local file header (30 bytes + name)
     const localHeader = new Uint8Array(30 + nameBytes.length);
     const view = new DataView(localHeader.buffer);
     view.setUint32(0, 0x04034b50, true);
-    view.setUint16(4, 20, true); // version needed
-    view.setUint16(6, 0, true); // flags
-    view.setUint16(8, 0, true); // compression: 0 = Store
-    view.setUint16(10, 0, true); // mod time
-    view.setUint16(12, 0, true); // mod date
+    view.setUint16(4, 20, true);
+    view.setUint16(6, 0, true);
+    view.setUint16(8, 0, true);
+    view.setUint16(10, 0, true);
+    view.setUint16(12, 0, true);
     view.setUint32(14, crc, true);
-    view.setUint32(18, size, true); // compressed size
-    view.setUint32(22, size, true); // uncompressed size
+    view.setUint32(18, size, true);
+    view.setUint32(22, size, true);
     view.setUint16(26, nameBytes.length, true);
-    view.setUint16(28, 0, true); // extra length
+    view.setUint16(28, 0, true);
     localHeader.set(nameBytes, 30);
 
     parts.push(localHeader);
     parts.push(fileBytes);
 
-    // Central directory header (46 bytes + name)
     const cdHeader = new Uint8Array(46 + nameBytes.length);
     const cdView = new DataView(cdHeader.buffer);
     cdView.setUint32(0, 0x02014b50, true);
-    cdView.setUint16(4, 20, true); // version made by
-    cdView.setUint16(6, 20, true); // version needed
-    cdView.setUint16(8, 0, true); // flags
-    cdView.setUint16(10, 0, true); // compression
+    cdView.setUint16(4, 20, true);
+    cdView.setUint16(6, 20, true);
+    cdView.setUint16(8, 0, true);
+    cdView.setUint16(10, 0, true);
     cdView.setUint16(12, 0, true);
     cdView.setUint16(14, 0, true);
     cdView.setUint32(16, crc, true);
     cdView.setUint32(20, size, true);
     cdView.setUint32(24, size, true);
     cdView.setUint16(28, nameBytes.length, true);
-    cdView.setUint16(30, 0, true); // extra
-    cdView.setUint16(32, 0, true); // comment
-    cdView.setUint16(34, 0, true); // disk
-    cdView.setUint16(36, 0, true); // internal attr
-    cdView.setUint32(38, 0, true); // external attr
-    cdView.setUint32(42, offset, true); // relative offset
+    cdView.setUint16(30, 0, true);
+    cdView.setUint16(32, 0, true);
+    cdView.setUint16(34, 0, true);
+    cdView.setUint16(36, 0, true);
+    cdView.setUint32(38, 0, true);
+    cdView.setUint32(42, offset, true);
     cdHeader.set(nameBytes, 46);
 
     centralDir.push(cdHeader);
@@ -2028,17 +2086,16 @@ async function createZipBlob(files) {
   let cdSize = 0;
   centralDir.forEach(cd => { cdSize += cd.length; });
 
-  // End of central directory record (22 bytes)
   const eocd = new Uint8Array(22);
   const eocdView = new DataView(eocd.buffer);
   eocdView.setUint32(0, 0x06054b50, true);
-  eocdView.setUint16(4, 0, true); // disk num
-  eocdView.setUint16(6, 0, true); // start disk
-  eocdView.setUint16(8, files.length, true); // total entries disk
-  eocdView.setUint16(10, files.length, true); // total entries
+  eocdView.setUint16(4, 0, true);
+  eocdView.setUint16(6, 0, true);
+  eocdView.setUint16(8, files.length, true);
+  eocdView.setUint16(10, files.length, true);
   eocdView.setUint32(12, cdSize, true);
   eocdView.setUint32(16, cdOffset, true);
-  eocdView.setUint16(20, 0, true); // comment length
+  eocdView.setUint16(20, 0, true);
 
   return new Blob([...parts, ...centralDir, eocd], { type: 'application/zip' });
 }
@@ -2108,17 +2165,18 @@ function syncFormDataToState() {
   const data = window.AdminState.data;
   if (!data) return;
 
-  // 1. Home Hero
   if (data.home && data.home.hero) {
     const hTitle = document.getElementById('homeHeroTitle');
     const hDesc = document.getElementById('homeHeroDescription');
     const hBtn = document.getElementById('homeHeroButton');
     if (hTitle) data.home.hero.title = hTitle.value.trim();
     if (hDesc) data.home.hero.description = hDesc.value.trim();
-    if (hBtn) data.home.hero.buttonText = hBtn.value.trim();
+    if (hBtn) {
+      data.home.hero.btnText = hBtn.value.trim();
+      data.home.hero.buttonText = hBtn.value.trim();
+    }
   }
 
-  // Services
   const srvNames = document.querySelectorAll('.srv-name');
   const srvDescs = document.querySelectorAll('.srv-desc');
   const srvPrices = document.querySelectorAll('.srv-price');
@@ -2128,7 +2186,6 @@ function syncFormDataToState() {
     if (srvPrices[i]) srv.price = srvPrices[i].value.trim();
   });
 
-  // Manifesto & Stats
   const manInput = document.getElementById('homeAboutManifesto');
   if (manInput) data.home.aboutSection.manifesto = manInput.value.trim();
 
@@ -2136,24 +2193,25 @@ function syncFormDataToState() {
   const statSuffixes = document.querySelectorAll('.stat-suffix');
   const statLabels = document.querySelectorAll('.stat-label');
   (data.home.aboutSection.stats || []).forEach((st, i) => {
-    if (statTargets[i]) st.target = statTargets[i].value.trim();
-    if (statSuffixes[i]) st.suffix = statSuffixes[i].value.trim();
+    if (statTargets[i]) st.target = parseInt(statTargets[i].value, 10) || statTargets[i].value.trim();
+    if (statSuffixes[i]) st.suffix = statSuffixes[i].value;
     if (statLabels[i]) st.label = statLabels[i].value.trim();
   });
 
-  // About Page
   const abTitle = document.getElementById('aboutPageTitle');
   const abBadge = document.getElementById('aboutPageBadge');
   const abLead = document.getElementById('aboutPageLead');
   const abSuper = document.getElementById('aboutSupervision');
   const abGeo = document.getElementById('aboutGeo');
   if (abTitle) data.aboutPage.title = abTitle.value.trim();
-  if (abBadge) data.aboutPage.badge = abBadge.value.trim();
+  if (abBadge) {
+    data.aboutPage.badge = abBadge.value.trim();
+    data.aboutPage.chiefBadge = abBadge.value.trim();
+  }
   if (abLead) data.aboutPage.lead = abLead.value.trim();
   if (abSuper) data.aboutPage.supervisionHtml = abSuper.value.trim();
   if (abGeo) data.aboutPage.geoHtml = abGeo.value.trim();
 
-  // Steps
   const stepTitles = document.querySelectorAll('.step-title');
   const stepTexts = document.querySelectorAll('.step-text');
   (data.aboutPage.steps || []).forEach((stp, i) => {
@@ -2161,7 +2219,6 @@ function syncFormDataToState() {
     if (stepTexts[i]) stp.text = stepTexts[i].value.trim();
   });
 
-  // Contacts
   const cIntro = document.getElementById('contactsIntro');
   const cLoc = document.getElementById('contactsLocation');
   const cPhone = document.getElementById('contactsPhone');
@@ -2174,7 +2231,6 @@ function syncFormDataToState() {
   }
   if (cEmail) data.home.contacts.email = cEmail.value.trim();
 
-  // Active Project Passport
   const curProj = data.projects.find(p => p.id === window.AdminState.activeProjectId);
   if (curProj) {
     const pTitle = document.getElementById('projTitle');
@@ -2197,16 +2253,14 @@ function syncFormDataToState() {
   }
 }
 
-// РЕНДЕР ВКЛАДКИ 1: ТЕКСТЫ
 function renderTab1Texts(data) {
   const home = data.home || {};
   if (home.hero) {
     document.getElementById('homeHeroTitle').value = home.hero.title || '';
-    document.getElementById('homeHeroButton').value = home.hero.buttonText || '';
+    document.getElementById('homeHeroButton').value = home.hero.btnText || home.hero.buttonText || '';
     document.getElementById('homeHeroDescription').value = home.hero.description || '';
   }
 
-  // Услуги
   const sContainer = document.getElementById('servicesEditorContainer');
   sContainer.innerHTML = '';
   (home.services || []).forEach((srv, idx) => {
@@ -2230,7 +2284,6 @@ function renderTab1Texts(data) {
     sContainer.appendChild(card);
   });
 
-  // Манифест и статистика
   if (home.aboutSection) {
     document.getElementById('homeAboutManifesto').value = home.aboutSection.manifesto || '';
     const statsContainer = document.getElementById('statsEditorContainer');
@@ -2241,7 +2294,7 @@ function renderTab1Texts(data) {
       sCard.innerHTML = `
         <div class="form-group">
           <label class="form-label">Число (Target)</label>
-          <input type="text" class="admin-input stat-target" value="${escapeHtml(st.target || '')}">
+          <input type="text" class="admin-input stat-target" value="${st.target !== undefined ? st.target : ''}">
         </div>
         <div class="form-group" style="margin-top: 8px;">
           <label class="form-label">Суффикс</label>
@@ -2256,10 +2309,9 @@ function renderTab1Texts(data) {
     });
   }
 
-  // О студии
   const about = data.aboutPage || {};
   document.getElementById('aboutPageTitle').value = about.title || '';
-  document.getElementById('aboutPageBadge').value = about.badge || '';
+  document.getElementById('aboutPageBadge').value = about.badge || about.chiefBadge || 'Артем Марченко / Главный дизайнер';
   document.getElementById('aboutPageLead').value = about.lead || '';
   document.getElementById('aboutSupervision').value = about.supervisionHtml || '';
   document.getElementById('aboutGeo').value = about.geoHtml || '';
@@ -2290,7 +2342,6 @@ function renderTab1Texts(data) {
     renderFaqList(about.faq);
   };
 
-  // Контакты
   const contacts = home.contacts || {};
   document.getElementById('contactsIntro').value = contacts.intro || '';
   document.getElementById('contactsLocation').value = contacts.location || '';
@@ -2320,7 +2371,6 @@ function renderFaqList(faqArray) {
   });
 }
 
-// РЕНДЕР ВКЛАДКИ 2: ПОРЯДОК ПРОЕКТОВ
 function renderTab2Reorder(data) {
   const homeOrder = data.homeProjectsOrder || [];
   const allOrder = data.allProjectsOrder || [];
@@ -2476,7 +2526,6 @@ function createAllProjectsOrderCard(proj, index, orderArray) {
   return card;
 }
 
-// РЕНДЕР ВКЛАДКИ 3: КОНСТРУКТОР ПРОЕКТОВ И ПОМЕЩЕНИЙ
 function renderTab3Builder(data) {
   renderProjectsSidebar(data.projects || []);
 
@@ -2548,7 +2597,6 @@ function selectProjectInBuilder(proj) {
   document.getElementById('projMetaDesc').value = proj.metaDesc || '';
   document.getElementById('projCoords').value = (proj.coords && proj.coords.length === 2) ? proj.coords.join(', ') : '';
 
-  // Категория 3-radio
   const catCards = document.querySelectorAll('.category-radio-card');
   catCards.forEach(card => {
     card.classList.remove('active');
@@ -2574,7 +2622,6 @@ function selectProjectInBuilder(proj) {
     };
   });
 
-  // Быстрые пресеты гео
   document.querySelectorAll('.geo-preset-chip').forEach(chip => {
     chip.onclick = () => {
       document.getElementById('projCoords').value = chip.dataset.coords;
@@ -2583,7 +2630,6 @@ function selectProjectInBuilder(proj) {
     };
   });
 
-  // Дневная обложка
   const dayImg = document.getElementById('dayCoverImgPreview');
   const dayPath = document.getElementById('dayCoverPath');
   const dayName = document.getElementById('dayCoverName');
@@ -2593,7 +2639,6 @@ function selectProjectInBuilder(proj) {
     dayName.textContent = proj.heroDay.split('/').pop();
   }
 
-  // Ночная обложка
   const nightBanner = document.getElementById('nightCoverStatusBanner');
   const nightBox = document.getElementById('nightCoverPreviewBox');
   const nightImg = document.getElementById('nightCoverImgPreview');
@@ -2697,7 +2742,6 @@ function createRoomCard(room, roomIndex, proj) {
     </div>
   `;
 
-  // Реактивные инпуты
   const nameInput = card.querySelector('.room-input-name');
   nameInput.oninput = () => {
     room.name = nameInput.value;
@@ -2710,7 +2754,6 @@ function createRoomCard(room, roomIndex, proj) {
   const prefixInput = card.querySelector('.room-input-prefix');
   prefixInput.oninput = () => { room.prefix = prefixInput.value; };
 
-  // Перемещение и удаление
   const btnUp = card.querySelector('.btn-room-up');
   if (btnUp && roomIndex > 0) {
     btnUp.onclick = () => {
@@ -2739,7 +2782,6 @@ function createRoomCard(room, roomIndex, proj) {
     }
   };
 
-  // Дропзона рендеров комнаты
   const dropzoneRenders = card.querySelector('.dropzone-renders');
   const inputRenders = card.querySelector('.input-room-render-files');
   const gridContainer = card.querySelector('.room-renders-grid');
@@ -2818,7 +2860,6 @@ function createRenderCard(src, cap, layoutType, itemIdx, subIdx, room, proj) {
     </div>
   `;
 
-  // Подпись
   const capInput = card.querySelector('.render-item-caption-input');
   capInput.oninput = () => {
     if (subIdx !== null && room.items[itemIdx]?.items?.[subIdx]) {
@@ -2828,7 +2869,6 @@ function createRenderCard(src, cap, layoutType, itemIdx, subIdx, room, proj) {
     }
   };
 
-  // Переключатель раскладки
   const layoutSel = card.querySelector('.render-layout-select');
   layoutSel.onchange = () => {
     if (room.items[itemIdx]) {
@@ -2837,7 +2877,6 @@ function createRenderCard(src, cap, layoutType, itemIdx, subIdx, room, proj) {
     }
   };
 
-  // Удаление кадра
   card.querySelector('.render-btn-delete').onclick = () => {
     if (confirm('Удалить данный ракурс из помещения?')) {
       room.items.splice(itemIdx, 1);
