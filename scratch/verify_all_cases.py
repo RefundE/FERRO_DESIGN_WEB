@@ -80,10 +80,14 @@ for cur_file, expected_next, expected_title in cases_order:
             print(f"  [ERROR] Expected next title {expected_title}, got {found_title} in {cur_file}")
             all_passed = False
 
-    # 6. Contact section & form fields
-    for field in ['name="website"', 'name="name"', 'name="contact"', 'name="city"', 'name="area"', 'name="comment"']:
-        if field not in content:
-            print(f"  [ERROR] Missing form field {field} in {cur_file}")
+    # 6. Contact section & direct contacts (152-ФЗ zero-data-collection compliance)
+    for elem in ['id="contact"', 'contact-section', 'contact-direct-card', 'direct-btn-telegram', 'direct-btn-whatsapp', 'direct-btn-phone']:
+        if elem not in content:
+            print(f"  [ERROR] Missing direct contact element {elem} in {cur_file}")
+            all_passed = False
+    for forbidden in ['<form', 'name="website"', 'name="name"', 'btn-submit']:
+        if forbidden in content:
+            print(f"  [ERROR] Forbidden form element {forbidden} found in {cur_file} (violates zero data collection policy)")
             all_passed = False
 
     # 7. Footer
