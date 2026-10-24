@@ -1513,40 +1513,29 @@ a.detail-val:hover {
   transform: translateX(4px);
 }
 
-/* Telegram */
-.direct-btn-telegram {
-  background: #229ED9;
-  color: #ffffff !important;
-  box-shadow: 0 4px 16px rgba(34, 158, 217, 0.25);
-}
-.direct-btn-telegram:hover {
-  background: #1e8dc2;
-  box-shadow: 0 6px 22px rgba(34, 158, 217, 0.40);
-  transform: translateY(-2px);
-}
-
-/* WhatsApp */
-.direct-btn-whatsapp {
-  background: #25D366;
-  color: #ffffff !important;
-  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.25);
-}
-.direct-btn-whatsapp:hover {
-  background: #20ba5a;
-  box-shadow: 0 6px 22px rgba(37, 211, 102, 0.40);
-  transform: translateY(-2px);
-}
-
-/* Телефон */
+/* Единый архитектурный стиль кнопок быстрой связи (Telegram, WhatsApp, Телефон — как кнопка звонка) */
+.direct-btn-telegram,
+.direct-btn-whatsapp,
 .direct-btn-phone {
   background: #1a1a1a;
   color: #ffffff !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.20);
 }
+
+.direct-btn-telegram:hover,
+.direct-btn-whatsapp:hover,
 .direct-btn-phone:hover {
   background: #2c2c2c;
+  color: #ffffff !important;
   box-shadow: 0 6px 22px rgba(0, 0, 0, 0.32);
   transform: translateY(-2px);
+}
+
+.direct-btn-telegram:active,
+.direct-btn-whatsapp:active,
+.direct-btn-phone:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
 }
 
 .contact-direct-footer {
