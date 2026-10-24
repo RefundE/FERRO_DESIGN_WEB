@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FERRO DESIGN™ — Управление сайтом</title>
+  <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       ВЕРХНЯЯ ШАПКА (HEADER)
+       ============================================================ -->
+  <header class="admin-header">
+    <div class="header-brand">
+      <div class="header-logo-badge">
+        <div class="header-logo-icon">F</div>
+        <div class="header-title-wrap">
+          <div class="header-brand-title">FERRO DESIGN™</div>
+          <div class="header-brand-subtitle">Панель управления сайтом</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Навигация по 3 вкладкам -->
+    <nav class="header-nav" role="tablist">
+      <button class="nav-tab-btn active" data-tab="tab-texts" role="tab" aria-selected="true">
+        <span class="tab-num">1</span>
+        <span>Тексты на сайте</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-reorder" role="tab" aria-selected="false">
+        <span class="tab-num">2</span>
+        <span>Порядок проектов</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-builder" role="tab" aria-selected="false">
+        <span class="tab-num">3</span>
+        <span>Конструктор проектов и помещений</span>
+      </button>
+    </nav>
+
+    <!-- Действия в шапке -->
+    <div class="header-actions">
+      <button class="btn-github-settings" id="btnOpenGithubModal" title="Настройки подключения к GitHub">
+        <span class="status-dot" id="githubStatusDot"></span>
+        <span>GitHub API</span>
+      </button>
+      <a href="../index.html" target="_blank" class="btn btn-sm btn-outline" title="Открыть сайт в новой вкладке">
+        <span>Перейти на сайт ↗</span>
+      </a>
+    </div>
+  </header>
+
+
+  <!-- ============================================================
+       ОСНОВНОЙ КОНТЕЙНЕР
+       ============================================================ -->
+  <main class="admin-container">
+
+    <!-- ========================================================
+         ВКЛАДКА 1: ТЕКСТЫ НА САЙТЕ
+         ======================================================== -->
+    <section id="tab-texts" class="tab-pane active" role="tabpanel">
+      <!-- Переключатель страниц -->
+      <div class="subtabs-bar">
+        <button class="subtab-btn active" data-page="page-home">Главная (index.html)</button>
+        <button class="subtab-btn" data-page="page-about">О студии (about.html)</button>
+        <button class="subtab-btn" data-page="page-contacts">Сквозные Контакты</button>
+      </div>
+
+      <!-- 1.1 ГЛАВНАЯ СТРАНИЦА -->
+      <div id="page-home" class="text-page-view active">
+        <!-- Главный экран Hero -->
+        <div class="card-section">
+          <div class="card-section-header">
+            <div>
+              <h2 class="card-section-title">Главный экран (Hero) <span class="badge badge-amber">index.html</span></h2>
+              <p class="card-section-subtitle">Первый экран, который видит посетитель при открытии сайта</p>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="homeHeroTitle">Главный заголовок сайта</label>
+              <input type="text" id="homeHeroTitle" class="admin-input" placeholder="FERRO DESIGN">
+              <span class="form-hint">Заголовок H1 в центре первого экрана</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="homeHeroButton">Текст кнопки перехода к портфолио</label>
+              <input type="text" id="homeHeroButton" class="admin-input" placeholder="Смотреть проекты">
+              <span class="form-hint">Кнопка со стрелкой .btn-outline-minimal</span>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: 14px;">
+            <label class="form-label" for="homeHeroDescription">Подзаголовок / Описание студии</label>
+            <textarea id="homeHeroDescription" class="admin-textarea" rows="2" placeholder="Студия дизайна интерьера..."></textarea>
+            <span class="form-hint">Отображается под главным заголовком на первом экране</span>
+          </div>
+        </div>
+
+        <!-- Блок «Услуги» -->
+        <div class="card-section">
+          <div class="card-section-header">
+            <div>
+              <h2 class="card-section-title">Блок «Услуги» <span class="badge badge-amber">3 карточки</span></h2>
+              <p class="card-section-subtitle">Основные направления работы студии с описанием и ориентировочными ценами</p>
+            </div>
+          </div>
+          <div class="services-editor-grid" id="servicesEditorContainer">
+            <!-- Динамически заполняется из site-content.json -->
+          </div>
+        </div>
+
+        <!-- Блок «О нас» на главной -->
+        <div class="card-section">
+          <div class="card-section-header">
+            <div>
+              <h2 class="card-section-title">Блок «О нас» на главной <span class="badge badge-amber">Манифест и цифры</span></h2>
+              <p class="card-section-subtitle">Философия студии и анимированные счетчики достижений</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="homeAboutManifesto">Текст манифеста</label>
+            <textarea id="homeAboutManifesto" class="admin-textarea" rows="4" placeholder="Мы создаем интерьеры..."></textarea>
+            <span class="form-hint">Крупный текст манифеста во всю ширину блока</span>
+          </div>
+          <div style="margin-top: 20px;">
+            <label class="form-label">4 счетчика статистики</label>
+            <div class="stats-editor-grid" id="statsEditorContainer">
+              <!-- Динамически заполняется -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1.2 СТРАНИЦА «О СТУДИИ» -->
+      <div id="page-about" class="text-page-view">
+        <div class="card-section">
+          <div class="card-section-header">
+            <div>
+              <h2 class="card-section-title">Шапка страницы «О студии» <span class="badge badge-amber">about.html</span></h2>
+              <p class="card-section-subtitle">Заголовок, вводный текст и бейдж основателя</p>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="aboutPageTitle">Главный заголовок страницы</label>
+              <input type="text" id="aboutPageTitle" class="admin-input" placeholder="О студии FERRO DESIGN™">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="aboutPageBadge">Бейдж основателя студии</label>
+              <input type="text" id="aboutPageBadge" class="admin-input" placeholder="Артем Онучин / Основатель студии">
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: 14px;">
+            <label class="form-label" for="aboutPageLead">Лид-абзац (главная мысль)</label>
+            <textarea id="aboutPageLead" class="admin-textarea" rows="3" placeholder="Мы проектируем жилые и коммерческие пространства..."></textarea>
+          </div>
+        </div>
+
+        <!-- 4 этапа работы -->
+        <div class="card-section">
+          <div class="card-section-header">
+            <div>
+              <h2 class="card-section-title">4 этапа создания дизайн-проекта</h2>
+              <p class="card-section-subtitle">Пошаговый процесс работы с заказчиком</p>
+            </div>
+          </div>
+          <div class="steps-editor-grid" id="stepsEditorContainer">
+            <!-- Динамически заполняется -->
+          </div>
+        </div>
+
+        <!-- Авторский надзор и География -->
+        <div class="card-section">
+          <div class="card-section-header">
+            <div>
+              <h2 class="card-section-title">Авторский надзор и География проектов</h2>
+              <p class="card-section-subtitle">Описания реализации под ключ и работы по всей России</p>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="aboutSupervision">Авторский надзор и комплектация (HTML/Текст)</label>
+              <textarea id="aboutSupervision" class="admin-textarea" rows="6"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="aboutGeo">География проектов (HTML/Текст)</label>
+              <textarea id="aboutGeo" class="admin-textarea" rows="6"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Вопросы и ответы FAQ -->
+        <div class="card-section">
+          <div class="card-section-header">
+            <div>
+              <h2 class="card-section-title">Часто задаваемые вопросы (FAQ)</h2>
+              <p class="card-section-subtitle">Список аккордеона на странице «О студии»</p>
+            </div>
+            <button class="btn btn-sm btn-secondary" id="btnAddFaqItem">
+              <span>+ Добавить вопрос FAQ</span>
+            </button>
+          </div>
+          <div class="faq-list" id="faqListContainer">
+            <!-- Динамически заполняется -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 1.3 СКВОЗНЫЕ КОНТАКТЫ -->
+      <div id="page-contacts" class="text-page-view">
+        <div class="card-section">
+          <div class="card-section-header">
+            <div>
+              <h2 class="card-section-title">Сквозной блок «Контакты» <span class="badge badge-green">Синхронно на всех страницах</span></h2>
+              <p class="card-section-subtitle">Изменения здесь автоматически применятся на Главной, О студии, Все проекты и во всех кейсах</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="contactsIntro">Текст-приглашение к диалогу</label>
+            <textarea id="contactsIntro" class="admin-textarea" rows="2" placeholder="Обсудим ваш будущий интерьер?"></textarea>
+          </div>
+          <div class="form-grid-3" style="margin-top: 14px;">
+            <div class="form-group">
+              <label class="form-label" for="contactsLocation">Адрес / Локация студии</label>
+              <input type="text" id="contactsLocation" class="admin-input" placeholder="Екатеринбург, ул. Розы Люксембург, 17">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contactsPhone">Телефон</label>
+              <input type="text" id="contactsPhone" class="admin-input" placeholder="+7 (963) 442-61-92">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contactsEmail">Электронная почта</label>
+              <input type="email" id="contactsEmail" class="admin-input" placeholder="artem1-nt@mail.ru">
+            </div>
+          </div>
+          <div style="margin-top: 18px; padding: 14px; background: var(--bg-subtle); border-radius: var(--radius-sm); font-size: 12px; color: var(--text-muted);">
+            💡 <strong>Автоматическая нормализация:</strong> номер телефона в ссылке <code>tel:+79634426192</code> и ссылка <code>mailto:</code> генерируются автоматически без пробелов и скобок.
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================================
+         ВКЛАДКА 2: ПОРЯДОК ПРОЕКТОВ
+         ======================================================== -->
+    <section id="tab-reorder" class="tab-pane" role="tabpanel">
+      <div class="reorder-columns-layout">
+        
+        <!-- КОЛОНКА 1: Проекты на Главной (index.html) -->
+        <div class="reorder-column">
+          <div class="reorder-column-header">
+            <h2 class="card-section-title">Главная страница <span class="badge badge-amber">6 проектов</span></h2>
+            <p class="card-section-subtitle">4 карточки в основной сетке + 2 карточки в полупрозрачном нижнем срезе</p>
+          </div>
+
+          <div class="reorder-subgroup-label">
+            <span>Слоты 1–4: Основная сетка</span>
+            <span class="badge badge-amber">С плашкой .glass-badge</span>
+          </div>
+          <div class="reorder-list" id="homeMainGridSlots">
+            <!-- Слоты 1-4 динамически -->
+          </div>
+
+          <div class="reorder-subgroup-label" style="margin-top: 24px;">
+            <span>Слоты 5–6: Срезанный превью-ряд</span>
+            <span class="badge badge-muted">Под градиентом</span>
+          </div>
+          <div class="reorder-list" id="homePeekSlots">
+            <!-- Слоты 5-6 динамически -->
+          </div>
+        </div>
+
+        <!-- КОЛОНКА 2: Порядок в каталоге Все проекты (projects.html) -->
+        <div class="reorder-column">
+          <div class="reorder-column-header">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <h2 class="card-section-title">Каталог «Все проекты» <span class="badge badge-green" id="catalogProjectsTotalBadge">15 проектов</span></h2>
+              <span class="badge badge-muted">Drag & Drop или кнопки ↑ / ↓</span>
+            </div>
+            <p class="card-section-subtitle">
+              Порядок карточек в каталоге <code>projects.html</code>. Также автоматически перестраивает круговую цепочку «Следующий проект» (<code>.next-case-bar</code>) внизу каждого проекта.
+            </p>
+          </div>
+
+          <div class="reorder-list" id="allProjectsCatalogList">
+            <!-- Динамически заполняется всеми 15+ проектами с перетаскиванием -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ========================================================
+         ВКЛАДКА 3: КОНСТРУКТОР ПРОЕКТОВ И ПОМЕЩЕНИЙ
+         ======================================================== -->
+    <section id="tab-builder" class="tab-pane" role="tabpanel">
+      <div class="builder-layout">
+
+        <!-- ЛЕВАЯ КОЛОНКА: Список проектов и поиск -->
+        <aside class="projects-sidebar">
+          <div class="sidebar-top">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="projectSearchInput" class="admin-input" placeholder="Поиск проекта по названию, городу...">
+            </div>
+            <button class="btn btn-accent btn-lg" id="btnCreateNewProject" style="width: 100%;">
+              <span>+ Создать новый проект</span>
+            </button>
+          </div>
+
+          <div class="sidebar-projects-list" id="sidebarProjectsList">
+            <!-- Список проектов динамически -->
+          </div>
+        </aside>
+
+        <!-- ПРАВАЯ КОЛОНКА: Редактор выбранного проекта -->
+        <div class="project-editor-content" id="projectEditorContainer">
+
+          <!-- Шапка редактора активного проекта -->
+          <div class="editor-header-bar">
+            <div>
+              <div class="editor-active-title" id="activeProjectTitleHeader">Загрузка проекта...</div>
+              <div class="editor-active-meta">
+                <span class="badge badge-amber" id="activeProjectCategoryBadge">Квартира</span>
+                <span id="activeProjectFilenameBadge" style="font-family: monospace;">project-makarovsky.html</span>
+                <span>•</span>
+                <span id="activeProjectFolderBadge" style="font-family: monospace;">images/MAKAROVSKI_PORTUGALIA</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-sm btn-secondary" id="btnDuplicateProject" title="Создать дубликат проекта">
+                <span>Копировать</span>
+              </button>
+              <button class="btn btn-sm btn-danger" id="btnDeleteProject" title="Удалить проект из базы">
+                <span>Удалить</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 1. Паспорт проекта -->
+          <div class="card-section">
+            <div class="card-section-header">
+              <div>
+                <h2 class="card-section-title">1. Паспорт проекта</h2>
+                <p class="card-section-subtitle">Основные характеристики, метаданные и привязка к карте</p>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="projTitle">Название проекта <span class="required">*</span></label>
+                <input type="text" id="projTitle" class="admin-input" placeholder="Например: ЖК «Макаровский»">
+                <span class="form-hint">Отображается в заголовках H1 и на карточках каталога</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="projFilename">Имя HTML-файла <span class="required">*</span></label>
+                <input type="text" id="projFilename" class="admin-input" placeholder="project-my-new.html">
+                <span class="form-hint">Генерируемый файл страницы кейса в корне сайта</span>
+              </div>
+            </div>
+
+            <div class="form-grid-3" style="margin-top: 14px;">
+              <div class="form-group">
+                <label class="form-label" for="projFolder">Папка рендеров в /images/ <span class="required">*</span></label>
+                <input type="text" id="projFolder" class="admin-input" placeholder="MY_NEW_PROJECT">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="projCity">Город объекта</label>
+                <input type="text" id="projCity" class="admin-input" placeholder="Екатеринбург">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="projArea">Площадь (м²)</label>
+                <input type="number" id="projArea" class="admin-input" placeholder="102">
+              </div>
+            </div>
+
+            <!-- Тип объекта (Радио-группа с 3 авто-настройками) -->
+            <div class="form-group" style="margin-top: 18px;">
+              <label class="form-label">Тип объекта (Категория каталога и фильтров)</label>
+              <div class="category-radio-group">
+                <div class="category-radio-card active" data-category-type="flats">
+                  <div class="category-radio-title">🏢 Квартира</div>
+                  <div class="category-radio-sub">specs: Квартира • filter: flats • badge: Жилая квартира</div>
+                </div>
+                <div class="category-radio-card" data-category-type="houses">
+                  <div class="category-radio-title">🏡 Загородный дом</div>
+                  <div class="category-radio-sub">specs: Загородный дом • filter: houses • badge: Загородный дом</div>
+                </div>
+                <div class="category-radio-card" data-category-type="commercial">
+                  <div class="category-radio-title">🍸 Коммерческий объект</div>
+                  <div class="category-radio-sub">specs: Коммерческий объект • filter: commercial • badge: Коммерческий объект</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Координаты для карты -->
+            <div class="form-group" style="margin-top: 18px;">
+              <label class="form-label" for="projCoords">Координаты для Яндекс.Карты (Широта, Долгота)</label>
+              <input type="text" id="projCoords" class="admin-input" placeholder="56.848911, 60.592094">
+              <div class="geo-presets-bar">
+                <span style="font-size: 11px; color: var(--text-muted); margin-right: 4px;">Быстрые пресеты:</span>
+                <span class="geo-preset-chip" data-coords="56.851900, 60.612200">Екатеринбург</span>
+                <span class="geo-preset-chip" data-coords="57.908748, 59.954613">Нижний Тагил</span>
+                <span class="geo-preset-chip" data-coords="57.878444, 59.969552">Фотеево (Тагил)</span>
+                <span class="geo-preset-chip" data-coords="58.076326, 60.718612">Нижняя Салда</span>
+                <span class="geo-preset-chip" data-coords="43.585525, 39.723062">Сочи</span>
+                <span class="geo-preset-chip" data-coords="61.003180, 69.018965">Ханты-Мансийск</span>
+              </div>
+            </div>
+
+            <!-- SEO описание -->
+            <div class="form-group" style="margin-top: 18px;">
+              <label class="form-label" for="projMetaDesc">Краткое SEO-описание (meta description)</label>
+              <textarea id="projMetaDesc" class="admin-textarea" rows="2" placeholder="Дизайн-проект интерьера от студии FERRO DESIGN..."></textarea>
+            </div>
+          </div>
+
+          <!-- 2. Блок А: Добавить обложку (Дневной вариант) -->
+          <div class="card-section">
+            <div class="card-section-header">
+              <div>
+                <h2 class="card-section-title">2. Блок А: Главная обложка (Дневной вариант) <span class="badge badge-amber">Обязательно</span></h2>
+                <p class="card-section-subtitle">Основной экран кейса и превью карточки в каталоге</p>
+              </div>
+            </div>
+            
+            <div class="dropzone-box" id="dropzoneDayCover">
+              <div class="dropzone-icon">📷</div>
+              <div class="dropzone-title">Перетащите дневную обложку или нажмите для выбора</div>
+              <div class="dropzone-hint">Поддерживаются форматы JPG, PNG, WebP (автоматически конвертируется в WebP)</div>
+              <input type="file" id="inputDayCoverFile" class="dropzone-input-hidden" accept="image/*">
+            </div>
+
+            <div class="cover-preview-card" id="dayCoverPreviewBox">
+              <img id="dayCoverImgPreview" src="" alt="Дневная обложка" class="cover-preview-img">
+              <div class="cover-preview-info">
+                <div class="cover-preview-name" id="dayCoverName">cover_day.webp</div>
+                <div class="cover-preview-path" id="dayCoverPath">images/...</div>
+                <div style="margin-top: 8px;">
+                  <span class="badge badge-green">✓ Обложка готова</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Блок Б: Ночная обложка (Опционально) -->
+          <div class="card-section">
+            <div class="card-section-header">
+              <div>
+                <h2 class="card-section-title">3. Блок Б: Ночная обложка <span class="badge badge-muted">Опционально</span></h2>
+                <p class="card-section-subtitle">Включает эффектную кнопку-переключатель «ДЕНЬ / НОЧЬ» в шапке проекта</p>
+              </div>
+              <button class="btn btn-sm btn-outline" id="btnRemoveNightCover">
+                <span>Удалить ночную обложку</span>
+              </button>
+            </div>
+
+            <div class="dropzone-box" id="dropzoneNightCover">
+              <div class="dropzone-icon">🌙</div>
+              <div class="dropzone-title">Перетащите ночную обложку или нажмите для выбора</div>
+              <div class="dropzone-hint">Если не загружена, на странице будет только дневной режим</div>
+              <input type="file" id="inputNightCoverFile" class="dropzone-input-hidden" accept="image/*">
+            </div>
+
+            <div class="night-cover-status-banner active" id="nightCoverStatusBanner">
+              <span>✓ Ночная обложка активна: на странице будет отображен переключатель освещения ДЕНЬ / НОЧЬ</span>
+            </div>
+
+            <div class="cover-preview-card" id="nightCoverPreviewBox">
+              <img id="nightCoverImgPreview" src="" alt="Ночная обложка" class="cover-preview-img">
+              <div class="cover-preview-info">
+                <div class="cover-preview-name" id="nightCoverName">cover_night.webp</div>
+                <div class="cover-preview-path" id="nightCoverPath">images/...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Блок В: Помещения проекта -->
+          <div class="card-section">
+            <div class="card-section-header">
+              <div>
+                <h2 class="card-section-title">4. Блок В: Помещения проекта <span class="badge badge-amber" id="projectRoomsCountBadge">0 помещений</span></h2>
+                <p class="card-section-subtitle">Комнаты, галереи рендеров и раскладка по эталону Макаровского</p>
+              </div>
+              <button class="btn btn-sm btn-accent" id="btnAddRoomTop">
+                <span>+ Добавить помещение</span>
+              </button>
+            </div>
+
+            <!-- Список карточек комнат -->
+            <div class="rooms-container" id="roomsListContainer">
+              <!-- Комнаты динамически -->
+            </div>
+
+            <div style="margin-top: 24px; text-align: center;">
+              <button class="btn btn-lg btn-secondary" id="btnAddRoomBottom" style="width: 100%; border-style: dashed;">
+                <span>+ Добавить еще одно помещение</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ============================================================
+       НИЖНЯЯ ФИКСИРОВАННАЯ ПАНЕЛЬ (БЛОК Г)
+       ============================================================ -->
+  <footer class="admin-bottom-bar">
+    <div class="bottom-bar-info">
+      <span class="status-badge-live">● База активна</span>
+      <span id="globalStatsText">Загрузка данных студии...</span>
+    </div>
+
+    <div class="bottom-bar-actions">
+      <button class="btn btn-secondary" id="btnOpenPreviewModal">
+        <span>👁 Предпросмотр</span>
+      </button>
+      <button class="btn btn-accent btn-lg" id="btnPublishSite">
+        <span>🚀 Опубликовать на сайт</span>
+      </button>
+    </div>
+  </footer>
+
+
+  <!-- ============================================================
+       МОДАЛЬНЫЕ ОКНА
+       ============================================================ -->
+
+  <!-- 1. Модальное окно GitHub API -->
+  <div class="modal-overlay" id="modalGithub">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Настройки подключения к GitHub API</h3>
+        <button class="modal-close-btn" data-close-modal="modalGithub">×</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+          Для автоматической публикации обновлений на сайт укажите Personal Access Token (PAT) от репозитория. Токен безопасно сохраняется только в вашем браузере (LocalStorage).
+        </p>
+        <div class="form-group">
+          <label class="form-label" for="ghRepoInput">Репозиторий GitHub</label>
+          <input type="text" id="ghRepoInput" class="admin-input" value="refunde/FERRO_DESIGN_WEB">
+        </div>
+        <div class="form-group" style="margin-top: 14px;">
+          <label class="form-label" for="ghBranchInput">Ветка публикации</label>
+          <input type="text" id="ghBranchInput" class="admin-input" value="main">
+        </div>
+        <div class="form-group" style="margin-top: 14px;">
+          <label class="form-label" for="ghTokenInput">GitHub Personal Access Token (PAT)</label>
+          <div style="position: relative;">
+            <input type="password" id="ghTokenInput" class="admin-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+            <button type="button" id="btnToggleTokenVisibility" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--text-muted); padding: 4px;">Показать</button>
+          </div>
+          <span class="form-hint">Требуемые права: Fine-grained token с правами <code>Contents: Read and write</code></span>
+        </div>
+        <div id="ghConnectionStatusMessage" style="margin-top: 14px; font-size: 12px; display: none;"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btnTestGithubConnection">Проверить связь</button>
+        <button class="btn btn-primary" id="btnSaveGithubSettings">Сохранить</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 2. Модальное окно Предпросмотра (с ПК / Смартфон) -->
+  <div class="modal-overlay" id="modalPreview">
+    <div class="modal-card preview-modal-card">
+      <div class="preview-toolbar">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-weight: 700; font-size: 13px;">Предпросмотр:</span>
+          <select id="previewPageSelector" class="admin-select" style="width: auto; padding: 6px 12px;">
+            <option value="index.html">Главная (index.html)</option>
+            <option value="projects.html">Все проекты (projects.html)</option>
+            <option value="about.html">О студии (about.html)</option>
+            <!-- Динамически добавляются страницы проектов -->
+          </select>
+        </div>
+
+        <div class="device-toggle-group">
+          <button class="device-toggle-btn active" data-device="desktop">🖥 ПК (100%)</button>
+          <button class="device-toggle-btn" data-device="mobile">📱 Смартфон (390px)</button>
+        </div>
+
+        <button class="modal-close-btn" data-close-modal="modalPreview">×</button>
+      </div>
+
+      <div class="preview-frame-wrapper">
+        <iframe id="previewIframe" src="../index.html" class="preview-iframe-desktop"></iframe>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 3. Модальное окно двойного подтверждения публикации -->
+  <div class="modal-overlay" id="modalPublishConfirm">
+    <div class="modal-card" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Подтверждение публикации</h3>
+        <button class="modal-close-btn" data-close-modal="modalPublishConfirm">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="warning-callout-box">
+          <div class="warning-callout-title">⚠️ Внимание!</div>
+          <div class="warning-callout-text">
+            В случае публикации все материалы улетят на сайт, и их редактура станет возможной не менее чем через 10 минут.
+          </div>
+        </div>
+        <p class="warning-note">
+          При нажатии кнопки «Всё равно опубликовать» сформируются обновленные HTML-страницы и база данных сайта, после чего произойдет коммит в репозиторий GitHub. Сервис GitHub Pages начнет развертывание обновлений, занимающее некоторое время.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal="modalPublishConfirm">Отмена</button>
+        <button class="btn btn-accent" id="btnConfirmPublishFinal">Всё равно опубликовать</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Контейнер для тостов / уведомлений -->
+  <div class="toast-container" id="toastContainer"></div>
+
+
+  <!-- ============================================================
+       КЛИЕНТСКИЙ СКРИПТ: ИНИЦИАЛИЗАЦИЯ И РЕНДЕРИНГ ДАННЫХ
+       ============================================================ -->
+  <script>
+    // Глобальное состояние приложения
+    window.AdminState = {
+      data: null,
+      activeTab: 'tab-texts',
+      activeTextPage: 'page-home',
+      activeProjectId: 'project-makarovsky',
+      githubToken: localStorage.getItem('ferro_gh_token') || '',
+      githubRepo: localStorage.getItem('ferro_gh_repo') || 'refunde/FERRO_DESIGN_WEB',
+      githubBranch: localStorage.getItem('ferro_gh_branch') || 'main'
+    };
+
+    // Вспомогательная функция уведомлений (Toasts)
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type === 'success' ? 'toast-success' : type === 'error' ? 'toast-error' : ''}`;
+      toast.innerHTML = `<span>${type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ'}</span> <span>${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        setTimeout(() => toast.remove(), 250);
+      }, 3500);
+    }
+
+    // Инициализация при загрузке страницы
+    document.addEventListener('DOMContentLoaded', async () => {
+      initNavigation();
+      initModals();
+      await loadSiteContent();
+    });
+
+    // 1. Навигация по вкладкам и страницам
+    function initNavigation() {
+      // Главные вкладки (1, 2, 3)
+      const tabBtns = document.querySelectorAll('.nav-tab-btn');
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tabId = btn.dataset.tab;
+          tabBtns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+
+          document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+          const activePane = document.getElementById(tabId);
+          if (activePane) activePane.classList.add('active');
+          window.AdminState.activeTab = tabId;
+        });
+      });
+
+      // Подвкладки во вкладке 1 (Главная / О нас / Контакты)
+      const subtabBtns = document.querySelectorAll('.subtab-btn');
+      subtabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const pageId = btn.dataset.page;
+          subtabBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          document.querySelectorAll('.text-page-view').forEach(v => v.classList.remove('active'));
+          const activeView = document.getElementById(pageId);
+          if (activeView) activeView.classList.add('active');
+          window.AdminState.activeTextPage = pageId;
+        });
+      });
+    }
+
+    // 2. Инициализация модальных окон
+    function initModals() {
+      // Кнопки открытия модалок
+      document.getElementById('btnOpenGithubModal').addEventListener('click', () => {
+        openModal('modalGithub');
+      });
+      document.getElementById('btnOpenPreviewModal').addEventListener('click', () => {
+        openModal('modalPreview');
+      });
+      document.getElementById('btnPublishSite').addEventListener('click', () => {
+        openModal('modalPublishConfirm');
+      });
+
+      // Закрытие модалок
+      document.querySelectorAll('[data-close-modal]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const modalId = btn.getAttribute('data-close-modal');
+          closeModal(modalId);
+        });
+      });
+
+      // Закрытие по клику на фон
+      document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay) {
+            overlay.classList.remove('open');
+          }
+        });
+      });
+
+      // Переключатель устройств в предпросмотре (ПК / Смартфон)
+      const deviceBtns = document.querySelectorAll('.device-toggle-btn');
+      const previewIframe = document.getElementById('previewIframe');
+      deviceBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          deviceBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          if (btn.dataset.device === 'mobile') {
+            previewIframe.className = 'preview-iframe-mobile';
+          } else {
+            previewIframe.className = 'preview-iframe-desktop';
+          }
+        });
+      });
+
+      // Выбор страницы в предпросмотре
+      const pageSelector = document.getElementById('previewPageSelector');
+      pageSelector.addEventListener('change', () => {
+        previewIframe.src = '../' + pageSelector.value;
+      });
+
+      // GitHub настройки
+      const tokenInput = document.getElementById('ghTokenInput');
+      const repoInput = document.getElementById('ghRepoInput');
+      const branchInput = document.getElementById('ghBranchInput');
+      tokenInput.value = window.AdminState.githubToken;
+      repoInput.value = window.AdminState.githubRepo;
+      branchInput.value = window.AdminState.githubBranch;
+      updateGithubStatusDot();
+
+      document.getElementById('btnToggleTokenVisibility').addEventListener('click', function() {
+        if (tokenInput.type === 'password') {
+          tokenInput.type = 'text';
+          this.textContent = 'Скрыть';
+        } else {
+          tokenInput.type = 'password';
+          this.textContent = 'Показать';
+        }
+      });
+
+      document.getElementById('btnSaveGithubSettings').addEventListener('click', () => {
+        window.AdminState.githubToken = tokenInput.value.trim();
+        window.AdminState.githubRepo = repoInput.value.trim();
+        window.AdminState.githubBranch = branchInput.value.trim();
+        localStorage.setItem('ferro_gh_token', window.AdminState.githubToken);
+        localStorage.setItem('ferro_gh_repo', window.AdminState.githubRepo);
+        localStorage.setItem('ferro_gh_branch', window.AdminState.githubBranch);
+        updateGithubStatusDot();
+        closeModal('modalGithub');
+        showToast('Настройки GitHub успешно сохранены', 'success');
+      });
+
+      document.getElementById('btnTestGithubConnection').addEventListener('click', async () => {
+        const statusBox = document.getElementById('ghConnectionStatusMessage');
+        const token = tokenInput.value.trim();
+        const repo = repoInput.value.trim();
+        statusBox.style.display = 'block';
+        statusBox.innerHTML = '<span style="color: var(--accent-amber);">Проверка подключения...</span>';
+
+        if (!token) {
+          statusBox.innerHTML = '<span style="color: var(--danger);">✕ Введите Personal Access Token</span>';
+          return;
+        }
+
+        try {
+          const res = await fetch(`https://api.github.com/repos/${repo}`, {
+            headers: {
+              'Authorization': `token ${token}`,
+              'Accept': 'application/vnd.github.v3+json'
+            }
+          });
+          if (res.ok) {
+            const data = await res.json();
+            statusBox.innerHTML = `<span style="color: var(--success);">✓ Связь установлена: ${data.full_name} (${data.default_branch})</span>`;
+          } else {
+            statusBox.innerHTML = `<span style="color: var(--danger);">✕ Ошибка подключения (${res.status} ${res.statusText})</span>`;
+          }
+        } catch (err) {
+          statusBox.innerHTML = `<span style="color: var(--danger);">✕ Ошибка сети: ${err.message}</span>`;
+        }
+      });
+
+      // Кнопка финального подтверждения публикации
+      document.getElementById('btnConfirmPublishFinal').addEventListener('click', () => {
+        closeModal('modalPublishConfirm');
+        showToast('Запуск публикации на GitHub Pages...', 'info');
+        // В шаге 3 здесь будет реальный вызов GitHub API Commit
+      });
+    }
+
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('open');
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('open');
+    }
+
+    function updateGithubStatusDot() {
+      const dot = document.getElementById('githubStatusDot');
+      if (window.AdminState.githubToken) {
+        dot.className = 'status-dot';
+        dot.title = 'GitHub Token настроен';
+      } else {
+        dot.className = 'status-dot offline';
+        dot.title = 'GitHub Token не настроен';
+      }
+    }
+
+    // 3. Загрузка данных из ../data/site-content.json
+    async function loadSiteContent() {
+      try {
+        const response = await fetch('../data/site-content.json');
+        if (!response.ok) throw new Error('Не удалось загрузить data/site-content.json');
+        const data = await response.json();
+        window.AdminState.data = data;
+
+        // Обновляем статистику в нижнем баре
+        const totalRooms = data.projects.reduce((acc, p) => acc + (p.rooms ? p.rooms.length : 0), 0);
+        let totalRenders = 0;
+        data.projects.forEach(p => {
+          (p.rooms || []).forEach(r => {
+            (r.items || []).forEach(it => {
+              if (it.type === 'diptych') totalRenders += 2;
+              else totalRenders += 1;
+            });
+          });
+        });
+        document.getElementById('globalStatsText').textContent = 
+          `База данных загружена: ${data.projects.length} проектов, ${totalRooms} помещений, ${totalRenders} рендеров`;
+
+        // Рендеринг всех вкладок
+        renderTab1Texts(data);
+        renderTab2Reorder(data);
+        renderTab3Builder(data);
+        populatePreviewPages(data);
+
+        showToast('Данные сайта успешно загружены', 'success');
+      } catch (err) {
+        console.error(err);
+        showToast('Ошибка загрузки данных: ' + err.message, 'error');
+        document.getElementById('globalStatsText').textContent = 'Ошибка загрузки базы данных';
+      }
+    }
+
+    // ------------------------------------------------------------
+    // РЕНДЕР ВКЛАДКИ 1: ТЕКСТЫ
+    // ------------------------------------------------------------
+    function renderTab1Texts(data) {
+      // 1.1 Главная (Hero)
+      const home = data.home || {};
+      if (home.hero) {
+        document.getElementById('homeHeroTitle').value = home.hero.title || '';
+        document.getElementById('homeHeroButton').value = home.hero.buttonText || '';
+        document.getElementById('homeHeroDescription').value = home.hero.description || '';
+      }
+
+      // Услуги
+      const sContainer = document.getElementById('servicesEditorContainer');
+      sContainer.innerHTML = '';
+      (home.services || []).forEach((srv, idx) => {
+        const card = document.createElement('div');
+        card.className = 'service-editor-card';
+        card.innerHTML = `
+          <div class="service-card-badge">${srv.num || `0${idx+1}`}</div>
+          <div class="form-group">
+            <label class="form-label">Название услуги</label>
+            <input type="text" class="admin-input srv-name" value="${escapeHtml(srv.name || '')}">
+          </div>
+          <div class="form-group" style="margin-top: 10px;">
+            <label class="form-label">Описание</label>
+            <textarea class="admin-textarea srv-desc" rows="3">${escapeHtml(srv.desc || '')}</textarea>
+          </div>
+          <div class="form-group" style="margin-top: 10px;">
+            <label class="form-label">Цена</label>
+            <input type="text" class="admin-input srv-price" value="${escapeHtml(srv.price || '')}">
+          </div>
+        `;
+        sContainer.appendChild(card);
+      });
+
+      // Манифест и статистика
+      if (home.aboutSection) {
+        document.getElementById('homeAboutManifesto').value = home.aboutSection.manifesto || '';
+        const statsContainer = document.getElementById('statsEditorContainer');
+        statsContainer.innerHTML = '';
+        (home.aboutSection.stats || []).forEach(st => {
+          const sCard = document.createElement('div');
+          sCard.className = 'stat-editor-card';
+          sCard.innerHTML = `
+            <div class="form-group">
+              <label class="form-label">Число (Target)</label>
+              <input type="text" class="admin-input stat-target" value="${escapeHtml(st.target || '')}">
+            </div>
+            <div class="form-group" style="margin-top: 8px;">
+              <label class="form-label">Суффикс</label>
+              <input type="text" class="admin-input stat-suffix" value="${escapeHtml(st.suffix || '')}">
+            </div>
+            <div class="form-group" style="margin-top: 8px;">
+              <label class="form-label">Подпись</label>
+              <input type="text" class="admin-input stat-label" value="${escapeHtml(st.label || '')}">
+            </div>
+          `;
+          statsContainer.appendChild(sCard);
+        });
+      }
+
+      // 1.2 О студии (aboutPage)
+      const about = data.aboutPage || {};
+      document.getElementById('aboutPageTitle').value = about.title || '';
+      document.getElementById('aboutPageBadge').value = about.badge || '';
+      document.getElementById('aboutPageLead').value = about.lead || '';
+      document.getElementById('aboutSupervision').value = about.supervisionHtml || '';
+      document.getElementById('aboutGeo').value = about.geoHtml || '';
+
+      // 4 шага
+      const stepsContainer = document.getElementById('stepsEditorContainer');
+      stepsContainer.innerHTML = '';
+      (about.steps || []).forEach(step => {
+        const stepCard = document.createElement('div');
+        stepCard.className = 'step-editor-card';
+        stepCard.innerHTML = `
+          <div style="font-family: var(--font-title); font-size: 13px; font-weight: 700; color: var(--accent-amber); margin-bottom: 8px;">${step.num || ''}</div>
+          <div class="form-group">
+            <label class="form-label">Название этапа</label>
+            <input type="text" class="admin-input step-title" value="${escapeHtml(step.title || '')}">
+          </div>
+          <div class="form-group" style="margin-top: 10px;">
+            <label class="form-label">Описание</label>
+            <textarea class="admin-textarea step-text" rows="3">${escapeHtml(step.text || '')}</textarea>
+          </div>
+        `;
+        stepsContainer.appendChild(stepCard);
+      });
+
+      // FAQ
+      renderFaqList(about.faq || []);
+      document.getElementById('btnAddFaqItem').onclick = () => {
+        about.faq = about.faq || [];
+        about.faq.push({ question: 'Новый вопрос', answer: 'Ответ на вопрос...' });
+        renderFaqList(about.faq);
+      };
+
+      // 1.3 Сквозные контакты
+      const contacts = home.contacts || {};
+      document.getElementById('contactsIntro').value = contacts.intro || '';
+      document.getElementById('contactsLocation').value = contacts.location || '';
+      document.getElementById('contactsPhone').value = contacts.phone || '';
+      document.getElementById('contactsEmail').value = contacts.email || '';
+    }
+
+    function renderFaqList(faqArray) {
+      const container = document.getElementById('faqListContainer');
+      container.innerHTML = '';
+      faqArray.forEach((faq, index) => {
+        const item = document.createElement('div');
+        item.className = 'faq-item-card';
+        item.innerHTML = `
+          <div class="faq-item-number">${index + 1}</div>
+          <div class="faq-item-fields">
+            <input type="text" class="admin-input faq-question" value="${escapeHtml(faq.question || '')}" placeholder="Вопрос">
+            <textarea class="admin-textarea faq-answer" rows="2" placeholder="Ответ">${escapeHtml(faq.answer || '')}</textarea>
+          </div>
+          <button class="btn btn-icon btn-danger btn-delete-faq" title="Удалить вопрос">×</button>
+        `;
+        item.querySelector('.btn-delete-faq').onclick = () => {
+          faqArray.splice(index, 1);
+          renderFaqList(faqArray);
+        };
+        container.appendChild(item);
+      });
+    }
+
+    // ------------------------------------------------------------
+    // РЕНДЕР ВКЛАДКИ 2: ПОРЯДОК ПРОЕКТОВ (2 КОЛОНКИ)
+    // ------------------------------------------------------------
+    function renderTab2Reorder(data) {
+      const homeOrder = data.homeProjectsOrder || [];
+      const allOrder = data.allProjectsOrder || [];
+      const projectsMap = {};
+      (data.projects || []).forEach(p => { projectsMap[p.filename] = p; });
+
+      // Колонка 1: Слоты главной (1-4 и 5-6)
+      const mainSlotsContainer = document.getElementById('homeMainGridSlots');
+      const peekSlotsContainer = document.getElementById('homePeekSlots');
+      mainSlotsContainer.innerHTML = '';
+      peekSlotsContainer.innerHTML = '';
+
+      homeOrder.forEach((fn, idx) => {
+        const proj = projectsMap[fn] || { title: fn, filename: fn, cardCity: '', area: 0, specsCategory: '' };
+        const card = createHomeOrderCard(proj, idx, homeOrder, data.projects);
+        if (idx < 4) {
+          mainSlotsContainer.appendChild(card);
+        } else {
+          peekSlotsContainer.appendChild(card);
+        }
+      });
+
+      // Колонка 2: Все проекты в каталоге
+      const catalogContainer = document.getElementById('allProjectsCatalogList');
+      catalogContainer.innerHTML = '';
+      document.getElementById('catalogProjectsTotalBadge').textContent = `${allOrder.length} проектов`;
+
+      allOrder.forEach((fn, idx) => {
+        const proj = projectsMap[fn] || { title: fn, filename: fn, cardCity: '', area: 0, specsCategory: '' };
+        const card = createAllProjectsOrderCard(proj, idx, allOrder, data.projects);
+        catalogContainer.appendChild(card);
+      });
+    }
+
+    function createHomeOrderCard(proj, index, orderArray, allProjects) {
+      const card = document.createElement('div');
+      card.className = 'reorder-card';
+      const thumb = proj.cardImage ? `../${proj.cardImage}` : (proj.heroDay ? `../${proj.heroDay}` : '');
+
+      card.innerHTML = `
+        <div class="reorder-slot-num">${index + 1}</div>
+        <img src="${thumb}" alt="${escapeHtml(proj.title)}" class="reorder-thumb" onerror="this.src='../images/logo.png'">
+        <div class="reorder-info">
+          <div class="reorder-title">${escapeHtml(proj.title)}</div>
+          <div class="reorder-meta">
+            <span>${escapeHtml(proj.cardCity || proj.city || '')}</span>
+            <span>•</span>
+            <span>${proj.area || 0} м²</span>
+          </div>
+        </div>
+        <div class="reorder-actions">
+          <select class="slot-select-dropdown" title="Заменить проект в этом слоте">
+            ${allProjects.map(p => `
+              <option value="${p.filename}" ${p.filename === proj.filename ? 'selected' : ''}>
+                ${escapeHtml(p.title)}
+              </option>
+            `).join('')}
+          </select>
+          <button class="btn-icon btn-move-up" title="Переместить вверх" ${index === 0 ? 'disabled style="opacity:0.3"' : ''}>↑</button>
+          <button class="btn-icon btn-move-down" title="Переместить вниз" ${index === orderArray.length - 1 ? 'disabled style="opacity:0.3"' : ''}>↓</button>
+        </div>
+      `;
+
+      // Обработчик замены через выпадающий список
+      card.querySelector('.slot-select-dropdown').onchange = (e) => {
+        orderArray[index] = e.target.value;
+        renderTab2Reorder(window.AdminState.data);
+        showToast(`Слот ${index + 1} обновлен: ${e.target.options[e.target.selectedIndex].text}`, 'success');
+      };
+
+      // Кнопки перемещения
+      const btnUp = card.querySelector('.btn-move-up');
+      if (btnUp && index > 0) {
+        btnUp.onclick = () => {
+          const temp = orderArray[index];
+          orderArray[index] = orderArray[index - 1];
+          orderArray[index - 1] = temp;
+          renderTab2Reorder(window.AdminState.data);
+        };
+      }
+
+      const btnDown = card.querySelector('.btn-move-down');
+      if (btnDown && index < orderArray.length - 1) {
+        btnDown.onclick = () => {
+          const temp = orderArray[index];
+          orderArray[index] = orderArray[index + 1];
+          orderArray[index + 1] = temp;
+          renderTab2Reorder(window.AdminState.data);
+        };
+      }
+
+      return card;
+    }
+
+    function createAllProjectsOrderCard(proj, index, orderArray, allProjects) {
+      const card = document.createElement('div');
+      card.className = 'reorder-card';
+      card.draggable = true;
+      const thumb = proj.cardImage ? `../${proj.cardImage}` : (proj.heroDay ? `../${proj.heroDay}` : '');
+
+      card.innerHTML = `
+        <span class="reorder-handle">⋮⋮</span>
+        <div class="reorder-slot-num">${index + 1}</div>
+        <img src="${thumb}" alt="${escapeHtml(proj.title)}" class="reorder-thumb" onerror="this.src='../images/logo.png'">
+        <div class="reorder-info">
+          <div class="reorder-title">${escapeHtml(proj.title)}</div>
+          <div class="reorder-meta">
+            <span class="badge ${proj.filterCategory === 'houses' ? 'badge-amber' : proj.filterCategory === 'commercial' ? 'badge-green' : 'badge-muted'}" style="font-size: 10px; padding: 2px 6px;">
+              ${escapeHtml(proj.specsCategory || proj.badgeLabel || 'Квартира')}
+            </span>
+            <span>${escapeHtml(proj.cardCity || proj.city || '')}</span>
+            <span>•</span>
+            <span>${proj.area || 0} м²</span>
+          </div>
+        </div>
+        <div class="reorder-actions">
+          <button class="btn-icon btn-move-up" title="Переместить вверх" ${index === 0 ? 'disabled style="opacity:0.3"' : ''}>↑</button>
+          <button class="btn-icon btn-move-down" title="Переместить вниз" ${index === orderArray.length - 1 ? 'disabled style="opacity:0.3"' : ''}>↓</button>
+        </div>
+      `;
+
+      // Кнопки перемещения
+      const btnUp = card.querySelector('.btn-move-up');
+      if (btnUp && index > 0) {
+        btnUp.onclick = () => {
+          const temp = orderArray[index];
+          orderArray[index] = orderArray[index - 1];
+          orderArray[index - 1] = temp;
+          renderTab2Reorder(window.AdminState.data);
+        };
+      }
+
+      const btnDown = card.querySelector('.btn-move-down');
+      if (btnDown && index < orderArray.length - 1) {
+        btnDown.onclick = () => {
+          const temp = orderArray[index];
+          orderArray[index] = orderArray[index + 1];
+          orderArray[index + 1] = temp;
+          renderTab2Reorder(window.AdminState.data);
+        };
+      }
+
+      // Drag and Drop
+      card.addEventListener('dragstart', (e) => {
+        card.classList.add('is-dragging');
+        e.dataTransfer.setData('text/plain', index);
+      });
+      card.addEventListener('dragend', () => {
+        card.classList.remove('is-dragging');
+      });
+      card.addEventListener('dragover', (e) => {
+        e.preventDefault();
+      });
+      card.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const fromIdx = parseInt(e.dataTransfer.getData('text/plain'), 10);
+        const toIdx = index;
+        if (!isNaN(fromIdx) && fromIdx !== toIdx) {
+          const item = orderArray.splice(fromIdx, 1)[0];
+          orderArray.splice(toIdx, 0, item);
+          renderTab2Reorder(window.AdminState.data);
+          showToast('Порядок проектов в каталоге обновлен', 'info');
+        }
+      });
+
+      return card;
+    }
+
+    // ------------------------------------------------------------
+    // РЕНДЕР ВКЛАДКИ 3: КОНСТРУКТОР ПРОЕКТОВ И ПОМЕЩЕНИЙ
+    // ------------------------------------------------------------
+    function renderTab3Builder(data) {
+      renderProjectsSidebar(data.projects || []);
+      
+      // Выбираем первый проект по умолчанию
+      if (data.projects && data.projects.length > 0) {
+        const targetProj = data.projects.find(p => p.id === window.AdminState.activeProjectId) || data.projects[0];
+        selectProjectInBuilder(targetProj);
+      }
+
+      // Поиск проектов
+      const searchInput = document.getElementById('projectSearchInput');
+      searchInput.oninput = () => {
+        const q = searchInput.value.toLowerCase().trim();
+        const filtered = (data.projects || []).filter(p => 
+          (p.title && p.title.toLowerCase().includes(q)) || 
+          (p.city && p.city.toLowerCase().includes(q)) ||
+          (p.filename && p.filename.toLowerCase().includes(q))
+        );
+        renderProjectsSidebar(filtered);
+      };
+
+      // Кнопка создания нового проекта
+      document.getElementById('btnCreateNewProject').onclick = () => {
+        createNewProjectDialog();
+      };
+    }
+
+    function renderProjectsSidebar(projectsList) {
+      const container = document.getElementById('sidebarProjectsList');
+      container.innerHTML = '';
+
+      projectsList.forEach(proj => {
+        const btn = document.createElement('button');
+        btn.className = `project-item-btn ${proj.id === window.AdminState.activeProjectId ? 'active' : ''}`;
+        const thumb = proj.cardImage ? `../${proj.cardImage}` : (proj.heroDay ? `../${proj.heroDay}` : '');
+        const roomCount = proj.rooms ? proj.rooms.length : 0;
+
+        btn.innerHTML = `
+          <img src="${thumb}" alt="${escapeHtml(proj.title)}" class="project-item-thumb" onerror="this.src='../images/logo.png'">
+          <div class="project-item-details">
+            <div class="project-item-name">${escapeHtml(proj.title)}</div>
+            <div class="project-item-sub">
+              <span>${escapeHtml(proj.city || '')}</span>
+              <span>•</span>
+              <span class="room-count-badge">${roomCount} комнат</span>
+            </div>
+          </div>
+        `;
+
+        btn.onclick = () => {
+          selectProjectInBuilder(proj);
+        };
+
+        container.appendChild(btn);
+      });
+    }
+
+    function selectProjectInBuilder(proj) {
+      window.AdminState.activeProjectId = proj.id;
+      
+      // Обновляем подсветку в сайдбаре
+      document.querySelectorAll('.project-item-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = Array.from(document.querySelectorAll('.project-item-btn')).find(b => 
+        b.querySelector('.project-item-name')?.textContent === proj.title
+      );
+      if (activeBtn) activeBtn.classList.add('active');
+
+      // Шапка
+      document.getElementById('activeProjectTitleHeader').textContent = proj.title;
+      document.getElementById('activeProjectCategoryBadge').textContent = proj.specsCategory || proj.badgeLabel || 'Квартира';
+      document.getElementById('activeProjectFilenameBadge').textContent = proj.filename;
+      document.getElementById('activeProjectFolderBadge').textContent = `images/${proj.folder}`;
+
+      // 1. Паспорт
+      document.getElementById('projTitle').value = proj.title || '';
+      document.getElementById('projFilename').value = proj.filename || '';
+      document.getElementById('projFolder').value = proj.folder || '';
+      document.getElementById('projCity').value = proj.city || '';
+      document.getElementById('projArea').value = proj.area || '';
+      document.getElementById('projMetaDesc').value = proj.metaDesc || '';
+      document.getElementById('projCoords').value = (proj.coords && proj.coords.length === 2) ? proj.coords.join(', ') : '';
+
+      // Радио-группа типа объекта
+      const catCards = document.querySelectorAll('.category-radio-card');
+      catCards.forEach(card => {
+        card.classList.remove('active');
+        if (card.dataset.categoryType === proj.filterCategory) {
+          card.classList.add('active');
+        }
+        card.onclick = () => {
+          catCards.forEach(c => c.classList.remove('active'));
+          card.classList.add('active');
+          const cat = card.dataset.categoryType;
+          if (cat === 'flats') {
+            proj.filterCategory = 'flats';
+            proj.specsCategory = 'Квартира';
+            proj.badgeLabel = 'Жилая квартира';
+          } else if (cat === 'houses') {
+            proj.filterCategory = 'houses';
+            proj.specsCategory = 'Загородный дом';
+            proj.badgeLabel = 'Загородный дом';
+          } else if (cat === 'commercial') {
+            proj.filterCategory = 'commercial';
+            proj.specsCategory = 'Коммерческий объект';
+            proj.badgeLabel = 'Коммерческий объект';
+          }
+          document.getElementById('activeProjectCategoryBadge').textContent = proj.specsCategory;
+        };
+      });
+
+      // Быстрые пресеты гео-координат
+      document.querySelectorAll('.geo-preset-chip').forEach(chip => {
+        chip.onclick = () => {
+          document.getElementById('projCoords').value = chip.dataset.coords;
+          proj.coords = chip.dataset.coords.split(',').map(s => parseFloat(s.trim()));
+          showToast(`Координаты обновлены: ${chip.textContent}`, 'info');
+        };
+      });
+
+      // 2. Дневная обложка
+      const dayImg = document.getElementById('dayCoverImgPreview');
+      const dayPath = document.getElementById('dayCoverPath');
+      const dayName = document.getElementById('dayCoverName');
+      if (proj.heroDay) {
+        dayImg.src = `../${proj.heroDay}`;
+        dayPath.textContent = proj.heroDay;
+        dayName.textContent = proj.heroDay.split('/').pop();
+      }
+
+      // 3. Ночная обложка
+      const nightBanner = document.getElementById('nightCoverStatusBanner');
+      const nightBox = document.getElementById('nightCoverPreviewBox');
+      const nightImg = document.getElementById('nightCoverImgPreview');
+      const nightPath = document.getElementById('nightCoverPath');
+      const nightName = document.getElementById('nightCoverName');
+
+      if (proj.heroNight) {
+        nightBanner.className = 'night-cover-status-banner active';
+        nightBanner.innerHTML = '<span>✓ Ночная обложка активна: на странице будет отображен переключатель освещения ДЕНЬ / НОЧЬ</span>';
+        nightBox.style.display = 'flex';
+        nightImg.src = `../${proj.heroNight}`;
+        nightPath.textContent = proj.heroNight;
+        nightName.textContent = proj.heroNight.split('/').pop();
+      } else {
+        nightBanner.className = 'night-cover-status-banner empty';
+        nightBanner.innerHTML = '<span>○ Переключатель ДЕНЬ / НОЧЬ скрыт (только дневной режим)</span>';
+        nightBox.style.display = 'none';
+      }
+
+      document.getElementById('btnRemoveNightCover').onclick = () => {
+        proj.heroNight = null;
+        nightBanner.className = 'night-cover-status-banner empty';
+        nightBanner.innerHTML = '<span>○ Переключатель ДЕНЬ / НОЧЬ скрыт (только дневной режим)</span>';
+        nightBox.style.display = 'none';
+        showToast('Ночная обложка удалена', 'info');
+      };
+
+      // 4. Помещения проекта
+      renderProjectRooms(proj);
+    }
+
+    function renderProjectRooms(proj) {
+      const container = document.getElementById('roomsListContainer');
+      container.innerHTML = '';
+      const rooms = proj.rooms || [];
+      document.getElementById('projectRoomsCountBadge').textContent = `${rooms.length} помещений`;
+
+      rooms.forEach((room, rIdx) => {
+        const roomCard = createRoomCard(room, rIdx, proj);
+        container.appendChild(roomCard);
+      });
+
+      // Добавление помещения
+      const handleAddRoom = () => {
+        const newRoom = {
+          id: `room-${Date.now()}`,
+          name: 'Новое помещение',
+          nav: 'Новое',
+          prefix: 'room',
+          items: []
+        };
+        rooms.push(newRoom);
+        renderProjectRooms(proj);
+        showToast('Помещение добавлено', 'success');
+      };
+
+      document.getElementById('btnAddRoomTop').onclick = handleAddRoom;
+      document.getElementById('btnAddRoomBottom').onclick = handleAddRoom;
+    }
+
+    function createRoomCard(room, roomIndex, proj) {
+      const card = document.createElement('div');
+      card.className = 'room-block-card';
+
+      card.innerHTML = `
+        <div class="room-block-header">
+          <div class="room-block-title-wrap">
+            <span class="room-block-index">${roomIndex + 1}</span>
+            <div class="room-block-heading">${escapeHtml(room.name || 'Помещение')}</div>
+          </div>
+          <div class="room-block-actions">
+            <button class="btn-icon btn-room-up" title="Переместить вверх" ${roomIndex === 0 ? 'disabled style="opacity:0.3"' : ''}>↑</button>
+            <button class="btn-icon btn-room-down" title="Переместить вниз" ${roomIndex === (proj.rooms.length - 1) ? 'disabled style="opacity:0.3"' : ''}>↓</button>
+            <button class="btn btn-sm btn-danger btn-room-delete" title="Удалить помещение">Удалить</button>
+          </div>
+        </div>
+
+        <div class="room-meta-fields">
+          <div class="form-group">
+            <label class="form-label">Название помещения (заголовок h2.room-name)</label>
+            <input type="text" class="admin-input room-input-name" value="${escapeHtml(room.name || '')}">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Кратко для нижнего меню #hwRoomNav</label>
+            <input type="text" class="admin-input room-input-nav" value="${escapeHtml(room.nav || '')}">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Префикс файлов</label>
+            <input type="text" class="admin-input room-input-prefix" value="${escapeHtml(room.prefix || '')}">
+          </div>
+        </div>
+
+        <!-- Дропзона добавления рендеров -->
+        <div class="dropzone-box dropzone-renders" style="padding: 16px; margin-bottom: 16px;">
+          <div class="dropzone-icon" style="font-size: 22px; margin-bottom: 4px;">🖼</div>
+          <div class="dropzone-title">Приложите ниже рендеры данного помещения (JPG, PNG, WebP)</div>
+          <div class="dropzone-hint">Изображения автоматически оптимизируются и нумеруются с префиксом «${room.prefix || 'render'}»</div>
+          <input type="file" class="dropzone-input-hidden input-room-render-files" multiple accept="image/*">
+        </div>
+
+        <!-- Сетка рендеров -->
+        <div class="room-renders-grid">
+          <!-- Рендеры комнаты динамически -->
+        </div>
+      `;
+
+      // Реактивное обновление заголовка
+      const nameInput = card.querySelector('.room-input-name');
+      nameInput.oninput = () => {
+        room.name = nameInput.value;
+        card.querySelector('.room-block-heading').textContent = room.name || 'Помещение';
+      };
+
+      const navInput = card.querySelector('.room-input-nav');
+      navInput.oninput = () => { room.nav = navInput.value; };
+
+      const prefixInput = card.querySelector('.room-input-prefix');
+      prefixInput.oninput = () => { room.prefix = prefixInput.value; };
+
+      // Кнопки вверх/вниз/удалить
+      const btnUp = card.querySelector('.btn-room-up');
+      if (btnUp && roomIndex > 0) {
+        btnUp.onclick = () => {
+          const temp = proj.rooms[roomIndex];
+          proj.rooms[roomIndex] = proj.rooms[roomIndex - 1];
+          proj.rooms[roomIndex - 1] = temp;
+          renderProjectRooms(proj);
+        };
+      }
+
+      const btnDown = card.querySelector('.btn-room-down');
+      if (btnDown && roomIndex < proj.rooms.length - 1) {
+        btnDown.onclick = () => {
+          const temp = proj.rooms[roomIndex];
+          proj.rooms[roomIndex] = proj.rooms[roomIndex + 1];
+          proj.rooms[roomIndex + 1] = temp;
+          renderProjectRooms(proj);
+        };
+      }
+
+      card.querySelector('.btn-room-delete').onclick = () => {
+        if (confirm(`Удалить помещение «${room.name}» и все его рендеры?`)) {
+          proj.rooms.splice(roomIndex, 1);
+          renderProjectRooms(proj);
+          showToast('Помещение удалено', 'info');
+        }
+      };
+
+      // Рендеринг элементов сетки рендеров комнаты
+      const rendersGrid = card.querySelector('.room-renders-grid');
+      renderRoomItems(room, rendersGrid, proj);
+
+      return card;
+    }
+
+    function renderRoomItems(room, gridContainer, proj) {
+      gridContainer.innerHTML = '';
+      const items = room.items || [];
+
+      items.forEach((item, itemIdx) => {
+        if (item.type === 'diptych') {
+          // Диптих содержит 2 кадра
+          (item.items || []).forEach((dipSubItem, subIdx) => {
+            const [src, cap] = dipSubItem;
+            const card = createRenderCard(src, cap, 'diptych', itemIdx, subIdx, room, proj);
+            gridContainer.appendChild(card);
+          });
+        } else {
+          // Одиночный full или full_compact
+          const card = createRenderCard(item.src, item.cap, item.type, itemIdx, null, room, proj);
+          gridContainer.appendChild(card);
+        }
+      });
+    }
+
+    function createRenderCard(src, cap, layoutType, itemIdx, subIdx, room, proj) {
+      const card = document.createElement('div');
+      card.className = 'render-item-card';
+      const filename = src ? src.split('/').pop() : 'render.webp';
+
+      card.innerHTML = `
+        <div class="render-item-thumb-box">
+          <img src="../${src}" alt="${escapeHtml(cap || '')}" class="render-item-img" onerror="this.src='../images/logo.png'">
+          <div class="render-item-badges">
+            <span class="render-badge-webp">WEBP</span>
+          </div>
+          <div class="render-item-actions-top">
+            <button class="render-btn-sm render-btn-left" title="Переместить левее">←</button>
+            <button class="render-btn-sm render-btn-right" title="Переместить правее">→</button>
+            <button class="render-btn-sm render-btn-delete" title="Удалить ракурс">×</button>
+          </div>
+        </div>
+        <div class="render-item-body">
+          <div class="render-item-filename" title="${escapeHtml(src)}">${escapeHtml(filename)}</div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 10px;">Подпись ракурса (alt / figcaption)</label>
+            <input type="text" class="admin-input render-item-caption-input" value="${escapeHtml(cap || '')}" placeholder="Описание ракурса...">
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 10px;">Раскладка на странице</label>
+            <select class="admin-select render-layout-select">
+              <option value="auto" ${layoutType === 'auto' ? 'selected' : ''}>Авто по эталону Макаровского</option>
+              <option value="diptych" ${layoutType === 'diptych' ? 'selected' : ''}>По 2 в ряд (.diptych-grid)</option>
+              <option value="full" ${layoutType === 'full' ? 'selected' : ''}>Во всю ширину (.media-block)</option>
+              <option value="full_compact" ${layoutType === 'full_compact' ? 'selected' : ''}>Компактный по центру 800px</option>
+            </select>
+          </div>
+        </div>
+      `;
+
+      // Удаление кадра
+      card.querySelector('.render-btn-delete').onclick = () => {
+        if (confirm('Удалить данный ракурс из помещения?')) {
+          room.items.splice(itemIdx, 1);
+          renderProjectRooms(proj);
+          showToast('Ракурс удален', 'info');
+        }
+      };
+
+      return card;
+    }
+
+    function createNewProjectDialog() {
+      const title = prompt('Введите название нового проекта (например: ЖК «Кандинский»):');
+      if (!title || !title.trim()) return;
+
+      const slug = title.toLowerCase().replace(/[^a-zа-я0-9]/gi, '-').replace(/-+/g, '-');
+      const newProj = {
+        id: `project-${Date.now()}`,
+        filename: `project-${slug}.html`,
+        folder: slug.toUpperCase(),
+        title: title.trim(),
+        cardTitle: title.trim(),
+        city: 'Екатеринбург',
+        cardCity: 'Екатеринбург',
+        mapCity: 'Екатеринбург',
+        coords: [56.8519, 60.6122],
+        specsCategory: 'Квартира',
+        filterCategory: 'flats',
+        badgeLabel: 'Жилая квартира',
+        area: 90,
+        year: '2026',
+        heroDay: 'images/logo.png',
+        cardImage: 'images/logo.png',
+        metaDesc: `Дизайн-проект интерьера ${title} от студии FERRO DESIGN.`,
+        rooms: [
+          {
+            id: 'living',
+            name: 'Гостиная',
+            nav: 'Гостиная',
+            prefix: 'living',
+            items: []
+          }
+        ]
+      };
+
+      window.AdminState.data.projects.push(newProj);
+      window.AdminState.data.allProjectsOrder.push(newProj.filename);
+      renderTab2Reorder(window.AdminState.data);
+      renderProjectsSidebar(window.AdminState.data.projects);
+      selectProjectInBuilder(newProj);
+      showToast(`Проект «${title}» успешно создан!`, 'success');
+    }
+
+    function populatePreviewPages(data) {
+      const sel = document.getElementById('previewPageSelector');
+      // Добавляем страницы проектов
+      (data.projects || []).forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.filename;
+        opt.textContent = `Проект: ${p.title}`;
+        sel.appendChild(opt);
+      });
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+
+</body>
+</html>
