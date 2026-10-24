@@ -1012,4 +1012,25 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // 16. Динамическое чередование названия на главной: 5 сек "FERRO DESIGN" / 5 сек "ФЕРРО ДИЗАЙН"
+  // (Соответствие ст. 68 Конституции РФ и 53-ФЗ «О государственном языке РФ»)
+  const heroDynamicTitle = document.querySelector('.hero-main-title .hero-title-word');
+  if (heroDynamicTitle) {
+    const titles = ['FERRO DESIGN', 'ФЕРРО ДИЗАЙН'];
+    let titleIdx = 0;
+
+    setInterval(() => {
+      heroDynamicTitle.classList.remove('title-fade-in');
+      heroDynamicTitle.classList.add('title-fade-out');
+
+      setTimeout(() => {
+        titleIdx = (titleIdx + 1) % titles.length;
+        heroDynamicTitle.textContent = titles[titleIdx];
+        heroDynamicTitle.classList.remove('title-fade-out');
+        heroDynamicTitle.classList.add('title-fade-in');
+      }, 450);
+    }, 5000);
+  }
+
 });

@@ -393,6 +393,25 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   flex-wrap: wrap;
 }
 
+
+/* ============================================================
+   ДИНАМИЧЕСКОЕ ЧЕРЕДОВАНИЕ НАЗВАНИЯ ГЛАВНОГО ЭКРАНА (5 сек / 5 сек)
+   (Соответствие ст. 68 Конституции РФ и 53-ФЗ «О государственном языке РФ»)
+============================================================ */
+.hero-title-word.title-fade-out {
+  opacity: 0 !important;
+  transform: translateY(-8px) !important;
+  filter: blur(4px) !important;
+  transition: opacity 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.45s ease;
+}
+
+.hero-title-word.title-fade-in {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  filter: blur(0) !important;
+  transition: opacity 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.45s ease;
+}
+
 .hero-signature-wrap {
   display: inline-flex;
   align-items: center;
