@@ -1013,23 +1013,45 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 16. Динамическое чередование названия на главной: 5 сек "FERRO DESIGN" / 5 сек "ФЕРРО ДИЗАЙН"
+  // 16. Динамическое плавное кинематографичное чередование названия на главной: 5 сек "FERRO DESIGN" / 5 сек "ФЕРРО ДИЗАЙН"
   // (Соответствие ст. 68 Конституции РФ и 53-ФЗ «О государственном языке РФ»)
   const heroDynamicTitle = document.querySelector('.hero-main-title .hero-title-word');
   if (heroDynamicTitle) {
     const titles = ['FERRO DESIGN', 'ФЕРРО ДИЗАЙН'];
     let titleIdx = 0;
 
+    // Снимаем блокировку CSS keyframe animation после завершения первого появления
+    const clearInitialAnimation = () => {
+      heroDynamicTitle.style.animation = 'none';
+      heroDynamicTitle.style.opacity = '1';
+      heroDynamicTitle.style.transform = 'translateY(0)';
+      heroDynamicTitle.style.filter = 'blur(0)';
+    };
+
+    heroDynamicTitle.addEventListener('animationend', clearInitialAnimation, { once: true });
+    setTimeout(clearInitialAnimation, 2800); // Резервный таймер
+
+    // Цикл переключения каждые 5 секунд
     setInterval(() => {
-      heroDynamicTitle.classList.remove('title-fade-in');
+      // 1. Плавный уход текущего названия вверх с растворением и кинетическим блюром
+      heroDynamicTitle.classList.remove('title-fade-prep');
       heroDynamicTitle.classList.add('title-fade-out');
 
       setTimeout(() => {
+        // 2. Смена текста в момент полной невидимости
         titleIdx = (titleIdx + 1) % titles.length;
         heroDynamicTitle.textContent = titles[titleIdx];
+
+        // 3. Мгновенная посадка снизу для плавного восхождения
         heroDynamicTitle.classList.remove('title-fade-out');
-        heroDynamicTitle.classList.add('title-fade-in');
-      }, 450);
+        heroDynamicTitle.classList.add('title-fade-prep');
+
+        // Принудительный reflow браузера
+        void heroDynamicTitle.offsetWidth;
+
+        // 4. Плавное всплытие снизу в идеальный фокус
+        heroDynamicTitle.classList.remove('title-fade-prep');
+      }, 650);
     }, 5000);
   }
 
