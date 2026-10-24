@@ -1513,21 +1513,37 @@ a.detail-val:hover {
   transform: translateX(4px);
 }
 
-/* Единый архитектурный стиль кнопок быстрой связи (Telegram, WhatsApp, Телефон — как кнопка звонка) */
+/* Стеклянные кнопки быстрой связи (Glassmorphism: Telegram, WhatsApp, Телефон) */
 .direct-btn-telegram,
 .direct-btn-whatsapp,
 .direct-btn-phone {
-  background: #1a1a1a;
-  color: #ffffff !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.20);
+  background: linear-gradient(
+    180deg, 
+    rgba(255, 255, 255, 0.80) 0%, 
+    rgba(255, 255, 255, 0.45) 100%
+  );
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  color: #1a1a1a !important;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    0 4px 16px -2px rgba(67, 66, 66, 0.10),
+    0 2px 4px rgba(0, 0, 0, 0.03),
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 1),
+    inset 0 -1px 2px 0 rgba(67, 66, 66, 0.08);
 }
 
 .direct-btn-telegram:hover,
 .direct-btn-whatsapp:hover,
 .direct-btn-phone:hover {
-  background: #2c2c2c;
-  color: #ffffff !important;
-  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.32);
+  background: rgba(255, 255, 255, 0.95);
+  color: #000000 !important;
+  border-color: #ffffff;
+  box-shadow: 
+    0 8px 24px -2px rgba(67, 66, 66, 0.18),
+    0 2px 6px rgba(0, 0, 0, 0.04),
+    inset 0 1.5px 2px 0 #ffffff,
+    inset 0 -1px 2px 0 rgba(67, 66, 66, 0.10);
   transform: translateY(-2px);
 }
 
@@ -1535,7 +1551,10 @@ a.detail-val:hover {
 .direct-btn-whatsapp:active,
 .direct-btn-phone:active {
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    0 2px 8px rgba(67, 66, 66, 0.10),
+    inset 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 .contact-direct-footer {
