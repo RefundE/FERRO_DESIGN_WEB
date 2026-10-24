@@ -877,6 +877,7 @@ function generateIndexHTML(siteContent) {
         <div class="hero-title-container">
           <h1 class="hero-main-title">
             <span class="hero-title-line">
+              <span class="hero-title-sizer" aria-hidden="true">ФЕРРО ДИЗАЙН</span>
               <span class="hero-title-word">${escapeHtml(home.hero.title || 'FERRO DESIGN')}</span>
             </span>
           </h1>

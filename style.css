@@ -351,15 +351,33 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 
 /* Масочный контейнер для каждой строки */
 .hero-title-line {
-  display: block;
+  position: relative;
+  display: inline-block;
   overflow: hidden;
   line-height: 1.15;
   padding-bottom: 6px; /* Защита от обрезания хвостиков букв Д, Ц, Р */
+  white-space: nowrap !important;
+}
+
+/* Невидимый сайзер максимальной ширины: фиксирует положение подписи на 1 месте */
+.hero-title-sizer {
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap !important;
+  line-height: inherit;
 }
 
 /* Внутренний блок строки с плавной замедленной анимацией выплывания */
 .hero-title-word {
-  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  white-space: nowrap !important;
+  line-height: inherit;
   transform: translateY(115%);
   filter: blur(8px);
   opacity: 0;
