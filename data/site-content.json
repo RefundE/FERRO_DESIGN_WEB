@@ -1,0 +1,2914 @@
+{
+  "home": {
+    "hero": {
+      "title": "FERRO DESIGN",
+      "description": "Разрабатываем современный дизайн жилых и коммерческих помещений в Екатеринбурге",
+      "btnText": "Оставить заявку",
+      "slides": [
+        "images/COVER_MAIN/cover_main_makarovski.webp",
+        "images/COVER_MAIN/cover_main_nekrasova.webp"
+      ]
+    },
+    "services": [
+      {
+        "num": "01",
+        "name": "Полный дизайн-проект",
+        "desc": "Полный пакет чертежей для строителей, фотореалистичная 3D-визуализация каждого помещения, подробная ведомость отделочных материалов и заказной мебели.",
+        "price": "от 3 500 ₽ / м²"
+      },
+      {
+        "num": "02",
+        "name": "Планировочное решение",
+        "desc": "Разработка эргономичного плана расстановки мебели, зонирования и демонтажа/монтажа перегородок с учетом строительных норм и инженерии.",
+        "price": "от 1 200 ₽ / м²"
+      },
+      {
+        "num": "03",
+        "name": "Авторский надзор и комплектация",
+        "desc": "Регулярный выезд на объект, контроль соответствия строительных работ проекту, подбор поставщиков, текстиля, декора и освещения под ключ.",
+        "price": "от 35 000 ₽ / мес"
+      }
+    ],
+    "aboutSection": {
+      "manifesto": "FERRO DESIGN™ — студия интерьерного дизайна и 3D-визуализации под руководством Артема Марченко. Мы создаем функциональные пространства с продуманной эргономикой и индивидуальными сценариями освещения.",
+      "stats": [
+        {
+          "target": 500,
+          "suffix": "+",
+          "format": "",
+          "label": "Реализованных проектов"
+        },
+        {
+          "target": 25,
+          "suffix": " лет",
+          "format": "",
+          "label": "Профессионального опыта"
+        },
+        {
+          "target": 100000,
+          "suffix": "+",
+          "format": "space",
+          "label": "Квадратных метров спроектировано"
+        },
+        {
+          "target": 2,
+          "suffix": " месяца",
+          "format": "",
+          "label": "Среднее время разработки дизайн-проекта"
+        }
+      ]
+    },
+    "contacts": {
+      "intro": "Готовы обсудить ваш проект? Оставьте заявку или свяжитесь с нами удобным способом.",
+      "location": "Екатеринбург, ул. Розы Люксембург, 17",
+      "phone": "+7 (963) 442-61-92",
+      "phoneHref": "tel:+79634426192",
+      "email": "artem1-nt@mail.ru"
+    }
+  },
+  "aboutPage": {
+    "title": "О студии FERRO DESIGN™",
+    "lead": "Студия авторского интерьерного дизайна и архитектурной 3D-визуализации. Мы проектируем функциональные жилые и коммерческие пространства.",
+    "chiefBadge": "ГЛАВНЫЙ ДИЗАЙНЕР: АРТЕМ МАРЧЕНКО",
+    "steps": [
+      {
+        "num": "ЭТАП 01",
+        "title": "Обмерный план и планировочные решения",
+        "text": "Точные лазерные замеры геометрии помещения с фиксацией инженерных коммуникаций, стояков, радиаторов и несущих конструкций. Разработка 3–4 вариантов эргономичной перепланировки с грамотным зонированием и расстановкой мебели с учетом строительных норм и индивидуальных маршрутов движения."
+      },
+      {
+        "num": "ЭТАП 02",
+        "title": "Фотореалистичные 3D-визуализации",
+        "text": "Высокодетализированная 3D-визуализация каждого помещения в дневном и вечернем сценариях освещения. Точная передача текстур дерева, камня, керамогранита, декоративной штукатурки и заказной мебели, позволяющая увидеть готовый интерьер еще до начала строительных работ."
+      },
+      {
+        "num": "ЭТАП 03",
+        "title": "Рабочая строительная документация",
+        "text": "Пакет чертежей для строителей: планы демонтажа и возведения перегородок, схемы размещения розеток и выключателей, сценарии управления светом, привязка сантехнических приборов, раскладка теплых полов, вентиляции и кондиционирования, а также подробные развертки всех стен."
+      },
+      {
+        "num": "ЭТАП 04",
+        "title": "Спецификация материалов и комплектация",
+        "text": "Сводная ведомость с прямыми артикулами, брендами, площадями и объемами напольных покрытий, плитки, сантехники, светильников и заказных мебельных позиций с проверенными поставщиками."
+      }
+    ],
+    "supervisionHtml": "<p>\n            Дизайн-проект — это подробная архитектурная инструкция, а авторский надзор — гарантия того, что объект в реальности будет выглядеть в точности как на 3D-рендерах. В процессе ремонта неизбежно возникают скрытые строительные нюансы, требующие оперативного решения автора проекта.\n          </p>\n          <p>\n            <strong>В рамках авторского надзора мы берем на себя:</strong>\n          </p>\n          <ul style=\"padding-left: 20px; line-height: 1.8; color: var(--brand-gray); font-size: 15px; margin-bottom: 16px;\">\n            <li>Регулярные выезды на объект и контроль строителей на каждом этапе черновых и чистовых работ.</li>\n            <li>Проверку соответствия возводимых перегородок, ниш и инженерных трасс проектным чертежам.</li>\n            <li>Решение скрытых технических узлов и оперативное внесение правок в рабочую документацию.</li>\n            <li>Выкрасы стен на объекте при реальном дневном и искусственном освещении, подбор оттенков шпона и текстиля.</li>\n            <li>Контроль своевременных поставок отделочных материалов и мебели, оперативный подбор аналогов в случае снятия позиций с производства.</li>\n          </ul>\n          <p>\n            Авторский надзор экономит время и бюджет заказчика, полностью исключая риск дорогостоящих строительных переделок.\n          </p>",
+    "geoHtml": "<p>\n            Студия FERRO DESIGN™ базируется в Екатеринбурге и активно проектирует жилые и коммерческие пространства на территории Свердловской области. Мы также успешно реализуем частные резиденции, квартиры и коммерческие объекты в Москве, Сочи, ХМАО и других регионах России.\n          </p>\n          <p>\n            <strong>Дистанционное проектирование по всей России:</strong><br>\n            Для клиентов из других городов мы выстроили отточенный удаленный формат работы: передача полного альбома чертежей в высоком разрешении.\n          </p>",
+    "faq": [
+      {
+        "question": "Сколько времени занимает разработка дизайн-проекта?",
+        "answer": "В среднем полный дизайн-проект разрабатывается от 2 до 3 месяцев. Точные сроки зависят от общей площади объекта, сложности планировочной структуры, наличия нестандартных инженерных систем и скорости согласования концепций заказчиком."
+      },
+      {
+        "question": "На каком этапе ремонта необходимо обращаться к дизайнеру?",
+        "answer": "Оптимальный момент — еще до получения ключей или за 2–3 месяца до планируемого выхода строителей на площадку. Это позволяет без спешки продумать эргономику, подготовить детальные строительные чертежи и заранее оформить заказы на чистовые материалы и заказную мебель длительного срока производства."
+      },
+      {
+        "question": "Можно ли заказать только планировочное решение?",
+        "answer": "Да. Мы предоставляем услугу разработки планировочного решения: в нее входят подробные обмеры, план демонтажа и возведения перегородок, а также от 3 до 4 вариантов эргономичной расстановки мебели и функционального зонирования."
+      },
+      {
+        "question": "Зачем нужен авторский надзор, если у меня есть опытная строительная бригада?",
+        "answer": "Строители отвечают за технологическое качество (ровность стен, надежность соединений), но они не знают художественного и композиционного замысла автора. Авторский надзор гарантирует, что каждый миллиметр чертежа будет воплощен в реальность, стыки материалов сойдутся идеально, а любые отклонения геометрии стен будут своевременно скомпенсированы без ущерба для финального результата."
+      },
+      {
+        "question": "Как строится удаленная работа с объектами в других городах?",
+        "answer": "Процесс полностью прозрачен: все обсуждения, демонстрации планировок и 3D-визуализаций проходят на онлайн-встречах. Проектный альбом передается в формате PDF со всеми спецификациями и ссылками на проверенных поставщиков."
+      },
+      {
+        "question": "Помогаете ли вы с подбором проверенных строителей и поставщиков?",
+        "answer": "Да. Мы работаем с проверенными строительными подрядчиками, специализирующимися на авторских проектах, а также с надежными производителями заказной корпусной мебели, текстиля и керамогранита, предоставляя клиентам проверенные контакты и партнерские условия."
+      }
+    ]
+  },
+  "homeProjectsOrder": [
+    "project-nekrasova.html",
+    "project-makarovsky.html",
+    "project-nomer-otel.html",
+    "project-a-frames.html",
+    "project-hmao.html",
+    "project-pub-tagil.html"
+  ],
+  "allProjectsOrder": [
+    "project-nekrasova.html",
+    "project-makarovsky.html",
+    "project-ekater-park.html",
+    "project-suomen.html",
+    "project-nomer-otel.html",
+    "project-pub-tagil.html",
+    "project-a-frames.html",
+    "project-hmao.html",
+    "project-sochi-kvartira.html",
+    "project-andr-fateevo.html",
+    "project-gorbunovo-2fl.html",
+    "project-artu-40m2.html",
+    "project-kris-ggm.html",
+    "project-banniy-kompl.html",
+    "project-tagil-sergey.html"
+  ],
+  "roomPrefixDictionary": {
+    "ГОСТИНАЯ": {
+      "prefix": "living",
+      "id": "room-living",
+      "nav": "Гостиная"
+    },
+    "КУХНЯ-ГОСТИНАЯ": {
+      "prefix": "living",
+      "id": "room-living",
+      "nav": "Гостиная"
+    },
+    "ГОСТИНАЯ И КУХНЯ": {
+      "prefix": "living",
+      "id": "room-living",
+      "nav": "Гостиная"
+    },
+    "ГОСТИНАЯ И СТОЛОВАЯ": {
+      "prefix": "living",
+      "id": "room-living",
+      "nav": "Гостиная"
+    },
+    "ГОСТИНАЯ И ЛАУНЖ": {
+      "prefix": "living",
+      "id": "room-lounge",
+      "nav": "Гостиная"
+    },
+    "ПРИХОЖАЯ": {
+      "prefix": "hallway",
+      "id": "room-hallway",
+      "nav": "Прихожая"
+    },
+    "ХОЛЛ": {
+      "prefix": "hallway",
+      "id": "room-hallway",
+      "nav": "Прихожая"
+    },
+    "ХОЛЛ И ПРИХОЖАЯ": {
+      "prefix": "hallway",
+      "id": "room-hallway",
+      "nav": "Прихожая"
+    },
+    "ГОСТЕВОЙ САНУЗЕЛ": {
+      "prefix": "guestbath",
+      "id": "room-guest-bath",
+      "nav": "Гостевой санузел"
+    },
+    "ВАННАЯ КОМНАТА ПРИ СПАЛЬНЕ ХОЗЯИНА": {
+      "prefix": "masterbath",
+      "id": "room-master-bath",
+      "nav": "Ванная"
+    },
+    "МАСТЕР-ВАННАЯ": {
+      "prefix": "masterbath",
+      "id": "room-master-bath",
+      "nav": "Ванная"
+    },
+    "ВАННАЯ КОМНАТА": {
+      "prefix": "bath",
+      "id": "room-bath",
+      "nav": "Санузел"
+    },
+    "САНУЗЕЛ": {
+      "prefix": "bath",
+      "id": "room-bath",
+      "nav": "Санузел"
+    },
+    "САНУЗЛЫ": {
+      "prefix": "bath",
+      "id": "room-bath",
+      "nav": "Санузел"
+    },
+    "СПАЛЬНЯ ГЛАВНАЯ": {
+      "prefix": "bedroom",
+      "id": "room-master-bed",
+      "nav": "Спальня"
+    },
+    "МАСТЕР-СПАЛЬНЯ": {
+      "prefix": "bedroom",
+      "id": "room-master-bed",
+      "nav": "Спальня"
+    },
+    "СПАЛЬНЯ": {
+      "prefix": "bedroom",
+      "id": "room-master-bed",
+      "nav": "Спальня"
+    },
+    "ДЕТСКАЯ КОМНАТА": {
+      "prefix": "kids",
+      "id": "room-kids",
+      "nav": "Детская"
+    },
+    "ДЕТСКАЯ": {
+      "prefix": "kids",
+      "id": "room-kids",
+      "nav": "Детская"
+    },
+    "КАБИНЕТ": {
+      "prefix": "kabinet",
+      "id": "room-kabinet",
+      "nav": "Кабинет"
+    },
+    "ПАРНАЯ": {
+      "prefix": "banya",
+      "id": "room-steam",
+      "nav": "Парная"
+    }
+  },
+  "projects": [
+    {
+      "id": "nekrasova",
+      "filename": "project-nekrasova.html",
+      "folder": "NA_NEKRASOVA",
+      "title": "ЖК «На Некрасова»",
+      "cardTitle": "ЖК «На Некрасова»",
+      "metaDesc": "Дизайн-проект интерьера квартиры 110 м² в ЖК «На Некрасова», Екатеринбург от студии FERRO DESIGN.",
+      "ogImage": "https://ferro-design.ru/images/COVER_MAIN/cover_main_nekrasova.webp",
+      "heroDay": "images/COVER_MAIN/cover_main_nekrasova.webp",
+      "heroNight": null,
+      "cardImage": "images/NA_NEKRASOVA/cover.webp",
+      "homePeekImage": "images/NA_NEKRASOVA/cover.webp",
+      "city": "Екатеринбург",
+      "cardCity": "Екатеринбург",
+      "mapCity": "Екатеринбург",
+      "coords": [
+        56.85211,
+        60.589875
+      ],
+      "specsCategory": "Квартира",
+      "filterCategory": "flats",
+      "badgeLabel": "Жилая квартира",
+      "area": 110,
+      "year": "2026",
+      "rooms": [
+        {
+          "id": "room-living",
+          "name": "ГОСТИНАЯ",
+          "nav": "Гостиная",
+          "prefix": "living",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/NA_NEKRASOVA/living_01.webp",
+              "cap": "Гостиная зона и остров из натурального изумрудного камня"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/NA_NEKRASOVA/living_02.webp",
+                  "Фактура зеленого мрамора кухонного острова"
+                ],
+                [
+                  "images/NA_NEKRASOVA/living_03.webp",
+                  "ТВ-группа с биокамином и подсветкой"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/NA_NEKRASOVA/living_04.webp",
+                  "Стеклянные витрины со скрытой теплой подсветкой"
+                ],
+                [
+                  "images/NA_NEKRASOVA/living_05.webp",
+                  "Встроенные кухонные колонны"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/NA_NEKRASOVA/living_06.webp",
+                  "Обеденный стол на фоне кухни"
+                ],
+                [
+                  "images/NA_NEKRASOVA/living_07.webp",
+                  "Остров и дизайнерская люстра"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/NA_NEKRASOVA/living_08.webp",
+              "cap": "Кухня-гостиная и входной холл"
+            }
+          ]
+        },
+        {
+          "id": "room-cinema",
+          "name": "КИНОЗАЛ",
+          "nav": "Кинозал",
+          "prefix": "kabinet",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/NA_NEKRASOVA/kabinet_01.webp",
+              "cap": "Зона домашнего кинотеатра с широкоформатным проектором"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/NA_NEKRASOVA/kabinet_02.webp",
+                  "Мягкая зона с белым модульным диваном"
+                ],
+                [
+                  "images/NA_NEKRASOVA/kabinet_03.webp",
+                  "Интегрированное рабочее место у окна"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-bedroom",
+          "name": "СПАЛЬНЯ",
+          "nav": "Спальня",
+          "prefix": "bedroom",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/NA_NEKRASOVA/bedroom_01.webp",
+              "cap": "Мастер-спальня с акцентным терракотовым изголовьем"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/NA_NEKRASOVA/bedroom_02.webp",
+                  "Латунные подвесы и рельефные стеновые панели"
+                ],
+                [
+                  "images/NA_NEKRASOVA/bedroom_03.webp",
+                  "Естественный свет и плотные шторы"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-kids",
+          "name": "ДЕТСКАЯ",
+          "nav": "Детская",
+          "prefix": "kids",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/NA_NEKRASOVA/kids_01.webp",
+                  "Детская комната в нежной пудровой палитре"
+                ],
+                [
+                  "images/NA_NEKRASOVA/kids_02.webp",
+                  "Шведская стенка и диванная зона"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-bath",
+          "name": "ВАННАЯ",
+          "nav": "Ванная",
+          "prefix": "masterbath",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/NA_NEKRASOVA/masterbath_01.webp",
+              "cap": "Ванная с авторской акцентной плиткой"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/NA_NEKRASOVA/masterbath_02.webp",
+                  "Зеркало с контурной LED-подсветкой"
+                ],
+                [
+                  "images/NA_NEKRASOVA/masterbath_03.webp",
+                  "Санузел в светлом мраморе"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "makarovsky",
+      "filename": "project-makarovsky.html",
+      "folder": "MAKAROVSKI_PORTUGALIA",
+      "title": "ЖК «Макаровский»",
+      "cardTitle": "ЖК «Макаровский»",
+      "metaDesc": "Дизайн-проект интерьера квартиры 102 м² в ЖК «Макаровский», Екатеринбург от студии FERRO DESIGN.",
+      "ogImage": "https://ferro-design.ru/images/COVER_MAIN/cover_main_makarovski.webp",
+      "heroDay": "images/COVER_MAIN/cover_main_makarovski.webp",
+      "heroNight": "images/COVER_MAIN/cover_main_makarovski_night.webp",
+      "cardImage": "images/MAKAROVSKI_PORTUGALIA/cover.webp",
+      "homePeekImage": "images/MAKAROVSKI_PORTUGALIA/cover.webp",
+      "city": "Екатеринбург",
+      "cardCity": "Екатеринбург",
+      "mapCity": "Екатеринбург",
+      "coords": [
+        56.848911,
+        60.592094
+      ],
+      "specsCategory": "Квартира",
+      "filterCategory": "flats",
+      "badgeLabel": "Жилая квартира",
+      "area": 102,
+      "year": "2026",
+      "rooms": [
+        {
+          "id": "room-living",
+          "name": "ГОСТИНАЯ",
+          "nav": "Гостиная",
+          "prefix": "living",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/MAKAROVSKI_PORTUGALIA/living_01.webp",
+              "cap": "Кухня-гостиная с кухонным островом и обеденной зоной"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/living_02.webp",
+                  "ТВ-зона и диванная группа"
+                ],
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/living_03.webp",
+                  "Встроенный книжный стеллаж и сценарий освещения"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/living_04.webp",
+                  "Лаунж-зона с мягкой группой у панорамных окон"
+                ],
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/living_05.webp",
+                  "Стеклянная витрина и зонирование пространства"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-hallway",
+          "name": "ПРИХОЖАЯ",
+          "nav": "Прихожая",
+          "prefix": "hallway",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/hallway_01.webp",
+                  "Консольный столик, круглое зеркало и декоративная композиция"
+                ],
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/hallway_02.webp",
+                  "Архитектурный портал и двери скрытого монтажа"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-guest-bath",
+          "name": "ГОСТЕВОЙ САНУЗЕЛ",
+          "nav": "Гостевой санузел",
+          "prefix": "guestbath",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/guestbath_01.webp",
+                  "Зона раковины и подвесная тумба"
+                ],
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/guestbath_02.webp",
+                  "Душевой отсек со стеклянной перегородкой"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/guestbath_03.webp",
+                  "Акцентная солнечная отделка и зеркало с подсветкой"
+                ],
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/guestbath_04.webp",
+                  "Ракурс на душевую зону и подвесную сантехнику"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-master-bath",
+          "name": "ВАННАЯ КОМНАТА ПРИ СПАЛЬНЕ ХОЗЯИНА",
+          "nav": "Ванная",
+          "prefix": "masterbath",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/masterbath_01.webp",
+                  "Раковина и напольная плитка с геометрическим орнаментом"
+                ],
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/masterbath_02.webp",
+                  "Встроенные системы хранения из шпона и инсталляция"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/masterbath_03.webp",
+                  "Зона ванны в изумрудной глянцевой плитке"
+                ],
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/masterbath_04.webp",
+                  "Круглое зеркало и контрастная отделка керамогранитом"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-master-bed",
+          "name": "СПАЛЬНЯ ГЛАВНАЯ",
+          "nav": "Спальня",
+          "prefix": "bedroom",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/bedroom_01.webp",
+                  "Камерный вечерний сценарий освещения"
+                ],
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/bedroom_02.webp",
+                  "Прикроватная зона и гардеробный модуль"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/MAKAROVSKI_PORTUGALIA/bedroom_03.webp",
+              "cap": "Фронтальный ракурс мастер-спальни с фактурным изголовьем"
+            }
+          ]
+        },
+        {
+          "id": "room-kids",
+          "name": "ДЕТСКАЯ КОМНАТА",
+          "nav": "Детская",
+          "prefix": "kids",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/MAKAROVSKI_PORTUGALIA/kids_01.webp",
+              "cap": "Общий вид детской комнаты с акцентной спальной нишей"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/kids_02.webp",
+                  "Рабочая и игровая зона детской"
+                ],
+                [
+                  "images/MAKAROVSKI_PORTUGALIA/kids_03.webp",
+                  "Перфорированная архитектурная перегородка и спальное место"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ekater-park",
+      "filename": "project-ekater-park.html",
+      "folder": "EKATER_PARK",
+      "title": "ЖК «Екатерининский парк»",
+      "cardTitle": "ЖК «Екатерининский парк»",
+      "metaDesc": "Дизайн-проект интерьера квартиры 78 м² в ЖК «Екатерининский парк», Екатеринбург от студии дизайна FERRO DESIGN™.",
+      "ogImage": "https://ferro-design.ru/images/EKATER_PARK/bedroom_01.webp",
+      "heroDay": "images/EKATER_PARK/bedroom_01.webp",
+      "heroNight": null,
+      "cardImage": "images/EKATER_PARK/bedroom_01.webp",
+      "homePeekImage": null,
+      "city": "Екатеринбург",
+      "cardCity": "Екатеринбург",
+      "mapCity": "Екатеринбург",
+      "coords": [
+        56.853986,
+        60.608488
+      ],
+      "specsCategory": "Квартира",
+      "filterCategory": "flats",
+      "badgeLabel": "Жилая квартира",
+      "area": 78,
+      "year": "2026",
+      "rooms": [
+        {
+          "id": "room-living",
+          "name": "ГОСТИНАЯ",
+          "nav": "Гостиная",
+          "prefix": "living",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/EKATER_PARK/living_01.webp",
+                  "Кухонный гарнитур и обеденная группа"
+                ],
+                [
+                  "images/EKATER_PARK/living_02.webp",
+                  "Диванная группа и декоративное озеленение"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/EKATER_PARK/living_03.webp",
+              "cap": "ТВ-панель со скрытыми системами хранения"
+            }
+          ]
+        },
+        {
+          "id": "room-hallway",
+          "name": "ПРИХОЖАЯ",
+          "nav": "Прихожая",
+          "prefix": "hallway",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/EKATER_PARK/enter_01.webp",
+                  "Входная группа со встроенными шкафами"
+                ],
+                [
+                  "images/EKATER_PARK/enter_02.webp",
+                  "Парящие шкафы с теплой нижней подсветкой"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/EKATER_PARK/enter_03.webp",
+              "cap": "Приватный коридор"
+            }
+          ]
+        },
+        {
+          "id": "room-bedroom",
+          "name": "СПАЛЬНЯ",
+          "nav": "Спальня",
+          "prefix": "bedroom",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/EKATER_PARK/bedroom_01.webp",
+                  "Мастер-спальня с реечной панелью"
+                ],
+                [
+                  "images/EKATER_PARK/bedroom_02.webp",
+                  "Второй ракурс мастер-спальни"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-kids",
+          "name": "ДЕТСКАЯ",
+          "nav": "Детская",
+          "prefix": "kids",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/EKATER_PARK/kid_01.webp",
+                  "Детская комната со встроенным рабочим местом"
+                ],
+                [
+                  "images/EKATER_PARK/kid_02.webp",
+                  "Игровая зона и спальное место"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-guest",
+          "name": "ГОСТЕВАЯ",
+          "nav": "Гостевая",
+          "prefix": "guest",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/EKATER_PARK/guest_01.webp",
+                  "Гостевая комната с диваном"
+                ],
+                [
+                  "images/EKATER_PARK/guest_02.webp",
+                  "Эргономичная система хранения и письменный стол"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-bath",
+          "name": "САНУЗЛЫ",
+          "nav": "Санузлы",
+          "prefix": "bath",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/EKATER_PARK/bathroom_01.webp",
+                  "Санузел с отделкой под дерево и камень"
+                ],
+                [
+                  "images/EKATER_PARK/bathroom_02.webp",
+                  "Зона раковины с круглым зеркалом и подсветкой"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/EKATER_PARK/small_bathroom_01.webp",
+                  "Гостевой санузел в графитовой гамме"
+                ],
+                [
+                  "images/EKATER_PARK/small_bathroom_02.webp",
+                  "Подвесная сантехника и скрытая подсветка"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "suomen",
+      "filename": "project-suomen.html",
+      "folder": "SUOMEN",
+      "title": "ЖК «Suomen Ranta»",
+      "cardTitle": "ЖК «Suomen Ranta»",
+      "metaDesc": "Дизайн-проект интерьера квартиры 58 м² в ЖК «Suomen Ranta», Екатеринбург от студии дизайна FERRO DESIGN™.",
+      "ogImage": "https://ferro-design.ru/images/SUOMEN/cover.webp",
+      "heroDay": "images/SUOMEN/cover.webp",
+      "heroNight": null,
+      "cardImage": "images/SUOMEN/cover.webp",
+      "homePeekImage": null,
+      "city": "Екатеринбург",
+      "cardCity": "Екатеринбург",
+      "mapCity": "Екатеринбург",
+      "coords": [
+        56.807107,
+        60.637225
+      ],
+      "specsCategory": "Квартира",
+      "filterCategory": "flats",
+      "badgeLabel": "Жилая квартира",
+      "area": 58,
+      "year": "2026",
+      "rooms": [
+        {
+          "id": "room-living",
+          "name": "КУХНЯ-ГОСТИНАЯ",
+          "nav": "Кухня-гостиная",
+          "prefix": "living",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/SUOMEN/cover.webp",
+              "cap": "Общий вид объединенного пространства кухни-гостиной"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/SUOMEN/kitchen_01.webp",
+                  "Кухонный гарнитур со встроенной техникой"
+                ],
+                [
+                  "images/SUOMEN/kitchen_02.webp",
+                  "Обеденная зона и акцентный свет"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-hallway",
+          "name": "ПРИХОЖАЯ",
+          "nav": "Прихожая",
+          "prefix": "hallway",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/SUOMEN/enter_01.webp",
+                  "Входной холл"
+                ],
+                [
+                  "images/SUOMEN/enter_02.webp",
+                  "Гардеробная система и ростовое зеркало"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-bedroom",
+          "name": "СПАЛЬНЯ",
+          "nav": "Спальня",
+          "prefix": "bedroom",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/SUOMEN/bedroom_01.webp",
+              "cap": "Мастер-спальня в нейтральных тонах"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/SUOMEN/bedroom_02.webp",
+                  "Прикроватная зона и текстиль"
+                ],
+                [
+                  "images/SUOMEN/bedroom_03.webp",
+                  "Рабочее место в спальне"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-kids",
+          "name": "ДЕТСКАЯ",
+          "nav": "Детская",
+          "prefix": "kids",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/SUOMEN/kids_01.webp",
+              "cap": "Детская комната"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/SUOMEN/kids_02.webp",
+                  "Зона учебы и отдыха в детской"
+                ],
+                [
+                  "images/SUOMEN/kids_03.webp",
+                  "Система хранения и спальное место"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-bath",
+          "name": "ВАННАЯ КОМНАТА",
+          "nav": "Ванная",
+          "prefix": "bath",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/SUOMEN/green_bath_0.webp",
+                  "Ванная комната в оливковом сценарии"
+                ],
+                [
+                  "images/SUOMEN/green_bath_02.webp",
+                  "Душевая зона со встроенной нишей"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/SUOMEN/green_bath_03.webp",
+              "cap": "Подвесная раковина с зеркалом (зеленый сценарий)"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/SUOMEN/red_bath_01.webp",
+                  "Второй сценарий отделки в терракотовой гамме"
+                ],
+                [
+                  "images/SUOMEN/red_bath_02.webp",
+                  "Зона умывальника с подсветкой (терракотовый сценарий)"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/SUOMEN/red_bath_03.webp",
+              "cap": "Консольная сантехника и фактура плитки"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nomer-otel",
+      "filename": "project-nomer-otel.html",
+      "folder": "NOMER_OTEL",
+      "title": "Отель «Номерной фонд»",
+      "cardTitle": "Отель «Номерной фонд»",
+      "metaDesc": "Дизайн-проект гостиничного номера 40 м² в Нижнем Тагиле от студии дизайна FERRO DESIGN™.",
+      "ogImage": "https://ferro-design.ru/images/NOMER_OTEL/cover.webp",
+      "heroDay": "images/NOMER_OTEL/cover.webp",
+      "heroNight": null,
+      "cardImage": "images/NOMER_OTEL/cover.webp",
+      "homePeekImage": "images/NOMER_OTEL/cover.webp",
+      "city": "Нижний Тагил",
+      "cardCity": "Нижний Тагил",
+      "mapCity": "Нижний Тагил",
+      "coords": [
+        57.9048,
+        59.9575
+      ],
+      "specsCategory": "Коммерческий объект",
+      "filterCategory": "commercial",
+      "badgeLabel": "Коммерческий объект",
+      "area": 40,
+      "year": "2026",
+      "rooms": [
+        {
+          "id": "room-suite",
+          "name": "НОМЕРНОЙ ФОНД",
+          "nav": "Номер",
+          "prefix": "room",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/NOMER_OTEL/cover.webp",
+              "cap": "Общий вид интерьера гостиничного номера"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/NOMER_OTEL/main_02.webp",
+                  "Спальная зона номера с мягким изголовьем"
+                ],
+                [
+                  "images/NOMER_OTEL/main_03.webp",
+                  "Рабочая зона и акцентный свет"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/NOMER_OTEL/main_04.webp",
+              "cap": "Детали отделки и текстиля"
+            }
+          ]
+        },
+        {
+          "id": "room-hallway",
+          "name": "ХОЛЛ",
+          "nav": "Холл",
+          "prefix": "hallway",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/NOMER_OTEL/enter_02.webp",
+              "cap": "Входной холл номера с гардеробной группой"
+            }
+          ]
+        },
+        {
+          "id": "room-bath",
+          "name": "САНУЗЕЛ",
+          "nav": "Санузел",
+          "prefix": "bath",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/NOMER_OTEL/bath_01.webp",
+                  "Санузел в темном керамограните"
+                ],
+                [
+                  "images/NOMER_OTEL/bath_02.webp",
+                  "Душевая зона с контурной подсветкой"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/NOMER_OTEL/bath_03.webp",
+              "cap": "Раковина и встроенная подсветка зеркала"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pub-tagil",
+      "filename": "project-pub-tagil.html",
+      "folder": "PUB_TAGIL",
+      "title": "Гастропаб в Нижнем Тагиле",
+      "cardTitle": "Гастропаб в Нижнем Тагиле",
+      "metaDesc": "Дизайн-проект интерьера гастропаба 200 м² в Нижнем Тагиле от студии дизайна FERRO DESIGN™.",
+      "ogImage": "https://ferro-design.ru/images/PUB_TAGIL/cover.webp",
+      "heroDay": "images/PUB_TAGIL/cover.webp",
+      "heroNight": null,
+      "cardImage": "images/PUB_TAGIL/cover.webp",
+      "homePeekImage": "images/PUB_TAGIL/cover.webp",
+      "city": "Нижний Тагил",
+      "cardCity": "Нижний Тагил",
+      "mapCity": "Нижний Тагил",
+      "coords": [
+        57.908748,
+        59.954613
+      ],
+      "specsCategory": "Коммерческий объект",
+      "filterCategory": "commercial",
+      "badgeLabel": "Коммерческий объект",
+      "area": 200,
+      "year": "2026",
+      "rooms": [
+        {
+          "id": "room-bar",
+          "name": "БАРНАЯ ЗОНА",
+          "nav": "Бар",
+          "prefix": "room",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/PUB_TAGIL/cover.webp",
+              "cap": "Общий вид барной зоны гастропаба"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/PUB_TAGIL/bar_01.webp",
+                  "Барная стойка из темного дуба"
+                ],
+                [
+                  "images/PUB_TAGIL/bar_02.webp",
+                  "Стеллаж с подсветкой и посадка у стойки"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-main-hall",
+          "name": "ОСНОВНОЙ ЗАЛ",
+          "nav": "Основной зал",
+          "prefix": "main",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/PUB_TAGIL/main_01.webp",
+                  "Основной зал паба"
+                ],
+                [
+                  "images/PUB_TAGIL/main_02.webp",
+                  "Кожаные диваны и кирпичная кладка"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/PUB_TAGIL/main_03.webp",
+                  "Уютная посадка у окна"
+                ],
+                [
+                  "images/PUB_TAGIL/main_04.webp",
+                  "Фактура кирпича и теплое освещение"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-vip",
+          "name": "VIP-ЗАЛЫ",
+          "nav": "VIP-залы",
+          "prefix": "vip",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/PUB_TAGIL/vip_1_01.webp",
+                  "Приватная VIP-зона"
+                ],
+                [
+                  "images/PUB_TAGIL/vip_1_02.webp",
+                  "Круглый стол и латунные светильники"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/PUB_TAGIL/vip_2_01.webp",
+              "cap": "Камерный лаунж"
+            }
+          ]
+        },
+        {
+          "id": "room-hallway",
+          "name": "ХОЛЛ",
+          "nav": "Холл",
+          "prefix": "hallway",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/PUB_TAGIL/enter_01.webp",
+                  "Входная зона и гардероб"
+                ],
+                [
+                  "images/PUB_TAGIL/enter_02.webp",
+                  "Фрагмент холла"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-wc",
+          "name": "САНУЗЛЫ",
+          "nav": "Санузлы",
+          "prefix": "bath",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/PUB_TAGIL/wc_1_0.webp",
+                  "Гостевой санузел в графитовом камне"
+                ],
+                [
+                  "images/PUB_TAGIL/wc_2_01.webp",
+                  "Раковина и зеркало с контурным светом"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a-frames",
+      "filename": "project-a-frames.html",
+      "folder": "A_FRAMES",
+      "title": "Комплекс A-Frame домов",
+      "cardTitle": "Комплекс A-Frame домов",
+      "metaDesc": "Дизайн-проект интерьеров комплекса загородных домов A-Frame 100 м² на Горе Белой от студии дизайна FERRO DESIGN™.",
+      "ogImage": "https://ferro-design.ru/images/A_FRAMES/cover.webp",
+      "heroDay": "images/A_FRAMES/cover.webp",
+      "heroNight": null,
+      "cardImage": "images/A_FRAMES/cover.webp",
+      "homePeekImage": "images/A_FRAMES/cover.webp",
+      "city": "Гора Белая",
+      "cardCity": "Гора Белая",
+      "mapCity": "Гора Белая",
+      "coords": [
+        57.6565,
+        59.7125
+      ],
+      "specsCategory": "Загородный дом",
+      "filterCategory": "houses",
+      "badgeLabel": "Загородный дом",
+      "area": 100,
+      "year": "2026",
+      "rooms": [
+        {
+          "id": "room-living",
+          "name": "ГОСТИНАЯ",
+          "nav": "Гостиная",
+          "prefix": "living",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/A_FRAMES/cover.webp",
+              "cap": "Общий вид пространства комплекса A-Frame"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/A_FRAMES/living_dark_01.webp",
+                  "Гостиная — темный сценарий"
+                ],
+                [
+                  "images/A_FRAMES/living_light_01.webp",
+                  "Гостиная — светлый сценарий"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/A_FRAMES/living_dark_02.webp",
+                  "Кухня — темный сценарий"
+                ],
+                [
+                  "images/A_FRAMES/living_light_02.webp",
+                  "Кухня — светлый сценарий"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/A_FRAMES/living_dark_03.webp",
+                  "Камерное освещение — темный дом"
+                ],
+                [
+                  "images/A_FRAMES/living_light_03.webp",
+                  "Панорамное остекление — светлый дом"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/A_FRAMES/living_dark_04.webp",
+              "cap": "Чугунный камин на фоне черного металла"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/A_FRAMES/living_light_04.webp",
+                  "Лестница на антресольный этаж"
+                ],
+                [
+                  "images/A_FRAMES/living_light_05.webp",
+                  "Связь интерьера с природным окружением"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/A_FRAMES/living_light_06.webp",
+              "cap": "Мягкая зона отдыха со вторым светом"
+            }
+          ]
+        },
+        {
+          "id": "room-bed-1fl",
+          "name": "СПАЛЬНЯ 1 ЭТАЖА",
+          "nav": "Спальня 1 этажа",
+          "prefix": "bedroom_dark",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/A_FRAMES/bedroom_dark_1fl_01.webp",
+                  "Спальня 1 этажа — темный сценарий"
+                ],
+                [
+                  "images/A_FRAMES/bedroom_light_1fl_01.webp",
+                  "Спальня 1 этажа — светлый сценарий"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/A_FRAMES/bedroom_dark_1fl_02.webp",
+                  "Фактура обожженного дерева"
+                ],
+                [
+                  "images/A_FRAMES/bedroom_light_1fl_02.webp",
+                  "Отделка светлым брусом"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-bed-2fl",
+          "name": "СПАЛЬНЯ 2 ЭТАЖА",
+          "nav": "Спальня 2 этажа",
+          "prefix": "bedroom_dark",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/A_FRAMES/bedroom_dark_2f_01.webp",
+                  "Антресольная спальня — темный сценарий"
+                ],
+                [
+                  "images/A_FRAMES/bedroom_light_2f_01.webp",
+                  "Антресольная спальня — светлый сценарий"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/A_FRAMES/bedroom_dark_2f_02.webp",
+                  "Вид на общее пространство"
+                ],
+                [
+                  "images/A_FRAMES/bedroom_light_2f_02.webp",
+                  "Вид из мансардного окна"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-bath",
+          "name": "САНУЗЕЛ",
+          "nav": "Санузел",
+          "prefix": "bath",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/A_FRAMES/bathroom_dark_01.webp",
+                  "Санузел в темном сланце"
+                ],
+                [
+                  "images/A_FRAMES/bathroom_light_01.webp",
+                  "Санузел в светлом микроцементе"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/A_FRAMES/bathroom_dark_02.webp",
+                  "Раковина с латунным смесителем"
+                ],
+                [
+                  "images/A_FRAMES/bathroom_light_02.webp",
+                  "Душевой отсек с черной сантехникой"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hmao",
+      "filename": "project-hmao.html",
+      "folder": "HMAO",
+      "title": "Частная резиденция ХМАО",
+      "cardTitle": "Частная резиденция ХМАО",
+      "metaDesc": "Дизайн-проект интерьера частного загородного дома 200 м² в Ханты-Мансийске (ХМАО) от студии дизайна FERRO DESIGN™.",
+      "ogImage": "https://ferro-design.ru/images/HMAO/living_01.webp",
+      "heroDay": "images/HMAO/living_01.webp",
+      "heroNight": null,
+      "cardImage": "images/HMAO/living_01.webp",
+      "homePeekImage": "images/HMAO/cover.webp",
+      "city": "Ханты-Мансийск",
+      "cardCity": "Ханты-Мансийск",
+      "mapCity": "Ханты-Мансийск",
+      "coords": [
+        61.0042,
+        69.0019
+      ],
+      "specsCategory": "Загородный дом",
+      "filterCategory": "houses",
+      "badgeLabel": "Загородный дом",
+      "area": 200,
+      "year": "2026",
+      "rooms": [
+        {
+          "id": "room-living",
+          "name": "ГОСТИНАЯ",
+          "nav": "Гостиная",
+          "prefix": "living",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/HMAO/cover.webp",
+              "cap": "Общий вид пространства со вторым светом"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/HMAO/living_01.webp",
+                  "Гостиная со вторым светом"
+                ],
+                [
+                  "images/HMAO/living_02.webp",
+                  "Мягкая зона и камин"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/HMAO/living_03.webp",
+                  "Панорамное остекление гостиной"
+                ],
+                [
+                  "images/HMAO/living_04.webp",
+                  "ТВ-группа в отделке натуральным сланцем"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/HMAO/living_05.webp",
+                  "Обеденная группа на 8 персон"
+                ],
+                [
+                  "images/HMAO/living_06.webp",
+                  "Кухонный остров и встроенные колонны"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/HMAO/ladder_01.webp",
+              "cap": "Архитектурная лестница со стеклянным ограждением"
+            }
+          ]
+        },
+        {
+          "id": "room-hallway",
+          "name": "ХОЛЛ",
+          "nav": "Холл",
+          "prefix": "hallway",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/HMAO/enter_01.webp",
+                  "Входной холл с гардеробными шкафами"
+                ],
+                [
+                  "images/HMAO/enter_02.webp",
+                  "Интегрированная подсветка и зеркало"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/HMAO/enter_03.webp",
+              "cap": "Коридор первого этажа"
+            }
+          ]
+        },
+        {
+          "id": "room-kabinet",
+          "name": "КАБИНЕТ",
+          "nav": "Кабинет",
+          "prefix": "kabinet",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/HMAO/kabinet_01.webp",
+              "cap": "Приватный кабинет владельца"
+            }
+          ]
+        },
+        {
+          "id": "room-master",
+          "name": "МАСТЕР-СПАЛЬНЯ",
+          "nav": "Мастер-спальня",
+          "prefix": "bedroom",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/HMAO/bedroom_01.webp",
+              "cap": "Мастер-спальня с панорамным видом"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/HMAO/bedroom_02.webp",
+                  "Прикроватные подвесы и текстиль"
+                ],
+                [
+                  "images/HMAO/bedroom_03.webp",
+                  "Зона будуара в спальне"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-guest",
+          "name": "ГОСТЕВАЯ СПАЛЬНЯ",
+          "nav": "Гостевая спальня",
+          "prefix": "guest",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/HMAO/guest_01.webp",
+              "cap": "Гостевая спальня"
+            }
+          ]
+        },
+        {
+          "id": "room-kids",
+          "name": "ДЕТСКИЕ КОМНАТЫ",
+          "nav": "Детские",
+          "prefix": "kids",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/HMAO/kids_1_01.webp",
+                  "Первая детская комната"
+                ],
+                [
+                  "images/HMAO/kids_1_02.webp",
+                  "Рабочее место в детской"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/HMAO/kids_2_01.webp",
+                  "Вторая детская комната"
+                ],
+                [
+                  "images/HMAO/kids_2_02.webp",
+                  "Игровая зона и спальное место"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/HMAO/kids_2_03.webp",
+              "cap": "Система хранения игрушек и книг"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sochi",
+      "filename": "project-sochi-kvartira.html",
+      "folder": "SOCHI_KVARTIRA",
+      "title": "Апартаменты в Сочи",
+      "cardTitle": "Апартаменты в Сочи",
+      "metaDesc": "Дизайн-проект интерьера апартаментов 55 м² в Сочи от студии дизайна FERRO DESIGN™.",
+      "ogImage": "https://ferro-design.ru/images/SOCHI_KVARTIRA/bedroom_01.webp",
+      "heroDay": "images/SOCHI_KVARTIRA/bedroom_01.webp",
+      "heroNight": null,
+      "cardImage": "images/SOCHI_KVARTIRA/bedroom_01.webp",
+      "homePeekImage": null,
+      "city": "Сочи",
+      "cardCity": "Сочи",
+      "mapCity": "Сочи",
+      "coords": [
+        43.5855,
+        39.7231
+      ],
+      "specsCategory": "Квартира",
+      "filterCategory": "flats",
+      "badgeLabel": "Жилая квартира",
+      "area": 55,
+      "year": "2026",
+      "rooms": [
+        {
+          "id": "room-living",
+          "name": "ГОСТИНАЯ",
+          "nav": "Гостиная",
+          "prefix": "living",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/SOCHI_KVARTIRA/cover.webp",
+              "cap": "Общий вид пространства"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/SOCHI_KVARTIRA/living_01.webp",
+                  "Гостиная зона"
+                ],
+                [
+                  "images/SOCHI_KVARTIRA/living_02.webp",
+                  "Акцентная зона и детализация"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/SOCHI_KVARTIRA/living_03.webp",
+                  "Фрагмент интерьера гостиной"
+                ],
+                [
+                  "images/SOCHI_KVARTIRA/living_04.webp",
+                  "Детализация гостиной"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-bedroom",
+          "name": "СПАЛЬНЯ",
+          "nav": "Спальня",
+          "prefix": "bedroom",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/SOCHI_KVARTIRA/bedroom_01.webp",
+                  "Спальная зона"
+                ],
+                [
+                  "images/SOCHI_KVARTIRA/bedroom_02.webp",
+                  "Прикроватная зона и освещение"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/SOCHI_KVARTIRA/bedroom_03.webp",
+              "cap": "Общий ракурс спальни"
+            }
+          ]
+        },
+        {
+          "id": "room-hallway",
+          "name": "ПРИХОЖАЯ",
+          "nav": "Прихожая",
+          "prefix": "hallway",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/SOCHI_KVARTIRA/enter_01.webp",
+              "cap": "Входная группа и гардеробная"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "andr-fateevo",
+      "filename": "project-andr-fateevo.html",
+      "folder": "ANDR_FATEEVO",
+      "title": "Коттедж в Фотеево",
+      "cardTitle": "Коттедж в Фотеево",
+      "metaDesc": "Дизайн-проект интерьера загородного коттеджа 152 м² в пос. Фотеево (Свердловская обл.) от студии дизайна FERRO DESIGN™.",
+      "ogImage": "https://ferro-design.ru/images/ANDR_FATEEVO/cover.webp",
+      "heroDay": "images/ANDR_FATEEVO/cover.webp",
+      "heroNight": null,
+      "cardImage": "images/ANDR_FATEEVO/cover.webp",
+      "homePeekImage": null,
+      "city": "пос. Фотеево",
+      "cardCity": "Фотеево",
+      "mapCity": "к/с Фотеево",
+      "coords": [
+        57.878444,
+        59.969552
+      ],
+      "specsCategory": "Загородный дом",
+      "filterCategory": "houses",
+      "badgeLabel": "Загородный дом",
+      "area": 152,
+      "year": "2026",
+      "rooms": [
+        {
+          "id": "room-living",
+          "name": "ГОСТИНАЯ И КУХНЯ",
+          "nav": "Гостиная",
+          "prefix": "living",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/ANDR_FATEEVO/cover.webp",
+              "cap": "Общий вид пространства кухни-гостиной"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/ANDR_FATEEVO/living_02.webp",
+                  "Обеденная зона и панорамный вид"
+                ],
+                [
+                  "images/ANDR_FATEEVO/living_03.webp",
+                  "Кухонный остров и столовая"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/ANDR_FATEEVO/living_04.webp",
+                  "Встроенные кухонные колонны"
+                ],
+                [
+                  "images/ANDR_FATEEVO/living_05.webp",
+                  "ТВ-панель со скрытой подсветкой"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-hallway",
+          "name": "ХОЛЛ",
+          "nav": "Холл",
+          "prefix": "hallway",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/ANDR_FATEEVO/enter_01.webp",
+                  "Входной холл"
+                ],
+                [
+                  "images/ANDR_FATEEVO/enter_02.webp",
+                  "Гардеробная группа и зеркало"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-kabinet",
+          "name": "КАБИНЕТ",
+          "nav": "Кабинет",
+          "prefix": "kabinet",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/ANDR_FATEEVO/kabinet_01.webp",
+                  "Рабочий кабинет"
+                ],
+                [
+                  "images/ANDR_FATEEVO/kabinet_02.webp",
+                  "Письменный стол и стеллаж"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/ANDR_FATEEVO/kabinet_03.webp",
+              "cap": "Диванная зона в кабинете"
+            }
+          ]
+        },
+        {
+          "id": "room-guest-bath",
+          "name": "ГОСТЕВОЙ САНУЗЕЛ",
+          "nav": "Гостевой санузел",
+          "prefix": "guestbath",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/ANDR_FATEEVO/enter_bath_01.webp",
+                  "Гостевой санузел первого этажа"
+                ],
+                [
+                  "images/ANDR_FATEEVO/enter_bath_02.webp",
+                  "Раковина с подсветкой"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-master",
+          "name": "МАСТЕР-СПАЛЬНЯ",
+          "nav": "Мастер-спальня",
+          "prefix": "bedroom",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/ANDR_FATEEVO/bedroom_01.webp",
+                  "Мастер-спальня"
+                ],
+                [
+                  "images/ANDR_FATEEVO/bedroom_02.webp",
+                  "Прикроватная группа и текстиль"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/ANDR_FATEEVO/masterbath_01.webp",
+                  "Ванная комната при спальне"
+                ],
+                [
+                  "images/ANDR_FATEEVO/masterbath_02.webp",
+                  "Душевая зона и стеклянная перегородка"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/ANDR_FATEEVO/masterbath_03.webp",
+              "cap": "Двойная раковина и зеркало с подсветкой"
+            }
+          ]
+        },
+        {
+          "id": "room-kids",
+          "name": "ДЕТСКАЯ И САНУЗЕЛ",
+          "nav": "Детская",
+          "prefix": "kids",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/ANDR_FATEEVO/kids_01.webp",
+                  "Детская комната"
+                ],
+                [
+                  "images/ANDR_FATEEVO/kids_02.webp",
+                  "Письменный стол и стеллажи"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/ANDR_FATEEVO/kids_03.webp",
+                  "Спальная зона в детской"
+                ],
+                [
+                  "images/ANDR_FATEEVO/kids_04.webp",
+                  "Система хранения в детской"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/ANDR_FATEEVO/kids_bathrooom_01.webp",
+                  "Детский санузел"
+                ],
+                [
+                  "images/ANDR_FATEEVO/kids_bathrooom_02.webp",
+                  "Раковина и зеркало в детском санузле"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gorbunovo",
+      "filename": "project-gorbunovo-2fl.html",
+      "folder": "GORBUNOVO_2FL",
+      "title": "Дом в Горбуново",
+      "cardTitle": "Дом в Горбуново",
+      "metaDesc": "Дизайн-проект интерьера двухэтажного загородного дома 200 м² в пос. Горбуново от студии дизайна FERRO DESIGN™.",
+      "ogImage": "https://ferro-design.ru/images/GORBUNOVO_2FL/cover.webp",
+      "heroDay": "images/GORBUNOVO_2FL/cover.webp",
+      "heroNight": null,
+      "cardImage": "images/GORBUNOVO_2FL/cover.webp",
+      "homePeekImage": null,
+      "city": "Горбуново",
+      "cardCity": "Горбуново",
+      "mapCity": "Горбуново",
+      "coords": [
+        57.851735,
+        59.936323
+      ],
+      "specsCategory": "Загородный дом",
+      "filterCategory": "houses",
+      "badgeLabel": "Загородный дом",
+      "area": 200,
+      "year": "2026",
+      "rooms": [
+        {
+          "id": "room-living",
+          "name": "ГОСТИНАЯ И КУХНЯ",
+          "nav": "Гостиная",
+          "prefix": "living",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/GORBUNOVO_2FL/cover.webp",
+              "cap": "Общий вид пространства"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/GORBUNOVO_2FL/living_01.webp",
+                  "Гостиная зона с мягкой группой"
+                ],
+                [
+                  "images/GORBUNOVO_2FL/living_02.webp",
+                  "Обеденная зона и кухня"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/GORBUNOVO_2FL/living_03.webp",
+                  "ТВ-группа с каминной зоной"
+                ],
+                [
+                  "images/GORBUNOVO_2FL/living_04.webp",
+                  "Архитектурная лестница"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-hallway",
+          "name": "ПРИХОЖАЯ",
+          "nav": "Прихожая",
+          "prefix": "hallway",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/GORBUNOVO_2FL/enter_01.webp",
+                  "Входной холл"
+                ],
+                [
+                  "images/GORBUNOVO_2FL/enter_02.webp",
+                  "Встроенные гардеробные системы"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-bedrooms",
+          "name": "СПАЛЬНЯ",
+          "nav": "Спальня",
+          "prefix": "bedroom",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/GORBUNOVO_2FL/bedroom_01.webp",
+                  "Мастер-спальня"
+                ],
+                [
+                  "images/GORBUNOVO_2FL/bedroom_02.webp",
+                  "Изголовье кровати и светильники"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/GORBUNOVO_2FL/bedroom_03.webp",
+                  "Гостевая спальня"
+                ],
+                [
+                  "images/GORBUNOVO_2FL/bedroom_04.webp",
+                  "Рабочее место в спальне"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/GORBUNOVO_2FL/bedroom_05.webp",
+              "cap": "Перспективный вид спальни второго этажа"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "artu-40m2",
+      "filename": "project-artu-40m2.html",
+      "folder": "ARTU_40M2",
+      "title": "Апартаменты в городе Екатеринбург",
+      "cardTitle": "Апартаменты в городе Екатеринбург",
+      "metaDesc": "Дизайн-проект интерьера апартаментов 40 м² в городе Екатеринбург от студии дизайна FERRO DESIGN™.",
+      "ogImage": "https://ferro-design.ru/images/ARTU_40M2/living_01.webp",
+      "heroDay": "images/ARTU_40M2/living_01.webp",
+      "heroNight": null,
+      "cardImage": "images/ARTU_40M2/living_01.webp",
+      "homePeekImage": null,
+      "city": "Екатеринбург",
+      "cardCity": "Екатеринбург",
+      "mapCity": "Екатеринбург",
+      "coords": [
+        56.8373,
+        60.5793
+      ],
+      "specsCategory": "Квартира",
+      "filterCategory": "flats",
+      "badgeLabel": "Жилая квартира",
+      "area": 40,
+      "year": "2026",
+      "rooms": [
+        {
+          "id": "room-living",
+          "name": "ГОСТИНАЯ И КУХНЯ",
+          "nav": "Гостиная",
+          "prefix": "living",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/ARTU_40M2/cover.webp",
+              "cap": "Общий вид пространства"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/ARTU_40M2/living_01.webp",
+                  "Гостиная зона с раскладным диваном"
+                ],
+                [
+                  "images/ARTU_40M2/living_02.webp",
+                  "Кухонная зона и обеденный стол"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/ARTU_40M2/living_03.webp",
+                  "ТВ-группа со скрытыми полками"
+                ],
+                [
+                  "images/ARTU_40M2/living_04.webp",
+                  "Встроенная техника и кухонный фронт"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-bedroom",
+          "name": "СПАЛЬНЯ",
+          "nav": "Спальня",
+          "prefix": "bedroom",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/ARTU_40M2/bedroom_01.webp",
+                  "Приватная спальная зона"
+                ],
+                [
+                  "images/ARTU_40M2/bedroom_02.webp",
+                  "Прикроватные подвесы и текстура стен"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/ARTU_40M2/bedroom_03.webp",
+              "cap": "Шкафная группа в спальне"
+            }
+          ]
+        },
+        {
+          "id": "room-hallway",
+          "name": "ХОЛЛ",
+          "nav": "Холл",
+          "prefix": "hallway",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/ARTU_40M2/enter_01.webp",
+                  "Входной холл с ростовым зеркалом"
+                ],
+                [
+                  "images/ARTU_40M2/enter_02.webp",
+                  "Входной шкаф со скрытой подсветкой"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/ARTU_40M2/enter_03.webp",
+              "cap": "Переход в жилое пространство"
+            }
+          ]
+        },
+        {
+          "id": "room-bath",
+          "name": "САНУЗЕЛ",
+          "nav": "Санузел",
+          "prefix": "bath",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/ARTU_40M2/bath_01.webp",
+                  "Санузел в теплой гамме"
+                ],
+                [
+                  "images/ARTU_40M2/bath_02.webp",
+                  "Душевая перегородка и сантехника"
+                ]
+              ]
+            },
+            {
+              "type": "full_compact",
+              "src": "images/ARTU_40M2/bath_03.webp",
+              "cap": "Раковина с подвесной тумбой и подсветкой"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kris-ggm",
+      "filename": "project-kris-ggm.html",
+      "folder": "KRIS_GGM",
+      "title": "Частная резиденция в Нижнем Тагиле",
+      "cardTitle": "Частная резиденция в Нижнем Тагиле",
+      "metaDesc": "Дизайн-проект интерьера частной резиденции 200 м² в Нижнем Тагиле от студии дизайна FERRO DESIGN™.",
+      "ogImage": "https://ferro-design.ru/images/KRIS_GGM/living_01.webp",
+      "heroDay": "images/KRIS_GGM/living_01.webp",
+      "heroNight": null,
+      "cardImage": "images/KRIS_GGM/living_01.webp",
+      "homePeekImage": null,
+      "city": "Нижний Тагил",
+      "cardCity": "Нижний Тагил",
+      "mapCity": "Нижний Тагил (Фотеево)",
+      "coords": [
+        57.8745,
+        59.963
+      ],
+      "specsCategory": "Загородный дом",
+      "filterCategory": "houses",
+      "badgeLabel": "Загородный дом",
+      "area": 200,
+      "year": "2026",
+      "rooms": [
+        {
+          "id": "room-living",
+          "name": "ГОСТИНАЯ И СТОЛОВАЯ",
+          "nav": "Гостиная",
+          "prefix": "living",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/KRIS_GGM/cover.webp",
+              "cap": "Общий вид пространства"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/KRIS_GGM/living_01.webp",
+                  "Гостиная зона с камином"
+                ],
+                [
+                  "images/KRIS_GGM/living_02.webp",
+                  "Обеденная зона и кухня"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/KRIS_GGM/living_03.webp",
+                  "ТВ-группа с подсветкой"
+                ],
+                [
+                  "images/KRIS_GGM/ladder_01.webp",
+                  "Архитектурная лестница"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-fl2",
+          "name": "ВТОРОЙ ЭТАЖ",
+          "nav": "Второй этаж",
+          "prefix": "fl",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/KRIS_GGM/fl2_01.webp",
+                  "Холл второго этажа"
+                ],
+                [
+                  "images/KRIS_GGM/fl2_02.webp",
+                  "Зона отдыха второго этажа"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/KRIS_GGM/fl2_03.webp",
+              "cap": "Приватный коридор"
+            }
+          ]
+        },
+        {
+          "id": "room-kabinet",
+          "name": "КАБИНЕТ",
+          "nav": "Кабинет",
+          "prefix": "kabinet",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/KRIS_GGM/kabinet_01.webp",
+                  "Рабочий кабинет"
+                ],
+                [
+                  "images/KRIS_GGM/kabinet_02.webp",
+                  "Письменный стол и стеллажи"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/KRIS_GGM/kabinet_03.webp",
+              "cap": "Диванная зона в кабинете"
+            }
+          ]
+        },
+        {
+          "id": "room-master",
+          "name": "МАСТЕР-СПАЛЬНЯ",
+          "nav": "Мастер-спальня",
+          "prefix": "bedroom",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/KRIS_GGM/bedroom_01.webp",
+                  "Мастер-спальня"
+                ],
+                [
+                  "images/KRIS_GGM/bedroom_02.webp",
+                  "Изголовье кровати и подвесы"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/KRIS_GGM/bedroom_03.webp",
+                  "Шкафная группа с подсветкой"
+                ],
+                [
+                  "images/KRIS_GGM/bedroom_04.webp",
+                  "Общий вид спальни"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-kids-1",
+          "name": "ПЕРВАЯ ДЕТСКАЯ",
+          "nav": "Детская 1",
+          "prefix": "kids",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/KRIS_GGM/kids_1_01.webp",
+                  "Первая детская комната"
+                ],
+                [
+                  "images/KRIS_GGM/kids_1_02.webp",
+                  "Учебное место и система полок"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/KRIS_GGM/kids_1_03.webp",
+              "cap": "Спальная зона в первой детской"
+            }
+          ]
+        },
+        {
+          "id": "room-kids-2",
+          "name": "ВТОРАЯ ДЕТСКАЯ",
+          "nav": "Детская 2",
+          "prefix": "kids",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/KRIS_GGM/kids_2_01.webp",
+                  "Вторая детская комната"
+                ],
+                [
+                  "images/KRIS_GGM/kids_2_02.webp",
+                  "Рабочее место во второй детской"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/KRIS_GGM/kids_2_03.webp",
+              "cap": "Встроенные шкафы"
+            }
+          ]
+        },
+        {
+          "id": "room-bath-1",
+          "name": "ОСНОВНАЯ ВАННАЯ",
+          "nav": "Ванная 1",
+          "prefix": "bathroom",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/KRIS_GGM/bathroom_1_01.webp",
+                  "Основная ванная комната"
+                ],
+                [
+                  "images/KRIS_GGM/bathroom_1_02.webp",
+                  "Отдельностоящая ванна"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/KRIS_GGM/bathroom_1_03.webp",
+                  "Душевая перегородка"
+                ],
+                [
+                  "images/KRIS_GGM/bathroom_1_04.webp",
+                  "Двойная раковина с подсветкой"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/KRIS_GGM/bathroom_1_05.webp",
+                  "Инсталляция и скрытые шкафы"
+                ],
+                [
+                  "images/KRIS_GGM/bathroom_1_06.webp",
+                  "Детали керамогранита"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-bath-2",
+          "name": "ВТОРОЙ САНУЗЕЛ",
+          "nav": "Санузел 2",
+          "prefix": "bathroom",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/KRIS_GGM/bathroom_2_01.webp",
+                  "Второй санузел в теплом камне"
+                ],
+                [
+                  "images/KRIS_GGM/bathroom_2_02.webp",
+                  "Душевой отсек с нишей"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/KRIS_GGM/bathroom_2_03.webp",
+                  "Консольная раковина с подсветкой"
+                ],
+                [
+                  "images/KRIS_GGM/bathroom_2_04.webp",
+                  "Подвесной унитаз и латунные аксессуары"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "banniy-kompl",
+      "filename": "project-banniy-kompl.html",
+      "folder": "BANNIY_KOMPL",
+      "title": "Банный комплекс",
+      "cardTitle": "Банный комплекс",
+      "metaDesc": "Дизайн-проект интерьера загородного банного комплекса 55 м² в г. Нижняя Салда от студии дизайна FERRO DESIGN™.",
+      "ogImage": "https://ferro-design.ru/images/BANNIY_KOMPL/cover.webp",
+      "heroDay": "images/BANNIY_KOMPL/cover.webp",
+      "heroNight": null,
+      "cardImage": "images/BANNIY_KOMPL/cover.webp",
+      "homePeekImage": null,
+      "city": "Нижняя Салда",
+      "cardCity": "Нижняя Салда",
+      "mapCity": "Нижняя Салда",
+      "coords": [
+        58.0772,
+        60.7225
+      ],
+      "specsCategory": "Загородный дом",
+      "filterCategory": "houses",
+      "badgeLabel": "Загородный дом",
+      "area": 55,
+      "year": "2026",
+      "rooms": [
+        {
+          "id": "room-lounge",
+          "name": "ГОСТИНАЯ И ЛАУНЖ",
+          "nav": "Гостиная",
+          "prefix": "living",
+          "items": [
+            {
+              "type": "full",
+              "src": "images/BANNIY_KOMPL/cover.webp",
+              "cap": "Общий вид пространства"
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/BANNIY_KOMPL/living_01.webp",
+                  "Гостиная зона отдыха"
+                ],
+                [
+                  "images/BANNIY_KOMPL/living_02.webp",
+                  "Каминная группа и текстиль"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/BANNIY_KOMPL/living_03.webp",
+                  "Обеденный стол из слэба"
+                ],
+                [
+                  "images/BANNIY_KOMPL/living_04.webp",
+                  "Фактура дерева и теплое освещение"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-steam",
+          "name": "ПАРНАЯ",
+          "nav": "Парная",
+          "prefix": "banya",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/BANNIY_KOMPL/banya_01.webp",
+                  "Парная из кедра с подсветкой пологов"
+                ],
+                [
+                  "images/BANNIY_KOMPL/banya_02.webp",
+                  "Банная печь в облицовке талькохлоритом"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-bath",
+          "name": "ДУШЕВАЯ И САНУЗЕЛ",
+          "nav": "Душевая и санузел",
+          "prefix": "bath",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/BANNIY_KOMPL/bath_1_01.webp",
+                  "Душевая зона с обливным ведром"
+                ],
+                [
+                  "images/BANNIY_KOMPL/bath_1_02.webp",
+                  "Облицовка скальным камнем"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/BANNIY_KOMPL/bath_2_01.webp",
+                  "Гостевой санузел комплекса"
+                ],
+                [
+                  "images/BANNIY_KOMPL/bath_2_02.webp",
+                  "Раковина из цельного валуна"
+                ]
+              ]
+            },
+            {
+              "type": "full_compact",
+              "src": "images/BANNIY_KOMPL/bath_2_03.webp",
+              "cap": "Зеркало с фоновой подсветкой и латунная сантехника"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tagil-sergey",
+      "filename": "project-tagil-sergey.html",
+      "folder": "TAGIL_SERGEY",
+      "title": "Загородный дом в Нижнем Тагиле",
+      "cardTitle": "Загородный дом в Нижнем Тагиле",
+      "metaDesc": "Дизайн-проект интерьера загородного дома 160 м² в Нижнем Тагиле от студии дизайна FERRO DESIGN™.",
+      "ogImage": "https://ferro-design.ru/images/TAGIL_SERGEY/cover.webp",
+      "heroDay": "images/TAGIL_SERGEY/cover.webp",
+      "heroNight": null,
+      "cardImage": "images/TAGIL_SERGEY/cover.webp",
+      "homePeekImage": null,
+      "city": "Нижний Тагил",
+      "cardCity": "Нижний Тагил",
+      "mapCity": "Нижний Тагил (Фотеево)",
+      "coords": [
+        57.8815,
+        59.974
+      ],
+      "specsCategory": "Загородный дом",
+      "filterCategory": "houses",
+      "badgeLabel": "Загородный дом",
+      "area": 160,
+      "year": "2026",
+      "rooms": [
+        {
+          "id": "room-living",
+          "name": "ГОСТИНАЯ И СТОЛОВАЯ",
+          "nav": "Гостиная",
+          "prefix": "living",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/TAGIL_SERGEY/living_01.webp",
+                  "Гостиная зона с камином"
+                ],
+                [
+                  "images/TAGIL_SERGEY/living_02.webp",
+                  "Обеденная зона и кухня"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/TAGIL_SERGEY/living_03.webp",
+                  "ТВ-группа со скрытыми системами"
+                ],
+                [
+                  "images/TAGIL_SERGEY/living_04.webp",
+                  "Кухонный гарнитур и остров"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/TAGIL_SERGEY/living_05.webp",
+                  "Фактура керамогранита и дерево"
+                ],
+                [
+                  "images/TAGIL_SERGEY/living_06.webp",
+                  "Остров и барные стулья"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/TAGIL_SERGEY/living_07.webp",
+              "cap": "Общий ракурс гостиной зоны"
+            }
+          ]
+        },
+        {
+          "id": "room-hallway",
+          "name": "ХОЛЛ И ПРИХОЖАЯ",
+          "nav": "Холл",
+          "prefix": "hallway",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/TAGIL_SERGEY/enter_01.webp",
+                  "Входная группа со встроенными шкафами"
+                ],
+                [
+                  "images/TAGIL_SERGEY/enter_02.webp",
+                  "Ростовое зеркало с подсветкой"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/TAGIL_SERGEY/enter_03.webp",
+                  "Холл с распашными дверьми"
+                ],
+                [
+                  "images/TAGIL_SERGEY/koridor_01.webp",
+                  "Приватный коридор"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-kabinet",
+          "name": "КАБИНЕТ",
+          "nav": "Кабинет",
+          "prefix": "kabinet",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/TAGIL_SERGEY/kabinet_01.webp",
+                  "Рабочий стол и стеллажи"
+                ],
+                [
+                  "images/TAGIL_SERGEY/kabinet_02.webp",
+                  "ТВ-зона и мягкий диван"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-master-bed",
+          "name": "МАСТЕР-СПАЛЬНЯ",
+          "nav": "Спальня",
+          "prefix": "bedroom",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/TAGIL_SERGEY/bedroom_01.webp",
+                  "Мастер-спальня с мягким изголовьем"
+                ],
+                [
+                  "images/TAGIL_SERGEY/bedroom_02.webp",
+                  "Прикроватная группа и подвесы"
+                ]
+              ]
+            },
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/TAGIL_SERGEY/bedroom_03.webp",
+                  "ТВ-зона в спальне"
+                ],
+                [
+                  "images/TAGIL_SERGEY/bedroom_04.webp",
+                  "Встроенный гардеробный фронт"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-master-bath",
+          "name": "ВАННАЯ КОМНАТА",
+          "nav": "Ванная",
+          "prefix": "bath",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/TAGIL_SERGEY/masterbath_01.webp",
+                  "Ванная комната в теплом камне"
+                ],
+                [
+                  "images/TAGIL_SERGEY/masterbath_02.webp",
+                  "Душевая перегородка и ниша"
+                ]
+              ]
+            },
+            {
+              "type": "full",
+              "src": "images/TAGIL_SERGEY/masterbath_03.webp",
+              "cap": "Консольная тумба с двойной раковиной"
+            }
+          ]
+        },
+        {
+          "id": "room-kids",
+          "name": "ДЕТСКАЯ КОМНАТА",
+          "nav": "Детская",
+          "prefix": "kids",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/TAGIL_SERGEY/kid_01.webp",
+                  "Детская комната со встроенным шкафом"
+                ],
+                [
+                  "images/TAGIL_SERGEY/kid_02.webp",
+                  "Рабочее место и ТВ-зона"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-kid-bath",
+          "name": "ДЕТСКИЙ САНУЗЕЛ",
+          "nav": "Детский санузел",
+          "prefix": "kid_bath",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/TAGIL_SERGEY/kid_bath_01.webp",
+                  "Детский санузел с круглой подсветкой"
+                ],
+                [
+                  "images/TAGIL_SERGEY/kid_bath_02.webp",
+                  "Душевая зона"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "room-guest-bath",
+          "name": "ГОСТЕВОЙ САНУЗЕЛ",
+          "nav": "Гостевой санузел",
+          "prefix": "guestbath",
+          "items": [
+            {
+              "type": "diptych",
+              "items": [
+                [
+                  "images/TAGIL_SERGEY/guest_bath_01.webp",
+                  "Гостевой санузел в графитовой гамме"
+                ],
+                [
+                  "images/TAGIL_SERGEY/guest_bath_02.webp",
+                  "Подвесная сантехника и свет"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
