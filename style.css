@@ -495,7 +495,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
 
 
 /* ============================================================
-   КНОПКА «ОСТАВИТЬ ЗАЯВКУ»: МАТОВОЕ СТЕКЛО (GLASSMORPHISM)
+   КНОПКА «ОБСУДИТЬ ПРОЕКТ»: ДЕТАЛИЗИРОВАННОЕ КРИСТАЛЬНОЕ СТЕКЛО (GLASSMORPHISM)
 ============================================================ */
 .btn-outline-minimal,
 .btn-outline-custom {
@@ -509,44 +509,77 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--brand-gray); /* Фирменный цвет логотипа var(--brand-gray) */
+  color: var(--brand-gray); /* Фирменный темно-серый цвет */
   
-  /* Стеклянная фактура: размытие фона + полупрозрачная молочная вуаль */
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  /* Стеклянная фактура: размытие фона + благородный шелковистый градиент преломления */
+  background: linear-gradient(
+    180deg, 
+    rgba(255, 255, 255, 0.82) 0%, 
+    rgba(255, 255, 255, 0.50) 55%, 
+    rgba(245, 243, 238, 0.60) 100%
+  );
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
   
-  /* Стеклянная фаска и глубина линзы */
+  /* Кристальный стеклянный край: контрастная фаска, двухуровневый блик и глубина линзы */
   border: 1px solid rgba(255, 255, 255, 0.95);
   border-radius: 9999px;
   box-shadow: 
-    0 4px 16px rgba(0, 0, 0, 0.06),
-    inset 0 1px 2px rgba(255, 255, 255, 0.95),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.04);
+    0 8px 24px -4px rgba(67, 66, 66, 0.16),
+    0 2px 6px rgba(0, 0, 0, 0.04),
+    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 1),
+    inset 0 -1.5px 2px 0 rgba(67, 66, 66, 0.12),
+    inset 0 0 14px rgba(255, 255, 255, 0.45);
   
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   text-decoration: none;
+  animation: btnGlassPulse 4s ease-in-out infinite;
 }
 
-/* Зацикленный световой блик по поверхности стекла (каждые 3.8 с) */
+/* Деликатное дыхание объема кнопки, приглашающее пользователя к нажатию */
+@keyframes btnGlassPulse {
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow: 
+      0 8px 24px -4px rgba(67, 66, 66, 0.16),
+      0 2px 6px rgba(0, 0, 0, 0.04),
+      inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 1),
+      inset 0 -1.5px 2px 0 rgba(67, 66, 66, 0.12),
+      inset 0 0 14px rgba(255, 255, 255, 0.45);
+  }
+  50% {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 12px 28px -4px rgba(67, 66, 66, 0.22),
+      0 4px 10px rgba(0, 0, 0, 0.06),
+      inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 1),
+      inset 0 -1.5px 2px 0 rgba(67, 66, 66, 0.14),
+      inset 0 0 18px rgba(255, 255, 255, 0.65);
+  }
+}
+
+/* Выразительный скользящий световой луч по поверхности стекла с мягким ореолом */
 .btn-outline-minimal::after {
   content: '';
   position: absolute;
   top: -60%;
   left: -130%;
-  width: 50%;
+  width: 60%;
   height: 220%;
   background: linear-gradient(
-    115deg,
+    110deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.15) 20%,
-    rgba(255, 255, 255, 0.95) 50%,
-    rgba(255, 255, 255, 0.15) 80%,
+    rgba(255, 255, 255, 0) 20%,
+    rgba(255, 255, 255, 0.65) 42%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(255, 255, 255, 0.65) 58%,
+    rgba(255, 255, 255, 0) 80%,
     transparent 100%
   );
-  transform: rotate(25deg);
+  transform: rotate(24deg);
   pointer-events: none;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.95));
   animation: btnGleamLoop 3.8s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
 }
 
@@ -572,25 +605,29 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   }
 }
 
-/* Наведение: кнопка наливается чистым светом и мягко всплывает */
+/* Наведение: кнопка наливается чистым белым светом и мягко всплывает */
 .btn-outline-minimal:hover,
 .btn-outline-custom:hover {
-  background: rgba(255, 255, 255, 0.92);
-  color: #000000;
+  animation-play-state: paused;
+  background: rgba(255, 255, 255, 0.96);
+  color: #0d0d0d;
   border-color: #ffffff;
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.02);
   box-shadow: 
-    0 8px 24px rgba(0, 0, 0, 0.12),
-    inset 0 1px 2px #ffffff;
+    0 16px 36px -4px rgba(67, 66, 66, 0.26),
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 2px 2px #ffffff,
+    inset 0 -1px 2px rgba(67, 66, 66, 0.15);
 }
 
-/* Зажатие при клике */
+/* Зажатие при клике: упругий клик с обратной связью */
 .btn-outline-minimal:active,
 .btn-outline-custom:active {
-  transform: translateY(0);
+  animation-play-state: paused;
+  transform: translateY(1px) scale(0.98);
   box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.08),
-    inset 0 1px 1px rgba(0, 0, 0, 0.1);
+    0 4px 12px rgba(67, 66, 66, 0.14),
+    inset 0 1px 2px rgba(0, 0, 0, 0.12);
 }
 
 
