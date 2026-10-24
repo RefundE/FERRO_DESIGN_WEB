@@ -14,12 +14,22 @@ window.AdminState = {
   activeTab: 'tab-texts',
   activeTextPage: 'page-home',
   activeProjectId: 'project-makarovsky',
-  githubToken: localStorage.getItem('ferro_gh_token') || '',
-  githubRepo: localStorage.getItem('ferro_gh_repo') || 'refunde/FERRO_DESIGN_WEB',
-  githubBranch: localStorage.getItem('ferro_gh_branch') || 'main',
+  githubToken: (localStorage.getItem('ferro_gh_token') || '').trim(),
+  githubRepo: (localStorage.getItem('ferro_gh_repo') || 'RefundE/FERRO_DESIGN_WEB').trim(),
+  githubBranch: (localStorage.getItem('ferro_gh_branch') || 'main').trim(),
   publishLockUntil: parseInt(localStorage.getItem('ferro_publish_lock_until') || '0', 10),
-  newFilesMap: new Map()
+  newFilesMap: new Map(),
+  hasUnsavedChanges: false
 };
+
+// Защита от потери несохранённых данных при случайном закрытии вкладки
+window.addEventListener('beforeunload', (e) => {
+  if (window.AdminState && (window.AdminState.hasUnsavedChanges || window.AdminState.newFilesMap.size > 0)) {
+    e.preventDefault();
+    e.returnValue = 'У вас есть несохранённые или неопубликованные изменения. Вы уверены, что хотите закрыть страницу?';
+    return e.returnValue;
+  }
+});
 
 document.addEventListener('DOMContentLoaded', async () => {
   initNavigation();
@@ -1853,7 +1863,17 @@ async function handleSitePublication() {
     const refRes = await fetch(`https://api.github.com/repos/${repo}/git/refs/heads/${branch}`, {
       headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
     });
-    if (!refRes.ok) throw new Error(`Не удалось получить ветку ${branch}: ${refRes.statusText}`);
+    if (!refRes.ok) {
+      if (refRes.status === 401) {
+        throw new Error('Ошибка 401 (Unauthorized): Неверный GitHub токен. Проверьте токен в настройках API (шестерёнка в шапке).');
+      } else if (refRes.status === 404) {
+        throw new Error(`Ошибка 404 (Not Found): Репозиторий "${repo}" или ветка "${branch}" не найдены, либо у токена нет прав. Убедитесь, что токен создан с галочкой "repo".`);
+      } else if (refRes.status === 403) {
+        throw new Error('Ошибка 403 (Forbidden): Превышен лимит запросов GitHub API или доступ заблокирован.');
+      } else {
+        throw new Error(`Не удалось подключиться к GitHub (${refRes.status}): ${refRes.statusText}`);
+      }
+    }
     const refData = await refRes.json();
     const latestCommitSha = refData.object.sha;
 
@@ -1966,7 +1986,8 @@ async function handleSitePublication() {
 
     window.AdminState.newFilesMap.clear();
 
-    window.AdminState.publishLockUntil = Date.now() + 10 * 60 * 1000;
+    window.AdminState.publishLockUntil = Date.now() + 60 * 1000;
+    window.AdminState.hasUnsavedChanges = false;
     localStorage.setItem('ferro_publish_lock_until', String(window.AdminState.publishLockUntil));
 
     closeModal('modalPublishConfirm');
@@ -2143,9 +2164,35 @@ const CRC_TABLE = (() => {
 
 async function loadSiteContent() {
   try {
-    const res = await fetch('../data/site-content.json');
-    if (!res.ok) throw new Error('Не удалось загрузить data/site-content.json');
-    const data = await res.json();
+    let data = null;
+    try {
+      const res = await fetch('../data/site-content.json');
+      if (res.ok) {
+        data = await res.json();
+      }
+    } catch (localErr) {
+      console.warn('Локальный fetch заблокирован браузером (file://). Пробуем загрузку из GitHub...', localErr);
+    }
+
+    if (!data) {
+      const repo = window.AdminState.githubRepo || 'RefundE/FERRO_DESIGN_WEB';
+      const branch = window.AdminState.githubBranch || 'main';
+      const ghUrl = `https://raw.githubusercontent.com/${repo}/${branch}/data/site-content.json?t=${Date.now()}`;
+      try {
+        const ghRes = await fetch(ghUrl);
+        if (ghRes.ok) {
+          data = await ghRes.json();
+          showToast('Данные успешно загружены из репозитория GitHub', 'info');
+        }
+      } catch (ghErr) {
+        console.warn('GitHub raw fallback fetch error:', ghErr);
+      }
+    }
+
+    if (!data) {
+      throw new Error('Не удалось загрузить data/site-content.json. Откройте админку через локальный сервер (Live Server) или по адресу https://ferro-design.ru/admin/');
+    }
+
     window.AdminState.data = data;
 
     const totalRooms = data.projects.reduce((acc, p) => acc + (p.rooms ? p.rooms.length : 0), 0);
@@ -2903,15 +2950,31 @@ function createRenderCard(src, cap, layoutType, itemIdx, subIdx, room, proj) {
   return card;
 }
 
+function transliterateSlug(str) {
+  const ruMap = {
+    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo', 'ж': 'zh',
+    'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o',
+    'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts',
+    'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya'
+  };
+  return String(str || '')
+    .toLowerCase()
+    .split('')
+    .map(c => ruMap[c] !== undefined ? ruMap[c] : c)
+    .join('')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '') || `case-${Date.now()}`;
+}
+
 function createNewProjectDialog() {
   const title = prompt('Введите название нового проекта (например: ЖК «Кандинский»):');
   if (!title || !title.trim()) return;
 
-  const slug = title.toLowerCase().replace(/[^a-zа-я0-9]/gi, '-').replace(/-+/g, '-');
+  const slug = transliterateSlug(title);
   const newProj = {
     id: `project-${Date.now()}`,
     filename: `project-${slug}.html`,
-    folder: slug.toUpperCase(),
+    folder: slug.toUpperCase().replace(/-/g, '_'),
     title: title.trim(),
     cardTitle: title.trim(),
     city: 'Екатеринбург',

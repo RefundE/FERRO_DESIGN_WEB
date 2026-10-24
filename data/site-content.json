@@ -3,11 +3,12 @@
     "hero": {
       "title": "FERRO DESIGN",
       "description": "Разрабатываем современный дизайн жилых и коммерческих помещений в Екатеринбурге",
-      "btnText": "Оставить заявку",
+      "btnText": "Обсудить проект",
       "slides": [
         "images/COVER_MAIN/cover_main_makarovski.webp",
         "images/COVER_MAIN/cover_main_nekrasova.webp"
-      ]
+      ],
+      "buttonText": "Обсудить проект"
     },
     "services": [
       {
