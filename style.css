@@ -413,6 +413,7 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   flex-wrap: nowrap !important;
   white-space: nowrap !important;
   flex-shrink: 0;
+  transform: translateY(clamp(6px, 0.75vw, 10px)); /* Оптическое центрирование надписи по высоте стеклянного блока */
 }
 
 
@@ -2940,6 +2941,7 @@ body.has-lightbox-open .hw-room-nav {
     flex-wrap: nowrap !important;
     white-space: nowrap !important;
     gap: clamp(8px, 2.5vw, 16px);
+    transform: translateY(0);
   }
   .hero-main-title,
   .hero-title-main {
