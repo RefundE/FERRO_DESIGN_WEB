@@ -1013,14 +1013,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 16. Динамическое плавное кинематографичное чередование названия на главной: 5 сек "FERRO DESIGN" / 5 сек "ФЕРРО ДИЗАЙН"
-  // (Соответствие ст. 68 Конституции РФ и 53-ФЗ «О государственном языке РФ»)
+  // 16. Плавное кинематографичное переключение названия на главной: 5 сек "FERRO DESIGN" / 5 сек "ФЕРРО ДИЗАЙН"
   const heroDynamicTitle = document.querySelector('.hero-main-title .hero-title-word');
   if (heroDynamicTitle) {
     const titles = ['FERRO DESIGN', 'ФЕРРО ДИЗАЙН'];
     let titleIdx = 0;
 
-    // Снимаем блокировку CSS keyframe animation после завершения первого появления
+    // Снимаем блокировку стартовой CSS-анимации после ее завершения
     const clearInitialAnimation = () => {
       heroDynamicTitle.style.animation = 'none';
       heroDynamicTitle.style.opacity = '1';
@@ -1029,29 +1028,32 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     heroDynamicTitle.addEventListener('animationend', clearInitialAnimation, { once: true });
-    setTimeout(clearInitialAnimation, 2800); // Резервный таймер
+    setTimeout(clearInitialAnimation, 2800);
 
-    // Цикл переключения каждые 5 секунд
+    // Циклическое переключение каждые 5 секунд с ультра-плавной анимацией
     setInterval(() => {
-      // 1. Плавный уход текущего названия вверх с растворением и кинетическим блюром
-      heroDynamicTitle.classList.remove('title-fade-prep');
-      heroDynamicTitle.classList.add('title-fade-out');
+      // Фаза 1: Плавное растворение и сдвиг вверх с кинетическим блюром (600мс)
+      heroDynamicTitle.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease';
+      heroDynamicTitle.style.opacity = '0';
+      heroDynamicTitle.style.transform = 'translateY(-10px)';
+      heroDynamicTitle.style.filter = 'blur(6px)';
 
       setTimeout(() => {
-        // 2. Смена текста в момент полной невидимости
+        // Фаза 2: Смена текста при полной невидимости
         titleIdx = (titleIdx + 1) % titles.length;
         heroDynamicTitle.textContent = titles[titleIdx];
 
-        // 3. Мгновенная посадка снизу для плавного восхождения
-        heroDynamicTitle.classList.remove('title-fade-out');
-        heroDynamicTitle.classList.add('title-fade-prep');
+        // Фаза 3: Мгновенное позиционирование снизу без анимации
+        heroDynamicTitle.style.transition = 'none';
+        heroDynamicTitle.style.transform = 'translateY(10px)';
+        void heroDynamicTitle.offsetWidth; // Принудительный reflow браузера
 
-        // Принудительный reflow браузера
-        void heroDynamicTitle.offsetWidth;
-
-        // 4. Плавное всплытие снизу в идеальный фокус
-        heroDynamicTitle.classList.remove('title-fade-prep');
-      }, 650);
+        // Фаза 4: Плавное всплытие снизу в центр с восстановлением четкости (600мс)
+        heroDynamicTitle.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease';
+        heroDynamicTitle.style.opacity = '1';
+        heroDynamicTitle.style.transform = 'translateY(0)';
+        heroDynamicTitle.style.filter = 'blur(0)';
+      }, 600);
     }, 5000);
   }
 
