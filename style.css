@@ -2886,7 +2886,7 @@ body.has-lightbox-open .hw-room-nav {
   background: var(--light-gray);
 }
 
-/* 1. Карточки этапов проектирования с визуальным превью */
+/* 1. Карточки этапов проектирования с изящными SVG-иконками */
 .design-steps-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -2900,74 +2900,60 @@ body.has-lightbox-open .hw-room-nav {
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.95);
   border-radius: 18px;
-  overflow: hidden;
-  padding: 0;
+  padding: 36px 32px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.3s ease;
 }
 
 .design-step-card:hover {
   transform: translateY(-5px);
   border-color: rgba(255, 255, 255, 1);
-  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.10);
 }
 
-.step-media-wrap {
-  position: relative;
-  width: 100%;
-  height: 220px;
-  overflow: hidden;
-  background: #edebe6;
+.step-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
 }
 
-.step-media-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.design-step-card:hover .step-media-wrap img {
-  transform: scale(1.05);
-}
-
-.step-media-badge {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  padding: 6px 14px;
-  background: rgba(255, 255, 255, 0.88);
+.step-icon-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.95);
-  border-radius: 9999px;
-  font-family: 'Unbounded', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  box-shadow: 0 6px 18px rgba(67, 66, 66, 0.08), inset 0 1px 2px #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--brand-gray);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+  transition: color 0.3s ease, transform 0.3s ease, background 0.3s ease;
 }
 
-.step-content {
-  padding: 28px 30px 32px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+.design-step-card:hover .step-icon-badge {
+  color: var(--accent-amber);
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.step-icon-svg {
+  width: 22px;
+  height: 22px;
 }
 
 .step-num {
   font-family: 'Unbounded', sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--accent-amber);
-  margin-bottom: 10px;
-  display: block;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .step-title {
@@ -2975,7 +2961,7 @@ body.has-lightbox-open .hw-room-nav {
   font-size: 18px;
   font-weight: 700;
   color: var(--brand-gray);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   line-height: 1.35;
 }
 
@@ -3070,36 +3056,6 @@ body.has-lightbox-open .hw-room-nav {
   -webkit-backdrop-filter: blur(12px);
   text-align: center;
   border-top: 1px solid rgba(255, 255, 255, 0.9);
-}
-
-.supervision-guarantee-note {
-  padding: 20px 24px;
-  background: rgba(255, 255, 255, 0.80);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-family: 'Manrope', sans-serif;
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--brand-gray);
-  font-weight: 500;
-}
-
-.supervision-guarantee-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: rgba(200, 143, 10, 0.12);
-  color: var(--accent-amber);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
 }
 
 /* 3. Панорамный баннер-манифест студии */
@@ -3313,12 +3269,6 @@ body.has-lightbox-open .hw-room-nav {
   .design-steps-grid {
     grid-template-columns: 1fr;
     gap: 20px;
-  }
-  .step-media-wrap {
-    height: 180px;
-  }
-  .step-content {
-    padding: 24px 20px 28px;
   }
   .supervision-diptych {
     grid-template-columns: 1fr;
@@ -3919,9 +3869,6 @@ body.has-lightbox-open .hw-room-nav {
   }
   .design-step-card {
     padding: 0;
-  }
-  .step-content {
-    padding: 24px 20px 28px;
   }
   .geo-info-card {
     padding: 24px 20px;
