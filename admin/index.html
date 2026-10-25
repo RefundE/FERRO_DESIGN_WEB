@@ -49,7 +49,7 @@
         <span class="status-dot" id="githubStatusDot"></span>
         <span>GitHub API</span>
       </button>
-      <a href="../index.html" target="_blank" class="btn btn-sm btn-outline" title="Открыть сайт в новой вкладке">
+      <a href="../index.html" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline" title="Открыть сайт в новой вкладке">
         <span>Перейти на сайт ↗</span>
       </a>
     </div>
@@ -580,9 +580,12 @@
         </div>
         <div id="ghConnectionStatusMessage" style="margin-top: 14px; font-size: 12px; display: none;"></div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" id="btnTestGithubConnection">Проверить связь</button>
-        <button class="btn btn-primary" id="btnSaveGithubSettings">Сохранить</button>
+      <div class="modal-footer" style="display: flex; align-items: center; justify-content: space-between;">
+        <button type="button" class="btn btn-danger btn-sm" id="btnClearGithubToken" title="Удалить сохранённый токен из LocalStorage">Сбросить токен</button>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-secondary" id="btnTestGithubConnection">Проверить связь</button>
+          <button class="btn btn-primary" id="btnSaveGithubSettings">Сохранить</button>
+        </div>
       </div>
     </div>
   </div>

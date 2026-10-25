@@ -890,7 +890,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </svg>
           </div>
           <h3 class="feedback-modal-title">Не удалось отправить заявку</h3>
-          <p class="feedback-modal-text" id="feedbackErrorModalMsg">Пожалуйста, напишите нам напрямую в Telegram <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" style="color: #c88f0a; text-decoration: underline;">@ferrodesign_ekb</a> или на почту <a href="mailto:artem1-nt@mail.ru" style="color: #c88f0a; text-decoration: underline;">artem1-nt@mail.ru</a>.</p>
+          <p class="feedback-modal-text" id="feedbackErrorModalMsg">Пожалуйста, напишите нам напрямую в Telegram <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener noreferrer" style="color: #c88f0a; text-decoration: underline;">@ferrodesign_ekb</a> или на почту <a href="mailto:artem1-nt@mail.ru" style="color: #c88f0a; text-decoration: underline;">artem1-nt@mail.ru</a>.</p>
           <button type="button" class="feedback-modal-btn" id="feedbackErrorModalOk">ПОНЯТНО</button>
         </div>
       `;
@@ -912,7 +912,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (errorMsg) {
       const msgEl = modal.querySelector('#feedbackErrorModalMsg');
-      if (msgEl) msgEl.innerHTML = errorMsg;
+      if (msgEl) msgEl.textContent = errorMsg;
     }
 
     requestAnimationFrame(() => {
@@ -979,7 +979,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (isHttp && !isLocalhost) {
           console.error('Ошибка отправки формы:', err);
-          showFeedbackErrorModal('Не удалось отправить заявку. Пожалуйста, напишите нам напрямую в Telegram <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" style="color: #c88f0a; text-decoration: underline;">@ferrodesign_ekb</a> или на почту <a href="mailto:artem1-nt@mail.ru" style="color: #c88f0a; text-decoration: underline;">artem1-nt@mail.ru</a>.');
+          showFeedbackErrorModal('Не удалось отправить заявку. Пожалуйста, напишите нам напрямую в Telegram (@ferrodesign_ekb) или на почту (artem1-nt@mail.ru).');
         } else {
           // Локальное тестирование (file:// или localhost)
           showFeedbackSuccessModal(userName);

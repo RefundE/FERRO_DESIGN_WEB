@@ -81,7 +81,7 @@ for cur_file, expected_next, expected_title in cases_order:
             all_passed = False
 
     # 6. Contact section & direct contacts (152-ФЗ zero-data-collection compliance)
-    for elem in ['id="contact"', 'contact-section', 'contact-direct-card', 'direct-btn-telegram', 'direct-btn-whatsapp', 'direct-btn-phone']:
+    for elem in ['id="contact"', 'contact-section', 'contact-direct-card', 'direct-btn-telegram', 'direct-btn-max', 'direct-btn-phone']:
         if elem not in content:
             print(f"  [ERROR] Missing direct contact element {elem} in {cur_file}")
             all_passed = False

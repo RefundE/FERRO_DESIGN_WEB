@@ -1,65 +1,212 @@
 <?php
 declare(strict_types=1);
 
-// CORS заголовки и обработка preflight-запроса OPTIONS
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
+// 1. Подавление системного вывода ошибок для защиты от раскрытия структуры путей (Information Disclosure)
+ini_set('display_errors', '0');
+error_reporting(E_ALL);
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+// 2. Строгий белый список CORS с валидацией Origin
+$allowedOrigins = [
+    'https://ferro-design.ru',
+    'https://www.ferro-design.ru',
+    'https://refunde.github.io'
+];
+
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+
+if (!empty($origin)) {
+    $isAllowed = in_array(rtrim($origin, '/'), $allowedOrigins, true);
+    // Разрешаем локальную разработку (localhost, 127.0.0.1 с любым портом)
+    if (!$isAllowed && preg_match('#^https?://(localhost|127\.0\.0\.1)(:\d+)?$#i', $origin)) {
+        $isAllowed = true;
+    }
+
+    if ($isAllowed) {
+        header("Access-Control-Allow-Origin: {$origin}");
+        header('Access-Control-Allow-Methods: POST, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
+        header('Access-Control-Max-Age: 86400');
+        header('Vary: Origin');
+    } else {
+        http_response_code(403);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Origin not allowed'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+}
+
+// 3. Обработка preflight-запроса OPTIONS
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
     http_response_code(204);
     exit;
 }
 
 header('Content-Type: application/json; charset=utf-8');
 
-// Разрешаем только POST запросы
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+// 4. Разрешаем только POST-запросы
+if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     http_response_code(405);
-    echo json_encode(['status' => 'error', 'message' => 'Method not allowed'], JSON_UNESCAPED_UNICODE);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Method not allowed'
+    ], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
-// 1. Проверка honeypot-ловушки для спам-ботов
-$honeypot = trim($_POST['website'] ?? '');
+// 5. Защита от DoS по размеру полезной нагрузки (максимум 64 КБ = 65536 байт)
+$contentLength = (int)($_SERVER['CONTENT_LENGTH'] ?? 0);
+if ($contentLength > 65536) {
+    http_response_code(413);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Payload too large (максимум 64 КБ)'
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+// 6. Проверка honeypot-ловушки для спам-ботов
+$honeypot = trim((string)($_POST['website'] ?? ''));
 if (!empty($honeypot)) {
     // Тихо возвращаем успех, не отправляя спам
     echo json_encode(['status' => 'ok', 'message' => 'Processed'], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
-// 2. Вспомогательная функция санитизации полей с защитой от инъекций заголовков (\r, \n)
-function clean_field(?string $value): string {
-    if ($value === null) return '';
-    $val = str_replace(["\r", "\n"], ' ', trim($value));
-    return htmlspecialchars(strip_tags($val), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+// 7. Файловый атомарный Rate Limiter по IP (максимум 5 заявок за 10 минут, пауза минимум 5 секунд)
+function check_rate_limit(): bool {
+    $clientIp = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+    $ipHash = hash('sha256', $clientIp);
+    $limitDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'ferro_rate_limits';
+
+    if (!is_dir($limitDir) && !@mkdir($limitDir, 0700, true) && !is_dir($limitDir)) {
+        // Если временная папка недоступна, не блокируем легитимных клиентов
+        return true;
+    }
+
+    $filePath = $limitDir . DIRECTORY_SEPARATOR . "rl_{$ipHash}.json";
+    $fp = @fopen($filePath, 'c+');
+    if (!$fp) {
+        return true;
+    }
+
+    if (!@flock($fp, LOCK_EX)) {
+        @fclose($fp);
+        return true;
+    }
+
+    $now = time();
+    $windowSeconds = 600; // 10 минут
+    $minIntervalSeconds = 5; // минимум 5 секунд между запросами
+    $maxRequests = 5; // максимум 5 заявок
+
+    $data = [];
+    $raw = stream_get_contents($fp);
+    if (!empty($raw)) {
+        $decoded = json_decode($raw, true);
+        if (is_array($decoded)) {
+            $data = $decoded;
+        }
+    }
+
+    // Очищаем метки старше 10 минут
+    $timestamps = array_values(array_filter($data, function($t) use ($now, $windowSeconds) {
+        return is_int($t) && ($now - $t) <= $windowSeconds;
+    }));
+
+    // Проверка интервала с предыдущего запроса
+    if (!empty($timestamps)) {
+        $lastRequest = end($timestamps);
+        if (($now - $lastRequest) < $minIntervalSeconds) {
+            @flock($fp, LOCK_UN);
+            @fclose($fp);
+            return false;
+        }
+    }
+
+    // Проверка общего количества запросов за окно
+    if (count($timestamps) >= $maxRequests) {
+        @flock($fp, LOCK_UN);
+        @fclose($fp);
+        return false;
+    }
+
+    // Записываем новый timestamp
+    $timestamps[] = $now;
+    ftruncate($fp, 0);
+    rewind($fp);
+    fwrite($fp, json_encode($timestamps));
+    fflush($fp);
+    @flock($fp, LOCK_UN);
+    @fclose($fp);
+
+    return true;
 }
 
-$name     = clean_field($_POST['name'] ?? '');
-$contact  = clean_field($_POST['contact'] ?? $_POST['phone'] ?? '');
-$city     = clean_field($_POST['city'] ?? '');
-$area     = clean_field($_POST['area'] ?? '');
-$comment  = clean_field($_POST['comment'] ?? $_POST['message'] ?? '');
-$pageUrl  = clean_field($_POST['page_url'] ?? $_POST['page'] ?? '');
+if (!check_rate_limit()) {
+    http_response_code(429);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Слишком много запросов. Пожалуйста, подождите несколько минут перед повторной отправкой.'
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+// 8. Вспомогательные функции санитизации и усечения полей
+function clean_single_line(?string $value, int $maxLength = 100): string {
+    if ($value === null) return '';
+    // Удаляем переводы строк для защиты от инъекций заголовков (CRLF injection)
+    $val = str_replace(["\r", "\n", "\0"], ' ', trim($value));
+    $val = strip_tags($val);
+    if (function_exists('mb_substr')) {
+        $val = mb_substr($val, 0, $maxLength, 'UTF-8');
+    } else {
+        $val = substr($val, 0, $maxLength);
+    }
+    return htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+function clean_multi_line(?string $value, int $maxLength = 3000): string {
+    if ($value === null) return '';
+    // Удаляем опасные нулевые байты
+    $val = str_replace("\0", '', trim($value));
+    // Нормализуем переводы строк к \n
+    $val = str_replace(["\r\n", "\r"], "\n", $val);
+    $val = strip_tags($val);
+    if (function_exists('mb_substr')) {
+        $val = mb_substr($val, 0, $maxLength, 'UTF-8');
+    } else {
+        $val = substr($val, 0, $maxLength);
+    }
+    return htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+// Извлечение и санитизация входящих параметров
+$name     = clean_single_line((string)($_POST['name'] ?? ''), 100);
+$contact  = clean_single_line((string)($_POST['contact'] ?? $_POST['phone'] ?? ''), 120);
+$city     = clean_single_line((string)($_POST['city'] ?? ''), 100);
+$area     = clean_single_line((string)($_POST['area'] ?? ''), 50);
+$comment  = clean_multi_line((string)($_POST['comment'] ?? $_POST['message'] ?? ''), 3000);
+$pageUrl  = clean_single_line((string)($_POST['page_url'] ?? $_POST['page'] ?? ''), 500);
 
 // Валидация обязательных полей
 if (empty($name) && empty($contact)) {
     http_response_code(400);
     echo json_encode([
         'status' => 'error',
-        'message' => 'Не заполнены обязательные контактные данные (имя или телефон/Telegram)'
+        'message' => 'Не заполнены обязательные контактные данные (имя или телефон/мессенджер)'
     ], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
-// Если имя пустое, задаем значение по умолчанию
 $clientName = !empty($name) ? $name : 'Клиент';
 
-// 3. Формирование темы и тела HTML-письма
+// 9. Формирование темы и HTML-тела письма
 $to = 'artem1-nt@mail.ru';
 $subject = 'Новая заявка с сайта FERRO DESIGN — ' . $clientName;
 $subjectEncoded = '=?UTF-8?B?' . base64_encode($subject) . '?=';
-
 $sendTime = date('d.m.Y H:i:s');
 
 $htmlBody = <<<HTML
@@ -85,7 +232,7 @@ $htmlBody = <<<HTML
             <td style="padding: 8px 0; font-weight: 600; color: #0d0d0d;">{$clientName}</td>
           </tr>
           <tr>
-            <td style="padding: 8px 0; color: #888888; font-size: 13px; text-transform: uppercase;">Телефон / TG:</td>
+            <td style="padding: 8px 0; color: #888888; font-size: 13px; text-transform: uppercase;">Телефон / Контакт:</td>
             <td style="padding: 8px 0; font-weight: 600; color: #0d0d0d;">{$contact}</td>
           </tr>
           <tr>
@@ -121,7 +268,7 @@ $htmlBody = <<<HTML
 </html>
 HTML;
 
-// 4. Заголовки письма
+// 10. Формирование безопасных заголовков письма
 $headers = [
     'MIME-Version: 1.0',
     'Content-Type: text/html; charset=UTF-8',
@@ -129,26 +276,39 @@ $headers = [
     'X-Mailer: PHP/' . phpversion()
 ];
 
-if (!empty($contact) && filter_var($contact, FILTER_VALIDATE_EMAIL)) {
-    $headers[] = 'Reply-To: ' . $contact;
+// Проверяем валидность email в контакте перед установкой Reply-To
+$rawContact = trim((string)($_POST['contact'] ?? $_POST['phone'] ?? ''));
+if (filter_var($rawContact, FILTER_VALIDATE_EMAIL)) {
+    $cleanReplyTo = str_replace(["\r", "\n", "\0"], '', $rawContact);
+    $headers[] = 'Reply-To: ' . $cleanReplyTo;
 } else {
     $headers[] = 'Reply-To: ' . $to;
 }
 
-// 5. Отправка через встроенную функцию mail() с проверкой результата
-$sent = @mail($to, $subjectEncoded, $htmlBody, implode("\r\n", $headers));
-if (!$sent) {
+// 11. Отправка через встроенную функцию mail() с try / catch и проверкой результата
+try {
+    $headersStr = implode("\r\n", $headers);
+    $sent = @mail($to, $subjectEncoded, $htmlBody, $headersStr);
+
+    if (!$sent) {
+        http_response_code(500);
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Не удалось отправить почтовое сообщение через сервер'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    http_response_code(200);
+    echo json_encode([
+        'status' => 'ok',
+        'message' => 'Заявка успешно отправлена'
+    ], JSON_UNESCAPED_UNICODE);
+} catch (\Throwable $e) {
     http_response_code(500);
     echo json_encode([
         'status' => 'error',
-        'message' => 'Не удалось отправить почтовое сообщение через сервер'
+        'message' => 'Внутренняя ошибка сервиса отправки сообщений'
     ], JSON_UNESCAPED_UNICODE);
     exit;
 }
-
-// 6. JSON-ответ клиенту
-http_response_code(200);
-echo json_encode([
-    'status' => 'ok',
-    'message' => 'Заявка успешно отправлена'
-], JSON_UNESCAPED_UNICODE);

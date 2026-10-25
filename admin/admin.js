@@ -19,7 +19,9 @@ window.AdminState = {
   githubBranch: (localStorage.getItem('ferro_gh_branch') || 'main').trim(),
   publishLockUntil: parseInt(localStorage.getItem('ferro_publish_lock_until') || '0', 10),
   newFilesMap: new Map(),
-  hasUnsavedChanges: false
+  hasUnsavedChanges: false,
+  isPublishing: false,
+  isExporting: false
 };
 
 // Защита от потери несохранённых данных при случайном закрытии вкладки
@@ -180,6 +182,21 @@ function initModals() {
     closeModal('modalGithub');
     showToast('Настройки GitHub успешно сохранены', 'success');
   });
+
+  const btnClearToken = document.getElementById('btnClearGithubToken');
+  if (btnClearToken) {
+    btnClearToken.addEventListener('click', () => {
+      if (confirm('Удалить сохранённый токен GitHub из браузера?')) {
+        localStorage.removeItem('ferro_gh_token');
+        window.AdminState.githubToken = '';
+        tokenInput.value = '';
+        updateGithubStatusDot();
+        const statusBox = document.getElementById('ghConnectionStatusMessage');
+        if (statusBox) statusBox.style.display = 'none';
+        showToast('GitHub токен удален из LocalStorage', 'info');
+      }
+    });
+  }
 
   document.getElementById('btnTestGithubConnection').addEventListener('click', async () => {
     const statusBox = document.getElementById('ghConnectionStatusMessage');
@@ -565,15 +582,45 @@ async function handleRoomRendersUpload(proj, room, files, gridContainer) {
 // ============================================================
 
 /**
+ * Санитизация Rich HTML текста (удаление опасных тегов script, iframe, object, embed, on*-событий и javascript:)
+ */
+function sanitizeRichHtml(html) {
+  if (!html) return '';
+  let clean = String(html);
+
+  // 1. Удаление опасных тегов с содержимым
+  const dangerousTags = ['script', 'iframe', 'object', 'embed', 'applet', 'form'];
+  dangerousTags.forEach(tag => {
+    const rx = new RegExp(`<${tag}\\b[^>]*>[\\s\\S]*?<\\/${tag}>`, 'gi');
+    clean = clean.replace(rx, '');
+    const rxSelf = new RegExp(`<${tag}\\b[^>]*\\/?>`, 'gi');
+    clean = clean.replace(rxSelf, '');
+  });
+
+  // 2. Удаление inline-событий (onclick, onerror, onload и т.д.)
+  clean = clean.replace(/\s+on[a-zA-Z]+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '');
+
+  // 3. Удаление опасных javascript: / vbscript: / data:text/html в ссылках и ресурсах
+  clean = clean.replace(/(href|src)\s*=\s*(["'])\s*(javascript|vbscript|data:text\/html):.*?\2/gi, '$1="#"');
+
+  return clean;
+}
+
+/**
  * 1. Генератор HTML кейса по эталону project-makarovsky.html
  */
 function generateProjectPageHTML(project, nextProject, contacts) {
-  const titleText = `${project.title} — Студия дизайна интерьера FERRO DESIGN™`;
-  const metaDesc = project.metaDesc || `Дизайн-проект интерьера квартиры ${project.area} м² в ${project.title}, ${project.city} от студии FERRO DESIGN.`;
-  const absOgImage = project.heroDay.startsWith('http') ? project.heroDay : `https://ferro-design.ru/${project.heroDay}`;
+  const safeProject = project || {};
+  const nextProj = nextProject || safeProject;
+  const safeContacts = contacts || {};
+
+  const heroDay = (safeProject.heroDay && typeof safeProject.heroDay === 'string') ? safeProject.heroDay : 'images/logo.png';
+  const titleText = `${safeProject.title || 'Проект'} — Студия дизайна интерьера FERRO DESIGN™`;
+  const metaDesc = safeProject.metaDesc || `Дизайн-проект интерьера квартиры ${safeProject.area || 0} м² в ${safeProject.title || ''}, ${safeProject.city || ''} от студии FERRO DESIGN.`;
+  const absOgImage = heroDay.startsWith('http') ? heroDay : `https://ferro-design.ru/${heroDay.replace(/^\/+/, '')}`;
 
   let roomsHtml = '';
-  (project.rooms || []).forEach(room => {
+  (safeProject.rooms || []).forEach(room => {
     roomsHtml += `\n    <!-- ==========================================\n         ${room.name.toUpperCase()} (${room.prefix})\n    ========================================== -->\n`;
     roomsHtml += `    <div class="room-header" id="${room.id}">\n`;
     roomsHtml += `      <h2 class="room-name">${escapeHtml(room.name.toUpperCase())}</h2>\n`;
@@ -596,14 +643,14 @@ function generateProjectPageHTML(project, nextProject, contacts) {
   });
 
   let navLinksHtml = '';
-  (project.rooms || []).forEach((room, idx) => {
+  (safeProject.rooms || []).forEach((room, idx) => {
     navLinksHtml += `      <a href="#${room.id}" class="hw-room-link${idx === 0 ? ' active' : ''}">${escapeHtml(room.nav)}</a>\n`;
   });
 
   let lightingHtml = '';
   let heroNightImgHtml = '';
-  if (project.heroNight) {
-    heroNightImgHtml = `\n      <img src="${escapeHtml(project.heroNight)}" alt="${escapeHtml(project.title)} — Вечерний сценарий" class="hero-bg-layer hero-bg-night">`;
+  if (safeProject.heroNight) {
+    heroNightImgHtml = `\n      <img src="${escapeHtml(safeProject.heroNight)}" alt="${escapeHtml(safeProject.title || '')} — Вечерний сценарий" class="hero-bg-layer hero-bg-night">`;
     lightingHtml = `        <div class="lighting-controls-wrap">
           <div class="lighting-mode-switch" role="group" aria-label="Сценарий освещения">
             <button type="button" class="lighting-mode-btn is-active" data-mode="day" aria-pressed="true" title="Дневной свет">
@@ -633,7 +680,7 @@ function generateProjectPageHTML(project, nextProject, contacts) {
   const projectSchemaJson = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "CreativeWork",
-    "name": `Дизайн интерьера ${project.title}`,
+    "name": `Дизайн интерьера ${safeProject.title || ''}`,
     "description": metaDesc,
     "creator": {
       "@type": "HomeAndConstructionBusiness",
@@ -687,34 +734,34 @@ ${projectSchemaJson}
   <!-- ГЛАВНЫЙ ЭКРАН -->
   <section class="project-intro">
     <div class="project-intro-bg">
-      <img src="${escapeHtml(project.heroDay)}" alt="${escapeHtml(project.title)} — Дневной сценарий" class="hero-bg-layer hero-bg-day" fetchpriority="high">${heroNightImgHtml}
+      <img src="${escapeHtml(heroDay)}" alt="${escapeHtml(safeProject.title || '')} — Дневной сценарий" class="hero-bg-layer hero-bg-day" fetchpriority="high">${heroNightImgHtml}
       <div class="project-intro-overlay"></div>
     </div>
 
     <div class="project-intro-container">
-      <h1 class="project-title">${escapeHtml(project.title)}</h1>
+      <h1 class="project-title">${escapeHtml(safeProject.title || '')}</h1>
 
       <div class="project-intro-bottom">
 ${lightingHtml}        <div class="project-yodezeen-specs">
           <div class="specs-col specs-col-left">
             <div class="specs-group">
               <span class="specs-label">Город</span>
-              <span class="specs-val">${escapeHtml(project.city)}</span>
+              <span class="specs-val">${escapeHtml(safeProject.city || '')}</span>
             </div>
             <div class="specs-group">
               <span class="specs-label">Площадь</span>
-              <span class="specs-val">${project.area} м²</span>
+              <span class="specs-val">${escapeHtml(safeProject.area || 0)} м²</span>
             </div>
           </div>
 
           <div class="specs-col specs-col-right">
             <div class="specs-group">
               <span class="specs-label">Категория</span>
-              <span class="specs-val">${escapeHtml(project.specsCategory)}</span>
+              <span class="specs-val">${escapeHtml(safeProject.specsCategory || '')}</span>
             </div>
             <div class="specs-group">
               <span class="specs-label">Год реализации</span>
-              <span class="specs-val">${escapeHtml(project.year)}</span>
+              <span class="specs-val">${escapeHtml(safeProject.year || '')}</span>
             </div>
           </div>
         </div>
@@ -728,8 +775,8 @@ ${navLinksHtml}    </nav>
 
     <div class="next-case-bar">
       <span class="next-sub">Следующий проект</span>
-      <a href="${escapeHtml(nextProject.filename)}" class="next-title">
-        <span>${escapeHtml(nextProject.title)}</span>
+      <a href="${escapeHtml(nextProj.filename || safeProject.filename || '')}" class="next-title">
+        <span>${escapeHtml(nextProj.title || safeProject.title || '')}</span>
         <svg class="next-arrow-svg" viewBox="0 0 56 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M2 12H52M52 12L41 2M52 12L41 22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -744,21 +791,21 @@ ${navLinksHtml}    </nav>
         <div class="contact-col-info">
           <h2 class="contact-title">Контакты</h2>
           <p class="contact-intro">
-            ${escapeHtml(contacts.intro || 'Готовы обсудить ваш проект? Свяжитесь с нами удобным для вас способом.')}
+            ${escapeHtml(safeContacts.intro || 'Готовы обсудить ваш проект? Свяжитесь с нами удобным для вас способом.')}
           </p>
 
           <div class="contact-details">
             <div class="contact-detail-row">
               <span class="detail-label">Локация</span>
-              <span class="detail-val">${escapeHtml(contacts.location)}</span>
+              <span class="detail-val">${escapeHtml(safeContacts.location || '')}</span>
             </div>
             <div class="contact-detail-row">
               <span class="detail-label">Телефон</span>
-              <a href="${contacts.phoneHref || ('tel:' + contacts.phone.replace(/[^0-9+]/g, ''))}" class="detail-val">${escapeHtml(contacts.phone)}</a>
+              <a href="${escapeHtml(safeContacts.phoneHref || ('tel:' + (safeContacts.phone ? safeContacts.phone.replace(/[^0-9+]/g, '') : '+79634426192')))}" class="detail-val">${escapeHtml(safeContacts.phone || '')}</a>
             </div>
             <div class="contact-detail-row">
               <span class="detail-label">Email</span>
-              <a href="mailto:${contacts.email}" class="detail-val">${escapeHtml(contacts.email)}</a>
+              <a href="mailto:${escapeHtml(safeContacts.email || 'artem1-nt@mail.ru')}" class="detail-val">${escapeHtml(safeContacts.email || '')}</a>
             </div>
           </div>
         </div>
@@ -779,7 +826,7 @@ ${navLinksHtml}    </nav>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
-              <a href="${contacts.maxLink || ('https://max.ru/' + (contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192'))}" target="_blank" rel="noopener noreferrer" class="direct-action-btn direct-btn-max">
+              <a href="${escapeHtml(safeContacts.maxLink || ('https://max.ru/' + (safeContacts.phone ? safeContacts.phone.replace(/[^0-9]/g, '') : '79634426192')))}" target="_blank" rel="noopener noreferrer" class="direct-action-btn direct-btn-max">
                 <svg class="direct-btn-icon direct-icon-max" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M19.5 3h-15A2.5 2.5 0 0 0 2 5.5v11A2.5 2.5 0 0 0 4.5 19H7v3.5l4.5-3.5h8a2.5 2.5 0 0 0 2.5-2.5v-11A2.5 2.5 0 0 0 19.5 3zM18 14.5h-1.8l-1.8-4.2-1.8 4.2h-1.8l-2.4-7h2l1.3 4.3L13.2 7.5h1.6l1.9 4.3 1.3-4.3h2l-2 7z"/>
                 </svg>
@@ -787,11 +834,11 @@ ${navLinksHtml}    </nav>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
-              <a href="${contacts.phoneHref || ('tel:' + contacts.phone.replace(/[^0-9+]/g, ''))}" class="direct-action-btn direct-btn-phone">
+              <a href="${escapeHtml(safeContacts.phoneHref || ('tel:' + (safeContacts.phone ? safeContacts.phone.replace(/[^0-9+]/g, '') : '+79634426192')))}" class="direct-action-btn direct-btn-phone">
                 <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
                 </svg>
-                <span class="direct-btn-text">Позвонить: ${escapeHtml(contacts.phone)}</span>
+                <span class="direct-btn-text">Позвонить: ${escapeHtml(safeContacts.phone || '+7 (963) 442-61-92')}</span>
                 <span class="direct-btn-arrow">→</span>
               </a>
             </div>
@@ -842,8 +889,9 @@ ${navLinksHtml}    </nav>
  * 2. Канонический генератор главной страницы index.html
  */
 function generateIndexHTML(siteContent) {
-  const home = siteContent.home;
-  const contacts = home.contacts;
+  const home = (siteContent && siteContent.home) || {};
+  const contacts = home.contacts || {};
+  const safeContacts = contacts;
   const projectsMap = {};
   siteContent.projects.forEach(p => { projectsMap[p.filename] = p; });
 
@@ -1133,15 +1181,15 @@ ${statsHtml}          </div>
           <div class="contact-details">
             <div class="contact-detail-row">
               <span class="detail-label">Локация</span>
-              <span class="detail-val">${escapeHtml(contacts.location)}</span>
+              <span class="detail-val">${escapeHtml(contacts.location || '')}</span>
             </div>
             <div class="contact-detail-row">
               <span class="detail-label">Телефон</span>
-              <a href="${contacts.phoneHref || ('tel:' + contacts.phone.replace(/[^0-9+]/g, ''))}" class="detail-val">${escapeHtml(contacts.phone)}</a>
+              <a href="${escapeHtml(contacts.phoneHref || ('tel:' + (contacts.phone ? contacts.phone.replace(/[^0-9+]/g, '') : '+79634426192')))}" class="detail-val">${escapeHtml(contacts.phone || '')}</a>
             </div>
             <div class="contact-detail-row">
               <span class="detail-label">Email</span>
-              <a href="mailto:${contacts.email}" class="detail-val">${escapeHtml(contacts.email)}</a>
+              <a href="mailto:${escapeHtml(contacts.email || 'artem1-nt@mail.ru')}" class="detail-val">${escapeHtml(contacts.email || '')}</a>
             </div>
           </div>
         </div>
@@ -1162,7 +1210,7 @@ ${statsHtml}          </div>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
-              <a href="${contacts.maxLink || ('https://max.ru/' + (contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192'))}" target="_blank" rel="noopener noreferrer" class="direct-action-btn direct-btn-max">
+              <a href="${escapeHtml(contacts.maxLink || ('https://max.ru/' + (contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192')))}" target="_blank" rel="noopener noreferrer" class="direct-action-btn direct-btn-max">
                 <svg class="direct-btn-icon direct-icon-max" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M19.5 3h-15A2.5 2.5 0 0 0 2 5.5v11A2.5 2.5 0 0 0 4.5 19H7v3.5l4.5-3.5h8a2.5 2.5 0 0 0 2.5-2.5v-11A2.5 2.5 0 0 0 19.5 3zM18 14.5h-1.8l-1.8-4.2-1.8 4.2h-1.8l-2.4-7h2l1.3 4.3L13.2 7.5h1.6l1.9 4.3 1.3-4.3h2l-2 7z"/>
                 </svg>
@@ -1170,11 +1218,11 @@ ${statsHtml}          </div>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
-              <a href="${contacts.phoneHref || ('tel:' + contacts.phone.replace(/[^0-9+]/g, ''))}" class="direct-action-btn direct-btn-phone">
+              <a href="${escapeHtml(contacts.phoneHref || ('tel:' + (contacts.phone ? contacts.phone.replace(/[^0-9+]/g, '') : '+79634426192')))}" class="direct-action-btn direct-btn-phone">
                 <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
                 </svg>
-                <span class="direct-btn-text">Позвонить: ${escapeHtml(contacts.phone)}</span>
+                <span class="direct-btn-text">Позвонить: ${escapeHtml(safeContacts.phone || '+7 (963) 442-61-92')}</span>
                 <span class="direct-btn-arrow">→</span>
               </a>
             </div>
@@ -1340,7 +1388,8 @@ ${statsHtml}          </div>
  * 3. Канонический генератор каталога projects.html
  */
 function generateProjectsCatalogHTML(siteContent) {
-  const contacts = siteContent.home.contacts;
+  const contacts = (siteContent && siteContent.home && siteContent.home.contacts) || {};
+  const safeContacts = contacts;
   const projectsMap = {};
   siteContent.projects.forEach(p => { projectsMap[p.filename] = p; });
 
@@ -1458,15 +1507,15 @@ ${cardsHtml}      </div>
           <div class="contact-details">
             <div class="contact-detail-row">
               <span class="detail-label">Локация</span>
-              <span class="detail-val">${escapeHtml(contacts.location)}</span>
+              <span class="detail-val">${escapeHtml(contacts.location || '')}</span>
             </div>
             <div class="contact-detail-row">
               <span class="detail-label">Телефон</span>
-              <a href="${contacts.phoneHref || ('tel:' + contacts.phone.replace(/[^0-9+]/g, ''))}" class="detail-val">${escapeHtml(contacts.phone)}</a>
+              <a href="${escapeHtml(contacts.phoneHref || ('tel:' + (contacts.phone ? contacts.phone.replace(/[^0-9+]/g, '') : '+79634426192')))}" class="detail-val">${escapeHtml(contacts.phone || '')}</a>
             </div>
             <div class="contact-detail-row">
               <span class="detail-label">Email</span>
-              <a href="mailto:${contacts.email}" class="detail-val">${escapeHtml(contacts.email)}</a>
+              <a href="mailto:${escapeHtml(contacts.email || 'artem1-nt@mail.ru')}" class="detail-val">${escapeHtml(contacts.email || '')}</a>
             </div>
           </div>
         </div>
@@ -1487,7 +1536,7 @@ ${cardsHtml}      </div>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
-              <a href="${contacts.maxLink || ('https://max.ru/' + (contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192'))}" target="_blank" rel="noopener noreferrer" class="direct-action-btn direct-btn-max">
+              <a href="${escapeHtml(contacts.maxLink || ('https://max.ru/' + (contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192')))}" target="_blank" rel="noopener noreferrer" class="direct-action-btn direct-btn-max">
                 <svg class="direct-btn-icon direct-icon-max" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M19.5 3h-15A2.5 2.5 0 0 0 2 5.5v11A2.5 2.5 0 0 0 4.5 19H7v3.5l4.5-3.5h8a2.5 2.5 0 0 0 2.5-2.5v-11A2.5 2.5 0 0 0 19.5 3zM18 14.5h-1.8l-1.8-4.2-1.8 4.2h-1.8l-2.4-7h2l1.3 4.3L13.2 7.5h1.6l1.9 4.3 1.3-4.3h2l-2 7z"/>
                 </svg>
@@ -1495,11 +1544,11 @@ ${cardsHtml}      </div>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
-              <a href="${contacts.phoneHref || ('tel:' + contacts.phone.replace(/[^0-9+]/g, ''))}" class="direct-action-btn direct-btn-phone">
+              <a href="${escapeHtml(contacts.phoneHref || ('tel:' + (contacts.phone ? contacts.phone.replace(/[^0-9+]/g, '') : '+79634426192')))}" class="direct-action-btn direct-btn-phone">
                 <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
                 </svg>
-                <span class="direct-btn-text">Позвонить: ${escapeHtml(contacts.phone)}</span>
+                <span class="direct-btn-text">Позвонить: ${escapeHtml(safeContacts.phone || '+7 (963) 442-61-92')}</span>
                 <span class="direct-btn-arrow">→</span>
               </a>
             </div>
@@ -1550,8 +1599,9 @@ ${cardsHtml}      </div>
  * 4. Канонический генератор страницы about.html
  */
 function generateAboutHTML(siteContent) {
-  const about = siteContent.aboutPage;
-  const contacts = siteContent.home.contacts;
+  const about = (siteContent && siteContent.aboutPage) || {};
+  const contacts = (siteContent && siteContent.home && siteContent.home.contacts) || {};
+  const safeContacts = contacts;
 
   const stepIcons = [
     `<svg class="step-icon-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -1729,7 +1779,7 @@ ${stepsHtml}        </div>
         
         <div class="supervision-split-layout">
           <div class="supervision-text-card">
-            ${about.supervisionHtml}
+            ${sanitizeRichHtml(about.supervisionHtml || '')}
           </div>
           <div class="supervision-gallery-col">
             <div class="supervision-diptych">
@@ -1842,15 +1892,15 @@ ${faqItemsHtml}        </div>
             <div class="contact-details">
               <div class="contact-detail-row">
                 <span class="detail-label">Локация</span>
-                <span class="detail-val">${escapeHtml(contacts.location)}</span>
+                <span class="detail-val">${escapeHtml(contacts.location || '')}</span>
               </div>
               <div class="contact-detail-row">
                 <span class="detail-label">Телефон</span>
-                <a href="${contacts.phoneHref || ('tel:' + contacts.phone.replace(/[^0-9+]/g, ''))}" class="detail-val">${escapeHtml(contacts.phone)}</a>
+                <a href="${escapeHtml(contacts.phoneHref || ('tel:' + (contacts.phone ? contacts.phone.replace(/[^0-9+]/g, '') : '+79634426192')))}" class="detail-val">${escapeHtml(contacts.phone || '')}</a>
               </div>
               <div class="contact-detail-row">
                 <span class="detail-label">Email</span>
-                <a href="mailto:${contacts.email}" class="detail-val">${escapeHtml(contacts.email)}</a>
+                <a href="mailto:${escapeHtml(contacts.email || 'artem1-nt@mail.ru')}" class="detail-val">${escapeHtml(contacts.email || '')}</a>
               </div>
             </div>
           </div>
@@ -1871,7 +1921,7 @@ ${faqItemsHtml}        </div>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
-              <a href="${contacts.maxLink || ('https://max.ru/' + (contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192'))}" target="_blank" rel="noopener noreferrer" class="direct-action-btn direct-btn-max">
+              <a href="${escapeHtml(contacts.maxLink || ('https://max.ru/' + (contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192')))}" target="_blank" rel="noopener noreferrer" class="direct-action-btn direct-btn-max">
                 <svg class="direct-btn-icon direct-icon-max" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M19.5 3h-15A2.5 2.5 0 0 0 2 5.5v11A2.5 2.5 0 0 0 4.5 19H7v3.5l4.5-3.5h8a2.5 2.5 0 0 0 2.5-2.5v-11A2.5 2.5 0 0 0 19.5 3zM18 14.5h-1.8l-1.8-4.2-1.8 4.2h-1.8l-2.4-7h2l1.3 4.3L13.2 7.5h1.6l1.9 4.3 1.3-4.3h2l-2 7z"/>
                 </svg>
@@ -1879,11 +1929,11 @@ ${faqItemsHtml}        </div>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
-              <a href="${contacts.phoneHref || ('tel:' + contacts.phone.replace(/[^0-9+]/g, ''))}" class="direct-action-btn direct-btn-phone">
+              <a href="${escapeHtml(contacts.phoneHref || ('tel:' + (contacts.phone ? contacts.phone.replace(/[^0-9+]/g, '') : '+79634426192')))}" class="direct-action-btn direct-btn-phone">
                 <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
                 </svg>
-                <span class="direct-btn-text">Позвонить: ${escapeHtml(contacts.phone)}</span>
+                <span class="direct-btn-text">Позвонить: ${escapeHtml(safeContacts.phone || '+7 (963) 442-61-92')}</span>
                 <span class="direct-btn-arrow">→</span>
               </a>
             </div>
@@ -2126,6 +2176,11 @@ async function uploadBlobToGithub(repo, token, content, isBase64 = false) {
 }
 
 async function handleSitePublication() {
+  if (window.AdminState.isPublishing) {
+    showToast('Публикация уже выполняется, пожалуйста, подождите...', 'warning');
+    return;
+  }
+
   const token = window.AdminState.githubToken;
   const repo = window.AdminState.githubRepo;
   const branch = window.AdminState.githubBranch;
@@ -2157,6 +2212,7 @@ async function handleSitePublication() {
     return;
   }
 
+  window.AdminState.isPublishing = true;
   try {
     confirmBtn.disabled = true;
     cancelBtn.disabled = true;
@@ -2293,6 +2349,7 @@ async function handleSitePublication() {
     console.error(err);
     alert('Ошибка публикации: ' + err.message);
   } finally {
+    window.AdminState.isPublishing = false;
     confirmBtn.disabled = false;
     cancelBtn.disabled = false;
     if (progressBox) progressBox.style.display = 'none';
@@ -2310,37 +2367,42 @@ function initZipExport() {
 }
 
 async function exportAllFilesZip() {
-  syncFormDataToState();
-  const data = window.AdminState.data;
-  showToast('Формирование архива сайта...', 'info');
-
-  const files = [];
-
-  files.push({ name: 'data/site-content.json', content: JSON.stringify(data, null, 2) });
-  files.push({ name: 'index.html', content: generateIndexHTML(data) });
-  files.push({ name: 'projects.html', content: generateProjectsCatalogHTML(data) });
-  files.push({ name: 'about.html', content: generateAboutHTML(data) });
-  files.push({ name: 'sitemap.xml', content: generateSitemapXML(data) });
-
-  const projectsMap = {};
-  data.projects.forEach(p => { projectsMap[p.filename] = p; });
-  const order = data.allProjectsOrder;
-  for (let i = 0; i < order.length; i++) {
-    const curProj = projectsMap[order[i]];
-    const nextProj = projectsMap[order[(i + 1) % order.length]];
-    if (curProj && nextProj) {
-      files.push({
-        name: curProj.filename,
-        content: generateProjectPageHTML(curProj, nextProj, data.home.contacts)
-      });
-    }
+  if (window.AdminState.isExporting) {
+    showToast('Архив уже формируется, пожалуйста, подождите...', 'warning');
+    return;
   }
-
-  for (const [vPath, fData] of window.AdminState.newFilesMap.entries()) {
-    files.push({ name: vPath, binary: fData.blob });
-  }
-
+  window.AdminState.isExporting = true;
   try {
+    syncFormDataToState();
+    const data = window.AdminState.data;
+    showToast('Формирование архива сайта...', 'info');
+
+    const files = [];
+
+    files.push({ name: 'data/site-content.json', content: JSON.stringify(data, null, 2) });
+    files.push({ name: 'index.html', content: generateIndexHTML(data) });
+    files.push({ name: 'projects.html', content: generateProjectsCatalogHTML(data) });
+    files.push({ name: 'about.html', content: generateAboutHTML(data) });
+    files.push({ name: 'sitemap.xml', content: generateSitemapXML(data) });
+
+    const projectsMap = {};
+    data.projects.forEach(p => { projectsMap[p.filename] = p; });
+    const order = data.allProjectsOrder;
+    for (let i = 0; i < order.length; i++) {
+      const curProj = projectsMap[order[i]];
+      const nextProj = projectsMap[order[(i + 1) % order.length]];
+      if (curProj && nextProj) {
+        files.push({
+          name: curProj.filename,
+          content: generateProjectPageHTML(curProj, nextProj, data.home.contacts)
+        });
+      }
+    }
+
+    for (const [vPath, fData] of window.AdminState.newFilesMap.entries()) {
+      files.push({ name: vPath, binary: fData.blob });
+    }
+
     const zipBlob = await createZipBlob(files);
     const link = document.createElement('a');
     link.href = URL.createObjectURL(zipBlob);
@@ -2352,6 +2414,8 @@ async function exportAllFilesZip() {
   } catch (err) {
     console.error(err);
     showToast('Ошибка архивации: ' + err.message, 'error');
+  } finally {
+    window.AdminState.isExporting = false;
   }
 }
 
@@ -2570,8 +2634,8 @@ function syncFormDataToState() {
     data.aboutPage.chiefBadge = abBadge.value.trim();
   }
   if (abLead) data.aboutPage.lead = abLead.value.trim();
-  if (abSuper) data.aboutPage.supervisionHtml = abSuper.value.trim();
-  if (abGeo) data.aboutPage.geoHtml = abGeo.value.trim();
+  if (abSuper) data.aboutPage.supervisionHtml = sanitizeRichHtml(abSuper.value.trim());
+  if (abGeo) data.aboutPage.geoHtml = sanitizeRichHtml(abGeo.value.trim());
 
   const stepTitles = document.querySelectorAll('.step-title');
   const stepTexts = document.querySelectorAll('.step-text');
