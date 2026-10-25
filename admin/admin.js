@@ -768,6 +768,11 @@ ${navLinksHtml}    </nav>
               Напишите напрямую основателю студии в мессенджере или позвоните — ответим на все вопросы и сориентируем по срокам и стоимости.
             </p>
 
+            <div class="contact-direct-schedule">
+              <span class="direct-schedule-dot" aria-hidden="true"></span>
+              <span class="direct-schedule-text">Пн — Вс: 10:00 — 20:00 • Екатеринбург и удаленно по всей России</span>
+            </div>
+
             <div class="contact-direct-actions">
               <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" class="direct-action-btn direct-btn-telegram">
                 <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -792,10 +797,6 @@ ${navLinksHtml}    </nav>
                 <span class="direct-btn-text">Позвонить: ${escapeHtml(contacts.phone)}</span>
                 <span class="direct-btn-arrow">→</span>
               </a>
-            </div>
-
-            <div class="contact-direct-footer">
-              <span class="direct-footer-note">Пн — Вс: 10:00 — 20:00 • Екатеринбург и удаленно по всей России</span>
             </div>
           </div>
         </div>
@@ -1158,6 +1159,11 @@ ${statsHtml}          </div>
               Напишите напрямую основателю студии в мессенджере или позвоните — ответим на все вопросы и сориентируем по срокам и стоимости.
             </p>
 
+            <div class="contact-direct-schedule">
+              <span class="direct-schedule-dot" aria-hidden="true"></span>
+              <span class="direct-schedule-text">Пн — Вс: 10:00 — 20:00 • Екатеринбург и удаленно по всей России</span>
+            </div>
+
             <div class="contact-direct-actions">
               <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" class="direct-action-btn direct-btn-telegram">
                 <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -1182,10 +1188,6 @@ ${statsHtml}          </div>
                 <span class="direct-btn-text">Позвонить: ${escapeHtml(contacts.phone)}</span>
                 <span class="direct-btn-arrow">→</span>
               </a>
-            </div>
-
-            <div class="contact-direct-footer">
-              <span class="direct-footer-note">Пн — Вс: 10:00 — 20:00 • Екатеринбург и удаленно по всей России</span>
             </div>
           </div>
         </div>
@@ -1487,6 +1489,11 @@ ${cardsHtml}      </div>
               Напишите напрямую основателю студии в мессенджере или позвоните — ответим на все вопросы и сориентируем по срокам и стоимости.
             </p>
 
+            <div class="contact-direct-schedule">
+              <span class="direct-schedule-dot" aria-hidden="true"></span>
+              <span class="direct-schedule-text">Пн — Вс: 10:00 — 20:00 • Екатеринбург и удаленно по всей России</span>
+            </div>
+
             <div class="contact-direct-actions">
               <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" class="direct-action-btn direct-btn-telegram">
                 <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -1511,10 +1518,6 @@ ${cardsHtml}      </div>
                 <span class="direct-btn-text">Позвонить: ${escapeHtml(contacts.phone)}</span>
                 <span class="direct-btn-arrow">→</span>
               </a>
-            </div>
-
-            <div class="contact-direct-footer">
-              <span class="direct-footer-note">Пн — Вс: 10:00 — 20:00 • Екатеринбург и удаленно по всей России</span>
             </div>
           </div>
         </div>
@@ -1751,6 +1754,11 @@ ${faqItemsHtml}        </div>
               Напишите напрямую основателю студии в мессенджере или позвоните — ответим на все вопросы и сориентируем по срокам и стоимости.
             </p>
 
+            <div class="contact-direct-schedule">
+              <span class="direct-schedule-dot" aria-hidden="true"></span>
+              <span class="direct-schedule-text">Пн — Вс: 10:00 — 20:00 • Екатеринбург и удаленно по всей России</span>
+            </div>
+
             <div class="contact-direct-actions">
               <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" class="direct-action-btn direct-btn-telegram">
                 <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -1775,10 +1783,6 @@ ${faqItemsHtml}        </div>
                 <span class="direct-btn-text">Позвонить: ${escapeHtml(contacts.phone)}</span>
                 <span class="direct-btn-arrow">→</span>
               </a>
-            </div>
-
-            <div class="contact-direct-footer">
-              <span class="direct-footer-note">Пн — Вс: 10:00 — 20:00 • Екатеринбург и удаленно по всей России</span>
             </div>
           </div>
         </div>
@@ -2700,26 +2704,28 @@ function createHomeOrderCard(proj, index, orderArray, allProjects) {
   const card = document.createElement('div');
   card.className = 'reorder-card';
   const thumb = proj.cardImage ? `../${proj.cardImage}` : (proj.heroDay ? `../${proj.heroDay}` : '');
+  const categoryLabel = proj.specsCategory || proj.badgeLabel || 'Квартира';
 
   card.innerHTML = `
     <div class="reorder-slot-num">${index + 1}</div>
     <img src="${thumb}" alt="${escapeHtml(proj.title)}" class="reorder-thumb" onerror="this.src='../images/logo.png'">
     <div class="reorder-info">
-      <div class="reorder-title">${escapeHtml(proj.title)}</div>
+      <select class="slot-select-dropdown" title="Выберите проект для слота ${index + 1}">
+        ${allProjects.map(p => `
+          <option value="${p.filename}" ${p.filename === proj.filename ? 'selected' : ''}>
+            ${escapeHtml(p.title)}${p.city ? ` (${escapeHtml(p.city)})` : ''}
+          </option>
+        `).join('')}
+      </select>
       <div class="reorder-meta">
+        <span class="reorder-badge">${escapeHtml(categoryLabel)}</span>
+        <span>•</span>
         <span>${escapeHtml(proj.cardCity || proj.city || '')}</span>
         <span>•</span>
         <span>${proj.area || 0} м²</span>
       </div>
     </div>
     <div class="reorder-actions">
-      <select class="slot-select-dropdown" title="Заменить проект в этом слоте">
-        ${allProjects.map(p => `
-          <option value="${p.filename}" ${p.filename === proj.filename ? 'selected' : ''}>
-            ${escapeHtml(p.title)}
-          </option>
-        `).join('')}
-      </select>
       <button class="btn-icon btn-move-up" title="Переместить вверх" ${index === 0 ? 'disabled style="opacity:0.3"' : ''}>↑</button>
       <button class="btn-icon btn-move-down" title="Переместить вниз" ${index === orderArray.length - 1 ? 'disabled style="opacity:0.3"' : ''}>↓</button>
     </div>

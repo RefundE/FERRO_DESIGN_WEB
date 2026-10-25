@@ -1577,6 +1577,32 @@ a.detail-val:hover {
   margin: 0;
 }
 
+.contact-direct-schedule {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #555555;
+  text-align: left;
+  margin-top: -6px;
+  margin-bottom: 2px;
+}
+
+.direct-schedule-dot {
+  width: 7px;
+  height: 7px;
+  background-color: #10b981;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+.direct-schedule-text {
+  flex: 1;
+}
+
 .contact-direct-actions {
   display: flex;
   flex-direction: column;
