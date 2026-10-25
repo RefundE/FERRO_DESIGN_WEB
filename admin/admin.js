@@ -889,7 +889,11 @@ ${navLinksHtml}    </nav>
  * 2. Канонический генератор главной страницы index.html
  */
 function generateIndexHTML(siteContent) {
-  const home = (siteContent && siteContent.home) || {};
+  const data = siteContent || {};
+  const home = (data && data.home) || {};
+  if (home.hero && !data.home.heroTitleEn) {
+    data.home.heroTitleEn = home.hero.title;
+  }
   const contacts = home.contacts || {};
   const safeContacts = contacts;
   const projectsMap = {};
@@ -1052,10 +1056,10 @@ function generateIndexHTML(siteContent) {
     <div class="hero-glass-card">
       <div class="hero-content">
         <div class="hero-title-container">
-          <h1 class="hero-main-title" data-title-en="${escapeHtml(home.hero.title || 'FERRO DESIGN')}" data-title-ru="${escapeHtml(home.hero.titleRu || 'ФЕРРО ДИЗАЙН')}">
+          <h1 class="hero-main-title" data-title-en="${escapeHtml(home.hero?.title || data.home?.heroTitleEn || 'FERRO DESIGN')}" data-title-ru="${escapeHtml(home.hero?.titleRu || 'ФЕРРО ДИЗАЙН')}">
             <span class="hero-title-line">
-              <span class="hero-title-sizer" aria-hidden="true">${escapeHtml(home.hero.titleRu || 'ФЕРРО ДИЗАЙН')}</span>
-              <span class="hero-title-word">${escapeHtml(home.hero.title || 'FERRO DESIGN')}</span>
+              <span class="hero-title-sizer" aria-hidden="true">${escapeHtml(home.hero?.titleRu || 'ФЕРРО ДИЗАЙН')}</span>
+              <span class="hero-title-word is-initial-reveal">${escapeHtml(data.home?.heroTitleEn || 'FERRO DESIGN')}</span>
             </span>
           </h1>
         </div>
