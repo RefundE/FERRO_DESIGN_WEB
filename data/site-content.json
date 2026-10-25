@@ -65,7 +65,8 @@
       "location": "Екатеринбург, ул. Розы Люксембург, 17",
       "phone": "+7 (963) 442-61-92",
       "phoneHref": "tel:+79634426192",
-      "email": "artem1-nt@mail.ru"
+      "email": "artem1-nt@mail.ru",
+      "maxLink": "https://max.ru/79634426192"
     }
   },
   "aboutPage": {

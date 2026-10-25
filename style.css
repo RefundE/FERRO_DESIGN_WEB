@@ -1549,7 +1549,11 @@ a.detail-val:hover {
   margin-top: 4px;
 }
 
-.direct-action-btn {
+.direct-action-btn,
+.direct-btn-telegram,
+.direct-btn-whatsapp,
+.direct-btn-max,
+.direct-btn-phone {
   position: relative;
   display: flex;
   align-items: center;
@@ -1582,7 +1586,8 @@ a.detail-val:hover {
   cursor: pointer;
 }
 
-.direct-btn-icon {
+.direct-btn-icon,
+.direct-icon-max {
   width: 20px;
   height: 20px;
   flex-shrink: 0;
@@ -1601,7 +1606,11 @@ a.detail-val:hover {
   transition: transform 0.25s ease, color 0.25s ease;
 }
 
-.direct-action-btn:hover {
+.direct-action-btn:hover,
+.direct-btn-telegram:hover,
+.direct-btn-whatsapp:hover,
+.direct-btn-max:hover,
+.direct-btn-phone:hover {
   background: rgba(255, 255, 255, 0.96);
   color: #000000 !important;
   border-color: #ffffff;
@@ -1615,15 +1624,31 @@ a.detail-val:hover {
 }
 
 .direct-action-btn:hover .direct-btn-icon,
-.direct-action-btn:hover .direct-btn-arrow {
+.direct-action-btn:hover .direct-btn-arrow,
+.direct-btn-telegram:hover .direct-btn-icon,
+.direct-btn-telegram:hover .direct-btn-arrow,
+.direct-btn-whatsapp:hover .direct-btn-icon,
+.direct-btn-whatsapp:hover .direct-btn-arrow,
+.direct-btn-max:hover .direct-btn-icon,
+.direct-btn-max:hover .direct-btn-arrow,
+.direct-btn-phone:hover .direct-btn-icon,
+.direct-btn-phone:hover .direct-btn-arrow {
   color: #000000;
 }
 
-.direct-action-btn:hover .direct-btn-arrow {
+.direct-action-btn:hover .direct-btn-arrow,
+.direct-btn-telegram:hover .direct-btn-arrow,
+.direct-btn-whatsapp:hover .direct-btn-arrow,
+.direct-btn-max:hover .direct-btn-arrow,
+.direct-btn-phone:hover .direct-btn-arrow {
   transform: translateX(4px);
 }
 
-.direct-action-btn:active {
+.direct-action-btn:active,
+.direct-btn-telegram:active,
+.direct-btn-whatsapp:active,
+.direct-btn-max:active,
+.direct-btn-phone:active {
   transform: translateY(0);
   box-shadow: 
     0 3px 10px rgba(67, 66, 66, 0.12),
@@ -3868,7 +3893,7 @@ body.has-lightbox-open .hw-room-nav {
     gap: 16px;
   }
   .design-step-card {
-    padding: 0;
+    padding: 28px 24px;
   }
   .geo-info-card {
     padding: 24px 20px;

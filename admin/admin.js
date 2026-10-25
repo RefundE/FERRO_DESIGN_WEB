@@ -779,11 +779,11 @@ ${navLinksHtml}    </nav>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
-              <a href="https://wa.me/${contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192'}" target="_blank" rel="noopener" class="direct-action-btn direct-btn-whatsapp">
-                <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.276-.1-.476-.15-.677.15-.2.301-.776.978-.952 1.178-.175.2-.351.226-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.784-1.675-2.085-.176-.301-.019-.464.132-.614.135-.135.301-.351.451-.527.15-.175.2-.301.3-.501.1-.2.05-.376-.025-.526-.075-.15-.677-1.632-.927-2.234-.244-.587-.492-.507-.677-.517-.175-.01-.376-.01-.576-.01-.2 0-.526.075-.802.376-.276.301-1.052 1.028-1.052 2.508 0 1.48 1.077 2.909 1.227 3.109.15.2 2.12 3.237 5.136 4.54.717.31 1.277.495 1.714.634.721.23 1.377.197 1.896.12.578-.087 1.78-.727 2.03-1.429.251-.702.251-1.304.176-1.43-.075-.125-.276-.2-.577-.35zM12 2a9.93 9.93 0 0 0-8.544 14.992l-1.4 5.114 5.234-1.373A9.936 9.936 0 1 0 12 2zm0 18.2a8.21 8.21 0 0 1-4.19-1.149l-.3-.178-3.113.817.83-3.034-.195-.311A8.225 8.225 0 1 1 12 20.2z"/>
+              <a href="${contacts.maxLink || ('https://max.ru/' + (contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192'))}" target="_blank" rel="noopener noreferrer" class="direct-action-btn direct-btn-max">
+                <svg class="direct-btn-icon direct-icon-max" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M19.5 3h-15A2.5 2.5 0 0 0 2 5.5v11A2.5 2.5 0 0 0 4.5 19H7v3.5l4.5-3.5h8a2.5 2.5 0 0 0 2.5-2.5v-11A2.5 2.5 0 0 0 19.5 3zM18 14.5h-1.8l-1.8-4.2-1.8 4.2h-1.8l-2.4-7h2l1.3 4.3L13.2 7.5h1.6l1.9 4.3 1.3-4.3h2l-2 7z"/>
                 </svg>
-                <span class="direct-btn-text">Написать в WhatsApp</span>
+                <span class="direct-btn-text">Написать в MAX</span>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
@@ -1162,11 +1162,11 @@ ${statsHtml}          </div>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
-              <a href="https://wa.me/${contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192'}" target="_blank" rel="noopener" class="direct-action-btn direct-btn-whatsapp">
-                <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.276-.1-.476-.15-.677.15-.2.301-.776.978-.952 1.178-.175.2-.351.226-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.784-1.675-2.085-.176-.301-.019-.464.132-.614.135-.135.301-.351.451-.527.15-.175.2-.301.3-.501.1-.2.05-.376-.025-.526-.075-.15-.677-1.632-.927-2.234-.244-.587-.492-.507-.677-.517-.175-.01-.376-.01-.576-.01-.2 0-.526.075-.802.376-.276.301-1.052 1.028-1.052 2.508 0 1.48 1.077 2.909 1.227 3.109.15.2 2.12 3.237 5.136 4.54.717.31 1.277.495 1.714.634.721.23 1.377.197 1.896.12.578-.087 1.78-.727 2.03-1.429.251-.702.251-1.304.176-1.43-.075-.125-.276-.2-.577-.35zM12 2a9.93 9.93 0 0 0-8.544 14.992l-1.4 5.114 5.234-1.373A9.936 9.936 0 1 0 12 2zm0 18.2a8.21 8.21 0 0 1-4.19-1.149l-.3-.178-3.113.817.83-3.034-.195-.311A8.225 8.225 0 1 1 12 20.2z"/>
+              <a href="${contacts.maxLink || ('https://max.ru/' + (contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192'))}" target="_blank" rel="noopener noreferrer" class="direct-action-btn direct-btn-max">
+                <svg class="direct-btn-icon direct-icon-max" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M19.5 3h-15A2.5 2.5 0 0 0 2 5.5v11A2.5 2.5 0 0 0 4.5 19H7v3.5l4.5-3.5h8a2.5 2.5 0 0 0 2.5-2.5v-11A2.5 2.5 0 0 0 19.5 3zM18 14.5h-1.8l-1.8-4.2-1.8 4.2h-1.8l-2.4-7h2l1.3 4.3L13.2 7.5h1.6l1.9 4.3 1.3-4.3h2l-2 7z"/>
                 </svg>
-                <span class="direct-btn-text">Написать в WhatsApp</span>
+                <span class="direct-btn-text">Написать в MAX</span>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
@@ -1487,11 +1487,11 @@ ${cardsHtml}      </div>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
-              <a href="https://wa.me/${contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192'}" target="_blank" rel="noopener" class="direct-action-btn direct-btn-whatsapp">
-                <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.276-.1-.476-.15-.677.15-.2.301-.776.978-.952 1.178-.175.2-.351.226-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.784-1.675-2.085-.176-.301-.019-.464.132-.614.135-.135.301-.351.451-.527.15-.175.2-.301.3-.501.1-.2.05-.376-.025-.526-.075-.15-.677-1.632-.927-2.234-.244-.587-.492-.507-.677-.517-.175-.01-.376-.01-.576-.01-.2 0-.526.075-.802.376-.276.301-1.052 1.028-1.052 2.508 0 1.48 1.077 2.909 1.227 3.109.15.2 2.12 3.237 5.136 4.54.717.31 1.277.495 1.714.634.721.23 1.377.197 1.896.12.578-.087 1.78-.727 2.03-1.429.251-.702.251-1.304.176-1.43-.075-.125-.276-.2-.577-.35zM12 2a9.93 9.93 0 0 0-8.544 14.992l-1.4 5.114 5.234-1.373A9.936 9.936 0 1 0 12 2zm0 18.2a8.21 8.21 0 0 1-4.19-1.149l-.3-.178-3.113.817.83-3.034-.195-.311A8.225 8.225 0 1 1 12 20.2z"/>
+              <a href="${contacts.maxLink || ('https://max.ru/' + (contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192'))}" target="_blank" rel="noopener noreferrer" class="direct-action-btn direct-btn-max">
+                <svg class="direct-btn-icon direct-icon-max" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M19.5 3h-15A2.5 2.5 0 0 0 2 5.5v11A2.5 2.5 0 0 0 4.5 19H7v3.5l4.5-3.5h8a2.5 2.5 0 0 0 2.5-2.5v-11A2.5 2.5 0 0 0 19.5 3zM18 14.5h-1.8l-1.8-4.2-1.8 4.2h-1.8l-2.4-7h2l1.3 4.3L13.2 7.5h1.6l1.9 4.3 1.3-4.3h2l-2 7z"/>
                 </svg>
-                <span class="direct-btn-text">Написать в WhatsApp</span>
+                <span class="direct-btn-text">Написать в MAX</span>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
@@ -1871,11 +1871,11 @@ ${faqItemsHtml}        </div>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
-              <a href="https://wa.me/${contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192'}" target="_blank" rel="noopener" class="direct-action-btn direct-btn-whatsapp">
-                <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.276-.1-.476-.15-.677.15-.2.301-.776.978-.952 1.178-.175.2-.351.226-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.784-1.675-2.085-.176-.301-.019-.464.132-.614.135-.135.301-.351.451-.527.15-.175.2-.301.3-.501.1-.2.05-.376-.025-.526-.075-.15-.677-1.632-.927-2.234-.244-.587-.492-.507-.677-.517-.175-.01-.376-.01-.576-.01-.2 0-.526.075-.802.376-.276.301-1.052 1.028-1.052 2.508 0 1.48 1.077 2.909 1.227 3.109.15.2 2.12 3.237 5.136 4.54.717.31 1.277.495 1.714.634.721.23 1.377.197 1.896.12.578-.087 1.78-.727 2.03-1.429.251-.702.251-1.304.176-1.43-.075-.125-.276-.2-.577-.35zM12 2a9.93 9.93 0 0 0-8.544 14.992l-1.4 5.114 5.234-1.373A9.936 9.936 0 1 0 12 2zm0 18.2a8.21 8.21 0 0 1-4.19-1.149l-.3-.178-3.113.817.83-3.034-.195-.311A8.225 8.225 0 1 1 12 20.2z"/>
+              <a href="${contacts.maxLink || ('https://max.ru/' + (contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192'))}" target="_blank" rel="noopener noreferrer" class="direct-action-btn direct-btn-max">
+                <svg class="direct-btn-icon direct-icon-max" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M19.5 3h-15A2.5 2.5 0 0 0 2 5.5v11A2.5 2.5 0 0 0 4.5 19H7v3.5l4.5-3.5h8a2.5 2.5 0 0 0 2.5-2.5v-11A2.5 2.5 0 0 0 19.5 3zM18 14.5h-1.8l-1.8-4.2-1.8 4.2h-1.8l-2.4-7h2l1.3 4.3L13.2 7.5h1.6l1.9 4.3 1.3-4.3h2l-2 7z"/>
                 </svg>
-                <span class="direct-btn-text">Написать в WhatsApp</span>
+                <span class="direct-btn-text">Написать в MAX</span>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
@@ -2048,9 +2048,12 @@ function runClientSideValidation(siteContent) {
       errors.push(`${curFn}: неверная ссылка на следующий проект в next-case-bar`);
     }
 
-    ['id="contact"', 'contact-section', 'contact-direct-card', 'direct-btn-telegram', 'direct-btn-whatsapp', 'direct-btn-phone'].forEach(elem => {
+    ['id="contact"', 'contact-section', 'contact-direct-card', 'direct-btn-telegram', 'direct-btn-phone'].forEach(elem => {
       if (!html.includes(elem)) errors.push(`${curFn}: отсутствует обязательный элемент прямой связи ${elem}`);
     });
+    if (!html.includes('direct-btn-max') && !html.includes('direct-btn-whatsapp')) {
+      errors.push(`${curFn}: отсутствует обязательный элемент прямой связи direct-btn-max`);
+    }
     ['<form', 'name="website"', 'name="name"', 'btn-submit'].forEach(forbidden => {
       if (html.includes(forbidden)) errors.push(`${curFn}: обнаружен запрещенный элемент формы ${forbidden} (152-ФЗ)`);
     });
@@ -2593,6 +2596,7 @@ function syncFormDataToState() {
   const cLoc = document.getElementById('contactsLocation');
   const cPhone = document.getElementById('contactsPhone');
   const cEmail = document.getElementById('contactsEmail');
+  const cMax = document.getElementById('contactsMaxLink');
   if (cIntro) data.home.contacts.intro = cIntro.value.trim();
   if (cLoc) data.home.contacts.location = cLoc.value.trim();
   if (cPhone) {
@@ -2600,6 +2604,7 @@ function syncFormDataToState() {
     data.home.contacts.phoneHref = 'tel:' + cPhone.value.replace(/[^0-9+]/g, '');
   }
   if (cEmail) data.home.contacts.email = cEmail.value.trim();
+  if (cMax) data.home.contacts.maxLink = cMax.value.trim();
 
   const curProj = data.projects.find(p => p.id === window.AdminState.activeProjectId);
   if (curProj) {
@@ -2770,6 +2775,8 @@ function renderTab1Texts(data) {
   document.getElementById('contactsLocation').value = contacts.location || '';
   document.getElementById('contactsPhone').value = contacts.phone || '';
   document.getElementById('contactsEmail').value = contacts.email || '';
+  const cMax = document.getElementById('contactsMaxLink');
+  if (cMax) cMax.value = contacts.maxLink || '';
 }
 
 function renderFaqList(faqArray) {
