@@ -1069,14 +1069,21 @@ ${servicesCards}      </div>
     <div class="about-container">
       <div class="about-grid">
         <div class="about-col-left">
-          <h2 class="about-section-title">О нас</h2>
-          <p class="about-manifesto">
-            ${escapeHtml(home.aboutSection.manifesto)}
-          </p>
-          <div style="margin-top: 28px;">
-            <a href="about.html" class="ref-projects-btn">
-              <span class="ref-projects-btn-text">Подробнее о студии</span>
-              <span class="ref-projects-btn-line"></span>
+          <div class="about-text-group">
+            <h2 class="about-section-title">О нас</h2>
+            <p class="about-manifesto">
+              ${escapeHtml(home.aboutSection.manifesto)}
+            </p>
+          </div>
+          <div class="about-cta-group">
+            <a href="about.html" class="btn-about-detail">
+              <span class="btn-about-detail-text">Подробнее о студии</span>
+              <span class="btn-about-detail-arrow" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
             </a>
           </div>
         </div>
