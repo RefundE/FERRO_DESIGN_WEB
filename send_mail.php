@@ -288,7 +288,7 @@ if (filter_var($rawContact, FILTER_VALIDATE_EMAIL)) {
 // 11. Отправка через встроенную функцию mail() с try / catch и проверкой результата
 try {
     $headersStr = implode("\r\n", $headers);
-    $sent = @mail($to, $subjectEncoded, $htmlBody, $headersStr);
+    $sent = @mail($to, $subjectEncoded, $htmlBody, $headersStr, '-f no-reply@ferro-design.ru');
 
     if (!$sent) {
         http_response_code(500);

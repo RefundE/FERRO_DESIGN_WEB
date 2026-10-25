@@ -42,12 +42,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadSiteContent();
 });
 
+function markUnsavedChanges() {
+  window.AdminState.hasUnsavedChanges = true;
+}
+
 function initUnsavedChangesTracker() {
   ['input', 'change'].forEach(eventType => {
     document.addEventListener(eventType, (e) => {
       if (e.target && typeof e.target.matches === 'function' && e.target.matches('input, textarea, select')) {
         if (!e.target.matches('#projectSearchInput, #previewPageSelector, #ghTokenInput, #ghRepoInput, #ghBranchInput')) {
-          window.AdminState.hasUnsavedChanges = true;
+          markUnsavedChanges();
         }
       }
     });
@@ -256,8 +260,18 @@ function setupBuilderGlobalActions() {
       const timestamp = Date.now();
       dupProj.id = 'project-' + timestamp;
       const baseSlug = (curProj.filename || 'project').replace(/\.html$/i, '').replace(/^project-/i, '');
-      dupProj.filename = `project-${baseSlug}-copy.html`;
-      dupProj.title = `${curProj.title} (Копия)`;
+      let candidateFilename = `project-${baseSlug}-copy.html`;
+      let candidateFolder = `${curProj.folder || baseSlug}_COPY`.replace(/[^a-zA-Z0-9_-]/g, '_').toUpperCase();
+      let copyIndex = 2;
+      const existingFilenames = new Set((data.projects || []).map(p => p.filename));
+      while (existingFilenames.has(candidateFilename)) {
+        candidateFilename = `project-${baseSlug}-copy-${copyIndex}.html`;
+        candidateFolder = `${curProj.folder || baseSlug}_COPY_${copyIndex}`.replace(/[^a-zA-Z0-9_-]/g, '_').toUpperCase();
+        copyIndex++;
+      }
+      dupProj.filename = candidateFilename;
+      dupProj.folder = candidateFolder;
+      dupProj.title = `${curProj.title} (Копия${copyIndex > 2 ? ' ' + (copyIndex - 1) : ''})`;
       dupProj.cardTitle = dupProj.title;
 
       data.projects.push(dupProj);
@@ -265,7 +279,7 @@ function setupBuilderGlobalActions() {
         data.allProjectsOrder.push(dupProj.filename);
       }
 
-      window.AdminState.hasUnsavedChanges = true;
+      markUnsavedChanges();
       renderProjectsSidebar(data.projects);
       renderTab2Reorder(data);
       selectProjectInBuilder(dupProj);
@@ -541,12 +555,14 @@ async function handleRoomRendersUpload(proj, room, files, gridContainer) {
 
     let maxIdx = 0;
     (room.items || []).forEach(it => {
-      const paths = it.type === 'diptych' ? (it.items || []).map(p => p[0]) : [it.src];
+      const paths = it.type === 'diptych' ? (it.items || []).map(p => (Array.isArray(p) ? p[0] : (p?.src || p))) : [it.src];
       paths.forEach(p => {
-        const m = p.match(/_(\d+)\.webp$/i);
-        if (m) {
-          const num = parseInt(m[1], 10);
-          if (num > maxIdx) maxIdx = num;
+        if (typeof p === 'string') {
+          const m = p.match(/_(\d+)\.webp$/i);
+          if (m) {
+            const num = parseInt(m[1], 10);
+            if (num > maxIdx) maxIdx = num;
+          }
         }
       });
     });
@@ -568,6 +584,7 @@ async function handleRoomRendersUpload(proj, room, files, gridContainer) {
       });
     }
 
+    markUnsavedChanges();
     renderRoomItems(room, gridContainer, proj);
     showToast(`Успешно добавлено ${files.length} рендеров в помещение!`, 'success');
   } catch (err) {
@@ -628,16 +645,21 @@ function generateProjectPageHTML(project, nextProject, contacts) {
 
     const items = room.items || [];
     items.forEach(it => {
-      if (it.type === 'diptych' && it.items && it.items.length === 2) {
+      if (it.type === 'diptych' && Array.isArray(it.items) && it.items.length === 2) {
         roomsHtml += `    <div class="diptych-grid">\n`;
-        it.items.forEach(([src, cap]) => {
-          roomsHtml += `      <figure>\n        <div class="js-tilt">\n          <img src="${escapeHtml(src)}" alt="${escapeHtml(cap || '')}" loading="lazy" decoding="async">\n        </div>\n        <figcaption>${escapeHtml(cap || '')}</figcaption>\n      </figure>\n`;
+        it.items.forEach(dipItem => {
+          const src = Array.isArray(dipItem) ? dipItem[0] : (dipItem?.src || dipItem);
+          const cap = Array.isArray(dipItem) ? dipItem[1] : (dipItem?.cap || dipItem?.caption || '');
+          const safeSrc = src && typeof src === 'string' ? src : 'images/logo.png';
+          roomsHtml += `      <figure>\n        <div class="js-tilt">\n          <img src="${escapeHtml(safeSrc)}" alt="${escapeHtml(cap || '')}" loading="lazy" decoding="async">\n        </div>\n        <figcaption>${escapeHtml(cap || '')}</figcaption>\n      </figure>\n`;
         });
         roomsHtml += `    </div>\n\n`;
       } else if (it.type === 'full_compact') {
-        roomsHtml += `    <figure class="media-block" style="max-width: 800px; margin-left: auto; margin-right: auto;">\n      <div class="js-tilt">\n        <img src="${escapeHtml(it.src)}" alt="${escapeHtml(it.cap || '')}" loading="lazy" decoding="async">\n      </div>\n      <figcaption>${escapeHtml(it.cap || '')}</figcaption>\n    </figure>\n\n`;
+        const safeSrc = it.src && typeof it.src === 'string' ? it.src : 'images/logo.png';
+        roomsHtml += `    <figure class="media-block" style="max-width: 800px; margin-left: auto; margin-right: auto;">\n      <div class="js-tilt">\n        <img src="${escapeHtml(safeSrc)}" alt="${escapeHtml(it.cap || '')}" loading="lazy" decoding="async">\n      </div>\n      <figcaption>${escapeHtml(it.cap || '')}</figcaption>\n    </figure>\n\n`;
       } else {
-        roomsHtml += `    <figure class="media-block">\n      <div class="js-tilt">\n        <img src="${escapeHtml(it.src)}" alt="${escapeHtml(it.cap || '')}" loading="lazy" decoding="async">\n      </div>\n      <figcaption>${escapeHtml(it.cap || '')}</figcaption>\n    </figure>\n\n`;
+        const safeSrc = it.src && typeof it.src === 'string' ? it.src : 'images/logo.png';
+        roomsHtml += `    <figure class="media-block">\n      <div class="js-tilt">\n        <img src="${escapeHtml(safeSrc)}" alt="${escapeHtml(it.cap || '')}" loading="lazy" decoding="async">\n      </div>\n      <figcaption>${escapeHtml(it.cap || '')}</figcaption>\n    </figure>\n\n`;
       }
     });
   });
@@ -1056,10 +1078,10 @@ function generateIndexHTML(siteContent) {
     <div class="hero-glass-card">
       <div class="hero-content">
         <div class="hero-title-container">
-          <h1 class="hero-main-title" data-title-en="${escapeHtml(home.hero?.title || data.home?.heroTitleEn || 'FERRO DESIGN')}" data-title-ru="${escapeHtml(home.hero?.titleRu || 'ФЕРРО ДИЗАЙН')}">
+          <h1 class="hero-main-title" data-title-en="${escapeHtml(home.hero?.title || 'FERRO DESIGN')}" data-title-ru="${escapeHtml(home.hero?.titleRu || 'ФЕРРО ДИЗАЙН')}">
             <span class="hero-title-line">
               <span class="hero-title-sizer" aria-hidden="true">${escapeHtml(home.hero?.titleRu || 'ФЕРРО ДИЗАЙН')}</span>
-              <span class="hero-title-word is-initial-reveal">${escapeHtml(data.home?.heroTitleEn || 'FERRO DESIGN')}</span>
+              <span class="hero-title-word is-initial-reveal">${escapeHtml(home.hero?.title || 'FERRO DESIGN')}</span>
             </span>
           </h1>
         </div>
@@ -1818,9 +1840,9 @@ ${stepsHtml}        </div>
         <h2 class="about-block-title">География проектов</h2>
         
         <div class="geo-intro-box">
-          <p class="geo-lead-text">
+          ${about.geoHtml ? sanitizeRichHtml(about.geoHtml) : `<p class="geo-lead-text">
             Студия FERRO DESIGN™ базируется в Екатеринбурге и активно проектирует жилые и коммерческие пространства на территории Свердловской области. Мы также успешно реализуем частные резиденции, квартиры и коммерческие объекты в Сочи, Москве, ХМАО и других регионах России в формате отточенного удаленного проектирования.
-          </p>
+          </p>`}
         </div>
 
         <div class="geo-cities-grid">
@@ -2179,47 +2201,59 @@ async function uploadBlobToGithub(repo, token, content, isBase64 = false) {
   return data.sha;
 }
 
+/**
+ * Рекурсивно очищает объект site-content.json перед публикацией/экспортом,
+ * исключая любые внутренние свойства, начинающиеся с "_" (например, _dataUrl)
+ */
+function prepareCleanSiteContent(data) {
+  if (!data) return {};
+  return JSON.parse(JSON.stringify(data, (key, value) => {
+    if (key && typeof key === 'string' && key.startsWith('_')) {
+      return undefined;
+    }
+    return value;
+  }));
+}
+
 async function handleSitePublication() {
   if (window.AdminState.isPublishing) {
     showToast('Публикация уже выполняется, пожалуйста, подождите...', 'warning');
     return;
   }
 
-  const token = window.AdminState.githubToken;
-  const repo = window.AdminState.githubRepo;
-  const branch = window.AdminState.githubBranch;
-
   const progressBox = document.getElementById('publishProgressContainer');
   const progressStep = document.getElementById('publishProgressStep');
   const confirmBtn = document.getElementById('btnConfirmPublishFinal');
   const cancelBtn = document.getElementById('btnCancelPublish');
 
-  syncFormDataToState();
-  const data = window.AdminState.data;
-
-  if (progressBox) progressBox.style.display = 'block';
-  if (progressStep) progressStep.textContent = '1/5. Проверка целостности по 10 стандартам...';
-
-  const errors = runClientSideValidation(data);
-  if (errors.length > 0) {
-    alert(`Обнаружены ошибки валидации (${errors.length}):\n\n` + errors.slice(0, 5).join('\n'));
-    if (progressBox) progressBox.style.display = 'none';
-    return;
-  }
-
-  if (!token) {
-    if (progressBox) progressBox.style.display = 'none';
-    closeModal('modalPublishConfirm');
-    if (confirm('Personal Access Token не указан в настройках.\nСкачать обновленные файлы сайта архивом на компьютер?')) {
-      exportAllFilesZip();
-    }
-    return;
-  }
-
   window.AdminState.isPublishing = true;
+  if (confirmBtn) confirmBtn.disabled = true;
+  if (cancelBtn) cancelBtn.disabled = true;
+
   try {
-    confirmBtn.disabled = true;
-    cancelBtn.disabled = true;
+    const token = window.AdminState.githubToken;
+    const repo = window.AdminState.githubRepo;
+    const branch = window.AdminState.githubBranch;
+
+    syncFormDataToState();
+    const data = window.AdminState.data;
+
+    if (progressBox) progressBox.style.display = 'block';
+    if (progressStep) progressStep.textContent = '1/5. Проверка целостности по 10 стандартам...';
+
+    const errors = runClientSideValidation(data);
+    if (errors.length > 0) {
+      alert(`Обнаружены ошибки валидации (${errors.length}):\n\n` + errors.slice(0, 5).join('\n'));
+      return;
+    }
+
+    if (!token) {
+      closeModal('modalPublishConfirm');
+      if (confirm('Personal Access Token не указан в настройках.\nСкачать обновленные файлы сайта архивом на компьютер?')) {
+        exportAllFilesZip();
+      }
+      return;
+    }
 
     if (progressStep) progressStep.textContent = '2/5. Подключение к репозиторию GitHub...';
     const refRes = await fetch(`https://api.github.com/repos/${repo}/git/refs/heads/${branch}`, {
@@ -2286,7 +2320,7 @@ async function handleSitePublication() {
       }
     }
 
-    await addTreeFile('data/site-content.json', JSON.stringify(data, null, 2));
+    await addTreeFile('data/site-content.json', JSON.stringify(prepareCleanSiteContent(data), null, 2));
     await addTreeFile('index.html', generateIndexHTML(data));
     await addTreeFile('projects.html', generateProjectsCatalogHTML(data));
     await addTreeFile('about.html', generateAboutHTML(data));
@@ -2383,7 +2417,7 @@ async function exportAllFilesZip() {
 
     const files = [];
 
-    files.push({ name: 'data/site-content.json', content: JSON.stringify(data, null, 2) });
+    files.push({ name: 'data/site-content.json', content: JSON.stringify(prepareCleanSiteContent(data), null, 2) });
     files.push({ name: 'index.html', content: generateIndexHTML(data) });
     files.push({ name: 'projects.html', content: generateProjectsCatalogHTML(data) });
     files.push({ name: 'about.html', content: generateAboutHTML(data) });
@@ -2542,9 +2576,14 @@ async function loadSiteContent() {
     if (!data) {
       const repo = window.AdminState.githubRepo || 'RefundE/FERRO_DESIGN_WEB';
       const branch = window.AdminState.githubBranch || 'main';
+      const token = window.AdminState.githubToken;
       const ghUrl = `https://raw.githubusercontent.com/${repo}/${branch}/data/site-content.json?t=${Date.now()}`;
       try {
-        const ghRes = await fetch(ghUrl);
+        const ghHeaders = {};
+        if (token) {
+          ghHeaders['Authorization'] = `Bearer ${token}`;
+        }
+        const ghRes = await fetch(ghUrl, { headers: ghHeaders });
         if (ghRes.ok) {
           data = await ghRes.json();
           showToast('Данные успешно загружены из репозитория GitHub', 'info');
@@ -2835,6 +2874,7 @@ function renderTab1Texts(data) {
     syncFormDataToState();
     about.faq = about.faq || [];
     about.faq.push({ question: 'Новый вопрос', answer: 'Ответ на вопрос...' });
+    markUnsavedChanges();
     renderFaqList(about.faq);
   };
 
@@ -2864,6 +2904,7 @@ function renderFaqList(faqArray) {
     item.querySelector('.btn-delete-faq').onclick = () => {
       syncFormDataToState();
       faqArray.splice(index, 1);
+      markUnsavedChanges();
       renderFaqList(faqArray);
     };
     container.appendChild(item);
@@ -2911,7 +2952,7 @@ function createHomeOrderCard(proj, index, orderArray, allProjects) {
     <div class="reorder-info">
       <select class="slot-select-dropdown" title="Выберите проект для слота ${index + 1}">
         ${allProjects.map(p => `
-          <option value="${p.filename}" ${p.filename === proj.filename ? 'selected' : ''}>
+          <option value="${escapeHtml(p.filename)}" ${p.filename === proj.filename ? 'selected' : ''}>
             ${escapeHtml(p.title)}${p.city ? ` (${escapeHtml(p.city)})` : ''}
           </option>
         `).join('')}
@@ -2932,6 +2973,7 @@ function createHomeOrderCard(proj, index, orderArray, allProjects) {
 
   card.querySelector('.slot-select-dropdown').onchange = (e) => {
     orderArray[index] = e.target.value;
+    markUnsavedChanges();
     renderTab2Reorder(window.AdminState.data);
     showToast(`Слот ${index + 1} обновлен`, 'success');
   };
@@ -2942,6 +2984,7 @@ function createHomeOrderCard(proj, index, orderArray, allProjects) {
       const temp = orderArray[index];
       orderArray[index] = orderArray[index - 1];
       orderArray[index - 1] = temp;
+      markUnsavedChanges();
       renderTab2Reorder(window.AdminState.data);
     };
   }
@@ -2952,6 +2995,7 @@ function createHomeOrderCard(proj, index, orderArray, allProjects) {
       const temp = orderArray[index];
       orderArray[index] = orderArray[index + 1];
       orderArray[index + 1] = temp;
+      markUnsavedChanges();
       renderTab2Reorder(window.AdminState.data);
     };
   }
@@ -2992,6 +3036,7 @@ function createAllProjectsOrderCard(proj, index, orderArray) {
       const temp = orderArray[index];
       orderArray[index] = orderArray[index - 1];
       orderArray[index - 1] = temp;
+      markUnsavedChanges();
       renderTab2Reorder(window.AdminState.data);
     };
   }
@@ -3002,6 +3047,7 @@ function createAllProjectsOrderCard(proj, index, orderArray) {
       const temp = orderArray[index];
       orderArray[index] = orderArray[index + 1];
       orderArray[index + 1] = temp;
+      markUnsavedChanges();
       renderTab2Reorder(window.AdminState.data);
     };
   }
@@ -3019,6 +3065,7 @@ function createAllProjectsOrderCard(proj, index, orderArray) {
     if (!isNaN(fromIdx) && fromIdx !== toIdx) {
       const item = orderArray.splice(fromIdx, 1)[0];
       orderArray.splice(toIdx, 0, item);
+      markUnsavedChanges();
       renderTab2Reorder(window.AdminState.data);
       showToast('Порядок проектов в каталоге обновлен', 'info');
     }
@@ -3163,7 +3210,15 @@ function selectProjectInBuilder(proj) {
   }
 
   document.getElementById('btnRemoveNightCover').onclick = () => {
+    if (window.AdminState.newFilesMap) {
+      const nightPath = `images/${proj.folder}/cover_night.webp`;
+      window.AdminState.newFilesMap.delete(nightPath);
+      if (proj.heroNight) {
+        window.AdminState.newFilesMap.delete(proj.heroNight);
+      }
+    }
     proj.heroNight = null;
+    markUnsavedChanges();
     nightBanner.className = 'night-cover-status-banner empty';
     nightBanner.innerHTML = '<span>○ Переключатель ДЕНЬ / НОЧЬ скрыт (только дневной режим)</span>';
     nightBox.style.display = 'none';
@@ -3194,6 +3249,7 @@ function renderProjectRooms(proj) {
       items: []
     };
     rooms.push(newRoom);
+    markUnsavedChanges();
     renderProjectRooms(proj);
     showToast('Помещение добавлено', 'success');
   };
@@ -3285,6 +3341,7 @@ function createRoomCard(room, roomIndex, proj) {
       const temp = proj.rooms[roomIndex];
       proj.rooms[roomIndex] = proj.rooms[roomIndex - 1];
       proj.rooms[roomIndex - 1] = temp;
+      markUnsavedChanges();
       renderProjectRooms(proj);
     };
   }
@@ -3295,6 +3352,7 @@ function createRoomCard(room, roomIndex, proj) {
       const temp = proj.rooms[roomIndex];
       proj.rooms[roomIndex] = proj.rooms[roomIndex + 1];
       proj.rooms[roomIndex + 1] = temp;
+      markUnsavedChanges();
       renderProjectRooms(proj);
     };
   }
@@ -3302,6 +3360,7 @@ function createRoomCard(room, roomIndex, proj) {
   card.querySelector('.btn-room-delete').onclick = () => {
     if (confirm(`Удалить помещение «${room.name}» и все его ракурсы?`)) {
       proj.rooms.splice(roomIndex, 1);
+      markUnsavedChanges();
       renderProjectRooms(proj);
       showToast('Помещение удалено', 'info');
     }
@@ -3550,11 +3609,23 @@ function createNewProjectDialog() {
   const title = prompt('Введите название нового проекта (например: ЖК «Кандинский»):');
   if (!title || !title.trim()) return;
 
-  const slug = transliterateSlug(title);
+  const baseSlug = transliterateSlug(title);
+  let candidateSlug = baseSlug;
+  let candidateFilename = `project-${candidateSlug}.html`;
+  let candidateFolder = candidateSlug.replace(/[^a-zA-Z0-9_-]/g, '_').toUpperCase().replace(/-/g, '_');
+  let pIdx = 2;
+  const existingFiles = new Set((window.AdminState.data.projects || []).map(p => p.filename));
+  while (existingFiles.has(candidateFilename)) {
+    candidateSlug = `${baseSlug}-${pIdx}`;
+    candidateFilename = `project-${candidateSlug}.html`;
+    candidateFolder = `${baseSlug}_${pIdx}`.replace(/[^a-zA-Z0-9_-]/g, '_').toUpperCase().replace(/-/g, '_');
+    pIdx++;
+  }
+
   const newProj = {
     id: `project-${Date.now()}`,
-    filename: `project-${slug}.html`,
-    folder: slug.toUpperCase().replace(/-/g, '_'),
+    filename: candidateFilename,
+    folder: candidateFolder,
     title: title.trim(),
     cardTitle: title.trim(),
     city: 'Екатеринбург',
@@ -3582,6 +3653,7 @@ function createNewProjectDialog() {
 
   window.AdminState.data.projects.push(newProj);
   window.AdminState.data.allProjectsOrder.push(newProj.filename);
+  markUnsavedChanges();
   renderTab2Reorder(window.AdminState.data);
   renderProjectsSidebar(window.AdminState.data.projects);
   selectProjectInBuilder(newProj);
