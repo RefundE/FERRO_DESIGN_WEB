@@ -70,6 +70,7 @@ function initNavigation() {
   const tabBtns = document.querySelectorAll('.nav-tab-btn');
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
+      syncFormDataToState();
       const tabId = btn.dataset.tab;
       tabBtns.forEach(b => {
         b.classList.remove('active');
@@ -88,6 +89,7 @@ function initNavigation() {
   const subtabBtns = document.querySelectorAll('.subtab-btn');
   subtabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
+      syncFormDataToState();
       const pageId = btn.dataset.page;
       subtabBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -768,11 +770,6 @@ ${navLinksHtml}    </nav>
               Напишите напрямую основателю студии в мессенджере или позвоните — ответим на все вопросы и сориентируем по срокам и стоимости.
             </p>
 
-            <div class="contact-direct-schedule">
-              <span class="direct-schedule-dot" aria-hidden="true"></span>
-              <span class="direct-schedule-text">Пн — Вс: 10:00 — 20:00 • Екатеринбург и удаленно по всей России</span>
-            </div>
-
             <div class="contact-direct-actions">
               <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" class="direct-action-btn direct-btn-telegram">
                 <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -1007,15 +1004,12 @@ function generateIndexHTML(siteContent) {
     <div class="hero-glass-card">
       <div class="hero-content">
         <div class="hero-title-container">
-          <h1 class="hero-main-title">
+          <h1 class="hero-main-title" data-title-en="${escapeHtml(home.hero.title || 'FERRO DESIGN')}" data-title-ru="${escapeHtml(home.hero.titleRu || 'ФЕРРО ДИЗАЙН')}">
             <span class="hero-title-line">
-              <span class="hero-title-sizer" aria-hidden="true">ФЕРРО ДИЗАЙН</span>
+              <span class="hero-title-sizer" aria-hidden="true">${escapeHtml(home.hero.titleRu || 'ФЕРРО ДИЗАЙН')}</span>
               <span class="hero-title-word">${escapeHtml(home.hero.title || 'FERRO DESIGN')}</span>
             </span>
           </h1>
-          <div class="hero-signature-wrap">
-            <img src="images/podpis.png" alt="FERRO Signature" class="hero-signature-img">
-          </div>
         </div>
 
         <div class="hero-right-col">
@@ -1158,11 +1152,6 @@ ${statsHtml}          </div>
             <p class="contact-direct-desc">
               Напишите напрямую основателю студии в мессенджере или позвоните — ответим на все вопросы и сориентируем по срокам и стоимости.
             </p>
-
-            <div class="contact-direct-schedule">
-              <span class="direct-schedule-dot" aria-hidden="true"></span>
-              <span class="direct-schedule-text">Пн — Вс: 10:00 — 20:00 • Екатеринбург и удаленно по всей России</span>
-            </div>
 
             <div class="contact-direct-actions">
               <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" class="direct-action-btn direct-btn-telegram">
@@ -1489,11 +1478,6 @@ ${cardsHtml}      </div>
               Напишите напрямую основателю студии в мессенджере или позвоните — ответим на все вопросы и сориентируем по срокам и стоимости.
             </p>
 
-            <div class="contact-direct-schedule">
-              <span class="direct-schedule-dot" aria-hidden="true"></span>
-              <span class="direct-schedule-text">Пн — Вс: 10:00 — 20:00 • Екатеринбург и удаленно по всей России</span>
-            </div>
-
             <div class="contact-direct-actions">
               <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" class="direct-action-btn direct-btn-telegram">
                 <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -1753,11 +1737,6 @@ ${faqItemsHtml}        </div>
             <p class="contact-direct-desc">
               Напишите напрямую основателю студии в мессенджере или позвоните — ответим на все вопросы и сориентируем по срокам и стоимости.
             </p>
-
-            <div class="contact-direct-schedule">
-              <span class="direct-schedule-dot" aria-hidden="true"></span>
-              <span class="direct-schedule-text">Пн — Вс: 10:00 — 20:00 • Екатеринбург и удаленно по всей России</span>
-            </div>
 
             <div class="contact-direct-actions">
               <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" class="direct-action-btn direct-btn-telegram">
@@ -2420,9 +2399,11 @@ function syncFormDataToState() {
 
   if (data.home && data.home.hero) {
     const hTitle = document.getElementById('homeHeroTitle');
+    const hTitleRu = document.getElementById('homeHeroTitleRu');
     const hDesc = document.getElementById('homeHeroDescription');
     const hBtn = document.getElementById('homeHeroButton');
     if (hTitle) data.home.hero.title = hTitle.value.trim();
+    if (hTitleRu) data.home.hero.titleRu = hTitleRu.value.trim();
     if (hDesc) data.home.hero.description = hDesc.value.trim();
     if (hBtn) {
       data.home.hero.btnText = hBtn.value.trim();
@@ -2471,6 +2452,18 @@ function syncFormDataToState() {
     if (stepTitles[i]) stp.title = stepTitles[i].value.trim();
     if (stepTexts[i]) stp.text = stepTexts[i].value.trim();
   });
+
+  const faqQuestions = document.querySelectorAll('.faq-question');
+  const faqAnswers = document.querySelectorAll('.faq-answer');
+  if (faqQuestions.length > 0 && data.aboutPage) {
+    data.aboutPage.faq = [];
+    faqQuestions.forEach((qInput, idx) => {
+      data.aboutPage.faq.push({
+        question: qInput.value.trim(),
+        answer: faqAnswers[idx] ? faqAnswers[idx].value.trim() : ''
+      });
+    });
+  }
 
   const cIntro = document.getElementById('contactsIntro');
   const cLoc = document.getElementById('contactsLocation');
@@ -2556,9 +2549,14 @@ function syncFormDataToState() {
 function renderTab1Texts(data) {
   const home = data.home || {};
   if (home.hero) {
-    document.getElementById('homeHeroTitle').value = home.hero.title || '';
-    document.getElementById('homeHeroButton').value = home.hero.btnText || home.hero.buttonText || '';
-    document.getElementById('homeHeroDescription').value = home.hero.description || '';
+    const hTitle = document.getElementById('homeHeroTitle');
+    if (hTitle) hTitle.value = home.hero.title || '';
+    const hTitleRu = document.getElementById('homeHeroTitleRu');
+    if (hTitleRu) hTitleRu.value = home.hero.titleRu || '';
+    const hBtn = document.getElementById('homeHeroButton');
+    if (hBtn) hBtn.value = home.hero.btnText || home.hero.buttonText || '';
+    const hDesc = document.getElementById('homeHeroDescription');
+    if (hDesc) hDesc.value = home.hero.description || '';
   }
 
   const sContainer = document.getElementById('servicesEditorContainer');
@@ -2637,6 +2635,7 @@ function renderTab1Texts(data) {
 
   renderFaqList(about.faq || []);
   document.getElementById('btnAddFaqItem').onclick = () => {
+    syncFormDataToState();
     about.faq = about.faq || [];
     about.faq.push({ question: 'Новый вопрос', answer: 'Ответ на вопрос...' });
     renderFaqList(about.faq);
@@ -2664,6 +2663,7 @@ function renderFaqList(faqArray) {
       <button class="btn btn-icon btn-danger btn-delete-faq" title="Удалить вопрос">×</button>
     `;
     item.querySelector('.btn-delete-faq').onclick = () => {
+      syncFormDataToState();
       faqArray.splice(index, 1);
       renderFaqList(faqArray);
     };
@@ -3156,6 +3156,9 @@ function createRenderCard(src, cap, layoutType, itemIdx, subIdx, room, proj, gri
   const filename = src ? src.split('/').pop() : 'render.webp';
   const imgSrc = src.startsWith('blob:') || src.startsWith('data:') ? src : `../${src}`;
 
+  const isLeftDisabled = subIdx !== null ? (subIdx === 0) : (itemIdx === 0);
+  const isRightDisabled = subIdx !== null ? (subIdx === 1) : (itemIdx >= room.items.length - 1);
+
   card.innerHTML = `
     <div class="render-item-thumb-box">
       <img src="${imgSrc}" alt="${escapeHtml(cap || '')}" class="render-item-img" onerror="this.src='../images/logo.png'">
@@ -3163,8 +3166,8 @@ function createRenderCard(src, cap, layoutType, itemIdx, subIdx, room, proj, gri
         <span class="render-badge-webp">WEBP</span>
       </div>
       <div class="render-item-actions-top">
-        <button class="render-btn-sm render-btn-left" title="Переместить левее">←</button>
-        <button class="render-btn-sm render-btn-right" title="Переместить правее">→</button>
+        <button class="render-btn-sm render-btn-left" title="Переместить левее"${isLeftDisabled ? ' disabled style="opacity: 0.3; cursor: not-allowed;"' : ''}>←</button>
+        <button class="render-btn-sm render-btn-right" title="Переместить правее"${isRightDisabled ? ' disabled style="opacity: 0.3; cursor: not-allowed;"' : ''}>→</button>
         <button class="render-btn-sm render-btn-delete" title="Удалить ракурс">×</button>
       </div>
     </div>
@@ -3196,9 +3199,18 @@ function createRenderCard(src, cap, layoutType, itemIdx, subIdx, room, proj, gri
   };
 
   const btnLeft = card.querySelector('.render-btn-left');
-  if (btnLeft) {
+  if (btnLeft && !isLeftDisabled) {
     btnLeft.onclick = () => {
-      if (itemIdx > 0) {
+      if (subIdx !== null) {
+        const pair = room.items[itemIdx]?.items;
+        if (pair && pair.length >= 2) {
+          const temp = pair[0];
+          pair[0] = pair[1];
+          pair[1] = temp;
+          window.AdminState.hasUnsavedChanges = true;
+          renderRoomItems(room, gridContainer, proj);
+        }
+      } else if (itemIdx > 0) {
         const temp = room.items[itemIdx];
         room.items[itemIdx] = room.items[itemIdx - 1];
         room.items[itemIdx - 1] = temp;
@@ -3209,9 +3221,18 @@ function createRenderCard(src, cap, layoutType, itemIdx, subIdx, room, proj, gri
   }
 
   const btnRight = card.querySelector('.render-btn-right');
-  if (btnRight) {
+  if (btnRight && !isRightDisabled) {
     btnRight.onclick = () => {
-      if (itemIdx < room.items.length - 1) {
+      if (subIdx !== null) {
+        const pair = room.items[itemIdx]?.items;
+        if (pair && pair.length >= 2) {
+          const temp = pair[0];
+          pair[0] = pair[1];
+          pair[1] = temp;
+          window.AdminState.hasUnsavedChanges = true;
+          renderRoomItems(room, gridContainer, proj);
+        }
+      } else if (itemIdx < room.items.length - 1) {
         const temp = room.items[itemIdx];
         room.items[itemIdx] = room.items[itemIdx + 1];
         room.items[itemIdx + 1] = temp;

@@ -1013,48 +1013,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 16. Плавное кинематографичное переключение названия на главной: 5 сек "FERRO DESIGN" / 5 сек "ФЕРРО ДИЗАЙН"
-  const heroDynamicTitle = document.querySelector('.hero-main-title .hero-title-word');
-  if (heroDynamicTitle) {
-    const titles = ['FERRO DESIGN', 'ФЕРРО ДИЗАЙН'];
-    let titleIdx = 0;
+  // 16. Плавное динамическое переключение названия на главной (чтение из DOM data-атрибутов)
+  const heroTitleWrap = document.querySelector('.hero-main-title');
+  const heroDynamicTitle = heroTitleWrap ? heroTitleWrap.querySelector('.hero-title-word') : null;
+  if (heroDynamicTitle && heroTitleWrap) {
+    const titleEn = heroTitleWrap.dataset.titleEn || heroDynamicTitle.textContent.trim();
+    const titleRu = heroTitleWrap.dataset.titleRu || '';
 
-    // Снимаем блокировку стартовой CSS-анимации после ее завершения
-    const clearInitialAnimation = () => {
-      heroDynamicTitle.style.animation = 'none';
-      heroDynamicTitle.style.opacity = '1';
-      heroDynamicTitle.style.transform = 'translateY(0)';
-      heroDynamicTitle.style.filter = 'blur(0)';
-    };
-
-    heroDynamicTitle.addEventListener('animationend', clearInitialAnimation, { once: true });
-    setTimeout(clearInitialAnimation, 2800);
-
-    // Циклическое переключение каждые 5 секунд с ультра-плавной анимацией
-    setInterval(() => {
-      // Фаза 1: Плавное растворение и сдвиг вверх с кинетическим блюром (600мс)
-      heroDynamicTitle.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease';
-      heroDynamicTitle.style.opacity = '0';
-      heroDynamicTitle.style.transform = 'translateY(-10px)';
-      heroDynamicTitle.style.filter = 'blur(6px)';
-
-      setTimeout(() => {
-        // Фаза 2: Смена текста при полной невидимости
-        titleIdx = (titleIdx + 1) % titles.length;
-        heroDynamicTitle.textContent = titles[titleIdx];
-
-        // Фаза 3: Мгновенное позиционирование снизу без анимации
-        heroDynamicTitle.style.transition = 'none';
-        heroDynamicTitle.style.transform = 'translateY(10px)';
-        void heroDynamicTitle.offsetWidth; // Принудительный reflow браузера
-
-        // Фаза 4: Плавное всплытие снизу в центр с восстановлением четкости (600мс)
-        heroDynamicTitle.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease';
-        heroDynamicTitle.style.opacity = '1';
-        heroDynamicTitle.style.transform = 'translateY(0)';
-        heroDynamicTitle.style.filter = 'blur(0)';
-      }, 600);
-    }, 5000);
+    // Чередование запускается только если задана русская версия и она отличается от английской:
+    if (titleRu && titleRu !== titleEn) {
+      const titles = [titleEn, titleRu];
+      let titleIdx = 0;
+      setInterval(() => {
+        heroDynamicTitle.classList.add('fade-out');
+        setTimeout(() => {
+          titleIdx = (titleIdx + 1) % titles.length;
+          heroDynamicTitle.textContent = titles[titleIdx];
+          heroDynamicTitle.classList.remove('fade-out');
+        }, 400);
+      }, 5000);
+    }
   }
 
 });

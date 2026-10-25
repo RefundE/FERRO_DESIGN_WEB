@@ -1755,6 +1755,9 @@ input, textarea, select {
 }
 
 @media (max-width: 900px) {
+  body {
+    padding-bottom: 155px;
+  }
   .admin-header {
     padding: 0 16px;
     height: auto;

@@ -413,7 +413,6 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
   flex-wrap: nowrap !important;
   white-space: nowrap !important;
   flex-shrink: 0;
-  transform: translateY(clamp(6px, 0.75vw, 10px)); /* Оптическое центрирование надписи по высоте стеклянного блока */
 }
 
 
@@ -421,53 +420,19 @@ img { display: block; width: 100%; height: auto; object-fit: cover; }
    ДИНАМИЧЕСКОЕ ЧЕРЕДОВАНИЕ НАЗВАНИЯ ГЛАВНОГО ЭКРАНА (5 сек / 5 сек)
    (Соответствие ст. 68 Конституции РФ и 53-ФЗ «О государственном языке РФ»)
 ============================================================ */
+.hero-title-word {
+  transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s ease;
+}
+
+.hero-title-word.fade-out,
 .hero-title-word.title-fade-out {
   opacity: 0 !important;
   transform: translateY(-8px) !important;
   filter: blur(4px) !important;
-  transition: opacity 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.45s ease;
+  transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s ease;
 }
 
-.hero-title-word.title-fade-in {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-  filter: blur(0) !important;
-  transition: opacity 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.45s ease;
-}
 
-.hero-signature-wrap {
-  display: inline-flex;
-  align-items: center;
-}
-
-/* Анимированная подпись: каллиграфическая прорисовка слева направо */
-.hero-signature-img {
-  width: clamp(110px, 9.5vw, 145px);
-  height: auto;
-  mix-blend-mode: multiply;
-  opacity: 0;
-  transform: rotate(-15deg) translateY(4px);
-  clip-path: inset(0 100% 0 0);
-  animation: drawSignature 2.5s cubic-bezier(0.25, 1, 0.5, 1) 0.8s forwards;
-  pointer-events: none;
-  user-select: none;
-  flex-shrink: 0;
-}
-
-/* Анимация движения "пера" */
-@keyframes drawSignature {
-  0% {
-    clip-path: inset(0 100% 0 0);
-    opacity: 0;
-  }
-  15% {
-    opacity: 0.9;
-  }
-  100% {
-    clip-path: inset(0 0% 0 0);
-    opacity: 0.9;
-  }
-}
 
 /* Правая колонка (Положение 2): описание + кнопка */
 .hero-right-col {
@@ -1577,32 +1542,6 @@ a.detail-val:hover {
   margin: 0;
 }
 
-.contact-direct-schedule {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'Manrope', sans-serif;
-  font-size: 13px;
-  line-height: 1.5;
-  color: #555555;
-  text-align: left;
-  margin-top: -6px;
-  margin-bottom: 2px;
-}
-
-.direct-schedule-dot {
-  width: 7px;
-  height: 7px;
-  background-color: #10b981;
-  border-radius: 50%;
-  flex-shrink: 0;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
-}
-
-.direct-schedule-text {
-  flex: 1;
-}
-
 .contact-direct-actions {
   display: flex;
   flex-direction: column;
@@ -1611,23 +1550,44 @@ a.detail-val:hover {
 }
 
 .direct-action-btn {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 16px 20px;
-  border-radius: 12px;
+  padding: 14px 24px;
+  border-radius: 9999px;
   text-decoration: none;
   font-family: 'Manrope', sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
-  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  letter-spacing: 0.04em;
+  color: var(--brand-gray) !important;
   box-sizing: border-box;
+  background: linear-gradient(
+    180deg, 
+    rgba(255, 255, 255, 0.82) 0%, 
+    rgba(255, 255, 255, 0.50) 55%, 
+    rgba(245, 243, 238, 0.60) 100%
+  );
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    0 6px 20px -3px rgba(67, 66, 66, 0.12),
+    0 2px 4px rgba(0, 0, 0, 0.03),
+    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 1),
+    inset 0 -1.5px 2px 0 rgba(67, 66, 66, 0.10),
+    inset 0 0 14px rgba(255, 255, 255, 0.40);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
 }
 
 .direct-btn-icon {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
+  color: var(--brand-gray);
+  transition: color 0.25s ease;
 }
 
 .direct-btn-text {
@@ -1637,67 +1597,37 @@ a.detail-val:hover {
 .direct-btn-arrow {
   font-size: 16px;
   line-height: 1;
-  transition: transform 0.25s ease;
+  color: var(--brand-gray);
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.direct-action-btn:hover {
+  background: rgba(255, 255, 255, 0.96);
+  color: #000000 !important;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 
+    0 10px 28px -3px rgba(67, 66, 66, 0.20),
+    0 3px 8px rgba(0, 0, 0, 0.05),
+    inset 0 1.5px 2px 0 #ffffff,
+    inset 0 -1.5px 2px 0 rgba(67, 66, 66, 0.12),
+    inset 0 0 18px rgba(255, 255, 255, 0.70);
+}
+
+.direct-action-btn:hover .direct-btn-icon,
+.direct-action-btn:hover .direct-btn-arrow {
+  color: #000000;
 }
 
 .direct-action-btn:hover .direct-btn-arrow {
   transform: translateX(4px);
 }
 
-/* Стеклянные кнопки быстрой связи (Glassmorphism: Telegram, WhatsApp, Телефон) */
-.direct-btn-telegram,
-.direct-btn-whatsapp,
-.direct-btn-phone {
-  background: linear-gradient(
-    180deg, 
-    rgba(255, 255, 255, 0.80) 0%, 
-    rgba(255, 255, 255, 0.45) 100%
-  );
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  color: #1a1a1a !important;
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 
-    0 4px 16px -2px rgba(67, 66, 66, 0.10),
-    0 2px 4px rgba(0, 0, 0, 0.03),
-    inset 0 1.5px 1px 0 rgba(255, 255, 255, 1),
-    inset 0 -1px 2px 0 rgba(67, 66, 66, 0.08);
-}
-
-.direct-btn-telegram:hover,
-.direct-btn-whatsapp:hover,
-.direct-btn-phone:hover {
-  background: rgba(255, 255, 255, 0.95);
-  color: #000000 !important;
-  border-color: #ffffff;
-  box-shadow: 
-    0 8px 24px -2px rgba(67, 66, 66, 0.18),
-    0 2px 6px rgba(0, 0, 0, 0.04),
-    inset 0 1.5px 2px 0 #ffffff,
-    inset 0 -1px 2px 0 rgba(67, 66, 66, 0.10);
-  transform: translateY(-2px);
-}
-
-.direct-btn-telegram:active,
-.direct-btn-whatsapp:active,
-.direct-btn-phone:active {
+.direct-action-btn:active {
   transform: translateY(0);
-  background: rgba(255, 255, 255, 0.85);
   box-shadow: 
-    0 2px 8px rgba(67, 66, 66, 0.10),
+    0 3px 10px rgba(67, 66, 66, 0.12),
     inset 0 1px 2px rgba(0, 0, 0, 0.06);
-}
-
-.contact-direct-footer {
-  padding-top: 12px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.direct-footer-note {
-  font-family: 'Manrope', sans-serif;
-  font-size: 12px;
-  color: #666666;
-  line-height: 1.5;
 }
 
 /* ============================================================
@@ -3125,13 +3055,7 @@ body.has-lightbox-open .hw-room-nav {
     white-space: nowrap !important;
     flex-shrink: 1;
   }
-  .hero-signature-wrap {
-    flex-shrink: 0;
-  }
-  .hero-signature-img {
-    width: clamp(60px, 16vw, 95px);
-    flex-shrink: 0;
-  }
+
   .hero-right-col {
     max-width: none;
     width: 100%;
@@ -3139,9 +3063,7 @@ body.has-lightbox-open .hw-room-nav {
   .hero-title-container {
     gap: 16px;
   }
-  .hero-signature-img {
-    width: 130px; /* Умеренный размер подписи на смартфонах */
-  }
+
 
   /* Отображение плашек категорий без ховера на тач-устройствах */
   .glass-badge {
