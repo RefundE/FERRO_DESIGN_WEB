@@ -1,6 +1,16 @@
 <?php
 declare(strict_types=1);
 
+// CORS заголовки и обработка preflight-запроса OPTIONS
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
+
 header('Content-Type: application/json; charset=utf-8');
 
 // Разрешаем только POST запросы
@@ -18,10 +28,11 @@ if (!empty($honeypot)) {
     exit;
 }
 
-// 2. Вспомогательная функция санитизации полей
+// 2. Вспомогательная функция санитизации полей с защитой от инъекций заголовков (\r, \n)
 function clean_field(?string $value): string {
     if ($value === null) return '';
-    return htmlspecialchars(strip_tags(trim($value)), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $val = str_replace(["\r", "\n"], ' ', trim($value));
+    return htmlspecialchars(strip_tags($val), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
 $name     = clean_field($_POST['name'] ?? '');
@@ -30,6 +41,16 @@ $city     = clean_field($_POST['city'] ?? '');
 $area     = clean_field($_POST['area'] ?? '');
 $comment  = clean_field($_POST['comment'] ?? $_POST['message'] ?? '');
 $pageUrl  = clean_field($_POST['page_url'] ?? $_POST['page'] ?? '');
+
+// Валидация обязательных полей
+if (empty($name) && empty($contact)) {
+    http_response_code(400);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Не заполнены обязательные контактные данные (имя или телефон/Telegram)'
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
 
 // Если имя пустое, задаем значение по умолчанию
 $clientName = !empty($name) ? $name : 'Клиент';
@@ -104,7 +125,7 @@ HTML;
 $headers = [
     'MIME-Version: 1.0',
     'Content-Type: text/html; charset=UTF-8',
-    'From: FERRO DESIGN <no-reply@' . ($_SERVER['SERVER_NAME'] ?? 'ferrodesign.ru') . '>',
+    'From: FERRO DESIGN <no-reply@ferro-design.ru>',
     'X-Mailer: PHP/' . phpversion()
 ];
 
@@ -114,8 +135,16 @@ if (!empty($contact) && filter_var($contact, FILTER_VALIDATE_EMAIL)) {
     $headers[] = 'Reply-To: ' . $to;
 }
 
-// 5. Отправка через встроенную функцию mail()
-@mail($to, $subjectEncoded, $htmlBody, implode("\r\n", $headers));
+// 5. Отправка через встроенную функцию mail() с проверкой результата
+$sent = @mail($to, $subjectEncoded, $htmlBody, implode("\r\n", $headers));
+if (!$sent) {
+    http_response_code(500);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Не удалось отправить почтовое сообщение через сервер'
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
 
 // 6. JSON-ответ клиенту
 http_response_code(200);

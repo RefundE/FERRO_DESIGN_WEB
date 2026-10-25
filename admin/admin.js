@@ -36,8 +36,21 @@ document.addEventListener('DOMContentLoaded', async () => {
   initModals();
   initPublishLockCountdown();
   initZipExport();
+  initUnsavedChangesTracker();
   await loadSiteContent();
 });
+
+function initUnsavedChangesTracker() {
+  ['input', 'change'].forEach(eventType => {
+    document.addEventListener(eventType, (e) => {
+      if (e.target && typeof e.target.matches === 'function' && e.target.matches('input, textarea, select')) {
+        if (!e.target.matches('#projectSearchInput, #previewPageSelector, #ghTokenInput, #ghRepoInput, #ghBranchInput')) {
+          window.AdminState.hasUnsavedChanges = true;
+        }
+      }
+    });
+  });
+}
 
 function showToast(message, type = 'info') {
   const container = document.getElementById('toastContainer');
@@ -181,24 +194,120 @@ function initModals() {
     try {
       const res = await fetch(`https://api.github.com/repos/${repo}`, {
         headers: {
-          'Authorization': `token ${token}`,
+          'Authorization': `Bearer ${token}`,
           'Accept': 'application/vnd.github.v3+json'
         }
       });
       if (res.ok) {
         const d = await res.json();
-        statusBox.innerHTML = `<span style="color: var(--success);">✓ Связь установлена: ${d.full_name} (${d.default_branch})</span>`;
+        statusBox.innerHTML = `<span style="color: var(--success);">✓ Связь установлена: ${escapeHtml(d.full_name)} (${escapeHtml(d.default_branch)})</span>`;
       } else {
-        statusBox.innerHTML = `<span style="color: var(--danger);">✕ Ошибка подключения (${res.status} ${res.statusText})</span>`;
+        let errDetail = '';
+        try {
+          const errData = await res.json();
+          errDetail = errData.message ? `${errData.message}${errData.errors ? ': ' + JSON.stringify(errData.errors) : ''}` : JSON.stringify(errData);
+        } catch (_) {
+          errDetail = res.statusText;
+        }
+        statusBox.innerHTML = `<span style="color: var(--danger);">✕ Ошибка подключения (${res.status}): ${escapeHtml(errDetail)}</span>`;
       }
     } catch (err) {
-      statusBox.innerHTML = `<span style="color: var(--danger);">✕ Ошибка сети: ${err.message}</span>`;
+      statusBox.innerHTML = `<span style="color: var(--danger);">✕ Ошибка сети: ${escapeHtml(err.message)}</span>`;
     }
   });
 
   document.getElementById('btnConfirmPublishFinal').addEventListener('click', async () => {
     await handleSitePublication();
   });
+
+  setupBuilderGlobalActions();
+}
+
+function setupBuilderGlobalActions() {
+  const btnDup = document.getElementById('btnDuplicateProject');
+  if (btnDup) {
+    btnDup.onclick = () => {
+      syncFormDataToState();
+      const data = window.AdminState.data;
+      if (!data || !data.projects || data.projects.length === 0) return;
+      const curProj = data.projects.find(p => p.id === window.AdminState.activeProjectId);
+      if (!curProj) return;
+
+      const dupProj = JSON.parse(JSON.stringify(curProj));
+      const timestamp = Date.now();
+      dupProj.id = 'project-' + timestamp;
+      const baseSlug = (curProj.filename || 'project').replace(/\.html$/i, '').replace(/^project-/i, '');
+      dupProj.filename = `project-${baseSlug}-copy.html`;
+      dupProj.title = `${curProj.title} (Копия)`;
+      dupProj.cardTitle = dupProj.title;
+
+      data.projects.push(dupProj);
+      if (Array.isArray(data.allProjectsOrder)) {
+        data.allProjectsOrder.push(dupProj.filename);
+      }
+
+      window.AdminState.hasUnsavedChanges = true;
+      renderProjectsSidebar(data.projects);
+      renderTab2Reorder(data);
+      selectProjectInBuilder(dupProj);
+      showToast(`Проект продублирован: «${dupProj.title}»`, 'success');
+    };
+  }
+
+  const btnDel = document.getElementById('btnDeleteProject');
+  if (btnDel) {
+    btnDel.onclick = () => {
+      const data = window.AdminState.data;
+      if (!data || !data.projects) return;
+
+      if (data.projects.length <= 1) {
+        alert('Запрещено удалять единственный оставшийся проект в каталоге!');
+        return;
+      }
+
+      const curProj = data.projects.find(p => p.id === window.AdminState.activeProjectId);
+      if (!curProj) return;
+
+      if (!confirm(`Вы действительно хотите безвозвратно удалить проект «${curProj.title}» (${curProj.filename})?`)) {
+        return;
+      }
+
+      const delFilename = curProj.filename;
+      const delFolder = curProj.folder;
+
+      // Удаляем из data.projects
+      const pIdx = data.projects.findIndex(p => p.id === curProj.id);
+      if (pIdx !== -1) {
+        data.projects.splice(pIdx, 1);
+      }
+
+      // Удаляем из data.allProjectsOrder
+      if (Array.isArray(data.allProjectsOrder)) {
+        data.allProjectsOrder = data.allProjectsOrder.filter(fn => fn !== delFilename);
+      }
+
+      // Удаляем из data.homeProjectsOrder
+      if (Array.isArray(data.homeProjectsOrder)) {
+        data.homeProjectsOrder = data.homeProjectsOrder.filter(fn => fn !== delFilename);
+      }
+
+      // Очищаем из AdminState.newFilesMap файлы, связанные с папкой удаляемого проекта
+      if (window.AdminState.newFilesMap && delFolder) {
+        for (const key of Array.from(window.AdminState.newFilesMap.keys())) {
+          if (key.includes(delFolder)) {
+            window.AdminState.newFilesMap.delete(key);
+          }
+        }
+      }
+
+      window.AdminState.hasUnsavedChanges = true;
+      const nextProj = data.projects[0];
+      renderProjectsSidebar(data.projects);
+      renderTab2Reorder(data);
+      selectProjectInBuilder(nextProj);
+      showToast(`Проект «${curProj.title}» удален`, 'info');
+    };
+  }
 }
 
 function openModal(id) {
@@ -265,46 +374,56 @@ function initPublishLockCountdown() {
 
 async function compressAndConvertToWebP(file, maxSide = 2560, quality = 0.86) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onerror = reject;
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onerror = reject;
-      img.onload = () => {
-        let width = img.width;
-        let height = img.height;
+    const objectUrl = URL.createObjectURL(file);
+    const img = new Image();
 
-        if (width > maxSide || height > maxSide) {
-          if (width > height) {
-            height = Math.round((height * maxSide) / width);
-            width = maxSide;
-          } else {
-            width = Math.round((width * maxSide) / height);
-            height = maxSide;
-          }
-        }
-
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
-        ctx.drawImage(img, 0, 0, width, height);
-
-        canvas.toBlob((blob) => {
-          if (!blob) {
-            reject(new Error('Canvas WebP blob conversion failed'));
-            return;
-          }
-          const dataUrl = canvas.toDataURL('image/webp', quality);
-          const base64 = dataUrl.split(',')[1];
-          resolve({ blob, dataUrl, base64, width, height });
-        }, 'image/webp', quality);
-      };
-      img.src = e.target.result;
+    img.onerror = (err) => {
+      URL.revokeObjectURL(objectUrl);
+      reject(err || new Error('Не удалось прочитать графический файл'));
     };
-    reader.readAsDataURL(file);
+
+    img.onload = () => {
+      URL.revokeObjectURL(objectUrl);
+      let width = img.width;
+      let height = img.height;
+
+      if (width > maxSide || height > maxSide) {
+        if (width > height) {
+          height = Math.round((height * maxSide) / width);
+          width = maxSide;
+        } else {
+          width = Math.round((width * maxSide) / height);
+          height = maxSide;
+        }
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(img, 0, 0, width, height);
+
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          reject(new Error('Canvas WebP blob conversion failed'));
+          return;
+        }
+        const dataUrl = canvas.toDataURL('image/webp', quality);
+        resolve({
+          blob,
+          dataUrl,
+          get base64() {
+            return this.dataUrl ? this.dataUrl.slice(this.dataUrl.indexOf(',') + 1) : '';
+          },
+          width,
+          height
+        });
+      }, 'image/webp', quality);
+    };
+
+    img.src = objectUrl;
   });
 }
 
@@ -463,13 +582,13 @@ function generateProjectPageHTML(project, nextProject, contacts) {
       if (it.type === 'diptych' && it.items && it.items.length === 2) {
         roomsHtml += `    <div class="diptych-grid">\n`;
         it.items.forEach(([src, cap]) => {
-          roomsHtml += `      <figure>\n        <div class="js-tilt">\n          <img src="${src}" alt="${escapeHtml(cap || '')}" loading="lazy" decoding="async">\n        </div>\n        <figcaption>${escapeHtml(cap || '')}</figcaption>\n      </figure>\n`;
+          roomsHtml += `      <figure>\n        <div class="js-tilt">\n          <img src="${escapeHtml(src)}" alt="${escapeHtml(cap || '')}" loading="lazy" decoding="async">\n        </div>\n        <figcaption>${escapeHtml(cap || '')}</figcaption>\n      </figure>\n`;
         });
         roomsHtml += `    </div>\n\n`;
       } else if (it.type === 'full_compact') {
-        roomsHtml += `    <figure class="media-block" style="max-width: 800px; margin-left: auto; margin-right: auto;">\n      <div class="js-tilt">\n        <img src="${it.src}" alt="${escapeHtml(it.cap || '')}" loading="lazy" decoding="async">\n      </div>\n      <figcaption>${escapeHtml(it.cap || '')}</figcaption>\n    </figure>\n\n`;
+        roomsHtml += `    <figure class="media-block" style="max-width: 800px; margin-left: auto; margin-right: auto;">\n      <div class="js-tilt">\n        <img src="${escapeHtml(it.src)}" alt="${escapeHtml(it.cap || '')}" loading="lazy" decoding="async">\n      </div>\n      <figcaption>${escapeHtml(it.cap || '')}</figcaption>\n    </figure>\n\n`;
       } else {
-        roomsHtml += `    <figure class="media-block">\n      <div class="js-tilt">\n        <img src="${it.src}" alt="${escapeHtml(it.cap || '')}" loading="lazy" decoding="async">\n      </div>\n      <figcaption>${escapeHtml(it.cap || '')}</figcaption>\n    </figure>\n\n`;
+        roomsHtml += `    <figure class="media-block">\n      <div class="js-tilt">\n        <img src="${escapeHtml(it.src)}" alt="${escapeHtml(it.cap || '')}" loading="lazy" decoding="async">\n      </div>\n      <figcaption>${escapeHtml(it.cap || '')}</figcaption>\n    </figure>\n\n`;
       }
     });
   });
@@ -482,7 +601,7 @@ function generateProjectPageHTML(project, nextProject, contacts) {
   let lightingHtml = '';
   let heroNightImgHtml = '';
   if (project.heroNight) {
-    heroNightImgHtml = `\n      <img src="${project.heroNight}" alt="${escapeHtml(project.title)} — Вечерний сценарий" class="hero-bg-layer hero-bg-night">`;
+    heroNightImgHtml = `\n      <img src="${escapeHtml(project.heroNight)}" alt="${escapeHtml(project.title)} — Вечерний сценарий" class="hero-bg-layer hero-bg-night">`;
     lightingHtml = `        <div class="lighting-controls-wrap">
           <div class="lighting-mode-switch" role="group" aria-label="Сценарий освещения">
             <button type="button" class="lighting-mode-btn is-active" data-mode="day" aria-pressed="true" title="Дневной свет">
@@ -509,6 +628,17 @@ function generateProjectPageHTML(project, nextProject, contacts) {
         </div>\n`;
   }
 
+  const projectSchemaJson = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": `Дизайн интерьера ${project.title}`,
+    "description": metaDesc,
+    "creator": {
+      "@type": "HomeAndConstructionBusiness",
+      "name": "FERRO DESIGN™"
+    }
+  }, null, 2);
+
   return `<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -522,26 +652,17 @@ function generateProjectPageHTML(project, nextProject, contacts) {
   <meta property="og:type" content="article">
   <meta property="og:title" content="${escapeHtml(titleText)}">
   <meta property="og:description" content="${escapeHtml(metaDesc)}">
-  <meta property="og:image" content="${absOgImage}">
+  <meta property="og:image" content="${escapeHtml(absOgImage)}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${escapeHtml(titleText)}">
   <meta name="twitter:description" content="${escapeHtml(metaDesc)}">
-  <meta name="twitter:image" content="${absOgImage}">
+  <meta name="twitter:image" content="${escapeHtml(absOgImage)}">
 
   <link rel="icon" id="dynamicFavicon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="style.css?v=2">
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    "name": "Дизайн интерьера ${escapeHtml(project.title)}",
-    "description": "${escapeHtml(metaDesc)}",
-    "creator": {
-      "@type": "HomeAndConstructionBusiness",
-      "name": "FERRO DESIGN™"
-    }
-  }
+${projectSchemaJson}
   </script>
 </head>
 <body>
@@ -564,7 +685,7 @@ function generateProjectPageHTML(project, nextProject, contacts) {
   <!-- ГЛАВНЫЙ ЭКРАН -->
   <section class="project-intro">
     <div class="project-intro-bg">
-      <img src="${project.heroDay}" alt="${escapeHtml(project.title)} — Дневной сценарий" class="hero-bg-layer hero-bg-day" fetchpriority="high">${heroNightImgHtml}
+      <img src="${escapeHtml(project.heroDay)}" alt="${escapeHtml(project.title)} — Дневной сценарий" class="hero-bg-layer hero-bg-day" fetchpriority="high">${heroNightImgHtml}
       <div class="project-intro-overlay"></div>
     </div>
 
@@ -605,7 +726,7 @@ ${navLinksHtml}    </nav>
 
     <div class="next-case-bar">
       <span class="next-sub">Следующий проект</span>
-      <a href="${nextProject.filename}" class="next-title">
+      <a href="${escapeHtml(nextProject.filename)}" class="next-title">
         <span>${escapeHtml(nextProject.title)}</span>
         <svg class="next-arrow-svg" viewBox="0 0 56 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M2 12H52M52 12L41 2M52 12L41 22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -656,7 +777,7 @@ ${navLinksHtml}    </nav>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
-              <a href="https://wa.me/79634426192" target="_blank" rel="noopener" class="direct-action-btn direct-btn-whatsapp">
+              <a href="https://wa.me/${contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192'}" target="_blank" rel="noopener" class="direct-action-btn direct-btn-whatsapp">
                 <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.96.57 3.88 1.66 5.53L2 22l4.73-1.68c1.58.97 3.4 1.59 5.31 1.59 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.09c-1.67 0-3.29-.49-4.68-1.41l-.34-.22-2.8 1 .99-2.73-.24-.37c-1.03-1.61-1.57-3.48-1.57-5.45 0-4.48 3.65-8.13 8.13-8.13 4.48 0 8.13 3.65 8.13 8.13 0 4.49-3.65 8.18-8.13 8.18zm4.45-6.09c-.24-.12-1.44-.71-1.66-.79-.22-.08-.38-.12-.54.12-.16.24-.62.79-.76.95-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.21-1.44-1.35-1.68-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.41-.54-.42h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/>
                 </svg>
@@ -1039,7 +1160,7 @@ ${statsHtml}          </div>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
-              <a href="https://wa.me/79634426192" target="_blank" rel="noopener" class="direct-action-btn direct-btn-whatsapp">
+              <a href="https://wa.me/${contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192'}" target="_blank" rel="noopener" class="direct-action-btn direct-btn-whatsapp">
                 <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.96.57 3.88 1.66 5.53L2 22l4.73-1.68c1.58.97 3.4 1.59 5.31 1.59 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.09c-1.67 0-3.29-.49-4.68-1.41l-.34-.22-2.8 1 .99-2.73-.24-.37c-1.03-1.61-1.57-3.48-1.57-5.45 0-4.48 3.65-8.13 8.13-8.13 4.48 0 8.13 3.65 8.13 8.13 0 4.49-3.65 8.18-8.13 8.18zm4.45-6.09c-.24-.12-1.44-.71-1.66-.79-.22-.08-.38-.12-.54.12-.16.24-.62.79-.76.95-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.21-1.44-1.35-1.68-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.41-.54-.42h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/>
                 </svg>
@@ -1231,9 +1352,9 @@ function generateProjectsCatalogHTML(siteContent) {
     if (!p) return;
     cardsHtml += `
         <!-- ${escapeHtml(p.title)} -->
-        <a href="${p.filename}" class="project-card hw-card" data-category="${p.filterCategory}" data-area="${p.area}">
+        <a href="${escapeHtml(p.filename)}" class="project-card hw-card" data-category="${escapeHtml(p.filterCategory || 'flats')}" data-area="${p.area}">
           <div class="card-media-wrap">
-            <img src="${p.cardImage || p.heroDay}" alt="${escapeHtml(p.title)}" loading="lazy" decoding="async">
+            <img src="${escapeHtml(p.cardImage || p.heroDay)}" alt="${escapeHtml(p.title)}" loading="lazy" decoding="async">
             <span class="glass-badge">${escapeHtml(p.badgeLabel || 'Жилая квартира')}</span>
           </div>
           <div class="card-desc">
@@ -1248,16 +1369,35 @@ function generateProjectsCatalogHTML(siteContent) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Все проекты — Студия дизайна интерьера FERRO DESIGN™</title>
-  <meta name="description" content="Портфолио реализованных дизайн-проектов интерьера студии FERRO DESIGN: квартиры, загородные дома и коммерческие пространства.">
-  <link rel="icon" id="dynamicFavicon" type="image/png" href="favicon.png">
-
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Все проекты — Студия дизайна интерьера FERRO DESIGN™">
-  <meta property="og:description" content="Премиальное портфолио дизайн-проектов квартир и домов.">
+  <title>Все проекты — FERRO DESIGN™</title>
+  <meta name="description" content="Портфолио реализованных дизайн-проектов интерьеров студии FERRO DESIGN™: жилые квартиры, загородные резиденции, коммерческие объекты.">
+  <meta property="og:title" content="Портфолио проектов — FERRO DESIGN™">
+  <meta property="og:description" content="Жилые квартиры, загородные резиденции и коммерческие пространства студии дизайна FERRO DESIGN.">
   <meta property="og:image" content="https://ferro-design.ru/images/COVER_MAIN/cover_main_makarovski.webp">
-
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ferro-design.ru/images/COVER_MAIN/cover_main_makarovski.webp">
+  <meta property="og:type" content="website">
   <link rel="stylesheet" href="style.css?v=2">
+  <link rel="icon" id="dynamicFavicon" type="image/png" href="favicon.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Проекты FERRO DESIGN™",
+    "description": "Портфолио реализованных дизайн-проектов интерьеров студии FERRO DESIGN™: жилые квартиры, загородные дома, коммерческие объекты.",
+    "publisher": {
+      "@type": "HomeAndConstructionBusiness",
+      "name": "FERRO DESIGN™",
+      "telephone": "${escapeHtml(contacts.phone || '+7 (963) 442-61-92')}",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "${escapeHtml(contacts.location || 'ул. Розы Люксембург, 17')}",
+        "addressLocality": "Екатеринбург",
+        "addressCountry": "RU"
+      }
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -1349,7 +1489,7 @@ ${cardsHtml}      </div>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
-              <a href="https://wa.me/79634426192" target="_blank" rel="noopener" class="direct-action-btn direct-btn-whatsapp">
+              <a href="https://wa.me/${contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192'}" target="_blank" rel="noopener" class="direct-action-btn direct-btn-whatsapp">
                 <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.96.57 3.88 1.66 5.53L2 22l4.73-1.68c1.58.97 3.4 1.59 5.31 1.59 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.09c-1.67 0-3.29-.49-4.68-1.41l-.34-.22-2.8 1 .99-2.73-.24-.37c-1.03-1.61-1.57-3.48-1.57-5.45 0-4.48 3.65-8.13 8.13-8.13 4.48 0 8.13 3.65 8.13 8.13 0 4.49-3.65 8.18-8.13 8.18zm4.45-6.09c-.24-.12-1.44-.71-1.66-.79-.22-.08-.38-.12-.54.12-.16.24-.62.79-.76.95-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.21-1.44-1.35-1.68-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.41-.54-.42h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/>
                 </svg>
@@ -1468,8 +1608,8 @@ function generateAboutHTML(siteContent) {
             "@type": "Person",
             "name": "Артем Марченко"
           },
-          "telephone": "+7 (963) 442-61-92",
-          "email": "artem1-nt@mail.ru"
+          "telephone": contacts.phone || "+7 (963) 442-61-92",
+          "email": contacts.email || "artem1-nt@mail.ru"
         }
       },
       {
@@ -1613,7 +1753,7 @@ ${faqItemsHtml}        </div>
                 <span class="direct-btn-arrow">→</span>
               </a>
 
-              <a href="https://wa.me/79634426192" target="_blank" rel="noopener" class="direct-action-btn direct-btn-whatsapp">
+              <a href="https://wa.me/${contacts.phone ? contacts.phone.replace(/[^0-9]/g, '') : '79634426192'}" target="_blank" rel="noopener" class="direct-action-btn direct-btn-whatsapp">
                 <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.96.57 3.88 1.66 5.53L2 22l4.73-1.68c1.58.97 3.4 1.59 5.31 1.59 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.09c-1.67 0-3.29-.49-4.68-1.41l-.34-.22-2.8 1 .99-2.73-.24-.37c-1.03-1.61-1.57-3.48-1.57-5.45 0-4.48 3.65-8.13 8.13-8.13 4.48 0 8.13 3.65 8.13 8.13 0 4.49-3.65 8.18-8.13 8.18zm4.45-6.09c-.24-.12-1.44-.71-1.66-.79-.22-.08-.38-.12-.54.12-.16.24-.62.79-.76.95-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.21-1.44-1.35-1.68-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.41-.54-.42h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/>
                 </svg>
@@ -1823,6 +1963,51 @@ function runClientSideValidation(siteContent) {
 // 6. ПУБЛИКАЦИЯ В GITHUB (GIT TREES ATOMIC COMMIT)
 // ============================================================
 
+async function getGithubErrorDetails(res) {
+  try {
+    const d = await res.json();
+    if (d.message) {
+      return d.errors ? `${d.message} (${JSON.stringify(d.errors)})` : d.message;
+    }
+    return JSON.stringify(d);
+  } catch (_) {
+    return res.statusText || 'Неизвестная ошибка';
+  }
+}
+
+async function uploadBlobToGithub(repo, token, content, isBase64 = false) {
+  let bodyPayload;
+  if (isBase64) {
+    bodyPayload = { content, encoding: 'base64' };
+  } else {
+    const utf8Bytes = new TextEncoder().encode(content);
+    let binary = '';
+    const chunk = 8192;
+    for (let i = 0; i < utf8Bytes.length; i += chunk) {
+      binary += String.fromCharCode.apply(null, utf8Bytes.subarray(i, i + chunk));
+    }
+    bodyPayload = { content: btoa(binary), encoding: 'base64' };
+  }
+
+  const res = await fetch(`https://api.github.com/repos/${repo}/git/blobs`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(bodyPayload)
+  });
+
+  if (!res.ok) {
+    const detail = await getGithubErrorDetails(res);
+    throw new Error(`Ошибка создания блоба (${res.status}): ${detail}`);
+  }
+
+  const data = await res.json();
+  return data.sha;
+}
+
 async function handleSitePublication() {
   const token = window.AdminState.githubToken;
   const repo = window.AdminState.githubRepo;
@@ -1861,25 +2046,30 @@ async function handleSitePublication() {
 
     if (progressStep) progressStep.textContent = '2/5. Подключение к репозиторию GitHub...';
     const refRes = await fetch(`https://api.github.com/repos/${repo}/git/refs/heads/${branch}`, {
-      headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json' }
     });
     if (!refRes.ok) {
+      const errDetail = await getGithubErrorDetails(refRes);
       if (refRes.status === 401) {
-        throw new Error('Ошибка 401 (Unauthorized): Неверный GitHub токен. Проверьте токен в настройках API (шестерёнка в шапке).');
+        throw new Error(`Ошибка 401 (Unauthorized): Неверный GitHub токен. Проверьте токен в настройках API (шестерёнка в шапке). ${errDetail}`);
       } else if (refRes.status === 404) {
-        throw new Error(`Ошибка 404 (Not Found): Репозиторий "${repo}" или ветка "${branch}" не найдены, либо у токена нет прав. Убедитесь, что токен создан с галочкой "repo".`);
+        throw new Error(`Ошибка 404 (Not Found): Репозиторий "${repo}" или ветка "${branch}" не найдены, либо у токена нет прав. Убедитесь, что токен создан с галочкой "repo". ${errDetail}`);
       } else if (refRes.status === 403) {
-        throw new Error('Ошибка 403 (Forbidden): Превышен лимит запросов GitHub API или доступ заблокирован.');
+        throw new Error(`Ошибка 403 (Forbidden): Превышен лимит запросов GitHub API или доступ заблокирован. ${errDetail}`);
       } else {
-        throw new Error(`Не удалось подключиться к GitHub (${refRes.status}): ${refRes.statusText}`);
+        throw new Error(`Не удалось подключиться к GitHub (${refRes.status}): ${errDetail}`);
       }
     }
     const refData = await refRes.json();
     const latestCommitSha = refData.object.sha;
 
     const commitRes = await fetch(`https://api.github.com/repos/${repo}/git/commits/${latestCommitSha}`, {
-      headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json' }
     });
+    if (!commitRes.ok) {
+      const errDetail = await getGithubErrorDetails(commitRes);
+      throw new Error(`Ошибка получения последнего коммита (${commitRes.status}): ${errDetail}`);
+    }
     const commitData = await commitRes.json();
     const baseTreeSha = commitData.tree.sha;
 
@@ -1887,57 +2077,43 @@ async function handleSitePublication() {
     const treeItems = [];
 
     for (const [vPath, fData] of window.AdminState.newFilesMap.entries()) {
-      const blobRes = await fetch(`https://api.github.com/repos/${repo}/git/blobs`, {
-        method: 'POST',
-        headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' },
-        body: JSON.stringify({ content: fData.base64, encoding: 'base64' })
-      });
-      if (!blobRes.ok) throw new Error(`Ошибка создания блоба ${vPath}`);
-      const blobData = await blobRes.json();
+      const blobSha = await uploadBlobToGithub(repo, token, fData.base64, true);
       treeItems.push({
         path: vPath,
         mode: '100644',
         type: 'blob',
-        sha: blobData.sha
+        sha: blobSha
       });
     }
 
     if (progressStep) progressStep.textContent = '4/5. Генерация HTML-страниц и каталога...';
 
-    treeItems.push({
-      path: 'data/site-content.json',
-      mode: '100644',
-      type: 'blob',
-      content: JSON.stringify(data, null, 2)
-    });
+    async function addTreeFile(filePath, fileContent) {
+      const utf8Len = new TextEncoder().encode(fileContent).length;
+      // Для data/site-content.json и любых файлов > 50 KB производим предварительную загрузку через POST /git/blobs
+      if (filePath === 'data/site-content.json' || utf8Len > 50 * 1024) {
+        const blobSha = await uploadBlobToGithub(repo, token, fileContent, false);
+        treeItems.push({
+          path: filePath,
+          mode: '100644',
+          type: 'blob',
+          sha: blobSha
+        });
+      } else {
+        treeItems.push({
+          path: filePath,
+          mode: '100644',
+          type: 'blob',
+          content: fileContent
+        });
+      }
+    }
 
-    treeItems.push({
-      path: 'index.html',
-      mode: '100644',
-      type: 'blob',
-      content: generateIndexHTML(data)
-    });
-
-    treeItems.push({
-      path: 'projects.html',
-      mode: '100644',
-      type: 'blob',
-      content: generateProjectsCatalogHTML(data)
-    });
-
-    treeItems.push({
-      path: 'about.html',
-      mode: '100644',
-      type: 'blob',
-      content: generateAboutHTML(data)
-    });
-
-    treeItems.push({
-      path: 'sitemap.xml',
-      mode: '100644',
-      type: 'blob',
-      content: generateSitemapXML(data)
-    });
+    await addTreeFile('data/site-content.json', JSON.stringify(data, null, 2));
+    await addTreeFile('index.html', generateIndexHTML(data));
+    await addTreeFile('projects.html', generateProjectsCatalogHTML(data));
+    await addTreeFile('about.html', generateAboutHTML(data));
+    await addTreeFile('sitemap.xml', generateSitemapXML(data));
 
     const projectsMap = {};
     data.projects.forEach(p => { projectsMap[p.filename] = p; });
@@ -1947,42 +2123,46 @@ async function handleSitePublication() {
       const curProj = projectsMap[order[i]];
       const nextProj = projectsMap[order[(i + 1) % order.length]];
       if (curProj && nextProj) {
-        treeItems.push({
-          path: curProj.filename,
-          mode: '100644',
-          type: 'blob',
-          content: generateProjectPageHTML(curProj, nextProj, data.home.contacts)
-        });
+        await addTreeFile(curProj.filename, generateProjectPageHTML(curProj, nextProj, data.home.contacts));
       }
     }
 
     if (progressStep) progressStep.textContent = '5/5. Атомарный коммит и обновление ветки main...';
     const treeRes = await fetch(`https://api.github.com/repos/${repo}/git/trees`, {
       method: 'POST',
-      headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' },
+      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
       body: JSON.stringify({ base_tree: baseTreeSha, tree: treeItems })
     });
-    if (!treeRes.ok) throw new Error('Ошибка создания Git Tree');
+    if (!treeRes.ok) {
+      const errDetail = await getGithubErrorDetails(treeRes);
+      throw new Error(`Ошибка создания Git Tree (${treeRes.status}): ${errDetail}`);
+    }
     const newTreeData = await treeRes.json();
 
     const newCommitRes = await fetch(`https://api.github.com/repos/${repo}/git/commits`, {
       method: 'POST',
-      headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' },
+      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
       body: JSON.stringify({
         message: 'admin: автоматическое обновление контента и кейсов студии FERRO DESIGN™',
         tree: newTreeData.sha,
         parents: [latestCommitSha]
       })
     });
-    if (!newCommitRes.ok) throw new Error('Ошибка создания коммита');
+    if (!newCommitRes.ok) {
+      const errDetail = await getGithubErrorDetails(newCommitRes);
+      throw new Error(`Ошибка создания коммита (${newCommitRes.status}): ${errDetail}`);
+    }
     const newCommitData = await newCommitRes.json();
 
     const updateRefRes = await fetch(`https://api.github.com/repos/${repo}/git/refs/heads/${branch}`, {
       method: 'PATCH',
-      headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' },
+      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
       body: JSON.stringify({ sha: newCommitData.sha, force: false })
     });
-    if (!updateRefRes.ok) throw new Error('Ошибка обновления ветки main');
+    if (!updateRefRes.ok) {
+      const errDetail = await getGithubErrorDetails(updateRefRes);
+      throw new Error(`Ошибка обновления ветки ${branch} (${updateRefRes.status}): ${errDetail}`);
+    }
 
     window.AdminState.newFilesMap.clear();
 
@@ -2079,7 +2259,7 @@ async function createZipBlob(files) {
     const view = new DataView(localHeader.buffer);
     view.setUint32(0, 0x04034b50, true);
     view.setUint16(4, 20, true);
-    view.setUint16(6, 0, true);
+    view.setUint16(6, 0x0800, true); // UTF-8 filename flag
     view.setUint16(8, 0, true);
     view.setUint16(10, 0, true);
     view.setUint16(12, 0, true);
@@ -2098,7 +2278,7 @@ async function createZipBlob(files) {
     cdView.setUint32(0, 0x02014b50, true);
     cdView.setUint16(4, 20, true);
     cdView.setUint16(6, 20, true);
-    cdView.setUint16(8, 0, true);
+    cdView.setUint16(8, 0x0800, true); // UTF-8 filename flag
     cdView.setUint16(10, 0, true);
     cdView.setUint16(12, 0, true);
     cdView.setUint16(14, 0, true);
@@ -2303,14 +2483,61 @@ function syncFormDataToState() {
     const pMeta = document.getElementById('projMetaDesc');
     const pCoords = document.getElementById('projCoords');
 
-    if (pTitle) { curProj.title = pTitle.value.trim(); curProj.cardTitle = curProj.title; }
-    if (pFn) curProj.filename = pFn.value.trim();
+    if (pTitle) {
+      const val = pTitle.value.trim();
+      if (val) {
+        curProj.title = val;
+        curProj.cardTitle = val;
+      }
+    }
+    if (pFn) {
+      let newFn = pFn.value.trim();
+      if (newFn) {
+        if (!newFn.toLowerCase().endsWith('.html')) {
+          newFn += '.html';
+          pFn.value = newFn;
+        }
+        const oldFn = curProj.filename;
+        if (oldFn && oldFn !== newFn) {
+          // Обновить в data.allProjectsOrder на той же позиции
+          if (Array.isArray(data.allProjectsOrder)) {
+            const idx = data.allProjectsOrder.indexOf(oldFn);
+            if (idx !== -1) {
+              data.allProjectsOrder[idx] = newFn;
+            }
+          }
+          // Обновить в data.homeProjectsOrder (если проект был представлен на главной)
+          if (Array.isArray(data.homeProjectsOrder)) {
+            const hIdx = data.homeProjectsOrder.indexOf(oldFn);
+            if (hIdx !== -1) {
+              data.homeProjectsOrder[hIdx] = newFn;
+            }
+          }
+          curProj.filename = newFn;
+          const fnBadge = document.getElementById('activeProjectFilenameBadge');
+          if (fnBadge) fnBadge.textContent = newFn;
+        }
+      }
+    }
     if (pFolder) curProj.folder = pFolder.value.trim();
-    if (pCity) { curProj.city = pCity.value.trim(); curProj.cardCity = curProj.city; curProj.mapCity = curProj.city; }
-    if (pArea) curProj.area = parseInt(pArea.value, 10) || curProj.area;
+    if (pCity) {
+      const cVal = pCity.value.trim();
+      curProj.city = cVal;
+      curProj.cardCity = cVal;
+      curProj.mapCity = cVal;
+    }
+    if (pArea) {
+      const parsedArea = parseInt(pArea.value, 10);
+      if (!isNaN(parsedArea) && parsedArea > 0) {
+        curProj.area = parsedArea;
+      }
+    }
     if (pMeta) curProj.metaDesc = pMeta.value.trim();
     if (pCoords && pCoords.value.includes(',')) {
-      curProj.coords = pCoords.value.split(',').map(s => parseFloat(s.trim()));
+      const parts = pCoords.value.split(',').map(s => parseFloat(s.trim()));
+      if (parts.length >= 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+        curProj.coords = [parts[0], parts[1]];
+      }
     }
   }
 }
@@ -2632,7 +2859,10 @@ function renderProjectsSidebar(projectsList) {
       </div>
     `;
 
-    btn.onclick = () => selectProjectInBuilder(proj);
+    btn.onclick = () => {
+      syncFormDataToState();
+      selectProjectInBuilder(proj);
+    };
     container.appendChild(btn);
   });
 }
@@ -2805,15 +3035,36 @@ function createRoomCard(room, roomIndex, proj) {
   `;
 
   const nameInput = card.querySelector('.room-input-name');
+  const navInput = card.querySelector('.room-input-nav');
+  const prefixInput = card.querySelector('.room-input-prefix');
+
   nameInput.oninput = () => {
     room.name = nameInput.value;
     card.querySelector('.room-block-heading').textContent = room.name || 'Помещение';
+
+    const dict = window.AdminState.data?.roomPrefixDictionary;
+    const upperKey = nameInput.value.toUpperCase().trim();
+    if (dict && dict[upperKey]) {
+      const match = dict[upperKey];
+      if (match.nav) {
+        room.nav = match.nav;
+        navInput.value = match.nav;
+      }
+      if (match.prefix) {
+        room.prefix = match.prefix;
+        prefixInput.value = match.prefix;
+      }
+      if (match.id) {
+        room.id = match.id;
+      }
+      const dropHint = card.querySelector('.dropzone-hint');
+      if (dropHint) {
+        dropHint.textContent = `Изображения автоматически конвертируются в WebP и нумеруются с префиксом «${room.prefix || 'render'}»`;
+      }
+    }
   };
 
-  const navInput = card.querySelector('.room-input-nav');
   navInput.oninput = () => { room.nav = navInput.value; };
-
-  const prefixInput = card.querySelector('.room-input-prefix');
   prefixInput.oninput = () => { room.prefix = prefixInput.value; };
 
   const btnUp = card.querySelector('.btn-room-up');
@@ -2876,17 +3127,17 @@ function renderRoomItems(room, gridContainer, proj) {
     if (item.type === 'diptych' && item.items && item.items.length === 2) {
       item.items.forEach((dipSubItem, subIdx) => {
         const [src, cap] = dipSubItem;
-        const card = createRenderCard(src, cap, 'diptych', itemIdx, subIdx, room, proj);
+        const card = createRenderCard(src, cap, 'diptych', itemIdx, subIdx, room, proj, gridContainer);
         gridContainer.appendChild(card);
       });
     } else {
-      const card = createRenderCard(item.src, item.cap, item.type || 'full', itemIdx, null, room, proj);
+      const card = createRenderCard(item.src, item.cap, item.type || 'full', itemIdx, null, room, proj, gridContainer);
       gridContainer.appendChild(card);
     }
   });
 }
 
-function createRenderCard(src, cap, layoutType, itemIdx, subIdx, room, proj) {
+function createRenderCard(src, cap, layoutType, itemIdx, subIdx, room, proj, gridContainer) {
   const card = document.createElement('div');
   card.className = 'render-item-card';
   const filename = src ? src.split('/').pop() : 'render.webp';
@@ -2931,18 +3182,114 @@ function createRenderCard(src, cap, layoutType, itemIdx, subIdx, room, proj) {
     }
   };
 
+  const btnLeft = card.querySelector('.render-btn-left');
+  if (btnLeft) {
+    btnLeft.onclick = () => {
+      if (itemIdx > 0) {
+        const temp = room.items[itemIdx];
+        room.items[itemIdx] = room.items[itemIdx - 1];
+        room.items[itemIdx - 1] = temp;
+        window.AdminState.hasUnsavedChanges = true;
+        renderRoomItems(room, gridContainer, proj);
+      }
+    };
+  }
+
+  const btnRight = card.querySelector('.render-btn-right');
+  if (btnRight) {
+    btnRight.onclick = () => {
+      if (itemIdx < room.items.length - 1) {
+        const temp = room.items[itemIdx];
+        room.items[itemIdx] = room.items[itemIdx + 1];
+        room.items[itemIdx + 1] = temp;
+        window.AdminState.hasUnsavedChanges = true;
+        renderRoomItems(room, gridContainer, proj);
+      }
+    };
+  }
+
   const layoutSel = card.querySelector('.render-layout-select');
   layoutSel.onchange = () => {
-    if (room.items[itemIdx]) {
-      room.items[itemIdx].type = layoutSel.value;
-      showToast('Тип раскладки обновлен', 'info');
+    const curItem = room.items[itemIdx];
+    if (!curItem) return;
+    const targetType = layoutSel.value;
+
+    if (curItem.type === 'diptych' && targetType !== 'diptych') {
+      // diptych -> full: разворачиваем кортеж в два отдельных объекта
+      if (curItem.items && curItem.items.length === 2) {
+        const [it1, it2] = curItem.items;
+        room.items.splice(itemIdx, 1,
+          { type: targetType, src: it1[0], cap: it1[1] },
+          { type: targetType, src: it2[0], cap: it2[1] }
+        );
+      } else {
+        curItem.type = targetType;
+      }
+      window.AdminState.hasUnsavedChanges = true;
+      renderRoomItems(room, gridContainer, proj);
+      showToast('Диптих разделен на два отдельных ракурса', 'info');
+      return;
     }
+
+    if (curItem.type !== 'diptych' && targetType === 'diptych') {
+      // full -> diptych: объединяем выбранный элемент со следующим в комнате
+      if (itemIdx < room.items.length - 1) {
+        const nextItem = room.items[itemIdx + 1];
+        let src1 = curItem.src || '';
+        let cap1 = curItem.cap || '';
+        let src2 = nextItem.src || '';
+        let cap2 = nextItem.cap || '';
+
+        if (nextItem.type === 'diptych' && nextItem.items?.[0]) {
+          src2 = nextItem.items[0][0];
+          cap2 = nextItem.items[0][1];
+        }
+
+        const diptychObj = {
+          type: 'diptych',
+          items: [
+            [src1, cap1],
+            [src2, cap2]
+          ]
+        };
+        room.items.splice(itemIdx, 2, diptychObj);
+        window.AdminState.hasUnsavedChanges = true;
+        renderRoomItems(room, gridContainer, proj);
+        showToast('Ракурсы объединены в диптих (сетка по 2 в ряд)', 'info');
+      } else {
+        alert('Для создания диптиха требуется еще один ракурс в помещении. Добавьте следующий ракурс перед объединением.');
+        layoutSel.value = curItem.type || 'full';
+      }
+      return;
+    }
+
+    curItem.type = targetType;
+    window.AdminState.hasUnsavedChanges = true;
+    showToast('Тип раскладки обновлен', 'info');
   };
 
   card.querySelector('.render-btn-delete').onclick = () => {
     if (confirm('Удалить данный ракурс из помещения?')) {
-      room.items.splice(itemIdx, 1);
-      renderProjectRooms(proj);
+      if (src && window.AdminState.newFilesMap.has(src)) {
+        window.AdminState.newFilesMap.delete(src);
+      }
+      if (subIdx !== null && room.items[itemIdx]?.items) {
+        const otherIdx = subIdx === 0 ? 1 : 0;
+        const otherItem = room.items[itemIdx].items[otherIdx];
+        if (otherItem) {
+          room.items.splice(itemIdx, 1, {
+            type: 'full',
+            src: otherItem[0],
+            cap: otherItem[1]
+          });
+        } else {
+          room.items.splice(itemIdx, 1);
+        }
+      } else {
+        room.items.splice(itemIdx, 1);
+      }
+      window.AdminState.hasUnsavedChanges = true;
+      renderRoomItems(room, gridContainer, proj);
       showToast('Ракурс удален', 'info');
     }
   };
