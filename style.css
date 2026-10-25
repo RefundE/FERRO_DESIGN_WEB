@@ -2751,51 +2751,109 @@ body.has-lightbox-open .hw-room-nav {
 /* ============================================================
    СТРАНИЦА «О СТУДИИ» (ABOUT.HTML) И FAQ
 ============================================================ */
+/* ============================================================
+   СТРАНИЦА «О СТУДИИ» (ABOUT.HTML) — EDITORIAL ARCHITECTURAL LOOKBOOK
+============================================================ */
 .about-page-hero {
   padding: 160px 48px 60px;
   max-width: 1440px;
   margin: 0 auto;
 }
 
+.about-hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
 .about-page-title {
   font-family: 'Unbounded', sans-serif;
-  font-size: clamp(34px, 4.8vw, 62px);
+  font-size: clamp(32px, 4.4vw, 56px);
   font-weight: 700;
   letter-spacing: -0.03em;
-  line-height: 1.08;
+  line-height: 1.1;
   text-transform: uppercase;
   color: var(--brand-gray);
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
 .about-page-lead {
-  font-size: 20px;
-  font-weight: 300;
-  line-height: 1.6;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.65;
   color: var(--brand-gray);
-  max-width: 900px;
+  margin-bottom: 24px;
 }
 
 .about-chief-badge {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  margin-top: 28px;
   padding: 12px 24px;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
   border-radius: 9999px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--brand-gray);
+  box-shadow: 0 8px 24px rgba(67, 66, 66, 0.08);
 }
 
 .about-chief-badge span {
   color: var(--accent-amber);
+}
+
+.about-hero-card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  aspect-ratio: 4 / 3;
+  background: #edebe6;
+}
+
+.about-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-hero-card:hover .about-hero-img {
+  transform: scale(1.03);
+}
+
+.about-hero-badge {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  right: 18px;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.about-hero-meta-label {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brand-gray);
 }
 
 .about-content-section {
@@ -2828,36 +2886,88 @@ body.has-lightbox-open .hw-room-nav {
   background: var(--light-gray);
 }
 
+/* 1. Карточки этапов проектирования с визуальным превью */
 .design-steps-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
+  gap: 28px;
 }
 
 .design-step-card {
   position: relative;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.95);
-  border-radius: 16px;
-  padding: 36px 32px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 18px;
+  overflow: hidden;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.3s ease;
 }
 
 .design-step-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.05);
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 1);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.12);
+}
+
+.step-media-wrap {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  background: #edebe6;
+}
+
+.step-media-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.design-step-card:hover .step-media-wrap img {
+  transform: scale(1.05);
+}
+
+.step-media-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 9999px;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brand-gray);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+}
+
+.step-content {
+  padding: 28px 30px 32px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .step-num {
   font-family: 'Unbounded', sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--accent-amber);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   display: block;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
 }
 
 .step-title {
@@ -2866,34 +2976,381 @@ body.has-lightbox-open .hw-room-nav {
   font-weight: 700;
   color: var(--brand-gray);
   margin-bottom: 12px;
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 .step-text {
-  font-size: 14px;
+  font-size: 14.5px;
   font-weight: 400;
   line-height: 1.65;
-  color: var(--brand-gray);
+  color: #444444;
+  margin: 0;
 }
 
-.geo-info-card {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+/* 2. Авторский надзор и комплектация — сплит-лейаут */
+.supervision-split-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 36px;
+  align-items: start;
+}
+
+.supervision-text-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.95);
-  border-radius: 16px;
+  border-radius: 18px;
   padding: 36px 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
 }
 
-.geo-info-card p {
-  font-size: 16px;
+.supervision-text-card p {
+  font-size: 15.5px;
   line-height: 1.7;
   color: var(--brand-gray);
   margin-bottom: 16px;
 }
 
-.geo-info-card p:last-child {
-  margin-bottom: 0;
+.supervision-text-card ul {
+  padding-left: 20px;
+  line-height: 1.8;
+  color: var(--brand-gray);
+  font-size: 14.5px;
+  margin-bottom: 20px;
+}
+
+.supervision-text-card ul li {
+  margin-bottom: 8px;
+}
+
+.supervision-gallery-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.supervision-diptych {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.supervision-media-item {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  background: #edebe6;
+  display: flex;
+  flex-direction: column;
+}
+
+.supervision-media-item img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.supervision-media-item:hover img {
+  transform: scale(1.05);
+}
+
+.media-sub-caption {
+  padding: 10px 12px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--brand-gray);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.supervision-guarantee-note {
+  padding: 20px 24px;
+  background: rgba(255, 255, 255, 0.80);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--brand-gray);
+  font-weight: 500;
+}
+
+.supervision-guarantee-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(200, 143, 10, 0.12);
+  color: var(--accent-amber);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* 3. Панорамный баннер-манифест студии */
+.about-manifesto-banner {
+  position: relative;
+  margin: 90px 0;
+  border-radius: 24px;
+  overflow: hidden;
+  min-height: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+}
+
+.manifesto-banner-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.85);
+}
+
+.manifesto-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(13, 13, 13, 0.40) 0%, rgba(13, 13, 13, 0.70) 100%);
+}
+
+.manifesto-banner-card {
+  position: relative;
+  z-index: 2;
+  max-width: 860px;
+  margin: 56px 28px;
+  padding: 48px 44px;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 22px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.30), inset 0 1px 2px rgba(255, 255, 255, 0.45);
+  text-align: center;
+  color: #ffffff;
+}
+
+.manifesto-quote {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(16px, 2.1vw, 22px);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  margin-bottom: 24px;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.manifesto-author-name {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.manifesto-author-role {
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* 4. География проектов: вводный блок и сетка городов */
+.geo-intro-box {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 18px;
+  padding: 30px 34px;
+  margin-bottom: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.geo-lead-text {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--brand-gray);
+  margin: 0;
+}
+
+.geo-cities-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.geo-city-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.3s ease;
+}
+
+.geo-city-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 1);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+}
+
+.city-media-wrap {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: #edebe6;
+}
+
+.city-media-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.geo-city-card:hover .city-media-wrap img {
+  transform: scale(1.06);
+}
+
+.city-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 5px 12px;
+  background: rgba(255, 255, 255, 0.90);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 9999px;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brand-gray);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.city-card-info {
+  padding: 22px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.city-name {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--brand-gray);
+  margin: 0 0 8px;
+  line-height: 1.3;
+}
+
+.city-desc {
+  font-family: 'Manrope', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: #555555;
+  margin: 0;
+}
+
+/* Адаптивность Lookbook-сетки для экранов до 1100px */
+@media (max-width: 1100px) {
+  .about-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .supervision-split-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .geo-cities-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+/* Адаптивность Lookbook-сетки для мобильных устройств до 768px */
+@media (max-width: 768px) {
+  .about-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .about-hero-card {
+    aspect-ratio: 16 / 10;
+  }
+  .design-steps-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .step-media-wrap {
+    height: 180px;
+  }
+  .step-content {
+    padding: 24px 20px 28px;
+  }
+  .supervision-diptych {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .supervision-media-item img {
+    height: 180px;
+  }
+  .about-manifesto-banner {
+    margin: 60px 0;
+    min-height: auto;
+    border-radius: 18px;
+  }
+  .manifesto-banner-card {
+    margin: 28px 16px;
+    padding: 32px 20px;
+  }
+  .manifesto-quote {
+    font-size: 15px;
+    line-height: 1.55;
+    margin-bottom: 20px;
+  }
+  .geo-cities-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .city-media-wrap {
+    height: 160px;
+  }
+  .geo-intro-box {
+    padding: 22px 20px;
+  }
 }
 
 .faq-list {
@@ -3461,7 +3918,10 @@ body.has-lightbox-open .hw-room-nav {
     gap: 16px;
   }
   .design-step-card {
-    padding: 28px 24px;
+    padding: 0;
+  }
+  .step-content {
+    padding: 24px 20px 28px;
   }
   .geo-info-card {
     padding: 24px 20px;

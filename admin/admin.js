@@ -1553,16 +1553,37 @@ function generateAboutHTML(siteContent) {
   const about = siteContent.aboutPage;
   const contacts = siteContent.home.contacts;
 
+  const stepImages = [
+    'images/MAKAROVSKI_PORTUGALIA/hallway_02.webp',
+    'images/NA_NEKRASOVA/living_04.webp',
+    'images/MAKAROVSKI_PORTUGALIA/living_03.webp',
+    'images/NA_NEKRASOVA/living_02.webp'
+  ];
+  const stepBadges = [
+    'ПЛАНИРОВКА &amp; ЧЕРТЕЖИ',
+    'ФОТОРЕАЛИЗМ 4K',
+    'ИНЖЕНЕРИЯ &amp; СХЕМЫ',
+    'МАТЕРИАЛЫ &amp; ШПОН'
+  ];
+
   let stepsHtml = '';
-  (about.steps || []).forEach(step => {
+  (about.steps || []).forEach((step, idx) => {
+    const stepImg = stepImages[idx] || stepImages[0];
+    const badgeText = stepBadges[idx] || escapeHtml(step.num || `ЭТАП 0${idx + 1}`);
     stepsHtml += `
-          <!-- Карточка ${step.num} -->
+          <!-- Карточка ${step.num || `0${idx + 1}`} -->
           <div class="design-step-card">
-            <span class="step-num">${step.num}</span>
-            <h3 class="step-title">${escapeHtml(step.title)}</h3>
-            <p class="step-text">
-              ${escapeHtml(step.text)}
-            </p>
+            <div class="step-media-wrap">
+              <img src="${stepImg}" alt="${escapeHtml(step.title)}" loading="lazy" decoding="async">
+              <span class="step-media-badge">${badgeText}</span>
+            </div>
+            <div class="step-content">
+              <span class="step-num">${escapeHtml(step.num || `ЭТАП 0${idx + 1}`)}</span>
+              <h3 class="step-title">${escapeHtml(step.title)}</h3>
+              <p class="step-text">
+                ${escapeHtml(step.text)}
+              </p>
+            </div>
           </div>\n`;
   });
 
@@ -1656,15 +1677,25 @@ ${faqJsonLd}
   </header>
 
   <main>
-    <!-- ПЕРВЫЙ ЭКРАН -->
+    <!-- ПЕРВЫЙ ЭКРАН: HERO SPLIT -->
     <section class="about-page-hero">
-      <h1 class="about-page-title">${escapeHtml(about.title)}</h1>
-      <p class="about-page-lead">
-        ${escapeHtml(about.lead)}
-      </p>
-
-      <div class="about-chief-badge">
-        <span>ГЛАВНЫЙ ДИЗАЙНЕР:</span> ${escapeHtml(cleanBadgeText.toUpperCase())}
+      <div class="about-hero-grid">
+        <div class="about-hero-text">
+          <h1 class="about-page-title">${escapeHtml(about.title)}</h1>
+          <p class="about-page-lead">
+            ${escapeHtml(about.lead)}
+          </p>
+          <div class="about-chief-badge">
+            <span>ГЛАВНЫЙ ДИЗАЙНЕР:</span> ${escapeHtml(cleanBadgeText.toUpperCase())}
+          </div>
+        </div>
+        <div class="about-hero-card">
+          <img src="images/COVER_MAIN/cover_main_makarovski.webp" alt="Интерьер FERRO DESIGN — ЖК «Макаровский»" class="about-hero-img" fetchpriority="high">
+          <div class="about-hero-badge">
+            <span class="about-hero-meta-label">ФЛАГМАНСКИЙ ПРОЕКТ</span>
+            <span class="about-hero-meta-label">ЖК «МАКАРОВСКИЙ»</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1678,25 +1709,113 @@ ${faqJsonLd}
 ${stepsHtml}        </div>
       </div>
 
-      <!-- 2. АВТОРСКИЙ НАДЗОР И РЕАЛИЗАЦИЯ -->
+      <!-- 2. АВТОРСКИЙ НАДЗОР И РЕАЛИЗАЦИЯ (СПЛИТ С АРХИТЕКТУРНЫМ ДИПТИХОМ) -->
       <div class="about-content-block">
         <h2 class="about-block-title">Авторский надзор и комплектация</h2>
         
-        <div class="geo-info-card">
-          ${about.supervisionHtml}
+        <div class="supervision-split-layout">
+          <div class="supervision-text-card">
+            ${about.supervisionHtml}
+          </div>
+          <div class="supervision-gallery-col">
+            <div class="supervision-diptych">
+              <div class="supervision-media-item">
+                <img src="images/NA_NEKRASOVA/bedroom_02.webp" alt="Сценарии освещения и текстиль" loading="lazy" decoding="async">
+                <div class="media-sub-caption">Сценарии освещения и текстиль</div>
+              </div>
+              <div class="supervision-media-item">
+                <img src="images/NA_NEKRASOVA/masterbath_02.webp" alt="Точность стыков и керамогранита" loading="lazy" decoding="async">
+                <div class="media-sub-caption">Точность стыков и керамогранита</div>
+              </div>
+            </div>
+            <div class="supervision-guarantee-note">
+              <div class="supervision-guarantee-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  <polyline points="9 12 11 14 15 10"></polyline>
+                </svg>
+              </div>
+              <span><strong>100% соответствие 3D-проекту:</strong> гарантия безупречной реализации каждого архитектурного узла в реальном интерьере без строительных ошибок.</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- 3. ГЕОГРАФИЯ РАБОТЫ -->
+      <!-- 3. ПАНОРАМНЫЙ БАННЕР-МАНИФЕСТ СТУДИИ -->
+      <div class="about-manifesto-banner">
+        <img src="images/COVER_MAIN/cover_main_makarovski_night.webp" alt="Вечерняя атмосфера интерьера FERRO DESIGN" class="manifesto-banner-bg" loading="lazy" decoding="async">
+        <div class="manifesto-banner-overlay" aria-hidden="true"></div>
+        <div class="manifesto-banner-card">
+          <blockquote class="manifesto-quote">
+            «Мы создаем пространства, в которых эстетика архитектурных пропорций соединяется с абсолютной функциональностью каждого миллиметра. Настоящий премиальный интерьер ощущается через тишину, тактильность материалов и точность деталей.»
+          </blockquote>
+          <div class="manifesto-author-name">АРТЕМ МАРЧЕНКО</div>
+          <div class="manifesto-author-role">ОСНОВАТЕЛЬ И ВЕДУЩИЙ ДИЗАЙНЕР FERRO DESIGN™</div>
+        </div>
+      </div>
+
+      <!-- 4. ГЕОГРАФИЯ ПРОЕКТОВ (ВИТРИНА ГОРОДОВ И ТИПОЛОГИЙ) -->
       <div class="about-content-block">
         <h2 class="about-block-title">География проектов</h2>
         
-        <div class="geo-info-card">
-          ${about.geoHtml}
+        <div class="geo-intro-box">
+          <p class="geo-lead-text">
+            Студия FERRO DESIGN™ базируется в Екатеринбурге и активно проектирует жилые и коммерческие пространства на территории Свердловской области. Мы также успешно реализуем частные резиденции, квартиры и коммерческие объекты в Сочи, Москве, ХМАО и других регионах России в формате отточенного удаленного проектирования.
+          </p>
+        </div>
+
+        <div class="geo-cities-grid">
+          <!-- Город 1: Екатеринбург -->
+          <div class="geo-city-card">
+            <div class="city-media-wrap">
+              <img src="images/MAKAROVSKI_PORTUGALIA/cover.webp" alt="Проекты в Екатеринбурге" loading="lazy" decoding="async">
+              <span class="city-badge">ШТАБ-КВАРТИРА</span>
+            </div>
+            <div class="city-card-info">
+              <h3 class="city-name">Екатеринбург и Урал</h3>
+              <p class="city-desc">Флагманские проекты квартир в жилых комплексах бизнес- и премиум-класса, загородные дома и авторский надзор.</p>
+            </div>
+          </div>
+
+          <!-- Город 2: Сочи & Юг -->
+          <div class="geo-city-card">
+            <div class="city-media-wrap">
+              <img src="images/SOCHI_KVARTIRA/living_01.webp" alt="Проекты в Сочи" loading="lazy" decoding="async">
+              <span class="city-badge">КУРОРТНЫЙ РЕГИОН</span>
+            </div>
+            <div class="city-card-info">
+              <h3 class="city-name">Сочи &amp; Юг</h3>
+              <p class="city-desc">Апартаменты для комфортного отдыха и премиальная арендная недвижимость с панорамными видовыми характеристиками.</p>
+            </div>
+          </div>
+
+          <!-- Город 3: ХМАО & Тюмень -->
+          <div class="geo-city-card">
+            <div class="city-media-wrap">
+              <img src="images/HMAO/living_01.webp" alt="Проекты в ХМАО и Тюмени" loading="lazy" decoding="async">
+              <span class="city-badge">СЕВЕРНЫЙ ВЕКТОР</span>
+            </div>
+            <div class="city-card-info">
+              <h3 class="city-name">ХМАО &amp; Тюмень</h3>
+              <p class="city-desc">Просторные частные загородные резиденции и коттеджи с адаптивными теплыми сценариями освещения.</p>
+            </div>
+          </div>
+
+          <!-- Город 4: Вся Россия -->
+          <div class="geo-city-card">
+            <div class="city-media-wrap">
+              <img src="images/PUB_TAGIL/cover.webp" alt="Дистанционное проектирование по РФ" loading="lazy" decoding="async">
+              <span class="city-badge">ВСЯ РОССИЯ</span>
+            </div>
+            <div class="city-card-info">
+              <h3 class="city-name">Дистанционно по РФ</h3>
+              <p class="city-desc">Полный комплект строительных чертежей, спецификации и онлайн-сопровождение строителей в любом регионе.</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- 4. FAQ: ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ -->
+      <!-- 5. FAQ: ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ -->
       <div class="about-content-block">
         <h2 class="about-block-title">Часто задаваемые вопросы (FAQ)</h2>
         
