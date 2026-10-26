@@ -457,6 +457,8 @@ input, textarea, select {
   gap: 12px;
 }
 
+.server-status-pill,
+.btn-server-status,
 .btn-github-settings {
   display: inline-flex;
   align-items: center;
@@ -469,8 +471,12 @@ input, textarea, select {
   font-weight: 600;
   color: var(--brand-gray);
   box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
 }
 
+.server-status-pill:hover,
+.btn-server-status:hover,
 .btn-github-settings:hover {
   background: var(--bg-subtle);
   border-color: rgba(13, 13, 13, 0.2);

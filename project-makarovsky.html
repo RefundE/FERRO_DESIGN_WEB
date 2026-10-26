@@ -4,50 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- ============================================================
-       [ШАБЛОН КЕЙСА: 1. МЕТА-ТЕГИ И КАРТОЧКА OPEN GRAPH]
-       При создании нового проекта замените:
-       1) Title и Description
-       2) og:title, og:description, og:image (ссылка на главный рендер)
-  ============================================================ -->
   <title>ЖК «Макаровский» — Студия дизайна интерьера FERRO DESIGN™</title>
   <meta name="description" content="Дизайн-проект интерьера квартиры 102 м² в ЖК «Макаровский», Екатеринбург от студии FERRO DESIGN.">
 
-  <!-- Open Graph / Карточка для Telegram, WhatsApp, ВКонтакте -->
+  <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="ЖК «Макаровский» — Студия дизайна интерьера FERRO DESIGN™">
-  <meta property="og:description" content="Дизайн интерьера квартиры 102 м² в Екатеринбурге. Премиальные планировочные и световые решения.">
+  <meta property="og:description" content="Дизайн-проект интерьера квартиры 102 м² в ЖК «Макаровский», Екатеринбург от студии FERRO DESIGN.">
   <meta property="og:image" content="https://ferro-design.ru/images/COVER_MAIN/cover_main_makarovski.webp">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ЖК «Макаровский» — Студия дизайна интерьера FERRO DESIGN™">
-  <meta name="twitter:description" content="Дизайн интерьера квартиры 102 м² в Екатеринбурге от студии FERRO DESIGN.">
+  <meta name="twitter:description" content="Дизайн-проект интерьера квартиры 102 м² в ЖК «Макаровский», Екатеринбург от студии FERRO DESIGN.">
   <meta name="twitter:image" content="https://ferro-design.ru/images/COVER_MAIN/cover_main_makarovski.webp">
 
-  <!-- Динамический анимированный фавикон F-E-R-R-O (генерируется script.js) -->
   <link rel="icon" id="dynamicFavicon" type="image/png" href="favicon.png">
-
-  <!-- Шрифты Google Fonts: Unbounded (акцентные заголовки) и Manrope (основной текст) -->
   <link rel="stylesheet" href="style.css?v=2">
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    "name": "Дизайн интерьера ЖК «Макаровский»",
-    "description": "Дизайн-проект интерьера квартиры 102 м² в ЖК «Макаровский», Екатеринбург от студии дизайна FERRO DESIGN™.",
-    "creator": {
-      "@type": "HomeAndConstructionBusiness",
-      "name": "FERRO DESIGN™"
-    }
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "Дизайн интерьера ЖК «Макаровский»",
+  "description": "Дизайн-проект интерьера квартиры 102 м² в ЖК «Макаровский», Екатеринбург от студии FERRO DESIGN.",
+  "creator": {
+    "@type": "HomeAndConstructionBusiness",
+    "name": "FERRO DESIGN™"
   }
+}
   </script>
 </head>
 <body>
 
-  <!-- ============================================================
-       [ШАБЛОН КЕЙСА: 2. ФИКСИРОВАННАЯ ШАПКА]
-       (Общая для всех кейсов, менять ничего не требуется)
-  ============================================================ -->
+  <!-- ФИКСИРОВАННАЯ ШАПКА -->
   <header class="glass-header">
     <div class="header-inner">
       <a href="index.html" class="logo-link">
@@ -62,15 +50,8 @@
     </div>
   </header>
 
-  <!-- ============================================================
-       [ШАБЛОН КЕЙСА: 3. ГЛАВНЫЙ ЭКРАН (HERO 100vh)]
-       При создании нового проекта замените:
-       1) Пути к каверам (Дневной и Ночной) в .project-intro-bg
-       2) Название в h1.project-title
-       3) Характеристики (Город, Площадь, Категория, Год)
-  ============================================================ -->
+  <!-- ГЛАВНЫЙ ЭКРАН -->
   <section class="project-intro">
-    <!-- Фоновый первый кавер на всю высоту экрана (100vh) + сценарии освещения (День / Ночь) -->
     <div class="project-intro-bg">
       <img src="images/COVER_MAIN/cover_main_makarovski.webp" alt="ЖК «Макаровский» — Дневной сценарий" class="hero-bg-layer hero-bg-day" fetchpriority="high">
       <img src="images/COVER_MAIN/cover_main_makarovski_night.webp" alt="ЖК «Макаровский» — Вечерний сценарий" class="hero-bg-layer hero-bg-night">
@@ -78,10 +59,8 @@
     </div>
 
     <div class="project-intro-container">
-      <!-- 1 ТИП: САМЫЙ БОЛЬШОЙ ШРИФТ В СТИЛЕ ГЛАВНОГО ЗАГОЛОВКА САЙТА -->
       <h1 class="project-title">ЖК «Макаровский»</h1>
 
-      <!-- НИЖНЯЯ ЧАСТЬ ИНТРО: ПЕРЕКЛЮЧАТЕЛЬ ДЕНЬ / НОЧЬ + ХАРАКТЕРИСТИКИ -->
       <div class="project-intro-bottom">
         <div class="lighting-controls-wrap">
           <div class="lighting-mode-switch" role="group" aria-label="Сценарий освещения">
@@ -107,10 +86,7 @@
             </button>
           </div>
         </div>
-
-        <!-- БЛОК ХАРАКТЕРИСТИК (2 КОЛОНКИ, БЕЛЫЙ ТЕКСТ) -->
         <div class="project-yodezeen-specs">
-          <!-- Левая колонка -->
           <div class="specs-col specs-col-left">
             <div class="specs-group">
               <span class="specs-label">Город</span>
@@ -122,7 +98,6 @@
             </div>
           </div>
 
-          <!-- Правая колонка -->
           <div class="specs-col specs-col-right">
             <div class="specs-group">
               <span class="specs-label">Категория</span>
@@ -140,15 +115,8 @@
 
   <main class="project-body">
 
-    <!-- ============================================================
-         [ШАБЛОН КЕЙСА: 4. СЕКЦИИ ПОМЕЩЕНИЙ И ГАЛЕРЕЯ]
-         При создании нового проекта замените:
-         1) Названия и id помещений в .room-header (.room-name и id="room-...")
-         2) Пути к изображениям в тегах <img> (чередуйте .media-block и .diptych-grid)
-    ============================================================ -->
-
     <!-- ==========================================
-         ГОСТИНАЯ (living_01, living_02, living_03, living_04, living_05)
+         ГОСТИНАЯ (living)
     ========================================== -->
     <div class="room-header" id="room-living">
       <h2 class="room-name">ГОСТИНАЯ</h2>
@@ -156,7 +124,7 @@
 
     <figure class="media-block">
       <div class="js-tilt">
-        <img src="images/MAKAROVSKI_PORTUGALIA/living_01.webp" alt="Гостиная — Кухня-гостиная с островом" loading="lazy" decoding="async">
+        <img src="images/MAKAROVSKI_PORTUGALIA/living_01.webp" alt="Кухня-гостиная с кухонным островом и обеденной зоной" loading="lazy" decoding="async">
       </div>
       <figcaption>Кухня-гостиная с кухонным островом и обеденной зоной</figcaption>
     </figure>
@@ -164,13 +132,13 @@
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/living_02.webp" alt="Гостиная — ТВ-зона и диванная группа" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/living_02.webp" alt="ТВ-зона и диванная группа" loading="lazy" decoding="async">
         </div>
         <figcaption>ТВ-зона и диванная группа</figcaption>
       </figure>
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/living_03.webp" alt="Гостиная — Встроенный книжный стеллаж" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/living_03.webp" alt="Встроенный книжный стеллаж и сценарий освещения" loading="lazy" decoding="async">
         </div>
         <figcaption>Встроенный книжный стеллаж и сценарий освещения</figcaption>
       </figure>
@@ -179,20 +147,21 @@
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/living_04.webp" alt="Гостиная — Лаунж-зона у панорамных окон" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/living_04.webp" alt="Лаунж-зона с мягкой группой у панорамных окон" loading="lazy" decoding="async">
         </div>
         <figcaption>Лаунж-зона с мягкой группой у панорамных окон</figcaption>
       </figure>
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/living_05.webp" alt="Гостиная — Стеклянная витрина и зонирование" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/living_05.webp" alt="Стеклянная витрина и зонирование пространства" loading="lazy" decoding="async">
         </div>
         <figcaption>Стеклянная витрина и зонирование пространства</figcaption>
       </figure>
     </div>
 
+
     <!-- ==========================================
-         ПРИХОЖАЯ (hallway_01, hallway_02)
+         ПРИХОЖАЯ (hallway)
     ========================================== -->
     <div class="room-header" id="room-hallway">
       <h2 class="room-name">ПРИХОЖАЯ</h2>
@@ -201,20 +170,21 @@
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/hallway_01.webp" alt="Прихожая — Консольный столик и зеркало" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/hallway_01.webp" alt="Консольный столик, круглое зеркало и декоративная композиция" loading="lazy" decoding="async">
         </div>
         <figcaption>Консольный столик, круглое зеркало и декоративная композиция</figcaption>
       </figure>
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/hallway_02.webp" alt="Прихожая — Архитектурный портал" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/hallway_02.webp" alt="Архитектурный портал и двери скрытого монтажа" loading="lazy" decoding="async">
         </div>
         <figcaption>Архитектурный портал и двери скрытого монтажа</figcaption>
       </figure>
     </div>
 
+
     <!-- ==========================================
-         ГОСТЕВОЙ САНУЗЕЛ (guestbath_01, guestbath_02, guestbath_03, guestbath_04)
+         ГОСТЕВОЙ САНУЗЕЛ (guestbath)
     ========================================== -->
     <div class="room-header" id="room-guest-bath">
       <h2 class="room-name">ГОСТЕВОЙ САНУЗЕЛ</h2>
@@ -223,13 +193,13 @@
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/guestbath_01.webp" alt="Гостевой санузел — Зона раковины" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/guestbath_01.webp" alt="Зона раковины и подвесная тумба" loading="lazy" decoding="async">
         </div>
         <figcaption>Зона раковины и подвесная тумба</figcaption>
       </figure>
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/guestbath_02.webp" alt="Гостевой санузел — Душевой отсек" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/guestbath_02.webp" alt="Душевой отсек со стеклянной перегородкой" loading="lazy" decoding="async">
         </div>
         <figcaption>Душевой отсек со стеклянной перегородкой</figcaption>
       </figure>
@@ -238,20 +208,21 @@
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/guestbath_03.webp" alt="Гостевой санузел — Акцентная отделка" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/guestbath_03.webp" alt="Акцентная солнечная отделка и зеркало с подсветкой" loading="lazy" decoding="async">
         </div>
         <figcaption>Акцентная солнечная отделка и зеркало с подсветкой</figcaption>
       </figure>
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/guestbath_04.webp" alt="Гостевой санузел — Перспектива" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/guestbath_04.webp" alt="Ракурс на душевую зону и подвесную сантехнику" loading="lazy" decoding="async">
         </div>
         <figcaption>Ракурс на душевую зону и подвесную сантехнику</figcaption>
       </figure>
     </div>
 
+
     <!-- ==========================================
-         ВАННАЯ КОМНАТА ПРИ СПАЛЬНЕ ХОЗЯИНА (masterbath_01, masterbath_02, masterbath_03, masterbath_04)
+         ВАННАЯ КОМНАТА ПРИ СПАЛЬНЕ ХОЗЯИНА (masterbath)
     ========================================== -->
     <div class="room-header" id="room-master-bath">
       <h2 class="room-name">ВАННАЯ КОМНАТА ПРИ СПАЛЬНЕ ХОЗЯИНА</h2>
@@ -260,13 +231,13 @@
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/masterbath_01.webp" alt="Мастер-ванная — Умывальник и орнамент" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/masterbath_01.webp" alt="Раковина и напольная плитка с геометрическим орнаментом" loading="lazy" decoding="async">
         </div>
         <figcaption>Раковина и напольная плитка с геометрическим орнаментом</figcaption>
       </figure>
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/masterbath_02.webp" alt="Мастер-ванная — Системы хранения" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/masterbath_02.webp" alt="Встроенные системы хранения из шпона и инсталляция" loading="lazy" decoding="async">
         </div>
         <figcaption>Встроенные системы хранения из шпона и инсталляция</figcaption>
       </figure>
@@ -275,20 +246,21 @@
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/masterbath_03.webp" alt="Мастер-ванная — Зона ванны" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/masterbath_03.webp" alt="Зона ванны в изумрудной глянцевой плитке" loading="lazy" decoding="async">
         </div>
         <figcaption>Зона ванны в изумрудной глянцевой плитке</figcaption>
       </figure>
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/masterbath_04.webp" alt="Мастер-ванная — Круглое зеркало" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/masterbath_04.webp" alt="Круглое зеркало и контрастная отделка керамогранитом" loading="lazy" decoding="async">
         </div>
         <figcaption>Круглое зеркало и контрастная отделка керамогранитом</figcaption>
       </figure>
     </div>
 
+
     <!-- ==========================================
-         СПАЛЬНЯ ГЛАВНАЯ (bedroom_01, bedroom_02, bedroom_03)
+         СПАЛЬНЯ ГЛАВНАЯ (bedroom)
     ========================================== -->
     <div class="room-header" id="room-master-bed">
       <h2 class="room-name">СПАЛЬНЯ ГЛАВНАЯ</h2>
@@ -297,13 +269,13 @@
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/bedroom_01.webp" alt="Спальня главная — Вечерний сценарий" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/bedroom_01.webp" alt="Камерный вечерний сценарий освещения" loading="lazy" decoding="async">
         </div>
         <figcaption>Камерный вечерний сценарий освещения</figcaption>
       </figure>
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/bedroom_02.webp" alt="Спальня главная — Прикроватная зона" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/bedroom_02.webp" alt="Прикроватная зона и гардеробный модуль" loading="lazy" decoding="async">
         </div>
         <figcaption>Прикроватная зона и гардеробный модуль</figcaption>
       </figure>
@@ -311,13 +283,14 @@
 
     <figure class="media-block">
       <div class="js-tilt">
-        <img src="images/MAKAROVSKI_PORTUGALIA/bedroom_03.webp" alt="Спальня главная — Фронтальный ракурс" loading="lazy" decoding="async">
+        <img src="images/MAKAROVSKI_PORTUGALIA/bedroom_03.webp" alt="Фронтальный ракурс мастер-спальни с фактурным изголовьем" loading="lazy" decoding="async">
       </div>
       <figcaption>Фронтальный ракурс мастер-спальни с фактурным изголовьем</figcaption>
     </figure>
 
+
     <!-- ==========================================
-         ДЕТСКАЯ КОМНАТА (kids_01, kids_02, kids_03)
+         ДЕТСКАЯ КОМНАТА (kids)
     ========================================== -->
     <div class="room-header" id="room-kids">
       <h2 class="room-name">ДЕТСКАЯ КОМНАТА</h2>
@@ -325,7 +298,7 @@
 
     <figure class="media-block">
       <div class="js-tilt">
-        <img src="images/MAKAROVSKI_PORTUGALIA/kids_01.webp" alt="Детская комната — Общий вид" loading="lazy" decoding="async">
+        <img src="images/MAKAROVSKI_PORTUGALIA/kids_01.webp" alt="Общий вид детской комнаты с акцентной спальной нишей" loading="lazy" decoding="async">
       </div>
       <figcaption>Общий вид детской комнаты с акцентной спальной нишей</figcaption>
     </figure>
@@ -333,25 +306,18 @@
     <div class="diptych-grid">
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/kids_02.webp" alt="Детская комната — Рабочая и игровая зона" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/kids_02.webp" alt="Рабочая и игровая зона детской" loading="lazy" decoding="async">
         </div>
         <figcaption>Рабочая и игровая зона детской</figcaption>
       </figure>
       <figure>
         <div class="js-tilt">
-          <img src="images/MAKAROVSKI_PORTUGALIA/kids_03.webp" alt="Детская комната — Перфорированная перегородка" loading="lazy" decoding="async">
+          <img src="images/MAKAROVSKI_PORTUGALIA/kids_03.webp" alt="Перфорированная архитектурная перегородка и спальное место" loading="lazy" decoding="async">
         </div>
         <figcaption>Перфорированная архитектурная перегородка и спальное место</figcaption>
       </figure>
     </div>
 
-    <!-- ============================================================
-         [ШАБЛОН КЕЙСА: 5. ПЛАВАЮЩЕЕ МЕНЮ НАВИГАЦИИ ПО КОМНАТАМ]
-         При создании нового проекта замените:
-         1) Ссылки href="#room-..." на id комнат этого проекта
-         2) Названия комнат в тексте ссылок
-         (На смартфонах автоматически работает мягкий свайп-скролл)
-    ============================================================ -->
     <nav class="hw-room-nav" id="hwRoomNav" aria-label="Навигация по помещениям">
       <a href="#room-living" class="hw-room-link active">Гостиная</a>
       <a href="#room-hallway" class="hw-room-link">Прихожая</a>
@@ -361,13 +327,7 @@
       <a href="#room-kids" class="hw-room-link">Детская</a>
     </nav>
 
-    <!-- ============================================================
-         [ШАБЛОН КЕЙСА: 6. ССЫЛКА НА СЛЕДУЮЩИЙ ПРОЕКТ]
-         При создании нового проекта замените:
-         1) Ссылку href на файл следующего кейса (например project-nekrasova.html)
-         2) Название проекта в span
-    ============================================================ -->
-            <div class="next-case-bar">
+    <div class="next-case-bar">
       <span class="next-sub">Следующий проект</span>
       <a href="project-ekater-park.html" class="next-title">
         <span>ЖК «Екатерининский парк»</span>
@@ -375,19 +335,17 @@
           <path d="M2 12H52M52 12L41 2M52 12L41 22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </a>
-    </div></main>
+    </div>
+  </main>
 
-  <!-- ============================================================
-       [ШАБЛОН КЕЙСА: 7. СЕКЦИЯ КОНТАКТОВ И ФОРМА ЗАЯВКИ]
-       (Общая для всех кейсов: авто-маска +7, отправка и ссылка на политику)
-  ============================================================ -->
+  <!-- СЕКЦИЯ КОНТАКТОВ -->
   <section id="contact" class="contact-section">
     <div class="contact-container">
       <div class="contact-grid">
         <div class="contact-col-info">
           <h2 class="contact-title">Контакты</h2>
           <p class="contact-intro">
-            Готовы обсудить ваш проект? Свяжитесь с нами удобным для вас способом.
+            Готовы обсудить ваш проект? Свяжитесь с нами удобным способом.
           </p>
 
           <div class="contact-details">
@@ -414,7 +372,7 @@
             </p>
 
             <div class="contact-direct-actions">
-              <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener noreferrer" class="direct-action-btn direct-btn-telegram">
+              <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" class="direct-action-btn direct-btn-telegram">
                 <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="m20.665 3.717-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l-.313 4.693c.46 0 .663-.211.921-.46l2.211-2.15 4.599 3.397c.848.467 1.457.227 1.668-.785l3.019-14.228c.309-1.239-.473-1.8-1.282-1.434z"/>
                 </svg>
@@ -443,34 +401,25 @@
       </div>
     </div>
   </section>
-  
-  <!-- ============================================================
-       [ШАБЛОН КЕЙСА: 8. ПОДВАЛ И СОЦИАЛЬНЫЕ СЕТИ]
-       (Общий для всех кейсов: соцсети студии, бегущая строка, ИП и отказ от оферты)
-  ============================================================ -->
+
+  <!-- ПОДВАЛ САЙТА -->
   <footer class="site-footer">
-    <!-- 1. Иконки соцсетей студии (YouTube, Pinterest, Telegram) -->
     <div class="footer-socials">
-      <!-- YouTube -->
-      <a href="https://www.youtube.com/@ferrodesign7446/featured" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="YouTube">
+      <a href="https://www.youtube.com/@ferrodesign7446/featured" target="_blank" rel="noopener" class="footer-social-btn" aria-label="YouTube">
         <img src="images/LOGO_SOCIALS/youtube.png" alt="YouTube">
       </a>
-      <!-- Pinterest -->
-      <a href="https://ru.pinterest.com/ferro_design_ekb/" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="Pinterest">
+      <a href="https://ru.pinterest.com/ferro_design_ekb/" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Pinterest">
         <img src="images/LOGO_SOCIALS/pinterest.png" alt="Pinterest">
       </a>
-      <!-- Telegram -->
-      <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="Telegram">
+      <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Telegram">
         <img src="images/LOGO_SOCIALS/telegram.png" alt="Telegram">
       </a>
     </div>
 
-    <!-- Монументальная выдвигающаяся надпись FERRO DESIGN на всю ширину страницы -->
     <div class="footer-brand-banner">
       <div class="footer-brand-title" id="footerBrandTitle">FERRO DESIGN<span class="footer-brand-tm">™</span></div>
     </div>
 
-    <!-- 2. Нижняя строка: копирайт с ИП, центрированное меню и юридический статус -->
     <div class="footer-bottom-bar">
       <div class="footer-copy">© 2026 FERRO DESIGN™. ИП СОКОЛОВА Н.В.</div>
       <ul class="footer-links">
@@ -484,7 +433,6 @@
     </div>
   </footer>
 
-  <!-- Скрипт сайта (интерактивный Lightbox галереи) -->
   <script src="script.js?v=2"></script>
 </body>
 </html>

@@ -45,9 +45,12 @@
 
     <!-- Действия в шапке -->
     <div class="header-actions">
-      <button class="btn-github-settings" id="btnOpenGithubModal" title="Настройки подключения к GitHub">
-        <span class="status-dot" id="githubStatusDot"></span>
-        <span>GitHub API</span>
+      <button class="server-status-pill" id="btnServerStatus" title="Статус сервера FERRO DESIGN™">
+        <span class="status-dot" id="serverStatusDot"></span>
+        <span id="serverStatusText">Сервер: В сети</span>
+      </button>
+      <button class="btn btn-sm btn-outline" id="btnOpenAuthModal" title="Авторизация администратора">
+        <span>Вход / Пароль</span>
       </button>
       <a href="../index.html" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline" title="Открыть сайт в новой вкладке">
         <span>Перейти на сайт ↗</span>
@@ -539,9 +542,8 @@
       <button class="btn btn-secondary" id="btnOpenPreviewModal">
         <span>👁 Предпросмотр</span>
       </button>
-      <button class="btn btn-accent btn-lg" id="btnPublishSite">
+      <button class="btn btn-accent btn-lg" id="btnPublishSite" title="Мгновенная публикация всех страниц на сервер">
         <span>🚀 Опубликовать на сайт</span>
-        <span id="publishLockTimerBadge" style="display: none; margin-left: 6px; font-size: 11px; padding: 2px 8px; border-radius: 999px; background: rgba(0,0,0,0.3);"></span>
       </button>
     </div>
   </footer>
@@ -551,40 +553,40 @@
        МОДАЛЬНЫЕ ОКНА
        ============================================================ -->
 
-  <!-- 1. Модальное окно GitHub API -->
-  <div class="modal-overlay" id="modalGithub">
-    <div class="modal-card">
+  <!-- 1. Модальное окно авторизации (Доступ к панели) -->
+  <div class="modal-overlay" id="modalAuth">
+    <div class="modal-card" style="max-width: 460px;">
       <div class="modal-header">
-        <h3 class="modal-title">Настройки подключения к GitHub API</h3>
-        <button class="modal-close-btn" data-close-modal="modalGithub">×</button>
+        <h3 class="modal-title">Доступ к панели управления</h3>
+        <button class="modal-close-btn" data-close-modal="modalAuth">×</button>
       </div>
       <div class="modal-body">
         <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
-          Для автоматической публикации обновлений на сайт укажите Personal Access Token (PAT) от репозитория. Токен безопасно сохраняется только в вашем браузере (LocalStorage).
+          Панель подключена к локальному REST API серверу FERRO DESIGN™. Для управления проектами и мгновенной публикации авторизуйтесь по паролю.
         </p>
+
+        <!-- Статус сервера и текущей сессии -->
+        <div id="authServerStatusNotice" style="margin-bottom: 16px; padding: 12px 14px; border-radius: var(--radius-sm); font-size: 13px; display: flex; align-items: center; gap: 10px; background: var(--bg-subtle);">
+          <span class="status-dot" id="modalAuthStatusDot"></span>
+          <span id="modalAuthStatusText">Сервер: В сети</span>
+        </div>
+
         <div class="form-group">
-          <label class="form-label" for="ghRepoInput">Репозиторий GitHub</label>
-          <input type="text" id="ghRepoInput" class="admin-input" value="refunde/FERRO_DESIGN_WEB">
-        </div>
-        <div class="form-group" style="margin-top: 14px;">
-          <label class="form-label" for="ghBranchInput">Ветка публикации</label>
-          <input type="text" id="ghBranchInput" class="admin-input" value="main">
-        </div>
-        <div class="form-group" style="margin-top: 14px;">
-          <label class="form-label" for="ghTokenInput">GitHub Personal Access Token (PAT)</label>
+          <label class="form-label" for="authPasswordInput">Пароль администратора</label>
           <div style="position: relative;">
-            <input type="password" id="ghTokenInput" class="admin-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
-            <button type="button" id="btnToggleTokenVisibility" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--text-muted); padding: 4px;">Показать</button>
+            <input type="password" id="authPasswordInput" class="admin-input" placeholder="Введите пароль" value="ferro2026">
+            <button type="button" id="btnToggleAuthPassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--text-muted); background: none; border: none; cursor: pointer; padding: 4px;">Показать</button>
           </div>
-          <span class="form-hint">Требуемые права: Fine-grained token с правами <code>Contents: Read and write</code></span>
+          <span class="form-hint">Пароль по умолчанию: <code>ferro2026</code></span>
         </div>
-        <div id="ghConnectionStatusMessage" style="margin-top: 14px; font-size: 12px; display: none;"></div>
+
+        <div id="authFeedbackMessage" style="margin-top: 14px; font-size: 12px; display: none;"></div>
       </div>
       <div class="modal-footer" style="display: flex; align-items: center; justify-content: space-between;">
-        <button type="button" class="btn btn-danger btn-sm" id="btnClearGithubToken" title="Удалить сохранённый токен из LocalStorage">Сбросить токен</button>
+        <button type="button" class="btn btn-secondary btn-sm" id="btnChangePasswordHint" title="Как сменить пароль">Сменить пароль</button>
         <div style="display: flex; gap: 8px;">
-          <button class="btn btn-secondary" id="btnTestGithubConnection">Проверить связь</button>
-          <button class="btn btn-primary" id="btnSaveGithubSettings">Сохранить</button>
+          <button type="button" class="btn btn-secondary" id="btnCheckServerConnection">Проверить сервер</button>
+          <button type="button" class="btn btn-primary" id="btnLoginSubmit">Войти</button>
         </div>
       </div>
     </div>
@@ -620,33 +622,33 @@
   </div>
 
 
-  <!-- 3. Модальное окно двойного подтверждения публикации -->
+  <!-- 3. Модальное окно подтверждения публикации -->
   <div class="modal-overlay" id="modalPublishConfirm">
-    <div class="modal-card" style="max-width: 540px;">
+    <div class="modal-card" style="max-width: 520px;">
       <div class="modal-header">
-        <h3 class="modal-title">Подтверждение публикации</h3>
+        <h3 class="modal-title">Публикация изменений на сайт</h3>
         <button class="modal-close-btn" data-close-modal="modalPublishConfirm">×</button>
       </div>
       <div class="modal-body">
-        <div class="warning-callout-box">
-          <div class="warning-callout-title">⚠️ Внимание!</div>
-          <div class="warning-callout-text">
-            В случае публикации все материалы улетят на сайт, и повторная публикация станет возможной через 60 секунд (время для сборки деплоя на GitHub Pages).
+        <div class="publish-callout-box" style="padding: 14px 16px; border-radius: var(--radius-sm); background: var(--accent-amber-light); border: 1px solid var(--accent-amber-border); margin-bottom: 14px;">
+          <div style="font-weight: 700; font-size: 13px; color: var(--text-dark); margin-bottom: 4px;">🚀 Мгновенная публикация на сервер</div>
+          <div style="font-size: 12px; color: var(--text-muted); line-height: 1.5;">
+            Все изменения будут сохранены в базе сайта, новые изображения синхронизированы, а страницы проекта мгновенно скомпилированы на сервере.
           </div>
         </div>
-        <p class="warning-note">
-          При нажатии кнопки «Всё равно опубликовать» сформируются обновленные HTML-страницы и база данных сайта, после чего произойдет коммит в репозиторий GitHub. Сервис GitHub Pages начнет развертывание обновлений, занимающее некоторое время.
+        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 0;">
+          Перед публикацией сервер автоматически создаст резервную копию базы данных в каталоге <code>data/backups/</code>.
         </p>
 
         <!-- Прогресс публикации -->
         <div id="publishProgressContainer" style="display: none; margin-top: 18px; padding: 14px; background: var(--bg-subtle); border-radius: var(--radius-sm);">
-          <div style="font-weight: 700; font-size: 12px; margin-bottom: 8px;" id="publishProgressTitle">Публикация...</div>
+          <div style="font-weight: 700; font-size: 12px; margin-bottom: 8px;" id="publishProgressTitle">Публикация на сервер...</div>
           <div style="font-size: 12px; color: var(--text-muted);" id="publishProgressStep">Инициализация...</div>
         </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-close-modal="modalPublishConfirm" id="btnCancelPublish">Отмена</button>
-        <button class="btn btn-accent" id="btnConfirmPublishFinal">Всё равно опубликовать</button>
+        <button class="btn btn-accent" id="btnConfirmPublishFinal">Опубликовать сейчас</button>
       </div>
     </div>
   </div>

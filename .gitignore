@@ -30,3 +30,7 @@ __pycache__/
 # Local / Untracked projects & archives
 skript_nasa/
 *.zip
+
+data/backups/
+__pycache__/
+*.pyc

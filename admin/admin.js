@@ -2,7 +2,7 @@
  * FERRO DESIGN™ — ПОЛНЫЙ ДВИЖОК АДМИН-ПАНЕЛИ (ADMIN.JS)
  * Архитектурный минимализм, строгая валидация по 10 правилам verify_all_cases.py,
  * авто-конвертация рендеров в WebP, точные канонические генераторы HTML/XML
- * и публикация через GitHub Git Trees API.
+ * и мгновенная публикация через локальный REST API сервер (server.py).
  */
 
 // ============================================================
@@ -14,10 +14,9 @@ window.AdminState = {
   activeTab: 'tab-texts',
   activeTextPage: 'page-home',
   activeProjectId: 'project-makarovsky',
-  githubToken: (localStorage.getItem('ferro_gh_token') || '').trim(),
-  githubRepo: (localStorage.getItem('ferro_gh_repo') || 'RefundE/FERRO_DESIGN_WEB').trim(),
-  githubBranch: (localStorage.getItem('ferro_gh_branch') || 'main').trim(),
-  publishLockUntil: parseInt(localStorage.getItem('ferro_publish_lock_until') || '0', 10),
+  authToken: (localStorage.getItem('ferro_auth_token') || '').trim(),
+  isServerConnected: false,
+  isAuthorized: false,
   newFilesMap: new Map(),
   hasUnsavedChanges: false,
   isPublishing: false,
@@ -36,9 +35,13 @@ window.addEventListener('beforeunload', (e) => {
 document.addEventListener('DOMContentLoaded', async () => {
   initNavigation();
   initModals();
-  initPublishLockCountdown();
+  initAuthModal();
   initZipExport();
   initUnsavedChangesTracker();
+  const isAuth = await checkServerConnection(true);
+  if (!isAuth) {
+    openModal('modalAuth');
+  }
   await loadSiteContent();
 });
 
@@ -50,7 +53,7 @@ function initUnsavedChangesTracker() {
   ['input', 'change'].forEach(eventType => {
     document.addEventListener(eventType, (e) => {
       if (e.target && typeof e.target.matches === 'function' && e.target.matches('input, textarea, select')) {
-        if (!e.target.matches('#projectSearchInput, #previewPageSelector, #ghTokenInput, #ghRepoInput, #ghBranchInput')) {
+        if (!e.target.matches('#projectSearchInput, #previewPageSelector, #authPasswordInput')) {
           markUnsavedChanges();
         }
       }
@@ -109,22 +112,27 @@ function initNavigation() {
 }
 
 function initModals() {
-  document.getElementById('btnOpenGithubModal').addEventListener('click', () => openModal('modalGithub'));
-  document.getElementById('btnOpenPreviewModal').addEventListener('click', () => {
-    const selector = document.getElementById('previewPageSelector');
-    openLivePreview(selector ? selector.value : 'index.html');
-    openModal('modalPreview');
-  });
-  document.getElementById('btnPublishSite').addEventListener('click', () => {
-    if (isPublishLocked()) {
-      const remainingSec = Math.ceil((window.AdminState.publishLockUntil - Date.now()) / 1000);
-      const mins = Math.floor(remainingSec / 60);
-      const secs = remainingSec % 60;
-      alert(`Публикация временно заблокирована для завершения деплоя на GitHub Pages.\nОсталось подождать: ${mins} мин ${secs} сек.`);
-      return;
-    }
-    openModal('modalPublishConfirm');
-  });
+  const btnAuth = document.getElementById('btnOpenAuthModal');
+  if (btnAuth) btnAuth.addEventListener('click', () => openModal('modalAuth'));
+
+  const btnStatus = document.getElementById('btnServerStatus');
+  if (btnStatus) btnStatus.addEventListener('click', () => openModal('modalAuth'));
+
+  const btnPreview = document.getElementById('btnOpenPreviewModal');
+  if (btnPreview) {
+    btnPreview.addEventListener('click', () => {
+      const selector = document.getElementById('previewPageSelector');
+      openLivePreview(selector ? selector.value : 'index.html');
+      openModal('modalPreview');
+    });
+  }
+
+  const btnPub = document.getElementById('btnPublishSite');
+  if (btnPub) {
+    btnPub.addEventListener('click', () => {
+      openModal('modalPublishConfirm');
+    });
+  }
 
   document.querySelectorAll('[data-close-modal]').forEach(btn => {
     btn.addEventListener('click', () => closeModal(btn.getAttribute('data-close-modal')));
@@ -157,91 +165,12 @@ function initModals() {
     });
   }
 
-  const tokenInput = document.getElementById('ghTokenInput');
-  const repoInput = document.getElementById('ghRepoInput');
-  const branchInput = document.getElementById('ghBranchInput');
-  tokenInput.value = window.AdminState.githubToken;
-  repoInput.value = window.AdminState.githubRepo;
-  branchInput.value = window.AdminState.githubBranch;
-  updateGithubStatusDot();
-
-  document.getElementById('btnToggleTokenVisibility').addEventListener('click', function() {
-    if (tokenInput.type === 'password') {
-      tokenInput.type = 'text';
-      this.textContent = 'Скрыть';
-    } else {
-      tokenInput.type = 'password';
-      this.textContent = 'Показать';
-    }
-  });
-
-  document.getElementById('btnSaveGithubSettings').addEventListener('click', () => {
-    window.AdminState.githubToken = tokenInput.value.trim();
-    window.AdminState.githubRepo = repoInput.value.trim();
-    window.AdminState.githubBranch = branchInput.value.trim();
-    localStorage.setItem('ferro_gh_token', window.AdminState.githubToken);
-    localStorage.setItem('ferro_gh_repo', window.AdminState.githubRepo);
-    localStorage.setItem('ferro_gh_branch', window.AdminState.githubBranch);
-    updateGithubStatusDot();
-    closeModal('modalGithub');
-    showToast('Настройки GitHub успешно сохранены', 'success');
-  });
-
-  const btnClearToken = document.getElementById('btnClearGithubToken');
-  if (btnClearToken) {
-    btnClearToken.addEventListener('click', () => {
-      if (confirm('Удалить сохранённый токен GitHub из браузера?')) {
-        localStorage.removeItem('ferro_gh_token');
-        window.AdminState.githubToken = '';
-        tokenInput.value = '';
-        updateGithubStatusDot();
-        const statusBox = document.getElementById('ghConnectionStatusMessage');
-        if (statusBox) statusBox.style.display = 'none';
-        showToast('GitHub токен удален из LocalStorage', 'info');
-      }
+  const confirmPubBtn = document.getElementById('btnConfirmPublishFinal');
+  if (confirmPubBtn) {
+    confirmPubBtn.addEventListener('click', async () => {
+      await handleSitePublication();
     });
   }
-
-  document.getElementById('btnTestGithubConnection').addEventListener('click', async () => {
-    const statusBox = document.getElementById('ghConnectionStatusMessage');
-    const token = tokenInput.value.trim();
-    const repo = repoInput.value.trim();
-    statusBox.style.display = 'block';
-    statusBox.innerHTML = '<span style="color: var(--accent-amber);">Проверка подключения...</span>';
-
-    if (!token) {
-      statusBox.innerHTML = '<span style="color: var(--danger);">✕ Введите Personal Access Token</span>';
-      return;
-    }
-
-    try {
-      const res = await fetch(`https://api.github.com/repos/${repo}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Accept': 'application/vnd.github.v3+json'
-        }
-      });
-      if (res.ok) {
-        const d = await res.json();
-        statusBox.innerHTML = `<span style="color: var(--success);">✓ Связь установлена: ${escapeHtml(d.full_name)} (${escapeHtml(d.default_branch)})</span>`;
-      } else {
-        let errDetail = '';
-        try {
-          const errData = await res.json();
-          errDetail = errData.message ? `${errData.message}${errData.errors ? ': ' + JSON.stringify(errData.errors) : ''}` : JSON.stringify(errData);
-        } catch (_) {
-          errDetail = res.statusText;
-        }
-        statusBox.innerHTML = `<span style="color: var(--danger);">✕ Ошибка подключения (${res.status}): ${escapeHtml(errDetail)}</span>`;
-      }
-    } catch (err) {
-      statusBox.innerHTML = `<span style="color: var(--danger);">✕ Ошибка сети: ${escapeHtml(err.message)}</span>`;
-    }
-  });
-
-  document.getElementById('btnConfirmPublishFinal').addEventListener('click', async () => {
-    await handleSitePublication();
-  });
 
   setupBuilderGlobalActions();
 }
@@ -353,51 +282,221 @@ function closeModal(id) {
   if (el) el.classList.remove('open');
 }
 
-function updateGithubStatusDot() {
-  const dot = document.getElementById('githubStatusDot');
-  if (!dot) return;
-  if (window.AdminState.githubToken) {
-    dot.className = 'status-dot';
-    dot.title = 'GitHub Token настроен';
+function getAuthHeaders(additional = {}) {
+  const headers = { ...additional };
+  if (window.AdminState.authToken) {
+    headers['Authorization'] = `Bearer ${window.AdminState.authToken}`;
+    headers['X-Auth-Token'] = window.AdminState.authToken;
+  }
+  return headers;
+}
+
+function updateServerStatusUI() {
+  const dot = document.getElementById('serverStatusDot');
+  const text = document.getElementById('serverStatusText');
+  const modalDot = document.getElementById('modalAuthStatusDot');
+  const modalText = document.getElementById('modalAuthStatusText');
+
+  let stateClass = 'status-dot';
+  let label = 'Сервер: В сети';
+
+  if (!window.AdminState.isServerConnected) {
+    stateClass = 'status-dot offline';
+    label = 'Сервер: Не в сети';
+  } else if (!window.AdminState.isAuthorized) {
+    stateClass = 'status-dot warning';
+    label = 'Сервер: Требуется вход';
   } else {
-    dot.className = 'status-dot offline';
-    dot.title = 'GitHub Token не настроен';
+    stateClass = 'status-dot';
+    label = 'Сервер: В сети';
+  }
+
+  if (dot) dot.className = stateClass;
+  if (text) text.textContent = label;
+  if (modalDot) modalDot.className = stateClass;
+  if (modalText) modalText.textContent = label;
+}
+
+async function checkServerConnection(silent = false) {
+  try {
+    const res = await fetch('/api/auth/check', {
+      headers: getAuthHeaders()
+    });
+    if (res.ok) {
+      const data = await res.json();
+      window.AdminState.isServerConnected = true;
+      window.AdminState.isAuthorized = !!data.valid;
+      updateServerStatusUI();
+      return true;
+    } else if (res.status === 401) {
+      window.AdminState.isServerConnected = true;
+      window.AdminState.isAuthorized = false;
+
+      // Если токен отсутствует или недействителен - требуем ввод пароля
+      window.AdminState.authToken = '';
+      localStorage.removeItem('ferro_auth_token');
+      updateServerStatusUI();
+      return false;
+    } else {
+      window.AdminState.isServerConnected = true;
+      window.AdminState.isAuthorized = false;
+      updateServerStatusUI();
+      return false;
+    }
+  } catch (err) {
+    window.AdminState.isServerConnected = false;
+    window.AdminState.isAuthorized = false;
+    updateServerStatusUI();
+    if (!silent) {
+      console.warn('Сервер не отвечает:', err.message);
+    }
+    return false;
   }
 }
 
-function isPublishLocked() {
-  return window.AdminState.publishLockUntil > Date.now();
-}
-
-function initPublishLockCountdown() {
-  const timerBadge = document.getElementById('publishLockTimerBadge');
-  const publishBtn = document.getElementById('btnPublishSite');
-
-  function tick() {
-    const now = Date.now();
-    if (window.AdminState.publishLockUntil > now) {
-      const diffSec = Math.ceil((window.AdminState.publishLockUntil - now) / 1000);
-      const mins = String(Math.floor(diffSec / 60)).padStart(2, '0');
-      const secs = String(diffSec % 60).padStart(2, '0');
-      if (timerBadge) {
-        timerBadge.style.display = 'inline-block';
-        timerBadge.textContent = `${mins}:${secs}`;
-      }
-      if (publishBtn) {
-        publishBtn.style.opacity = '0.7';
-        publishBtn.title = `Идет деплой на GitHub Pages (${mins}:${secs})`;
+async function loginToServer(password, silent = false) {
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: (password || '').trim() })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.token) {
+        window.AdminState.authToken = data.token;
+        localStorage.setItem('ferro_auth_token', data.token);
+        window.AdminState.isServerConnected = true;
+        window.AdminState.isAuthorized = true;
+        updateServerStatusUI();
+        if (!silent) {
+          showToast(`Успешная авторизация (${data.studio || 'FERRO DESIGN™'})`, 'success');
+        }
+        return true;
       }
     } else {
-      if (timerBadge) timerBadge.style.display = 'none';
-      if (publishBtn) {
-        publishBtn.style.opacity = '1';
-        publishBtn.title = 'Опубликовать сайт';
+      const errData = await res.json().catch(() => ({}));
+      if (!silent) {
+        showToast(errData.message || 'Неверный пароль администратора', 'error');
       }
+      return false;
     }
+  } catch (err) {
+    if (!silent) {
+      showToast('Ошибка подключения к серверу: ' + err.message, 'error');
+    }
+    return false;
+  }
+}
+
+function initAuthModal() {
+  const pwdInput = document.getElementById('authPasswordInput');
+  const btnToggle = document.getElementById('btnToggleAuthPassword');
+  if (btnToggle && pwdInput) {
+    btnToggle.addEventListener('click', () => {
+      if (pwdInput.type === 'password') {
+        pwdInput.type = 'text';
+        btnToggle.textContent = 'Скрыть';
+      } else {
+        pwdInput.type = 'password';
+        btnToggle.textContent = 'Показать';
+      }
+    });
   }
 
-  tick();
-  setInterval(tick, 1000);
+  const btnLogin = document.getElementById('btnLoginSubmit');
+  const authFeedback = document.getElementById('authFeedbackMessage');
+
+  if (btnLogin && pwdInput) {
+    const doLogin = async () => {
+      const pwd = pwdInput.value;
+      if (!pwd) {
+        if (authFeedback) {
+          authFeedback.style.display = 'block';
+          authFeedback.innerHTML = '<span style="color: var(--danger);">✕ Введите пароль</span>';
+        }
+        return;
+      }
+      if (authFeedback) {
+        authFeedback.style.display = 'block';
+        authFeedback.innerHTML = '<span style="color: var(--accent-amber);">Проверка пароля...</span>';
+      }
+      const ok = await loginToServer(pwd, false);
+      if (ok) {
+        if (authFeedback) {
+          authFeedback.innerHTML = '<span style="color: var(--success);">✓ Авторизация успешна! Доступ открыт.</span>';
+        }
+        setTimeout(() => closeModal('modalAuth'), 700);
+      } else {
+        if (authFeedback) {
+          authFeedback.innerHTML = '<span style="color: var(--danger);">✕ Неверный пароль. Попробуйте еще раз.</span>';
+        }
+      }
+    };
+
+    btnLogin.addEventListener('click', doLogin);
+    pwdInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        doLogin();
+      }
+    });
+  }
+
+  const btnCheck = document.getElementById('btnCheckServerConnection');
+  if (btnCheck) {
+    btnCheck.addEventListener('click', async () => {
+      if (authFeedback) {
+        authFeedback.style.display = 'block';
+        authFeedback.innerHTML = '<span style="color: var(--accent-amber);">Проверка соединения с сервером...</span>';
+      }
+      const isOnline = await checkServerConnection(true);
+      if (isOnline) {
+        if (window.AdminState.isAuthorized) {
+          if (authFeedback) {
+            authFeedback.innerHTML = '<span style="color: var(--success);">✓ Сервер активен, сессия авторизована.</span>';
+          }
+        } else {
+          if (authFeedback) {
+            authFeedback.innerHTML = '<span style="color: var(--accent-amber);">⚠️ Сервер в сети, требуется ввод пароля.</span>';
+          }
+        }
+      } else {
+        if (authFeedback) {
+          authFeedback.innerHTML = '<span style="color: var(--danger);">✕ Сервер не отвечает. Запустите python server.py.</span>';
+        }
+      }
+    });
+  }
+
+  const btnChangePwd = document.getElementById('btnChangePasswordHint');
+  if (btnChangePwd) {
+    btnChangePwd.addEventListener('click', () => {
+      alert('Смена пароля:\n\nПароль администратора хранится в файле конфигурации "admin_config.json" в корне проекта (поле "auth.password").\nДля изменения пароля укажите новое значение в admin_config.json и перезапустите сервер.');
+    });
+  }
+}
+
+async function uploadImageToServer(fileOrBlob, folder, filename) {
+  const formData = new FormData();
+  formData.append('file', fileOrBlob, filename);
+  formData.append('folder', folder);
+
+  const res = await fetch('/api/upload', {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    body: formData
+  });
+
+  if (!res.ok) {
+    let errMessage = `HTTP ${res.status}`;
+    try {
+      const errJson = await res.json();
+      if (errJson.message) errMessage = errJson.message;
+    } catch (_) {}
+    throw new Error(errMessage);
+  }
+  return await res.json();
 }
 
 
@@ -2153,53 +2252,8 @@ function runClientSideValidation(siteContent) {
 
 
 // ============================================================
-// 6. ПУБЛИКАЦИЯ В GITHUB (GIT TREES ATOMIC COMMIT)
+// 6. ПУБЛИКАЦИЯ НА СЕРВЕР (REST API + АВТОБЭКАП)
 // ============================================================
-
-async function getGithubErrorDetails(res) {
-  try {
-    const d = await res.json();
-    if (d.message) {
-      return d.errors ? `${d.message} (${JSON.stringify(d.errors)})` : d.message;
-    }
-    return JSON.stringify(d);
-  } catch (_) {
-    return res.statusText || 'Неизвестная ошибка';
-  }
-}
-
-async function uploadBlobToGithub(repo, token, content, isBase64 = false) {
-  let bodyPayload;
-  if (isBase64) {
-    bodyPayload = { content, encoding: 'base64' };
-  } else {
-    const utf8Bytes = new TextEncoder().encode(content);
-    let binary = '';
-    const chunk = 8192;
-    for (let i = 0; i < utf8Bytes.length; i += chunk) {
-      binary += String.fromCharCode.apply(null, utf8Bytes.subarray(i, i + chunk));
-    }
-    bodyPayload = { content: btoa(binary), encoding: 'base64' };
-  }
-
-  const res = await fetch(`https://api.github.com/repos/${repo}/git/blobs`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Accept': 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(bodyPayload)
-  });
-
-  if (!res.ok) {
-    const detail = await getGithubErrorDetails(res);
-    throw new Error(`Ошибка создания блоба (${res.status}): ${detail}`);
-  }
-
-  const data = await res.json();
-  return data.sha;
-}
 
 /**
  * Рекурсивно очищает объект site-content.json перед публикацией/экспортом,
@@ -2231,15 +2285,11 @@ async function handleSitePublication() {
   if (cancelBtn) cancelBtn.disabled = true;
 
   try {
-    const token = window.AdminState.githubToken;
-    const repo = window.AdminState.githubRepo;
-    const branch = window.AdminState.githubBranch;
-
     syncFormDataToState();
     const data = window.AdminState.data;
 
     if (progressBox) progressBox.style.display = 'block';
-    if (progressStep) progressStep.textContent = '1/5. Проверка целостности по 10 стандартам...';
+    if (progressStep) progressStep.textContent = '1/3. Валидация контента и структуры...';
 
     const errors = runClientSideValidation(data);
     if (errors.length > 0) {
@@ -2247,149 +2297,91 @@ async function handleSitePublication() {
       return;
     }
 
-    if (!token) {
+    const cleanContent = prepareCleanSiteContent(data);
+
+    // 1) Отправка POST /api/content с обновленным JSON (сервер сам сделает бэкап в data/backups/)
+    if (progressStep) progressStep.textContent = '1/3. Сохранение данных и создание резервной копии...';
+    try {
+      const contentRes = await fetch('/api/content', {
+        method: 'POST',
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify(cleanContent)
+      });
+      if (!contentRes.ok) {
+        let errMsg = `Ошибка сервера (${contentRes.status})`;
+        try {
+          const errData = await contentRes.json();
+          if (errData.message) errMsg = errData.message;
+        } catch (_) {}
+        throw new Error(errMsg);
+      }
+    } catch (saveErr) {
+      // Если сервер не отвечает, предлагаем ZIP-архив
       closeModal('modalPublishConfirm');
-      if (confirm('Personal Access Token не указан в настройках.\nСкачать обновленные файлы сайта архивом на компьютер?')) {
+      if (confirm(`Сервер недоступен (${saveErr.message}).\nУбедитесь, что server.py запущен на http://127.0.0.1:8000.\n\nХотите скачать архив с обновленными файлами сайта на компьютер?`)) {
         exportAllFilesZip();
       }
       return;
     }
 
-    if (progressStep) progressStep.textContent = '2/5. Подключение к репозиторию GitHub...';
-    const refRes = await fetch(`https://api.github.com/repos/${repo}/git/refs/heads/${branch}`, {
-      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json' }
-    });
-    if (!refRes.ok) {
-      const errDetail = await getGithubErrorDetails(refRes);
-      if (refRes.status === 401) {
-        throw new Error(`Ошибка 401 (Unauthorized): Неверный GitHub токен. Проверьте токен в настройках API (шестерёнка в шапке). ${errDetail}`);
-      } else if (refRes.status === 404) {
-        throw new Error(`Ошибка 404 (Not Found): Репозиторий "${repo}" или ветка "${branch}" не найдены, либо у токена нет прав. Убедитесь, что токен создан с галочкой "repo". ${errDetail}`);
-      } else if (refRes.status === 403) {
-        throw new Error(`Ошибка 403 (Forbidden): Превышен лимит запросов GitHub API или доступ заблокирован. ${errDetail}`);
-      } else {
-        throw new Error(`Не удалось подключиться к GitHub (${refRes.status}): ${errDetail}`);
+    // 2) Если были новые картинки — отправка на POST /api/upload
+    if (window.AdminState.newFilesMap.size > 0) {
+      const totalImages = window.AdminState.newFilesMap.size;
+      let imgIdx = 0;
+      for (const [vPath, fData] of window.AdminState.newFilesMap.entries()) {
+        imgIdx++;
+        if (progressStep) {
+          progressStep.textContent = `2/3. Загрузка и оптимизация изображений (${imgIdx}/${totalImages})...`;
+        }
+        const parts = vPath.split('/');
+        const folder = parts[1] || 'GENERAL';
+        const filename = parts[2] || 'image.webp';
+        await uploadImageToServer(fData.blob, folder, filename);
       }
-    }
-    const refData = await refRes.json();
-    const latestCommitSha = refData.object.sha;
-
-    const commitRes = await fetch(`https://api.github.com/repos/${repo}/git/commits/${latestCommitSha}`, {
-      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json' }
-    });
-    if (!commitRes.ok) {
-      const errDetail = await getGithubErrorDetails(commitRes);
-      throw new Error(`Ошибка получения последнего коммита (${commitRes.status}): ${errDetail}`);
-    }
-    const commitData = await commitRes.json();
-    const baseTreeSha = commitData.tree.sha;
-
-    if (progressStep) progressStep.textContent = `3/5. Загрузка новых изображений WebP (${window.AdminState.newFilesMap.size} шт.)...`;
-    const treeItems = [];
-
-    for (const [vPath, fData] of window.AdminState.newFilesMap.entries()) {
-      const blobSha = await uploadBlobToGithub(repo, token, fData.base64, true);
-      treeItems.push({
-        path: vPath,
-        mode: '100644',
-        type: 'blob',
-        sha: blobSha
-      });
+    } else {
+      if (progressStep) progressStep.textContent = '2/3. Изображения актуальны...';
     }
 
-    if (progressStep) progressStep.textContent = '4/5. Генерация HTML-страниц и каталога...';
-
-    async function addTreeFile(filePath, fileContent) {
-      const utf8Len = new TextEncoder().encode(fileContent).length;
-      // Для data/site-content.json и любых файлов > 50 KB производим предварительную загрузку через POST /git/blobs
-      if (filePath === 'data/site-content.json' || utf8Len > 50 * 1024) {
-        const blobSha = await uploadBlobToGithub(repo, token, fileContent, false);
-        treeItems.push({
-          path: filePath,
-          mode: '100644',
-          type: 'blob',
-          sha: blobSha
-        });
-      } else {
-        treeItems.push({
-          path: filePath,
-          mode: '100644',
-          type: 'blob',
-          content: fileContent
-        });
-      }
-    }
-
-    await addTreeFile('data/site-content.json', JSON.stringify(prepareCleanSiteContent(data), null, 2));
-    await addTreeFile('index.html', generateIndexHTML(data));
-    await addTreeFile('projects.html', generateProjectsCatalogHTML(data));
-    await addTreeFile('about.html', generateAboutHTML(data));
-    await addTreeFile('sitemap.xml', generateSitemapXML(data));
-
-    const projectsMap = {};
-    data.projects.forEach(p => { projectsMap[p.filename] = p; });
-    const order = data.allProjectsOrder;
-
-    for (let i = 0; i < order.length; i++) {
-      const curProj = projectsMap[order[i]];
-      const nextProj = projectsMap[order[(i + 1) % order.length]];
-      if (curProj && nextProj) {
-        await addTreeFile(curProj.filename, generateProjectPageHTML(curProj, nextProj, data.home.contacts));
-      }
-    }
-
-    if (progressStep) progressStep.textContent = '5/5. Атомарный коммит и обновление ветки main...';
-    const treeRes = await fetch(`https://api.github.com/repos/${repo}/git/trees`, {
+    // 3) Вызов POST /api/publish — сервер моментально генерирует все HTML-страницы
+    if (progressStep) progressStep.textContent = '3/3. Компиляция HTML-страниц и публикация...';
+    const publishRes = await fetch('/api/publish', {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ base_tree: baseTreeSha, tree: treeItems })
-    });
-    if (!treeRes.ok) {
-      const errDetail = await getGithubErrorDetails(treeRes);
-      throw new Error(`Ошибка создания Git Tree (${treeRes.status}): ${errDetail}`);
-    }
-    const newTreeData = await treeRes.json();
-
-    const newCommitRes = await fetch(`https://api.github.com/repos/${repo}/git/commits`, {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({
-        message: 'admin: автоматическое обновление контента и кейсов студии FERRO DESIGN™',
-        tree: newTreeData.sha,
-        parents: [latestCommitSha]
+        content: cleanContent
       })
     });
-    if (!newCommitRes.ok) {
-      const errDetail = await getGithubErrorDetails(newCommitRes);
-      throw new Error(`Ошибка создания коммита (${newCommitRes.status}): ${errDetail}`);
-    }
-    const newCommitData = await newCommitRes.json();
 
-    const updateRefRes = await fetch(`https://api.github.com/repos/${repo}/git/refs/heads/${branch}`, {
-      method: 'PATCH',
-      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sha: newCommitData.sha, force: false })
-    });
-    if (!updateRefRes.ok) {
-      const errDetail = await getGithubErrorDetails(updateRefRes);
-      throw new Error(`Ошибка обновления ветки ${branch} (${updateRefRes.status}): ${errDetail}`);
+    if (!publishRes.ok) {
+      let errMsg = `Ошибка публикации (${publishRes.status})`;
+      try {
+        const errData = await publishRes.json();
+        if (errData.message) errMsg = errData.message;
+      } catch (_) {}
+      throw new Error(errMsg);
     }
+
+    const pubResult = await publishRes.json();
+    const count = pubResult.publishedFiles ? pubResult.publishedFiles.length : 0;
 
     window.AdminState.newFilesMap.clear();
-
-    window.AdminState.publishLockUntil = Date.now() + 60 * 1000;
     window.AdminState.hasUnsavedChanges = false;
-    localStorage.setItem('ferro_publish_lock_until', String(window.AdminState.publishLockUntil));
 
     closeModal('modalPublishConfirm');
-    showToast('Сайт успешно опубликован! GitHub Pages собирает обновления.', 'success');
+    if (pubResult.gitSync && pubResult.gitSync.status === 'ok') {
+      showToast('✓ Сайт успешно опубликован и синхронизирован с GitHub!', 'success');
+    } else if (pubResult.gitSync && pubResult.gitSync.status === 'warning') {
+      showToast('Сайт сохранен локально. Внимание Git: ' + pubResult.gitSync.message, 'warning');
+    } else {
+      showToast('Сайт успешно сохранен и опубликован! (Бэкап сохранен)', 'success');
+    }
   } catch (err) {
-    console.error(err);
+    console.error('Publication error:', err);
     alert('Ошибка публикации: ' + err.message);
   } finally {
     window.AdminState.isPublishing = false;
-    confirmBtn.disabled = false;
-    cancelBtn.disabled = false;
+    if (confirmBtn) confirmBtn.disabled = false;
+    if (cancelBtn) cancelBtn.disabled = false;
     if (progressBox) progressBox.style.display = 'none';
   }
 }
@@ -2564,37 +2556,34 @@ const CRC_TABLE = (() => {
 async function loadSiteContent() {
   try {
     let data = null;
+
+    // 1. Попытка загрузить актуальный контент через локальный REST API сервера
     try {
-      const res = await fetch('../data/site-content.json');
+      const res = await fetch('/api/content', {
+        headers: getAuthHeaders({ 'Cache-Control': 'no-cache' })
+      });
       if (res.ok) {
         data = await res.json();
+        window.AdminState.isServerConnected = true;
       }
-    } catch (localErr) {
-      console.warn('Локальный fetch заблокирован браузером (file://). Пробуем загрузку из GitHub...', localErr);
+    } catch (apiErr) {
+      console.warn('REST API /api/content недоступен, пробуем статический файл...', apiErr);
     }
 
+    // 2. Фоллбек на прямое чтение ../data/site-content.json
     if (!data) {
-      const repo = window.AdminState.githubRepo || 'RefundE/FERRO_DESIGN_WEB';
-      const branch = window.AdminState.githubBranch || 'main';
-      const token = window.AdminState.githubToken;
-      const ghUrl = `https://raw.githubusercontent.com/${repo}/${branch}/data/site-content.json?t=${Date.now()}`;
       try {
-        const ghHeaders = {};
-        if (token) {
-          ghHeaders['Authorization'] = `Bearer ${token}`;
+        const res = await fetch('../data/site-content.json?t=' + Date.now());
+        if (res.ok) {
+          data = await res.json();
         }
-        const ghRes = await fetch(ghUrl, { headers: ghHeaders });
-        if (ghRes.ok) {
-          data = await ghRes.json();
-          showToast('Данные успешно загружены из репозитория GitHub', 'info');
-        }
-      } catch (ghErr) {
-        console.warn('GitHub raw fallback fetch error:', ghErr);
+      } catch (localErr) {
+        console.warn('Чтение ../data/site-content.json не удалось:', localErr);
       }
     }
 
     if (!data) {
-      throw new Error('Не удалось загрузить data/site-content.json. Откройте админку через локальный сервер (Live Server) или по адресу https://ferro-design.ru/admin/');
+      throw new Error('Не удалось загрузить данные сайта (site-content.json). Убедитесь, что server.py запущен на http://127.0.0.1:8000');
     }
 
     window.AdminState.data = data;

@@ -1,0 +1,14 @@
+{
+  "server": {
+    "host": "127.0.0.1",
+    "port": 8000
+  },
+  "auth": {
+    "password": "ferro2026",
+    "token_secret": "ferro_secret_key_change_in_production_2026"
+  },
+  "studio": {
+    "name": "FERRO DESIGN™",
+    "city": "Екатеринбург"
+  }
+}

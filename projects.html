@@ -25,7 +25,7 @@
       "telephone": "+7 (963) 442-61-92",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "ул. Розы Люксембург, 17",
+        "streetAddress": "Екатеринбург, ул. Розы Люксембург, 17",
         "addressLocality": "Екатеринбург",
         "addressCountry": "RU"
       }
@@ -35,9 +35,7 @@
 </head>
 <body>
 
-  <!-- ============================================================
-       ФИКСИРОВАННАЯ ШАПКА САЙТА (ИДЕНТИЧНА ГЛАВНОЙ СТРАНИЦЕ)
-  ============================================================ -->
+  <!-- ШАПКА -->
   <header class="glass-header">
     <div class="header-inner">
       <a href="index.html" class="logo-link">
@@ -49,23 +47,19 @@
         <a href="projects.html" class="nav-link active">Проекты</a>
         <a href="index.html#services" class="nav-link">Услуги</a>
         <a href="about.html" class="nav-link">О нас</a>
-        <a href="index.html#contact" class="nav-link">Контакты</a>
+        <a href="#contact" class="nav-link">Контакты</a>
       </nav>
     </div>
   </header>
 
-  <!-- ============================================================
-       СЕКЦИЯ: ВСЕ ПРОЕКТЫ
-  ============================================================ -->
+  <!-- СЕКЦИЯ: ВСЕ ПРОЕКТЫ -->
   <main class="projects-page-section">
     <div class="projects-page-container">
       
-      <!-- Заголовок страницы в строгой стилистике 2 ТИПА как на главной -->
       <div class="section-header projects-header-row">
         <h1 class="section-title" id="hwTitle">Все проекты</h1>
         
         <div class="projects-filters-bar">
-          <!-- Фильтр 1: Тип объекта (стеклянная капсула с зерном как в Макаровском) -->
           <div class="projects-filter-tabs" role="group" aria-label="Тип объекта">
             <button class="filter-tab-btn js-type-filter active" data-filter-type="all" data-title="Все проекты">Все</button>
             <button class="filter-tab-btn js-type-filter" data-filter-type="flats" data-title="Жилые квартиры">Жилые квартиры</button>
@@ -73,7 +67,6 @@
             <button class="filter-tab-btn js-type-filter" data-filter-type="commercial" data-title="Коммерческие объекты">Коммерческие объекты</button>
           </div>
 
-          <!-- Фильтр 2: Площадь (стеклянная капсула с зерном как в Макаровском) -->
           <div class="projects-filter-tabs" role="group" aria-label="Площадь объекта">
             <button class="filter-tab-btn js-area-filter active" data-filter-area="all">Любая площадь</button>
             <button class="filter-tab-btn js-area-filter" data-filter-area="under100">До 100 м²</button>
@@ -83,10 +76,9 @@
         </div>
       </div>
 
-      <!-- Сетка проектов: ровно 2 колонки, карточки 1 в 1 как на главной -->
       <div class="projects-grid">
 
-        <!-- 1. ЖК «На Некрасова» -->
+        <!-- ЖК «На Некрасова» -->
         <a href="project-nekrasova.html" class="project-card hw-card" data-category="flats" data-area="110">
           <div class="card-media-wrap">
             <img src="images/NA_NEKRASOVA/cover.webp" alt="ЖК «На Некрасова»" loading="lazy" decoding="async">
@@ -98,7 +90,7 @@
           </div>
         </a>
 
-        <!-- 2. ЖК «Макаровский» -->
+        <!-- ЖК «Макаровский» -->
         <a href="project-makarovsky.html" class="project-card hw-card" data-category="flats" data-area="102">
           <div class="card-media-wrap">
             <img src="images/MAKAROVSKI_PORTUGALIA/cover.webp" alt="ЖК «Макаровский»" loading="lazy" decoding="async">
@@ -110,7 +102,7 @@
           </div>
         </a>
 
-        <!-- 3. ЖК «Екатерининский парк» -->
+        <!-- ЖК «Екатерининский парк» -->
         <a href="project-ekater-park.html" class="project-card hw-card" data-category="flats" data-area="78">
           <div class="card-media-wrap">
             <img src="images/EKATER_PARK/bedroom_01.webp" alt="ЖК «Екатерининский парк»" loading="lazy" decoding="async">
@@ -122,7 +114,7 @@
           </div>
         </a>
 
-        <!-- 4. ЖК «Suomen Ranta» -->
+        <!-- ЖК «Suomen Ranta» -->
         <a href="project-suomen.html" class="project-card hw-card" data-category="flats" data-area="58">
           <div class="card-media-wrap">
             <img src="images/SUOMEN/cover.webp" alt="ЖК «Suomen Ranta»" loading="lazy" decoding="async">
@@ -134,7 +126,7 @@
           </div>
         </a>
 
-        <!-- 5. Отель «Номерной фонд» -->
+        <!-- Отель «Номерной фонд» -->
         <a href="project-nomer-otel.html" class="project-card hw-card" data-category="commercial" data-area="40">
           <div class="card-media-wrap">
             <img src="images/NOMER_OTEL/cover.webp" alt="Отель «Номерной фонд»" loading="lazy" decoding="async">
@@ -146,7 +138,7 @@
           </div>
         </a>
 
-        <!-- 6. Гастропаб в Нижнем Тагиле -->
+        <!-- Гастропаб в Нижнем Тагиле -->
         <a href="project-pub-tagil.html" class="project-card hw-card" data-category="commercial" data-area="200">
           <div class="card-media-wrap">
             <img src="images/PUB_TAGIL/cover.webp" alt="Гастропаб в Нижнем Тагиле" loading="lazy" decoding="async">
@@ -158,7 +150,7 @@
           </div>
         </a>
 
-        <!-- 7. Комплекс A-Frame домов -->
+        <!-- Комплекс A-Frame домов -->
         <a href="project-a-frames.html" class="project-card hw-card" data-category="houses" data-area="100">
           <div class="card-media-wrap">
             <img src="images/A_FRAMES/cover.webp" alt="Комплекс A-Frame домов" loading="lazy" decoding="async">
@@ -170,7 +162,7 @@
           </div>
         </a>
 
-        <!-- 8. Частная резиденция ХМАО -->
+        <!-- Частная резиденция ХМАО -->
         <a href="project-hmao.html" class="project-card hw-card" data-category="houses" data-area="200">
           <div class="card-media-wrap">
             <img src="images/HMAO/living_01.webp" alt="Частная резиденция ХМАО" loading="lazy" decoding="async">
@@ -182,7 +174,7 @@
           </div>
         </a>
 
-        <!-- 9. Апартаменты в Сочи -->
+        <!-- Апартаменты в Сочи -->
         <a href="project-sochi-kvartira.html" class="project-card hw-card" data-category="flats" data-area="55">
           <div class="card-media-wrap">
             <img src="images/SOCHI_KVARTIRA/bedroom_01.webp" alt="Апартаменты в Сочи" loading="lazy" decoding="async">
@@ -194,7 +186,7 @@
           </div>
         </a>
 
-        <!-- 10. Коттедж в Фотеево -->
+        <!-- Коттедж в Фотеево -->
         <a href="project-andr-fateevo.html" class="project-card hw-card" data-category="houses" data-area="152">
           <div class="card-media-wrap">
             <img src="images/ANDR_FATEEVO/cover.webp" alt="Коттедж в Фотеево" loading="lazy" decoding="async">
@@ -206,7 +198,7 @@
           </div>
         </a>
 
-        <!-- 11. Дом в Горбуново -->
+        <!-- Дом в Горбуново -->
         <a href="project-gorbunovo-2fl.html" class="project-card hw-card" data-category="houses" data-area="200">
           <div class="card-media-wrap">
             <img src="images/GORBUNOVO_2FL/cover.webp" alt="Дом в Горбуново" loading="lazy" decoding="async">
@@ -218,7 +210,7 @@
           </div>
         </a>
 
-        <!-- 12. Апартаменты в городе Екатеринбург -->
+        <!-- Апартаменты в городе Екатеринбург -->
         <a href="project-artu-40m2.html" class="project-card hw-card" data-category="flats" data-area="40">
           <div class="card-media-wrap">
             <img src="images/ARTU_40M2/living_01.webp" alt="Апартаменты в городе Екатеринбург" loading="lazy" decoding="async">
@@ -230,7 +222,7 @@
           </div>
         </a>
 
-        <!-- 13. Частная резиденция в Нижнем Тагиле -->
+        <!-- Частная резиденция в Нижнем Тагиле -->
         <a href="project-kris-ggm.html" class="project-card hw-card" data-category="houses" data-area="200">
           <div class="card-media-wrap">
             <img src="images/KRIS_GGM/living_01.webp" alt="Частная резиденция в Нижнем Тагиле" loading="lazy" decoding="async">
@@ -242,7 +234,7 @@
           </div>
         </a>
 
-        <!-- 14. Банный комплекс -->
+        <!-- Банный комплекс -->
         <a href="project-banniy-kompl.html" class="project-card hw-card" data-category="houses" data-area="55">
           <div class="card-media-wrap">
             <img src="images/BANNIY_KOMPL/cover.webp" alt="Банный комплекс" loading="lazy" decoding="async">
@@ -254,7 +246,7 @@
           </div>
         </a>
 
-        <!-- 15. Загородный дом в Нижнем Тагиле -->
+        <!-- Загородный дом в Нижнем Тагиле -->
         <a href="project-tagil-sergey.html" class="project-card hw-card" data-category="houses" data-area="160">
           <div class="card-media-wrap">
             <img src="images/TAGIL_SERGEY/cover.webp" alt="Загородный дом в Нижнем Тагиле" loading="lazy" decoding="async">
@@ -265,22 +257,18 @@
             <span class="card-project-meta">Нижний Тагил · 160 м²</span>
           </div>
         </a>
-
       </div>
-
     </div>
   </main>
 
-  <!-- ============================================================
-       СЕКЦИЯ: КОНТАКТЫ
-  ============================================================ -->
+  <!-- СЕКЦИЯ: КОНТАКТЫ -->
   <section id="contact" class="contact-section">
     <div class="contact-container">
       <div class="contact-grid">
         <div class="contact-col-info">
           <h2 class="contact-title">Контакты</h2>
           <p class="contact-intro">
-            Готовы обсудить ваш проект? Свяжитесь с нами удобным для вас способом.
+            Готовы обсудить ваш проект? Свяжитесь с нами удобным способом.
           </p>
 
           <div class="contact-details">
@@ -307,7 +295,7 @@
             </p>
 
             <div class="contact-direct-actions">
-              <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener noreferrer" class="direct-action-btn direct-btn-telegram">
+              <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" class="direct-action-btn direct-btn-telegram">
                 <svg class="direct-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="m20.665 3.717-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l-.313 4.693c.46 0 .663-.211.921-.46l2.211-2.15 4.599 3.397c.848.467 1.457.227 1.668-.785l3.019-14.228c.309-1.239-.473-1.8-1.282-1.434z"/>
                 </svg>
@@ -337,33 +325,24 @@
     </div>
   </section>
 
-  
-  <!-- ============================================================
-       ПОДВАЛ В СТИЛЕ YODEZEEN: СОЦСЕТИ, БРЕНД И ЮРИДИЧЕСКИЙ БЛОК
-  ============================================================ -->
+  <!-- ПОДВАЛ -->
   <footer class="site-footer">
-    <!-- 1. Иконки соцсетей студии (YouTube, Pinterest, Telegram) -->
     <div class="footer-socials">
-      <!-- YouTube -->
-      <a href="https://www.youtube.com/@ferrodesign7446/featured" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="YouTube">
+      <a href="https://www.youtube.com/@ferrodesign7446/featured" target="_blank" rel="noopener" class="footer-social-btn" aria-label="YouTube">
         <img src="images/LOGO_SOCIALS/youtube.png" alt="YouTube">
       </a>
-      <!-- Pinterest -->
-      <a href="https://ru.pinterest.com/ferro_design_ekb/" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="Pinterest">
+      <a href="https://ru.pinterest.com/ferro_design_ekb/" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Pinterest">
         <img src="images/LOGO_SOCIALS/pinterest.png" alt="Pinterest">
       </a>
-      <!-- Telegram -->
-      <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="Telegram">
+      <a href="https://t.me/ferrodesign_ekb" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Telegram">
         <img src="images/LOGO_SOCIALS/telegram.png" alt="Telegram">
       </a>
     </div>
 
-    <!-- Монументальная выдвигающаяся надпись FERRO DESIGN на всю ширину страницы -->
     <div class="footer-brand-banner">
       <div class="footer-brand-title" id="footerBrandTitle">FERRO DESIGN<span class="footer-brand-tm">™</span></div>
     </div>
 
-    <!-- 2. Нижняя строка: копирайт с ИП, центрированное меню и юридический статус -->
     <div class="footer-bottom-bar">
       <div class="footer-copy">© 2026 FERRO DESIGN™. ИП СОКОЛОВА Н.В.</div>
       <ul class="footer-links">
@@ -371,13 +350,12 @@
         <li><a href="index.html#services">УСЛУГИ</a></li>
         <li><a href="about.html">О НАС</a></li>
         <li><a href="privacy.html">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</a></li>
-        <li><a href="index.html#contact">КОНТАКТЫ</a></li>
+        <li><a href="#contact">КОНТАКТЫ</a></li>
       </ul>
       <div class="footer-credits">НЕ ЯВЛЯЕТСЯ ПУБЛИЧНОЙ ОФЕРТОЙ</div>
     </div>
   </footer>
 
-  <!-- Основной скрипт сайта (фильтрация категорий, tilt, lightbox) -->
   <script src="script.js?v=2"></script>
 </body>
 </html>
